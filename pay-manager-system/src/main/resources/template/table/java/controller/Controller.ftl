@@ -13,8 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import cn.com.gzqinghui.base.ui.BaseController;
-import cn.com.gzqinghui.sysextmgr.log.annotation.SystemControllerLog;
+import com.pay.platform.modules.base.controller.BaseController;
+import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 
 import ${packageName}.model.${classPrefix}Model;
 import ${packageName}.service.${classPrefix}Service;
@@ -44,7 +44,7 @@ public class ${classPrefix}Controller extends BaseController{
     @ResponseBody
     @RequestMapping(value = "/query${classPrefix}List" , produces = "application/json")
     public PageInfo<${classPrefix}Model> query${classPrefix}List(HttpServletRequest request,HttpServletResponse response,${classPrefix}Model ${propertyPrefix}) throws Exception{
-        setPageInfoWithMybatis(request);
+        setPageInfo(request);
         return ${propertyPrefix}Service.query${classPrefix}List(${propertyPrefix});
     }
 
@@ -74,7 +74,7 @@ public class ${classPrefix}Controller extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/add${classPrefix}" , produces = "application/json")
-    @SystemControllerLog(model = "${moduleName}管理" , description = "新增${moduleName}")
+    @SystemControllerLog(module = "${moduleName}管理" , operation = "新增${moduleName}")
     public void add${classPrefix}(HttpServletResponse response, ${classPrefix}Model ${propertyPrefix}) throws Exception{
 
         JSONObject json = new JSONObject();
@@ -100,7 +100,7 @@ public class ${classPrefix}Controller extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/delete${classPrefix}" , produces = "application/json")
-    @SystemControllerLog(model = "${moduleName}管理" , description = "删除${moduleName}")
+    @SystemControllerLog(module = "${moduleName}管理" , operation = "删除${moduleName}")
     public void delete${classPrefix}(HttpServletResponse response,String ids) throws Exception{
 
         JSONObject json = new JSONObject();
@@ -126,7 +126,7 @@ public class ${classPrefix}Controller extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/delete${classPrefix}ByLogic" , produces = "application/json")
-    @SystemControllerLog(model = "${moduleName}管理" , description = "删除${moduleName}")
+    @SystemControllerLog(module = "${moduleName}管理" , operation = "删除${moduleName}")
     public void delete${classPrefix}ByLogic(HttpServletResponse response,String ids) throws Exception{
 
         JSONObject json = new JSONObject();
@@ -153,7 +153,7 @@ public class ${classPrefix}Controller extends BaseController{
      * @throws Exception
      */
     @RequestMapping(value = "/update${classPrefix}" , produces = "application/json",method= RequestMethod.POST)
-    @SystemControllerLog(model = "${moduleName}管理" , description = "修改${moduleName}")
+    @SystemControllerLog(module = "${moduleName}管理" , operation = "修改${moduleName}")
     public void update${classPrefix}(HttpServletRequest request, HttpServletResponse response, ${classPrefix}Model ${propertyPrefix}) throws Exception{
 
         JSONObject json = new JSONObject();

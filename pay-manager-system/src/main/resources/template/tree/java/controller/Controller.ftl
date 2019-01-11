@@ -1,8 +1,9 @@
 package ${packageName}.controller;
 
-import com.pay.platform.common.extend.springsecurity.CommonRequest;
+import com.pay.platform.security.CommonRequest;
 import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
+
 import com.github.pagehelper.StringUtil;
 import org.json.JSONObject;
 import org.slf4j.Logger;

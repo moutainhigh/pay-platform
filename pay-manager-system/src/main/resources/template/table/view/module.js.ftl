@@ -10,9 +10,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
  */
 (function () {
 
-    pageScope.init${classPrefix}Table = function () {
-
-        pageScope.${propertyPrefix}Table = $('#${propertyPrefix}Table').initBootstrapTable({
+     pageScope.${propertyPrefix}Table = $('#${propertyPrefix}Table').initBootstrapTable({
             url: baseURL + '${requestUrl}/query${classPrefix}List?_csrf=' + token,
             method: 'post',
             dataType: "json",
@@ -37,6 +35,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 {title: '全选', checkbox: true},
                 {
                     title: '序号',
+                    align: 'center',
                     width: 46,
                     formatter: function () {
                         return arguments[2] + 1;
@@ -83,7 +82,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         ]
     });
 
-    };
 
     /**
      * 查询
@@ -93,11 +91,69 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
     };
 
     /**
+     * 新增${moduleName}
+     */
+    pageScope.add${classPrefix} = function () {
+
+        var dialog = $.dialog.show({
+            url: baseURL + "/view${requestUrl}/${propertyPrefix}_add.jsp?" + _csrf + "=" + token,
+            buttonEvents: {
+                success: function () {
+
+                    if (!$("#add${classPrefix}Form").valid()) {                   //表单验证
+                        return;
+                    }
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    <#list columnList as column>
+                    <#-- 富文本 -->
+                        <#if column.formType?? && column.formType == "richText" >
+                        var content = UE.getEditor('add${column.fieldName?cap_first}').getContent();
+                        if ($.validate.isEmpty(content)) {
+                        $.msg.fail('请输入${column.remarks}');
+                        btn.removeAttr("disabled");
+                        return false;
+                        } else {
+                        $("#addReal${column.fieldName?cap_first}").val(content);
+                        }
+                        </#if>
+                    </#list>
+
+                    $('#add${classPrefix}Form').ajaxSubmit({
+                        dataType: 'json',
+                        type: "post",
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                pageScope.${propertyPrefix}Table.bootstrapTable('refresh');
+                                $(".modal-footer .btn-danger").trigger("click");
+                            }
+                            else {
+                                $.msg.error(response.msg);
+                            }
+
+                        }, error: function (e) {
+                            btn.removeAttr("disabled");
+                        }
+
+                    });
+
+                }
+            }
+        });
+
+    };
+
+    /**
      * 删除${moduleName}
      */
     pageScope.delete${classPrefix} = function (id) {
 
-        var ids = $("#${propertyPrefix}Table input[name='btSelectItem']:checked").getCheckedIdsNotQuotes(id);
+        var ids = $("#${propertyPrefix}Table input[name='btSelectItem']:checked").getCheckedIds(id);
 
         if ($.validate.isEmpty(ids)) {
             $.msg.toast("请选中一条记录!");
@@ -132,7 +188,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      */
     pageScope.delete${classPrefix}ByLogic = function (id) {
 
-        var ids = $("#${propertyPrefix}Table input[name='btSelectItem']:checked").getCheckedIdsNotQuotes(id);
+        var ids = $("#${propertyPrefix}Table input[name='btSelectItem']:checked").getCheckedIds(id);
 
         if ($.validate.isEmpty(ids)) {
             $.msg.toast("请选中一条记录!");
@@ -162,123 +218,14 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
     };
 
-	/**
-	 * 查看${moduleName}详情
-	 * @param id
-	 */
-	pageScope.show${classPrefix}Detail = function () {
-
-        var viewdialog = bootbox.dialog({
-            title: '查看${moduleName}详情'
-            , url:baseURL + "/jsp${requestUrl}/${propertyPrefix}_detail.jsp?" + _csrf + "=" + token
-            , closeButton: true
-            , className: "permission-view-modal"
-            , buttons: {
-                cancel: {
-                    label: '取消',
-                    className: "btn-danger",
-                    callback: function () {
-
-                    }
-                }
-            }
-        });
-        viewdialog.on('loaded.bs.modal', function () {
-            <#list columnList as column>
-                <#if column.formType?? && (column.formType == "radio" || column.formType == "checkbox" || column.formType == "select") >
-                    $("#detail${column.fieldName?cap_first}").val(pageScope.currentrow.${column.fieldName}DictDesc);
-                <#elseif column.formType?? && column.formType == "richText" >
-                    $("#detail${column.fieldName?cap_first}").html(pageScope.currentrow.${column.fieldName});
-                <#-- 单图片上传 -->
-				<#elseif column.formType?? && column.formType == "singleImage" >
-                    //图片显示 - ${column.remarks}
-                    $("#file${column.fieldName?cap_first}").showImage({
-                   	    imgUrl: pageScope.currentrow.${column.fieldName}
-                    });
-				<#elseif column.formType?? && column.formType == "multiImage" >
-                    //图片显示 - ${column.remarks}
-                    $("#multiFile${column.fieldName?cap_first}").showImage({
-                    	imgUrl: pageScope.currentrow.${column.fieldName}
-                    });
-                <#else >
-                    $("#detail${column.fieldName?cap_first}").val(pageScope.currentrow.${column.fieldName});
-                </#if>
-            </#list>
-        });
-
-	};
-
-	/**
-	 * 新增${moduleName}
-	 */
-	pageScope.add${classPrefix} = function () {
-
-        var dialog = $.dialog.addoredit({
-            title: '添加${moduleName}',
-            url: baseURL + "/jsp${requestUrl}/${propertyPrefix}_add.jsp?" + _csrf + "=" + token,
-            confirmcallback: function () {
-
-                if (!$('#add${classPrefix}Form').valid()) {
-                    return false;
-                }
-
-                var btn = $(".modal-footer .btn-success");        //防止重复提交
-                btn.attr("disabled","disabled");
-                <#list columnList as column>
-                    <#-- 富文本 -->
-                    <#if column.formType?? && column.formType == "richText" >
-                        var content = UE.getEditor('add${column.fieldName?cap_first}').getContent();
-                        if ($.validate.isEmpty(content)) {
-                            $.msg.fail('请输入${column.remarks}');
-                            btn.removeAttr("disabled");
-                            return false;
-                        } else {
-                            $("#addReal${column.fieldName?cap_first}").val(content);
-                        }
-                    </#if>
-                </#list>
-
-                //提交数据
-                $('#add${classPrefix}Form').ajaxSubmit({
-                    dataType: 'json',
-                    success: function (response) {
-
-                        btn.removeAttr("disabled");
-
-                        if (response && response.success) {
-                            $.msg.success(response.msg);
-
-                            $(".modal-footer .btn-danger").trigger("click");
-                            pageScope.${propertyPrefix}Table.bootstrapTable('refresh');
-
-                        } else {
-                            $.msg.fail(response.msg);
-                            return false;
-                        }
-
-                    },
-                    error: function () {
-                        $.msg.fail('新增失败，可能是由网络原因引起的，请稍候再试');
-                        btn.removeAttr("disabled");
-                        return false;
-                    }
-                });
-
-                return false;
-            }
-        });
-
-	};
-
     /**
      * 编辑${moduleName}
      */
     pageScope.edit${classPrefix} = function () {
 
-        $.dialog.addoredit({
-            title: "修改${moduleName}",
-            url: baseURL + "/jsp${requestUrl}/${propertyPrefix}_edit.jsp?" + _csrf + "=" + token,
-            afterloaded: function () {
+        $.dialog.show({
+            url: baseURL + "/view${requestUrl}/${propertyPrefix}_edit.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
                 <#list columnList as column>
                     <#if column.formType?? && column.formType == "datetime" >
                         //日期初始化
@@ -289,37 +236,37 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     <#elseif column.formType?? && column.formType == "select" >
                         //加载字典(下拉框)
                         $("#edit${column.fieldName?cap_first}").loadDictionaryForSelect({
-                            "inputName":"${column.fieldName}",
-                            "dictType":"${column.dictType}",
-                            "value":pageScope.currentrow.${column.fieldName}
+                        "inputName":"${column.fieldName}",
+                        "dictType":"${column.dictType}",
+                        "value":pageScope.currentrow.${column.fieldName}
                         });
 
                     <#-- 单选按钮 -->
                     <#elseif column.formType?? && column.formType == "radio" >
                         //加载字典(单选按钮)
                         $("#edit${column.fieldName?cap_first}").loadDictionaryForRadio({
-                            "inputName":"${column.fieldName}",
-                            "dictType":"${column.dictType}",
-                            "value":pageScope.currentrow.${column.fieldName}
+                        "inputName":"${column.fieldName}",
+                        "dictType":"${column.dictType}",
+                        "value":pageScope.currentrow.${column.fieldName}
                         });
 
                     <#-- 复选框 -->
                     <#elseif column.formType?? && column.formType == "checkbox" >
-                          //加载字典(复选框)
+                        //加载字典(复选框)
                         $("#edit${column.fieldName?cap_first}").loadDictionaryForCheckbox({
-                            "inputName":"${column.fieldName}",
-                            "dictType":"${column.dictType}",
-                            "value":pageScope.currentrow.${column.fieldName}
+                        "inputName":"${column.fieldName}",
+                        "dictType":"${column.dictType}",
+                        "value":pageScope.currentrow.${column.fieldName}
                         });
 
                     <#-- 富文本 -->
                     <#elseif column.formType?? && column.formType == "richText" >
-                        //实例化编辑器
-                        var ueditor = UE.getEditor('edit${column.fieldName?cap_first}');
+                       //实例化编辑器
+                       var ueditor = UE.getEditor('edit${column.fieldName?cap_first}');
 
-                        ueditor.ready(function() {
-                            ueditor.setContent(pageScope.currentrow.${column.fieldName});
-                        });
+                       ueditor.ready(function() {
+                           ueditor.setContent(pageScope.currentrow.${column.fieldName});
+                       });
 
                     <#elseif column.formType?? && column.formType == "singleImage" >
                         //单图片上传 - ${column.remarks}
@@ -331,7 +278,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
                     <#elseif column.formType?? && column.formType == "multiImage" >
                         //多图片上传 - ${column.remarks}
-                         $("#multiFile${column.fieldName?cap_first}").multiImageUpload({
+                        $("#multiFile${column.fieldName?cap_first}").multiFileUpload({
                             uploadExtraData: {"module": "${requestUrl}"} ,                       //上传图片扩展参数,指定所属模块
                             hiddenField:"#edit${column.fieldName?cap_first}" ,                  //返回隐藏域路径
                             imgUrl: pageScope.currentrow.${column.fieldName}       //图片路径,编辑时回显(可选)
@@ -339,64 +286,99 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     <#-- 其它 -->
                     <#else >
                         $("#edit${column.fieldName?cap_first}").val(pageScope.currentrow.${column.fieldName});
-
                     </#if>
                 </#list>
+            },
+            buttonEvents: {
+                success: function () {
 
-            }
-            //修改事件
-            , confirmcallback: function () {
-
-                if (!$('#edit${classPrefix}Form').valid()) {
-                    return false;
-                }
-
-                var btn = $(".modal-footer .btn-success");        //防止重复提交
-                btn.attr("disabled","disabled");
-                <#list columnList as column>
-                    <#-- 富文本 -->
-                    <#if column.formType?? && column.formType == "richText" >
-                    var content = UE.getEditor('edit${column.fieldName?cap_first}').getContent();
-                    if ($.validate.isEmpty(content)) {
-                        $.msg.fail('请输入${column.remarks}');
-                        btn.removeAttr("disabled");
+                    if (!$('#edit${classPrefix}Form').valid()) {
                         return false;
-                    } else {
-                        $("#editReal${column.fieldName?cap_first}").val(content);
                     }
-                    </#if>
-                </#list>
 
-                $('#edit${classPrefix}Form').ajaxSubmit({
-                    dataType: 'json',
-                    success: function (response) {
-
-                        btn.removeAttr("disabled");
-
-                        if (response && response.success) {
-                            $.msg.success(response.msg);
-
-                            $(".modal-footer .btn-danger").trigger("click");
-                            pageScope.${propertyPrefix}Table.bootstrapTable('refresh');
-
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled","disabled");
+                    <#list columnList as column>
+                    <#-- 富文本 -->
+                        <#if column.formType?? && column.formType == "richText" >
+                        var content = UE.getEditor('edit${column.fieldName?cap_first}').getContent();
+                        if ($.validate.isEmpty(content)) {
+                            $.msg.fail('请输入${column.remarks}');
+                            btn.removeAttr("disabled");
+                            return false;
                         } else {
-                            $.msg.fail(response.msg);
+                            $("#editReal${column.fieldName?cap_first}").val(content);
+                        }
+                        </#if>
+                    </#list>
+
+                    $('#edit${classPrefix}Form').ajaxSubmit({
+                        dataType: 'json',
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.${propertyPrefix}Table.bootstrapTable('refresh');
+                            } else {
+                                $.msg.fail(response.msg);
+                                return false;
+                            }
+
+                        },
+                        error: function () {
+                            $.msg.fail('修改失败，可能是由网络原因引起的，请稍候再试');
+                            btn.removeAttr("disabled");
                             return false;
                         }
+                    });
 
-                    },
-                    error: function () {
-                        $.msg.fail('修改失败，可能是由网络原因引起的，请稍候再试');
-                        btn.removeAttr("disabled");
-                        return false;
-                    }
+                    return false;
 
-                });
+                }
+            }
+        });
 
-                return false;
+
+    };
+
+    /**
+     * 查看${moduleName}详情
+     * @param id
+     */
+    pageScope.show${classPrefix}Detail = function () {
+
+        $.dialog.show({
+            url:baseURL + "/view${requestUrl}/${propertyPrefix}_detail.jsp?" + _csrf + "=" + token ,
+            onLoad: function () {
+
+                <#list columnList as column>
+                    <#-- 单选按钮-->
+                    <#if column.formType?? && (column.formType == "radio" || column.formType == "checkbox" || column.formType == "select") >
+                        $("#detail${column.fieldName?cap_first}").val(pageScope.currentrow.${column.fieldName}DictDesc);
+                    <#-- 富文本 -->
+                    <#elseif column.formType?? && column.formType == "richText" >
+                        $("#detail${column.fieldName?cap_first}").html(pageScope.currentrow.${column.fieldName});
+                    <#-- 单图片上传 -->
+                    <#elseif column.formType?? && column.formType == "singleImage" >
+                        //图片显示 - ${column.remarks}
+                        $("#file${column.fieldName?cap_first}").showImage({
+                            imgUrl: pageScope.currentrow.${column.fieldName}
+                        });
+                    <#-- 多图片 -->
+                    <#elseif column.formType?? && column.formType == "multiImage" >
+                        //图片显示 - ${column.remarks}
+                        $("#multiFile${column.fieldName?cap_first}").showFileName({
+                            imgUrl: pageScope.currentrow.${column.fieldName}
+                        });
+                    <#else >
+                        $("#detail${column.fieldName?cap_first}").val(pageScope.currentrow.${column.fieldName});
+                    </#if>
+                </#list>
 
             }
-        })
+        });
 
     };
 

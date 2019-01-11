@@ -155,6 +155,7 @@ public class GenerateCodeUtil {
         };
         String[] templateSuffixArr = {"list", "detail", "add", "edit"};
         generateView(generateModel , templatePathArr , templateSuffixArr);
+        generateViewJs(generateModel , "/template/table/view/module.js.ftl");
 
     }
 
@@ -180,6 +181,21 @@ public class GenerateCodeUtil {
         };
         String[] templateSuffixArr = {"list", "add", "edit"};
         generateView(generateModel , templatePathArr , templateSuffixArr);
+        generateViewJs(generateModel , "/template/tree/view/module.js.ftl");
+
+    }
+
+    /**
+     * 生成视图 js
+     *
+     * @param generateModel: 所需路径
+     * @param templatePath: 模板路径
+     */
+    public static void generateViewJs(GenerateModel generateModel , String templatePath) {
+
+        String outFilePath = generateModel.getRootPath() + "/src/main/webapp/view" + generateModel.getRequestUrl() + "/"+ generateModel.getPropertyPrefix() + ".js";
+
+        FreeMarkerUtil.writeToFile(templatePath, generateModel, outFilePath);
 
     }
 
