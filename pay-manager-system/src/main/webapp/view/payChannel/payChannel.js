@@ -38,7 +38,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             },
             {title: '通道编码', field: 'channelCode', align: 'center', sortable: true},
             {title: '通道名称', field: 'channelName', align: 'center', sortable: true},
-            {title: '成本费率', field: 'costRate', align: 'center', sortable: true},
+            {
+                title: '成本费率', field: 'costRate', align: 'center', sortable: true,
+                formatter: function (value) {
+                    return value + "%";
+                }
+            },
             {
                 title: '创建时间',
                 field: 'createTime',
@@ -254,7 +259,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailId").val(pageScope.currentrow.id);
                 $("#detailChannelCode").val(pageScope.currentrow.channelCode);
                 $("#detailChannelName").val(pageScope.currentrow.channelName);
-                $("#detailCostRate").val(pageScope.currentrow.costRate);
+                $("#detailCostRate").val(pageScope.currentrow.costRate + "%");
                 $("#detailIsDel").val(pageScope.currentrow.isDel);
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
 
