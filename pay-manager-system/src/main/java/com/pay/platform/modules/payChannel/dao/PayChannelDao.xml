@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.payChannel.dao.PayChannelDao">
+
+    <select id="queryPayChannelList" parameterType="PayChannelModel" resultType="PayChannelModel">
+        select *
+        from tb_pay_channel
+        <where>
+            and is_del = 0
+            <if test="channelCode != null and channelCode != '' ">
+                and channel_code = #{channelCode}
+            </if>
+            <if test="channelName != null and channelName != '' ">
+                and channel_name = #{channelName}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPayChannelById" parameterType="java.lang.String" resultType="PayChannelModel">
+        select *
+        from tb_pay_channel where id = #{id}
+    </select>
+
+    <insert id="addPayChannel" parameterType="PayChannelModel">
+        insert into tb_pay_channel(id , channel_code , channel_name , cost_rate , create_time)
+        values(uuid() , #{channelCode} , #{channelName} , #{costRate} , now());
+    </insert>
+
+    <delete id="deletePayChannel">
+        delete from tb_pay_channel where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deletePayChannelByLogic">
+        update tb_pay_channel set is_Del = 1 where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updatePayChannel" parameterType="PayChannelModel">
+        update tb_pay_channel
+        set channel_name = #{channelName} , cost_rate = #{costRate}
+        where id = #{id}
+    </update>
+
+</mapper>
