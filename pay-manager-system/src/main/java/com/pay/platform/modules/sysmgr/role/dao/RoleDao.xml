@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.sysmgr.role.dao.RoleDao" >
+
+    <insert id="addRole"  parameterType="RoleModel"  >
+        insert into tb_sys_role(ID,NAME,CODE,CREATOR_ID,CREATE_TIME,IS_DEL,DELETE_TIME)
+        values(uuid() , #{name} , #{code}, '001' ,now() , 0, now() );
+    </insert>
+
+    <delete id="deleteRole" >
+        update tb_sys_role set is_del = 1 , delete_time = now()  where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateRole"  parameterType="RoleModel" >
+        update tb_sys_role set name = #{name}, code = #{code} where id = #{id}
+    </update>
+
+    <select id="queryRoleList" parameterType="map" resultType="RoleModel" >
+        select * from tb_sys_role
+
+        <where>
+
+            and is_del = 0
+
+            <if test="name != null and name != '' " >
+                and name like CONCAT('%','${name}','%' )
+            </if>
+            <if test="code != null and code != '' " >
+                and code like CONCAT('%','${code}','%' )
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="queryRoleById" parameterType="java.lang.String" resultType="RoleModel" >
+        select * from tb_sys_role where id = #{id}
+    </select>
+
+    <delete id="deletePermissionByRoleId" parameterType="java.lang.String" >
+        delete from tb_sys_role_permission_ref where role_id = #{id}
+    </delete>
+
+    <insert id="addPermissionToRole" parameterType="java.util.Map" >
+        insert into tb_sys_role_permission_ref(id,role_id,permission_id) values
+
+        <foreach collection="permissionIds" item="item" index="index" separator="," >
+            (uuid(),#{roleId},#{item})
+        </foreach>
+
+    </insert>
+
+    <select id="queryPermissionListByRoleId" parameterType="java.lang.String" resultType="PermissionModel" >
+
+        select * from tb_sys_permission
+        where is_del = 0 and id in (
+           select permission_id from tb_sys_role_permission_ref where role_id = #{id}
+        )
+        order by level,seq asc
+
+    </select>
+
+    <select id="queryRoleListByPermissionId" parameterType="java.lang.String" resultType="RoleModel" >
+
+        select tsr.* from tb_sys_role tsr
+        inner join tb_sys_role_permission_ref tsrp on tsr.ID = tsrp.ROLE_ID
+        inner join tb_sys_permission tsp on tsp.ID = tsrp.PERMISSION_ID
+        where PERMISSION_ID = #{id}
+
+    </select>
+
+
+
+</mapper>

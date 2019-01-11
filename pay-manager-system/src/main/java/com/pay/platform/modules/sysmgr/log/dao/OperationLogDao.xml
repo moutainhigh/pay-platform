@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.sysmgr.log.dao.OperationLogDao" >
+
+    <insert id="addOperationLog"  parameterType="OperationLogModel" >
+        insert into tb_operation_log(ID , USER_ID , USER_NAME , IP , MODULE , OPERATION , DESCRIPTION , STATUS , CREATE_TIME)
+        values(uuid() , #{userId} , #{userName}, #{ip} , #{module} , #{operation} , #{description} , #{status} ,now() );
+    </insert>
+
+    <select id="queryOperationLogList" resultType="OperationLogModel" >
+
+        select * from tb_operation_log
+
+        <where>
+
+            <if test="userName != null and userName != '' " >
+                and USER_NAME like CONCAT('%','${userName}','%' )
+            </if>
+
+            <if test="ip != null and ip != '' " >
+                and IP like CONCAT('%','${ip}','%' )
+            </if>
+
+            <if test="module != null and module != '' " >
+                and MODULE like CONCAT('%','${module}','%' )
+            </if>
+
+            <if test="operation != null and operation != '' " >
+                and OPERATION like CONCAT('%','${operation}','%' )
+            </if>
+
+            <if test="startTime != null and startTime != '' and endTime != null and endTime != '' " >
+                and CREATE_TIME BETWEEN #{startTime}  AND #{endTime}
+            </if>
+
+        </where>
+
+
+    </select>
+
+    <select id="queryOperationLogById" parameterType="java.lang.String" resultType="OperationLogModel" >
+        select * from tb_operation_log where id = #{id}
+    </select>
+
+</mapper>

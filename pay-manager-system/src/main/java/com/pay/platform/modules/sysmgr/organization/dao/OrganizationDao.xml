@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定唯一的命名空间 , 如果采用绑定接口方式, 则必须为接口全路径 -->
+<mapper namespace="com.pay.platform.modules.sysmgr.organization.dao.OrganizationDao" >
+
+    <insert id="addOrganization"  parameterType="OrganizationModel"  >
+        insert into tb_organization(ID,NAME,DESCRIPTION,PARENT_ID,SEQ, CONTACT_PERSON, TEL, FAX, EMAIL, LEVEL,CREATOR_ID,CREATE_TIME,ADDRESS,POST_CODE)
+        values(uuid() , #{name} , #{description}, #{parentId} , #{seq} ,#{contactPerson} ,#{tel} , #{fax}, #{email} , #{level},#{creatorId}, now() , #{address} , #{postCode} );
+    </insert>
+
+    <delete id="deleteOrganization" >
+
+        update tb_organization set is_del = 1 , delete_time = now() where id in
+
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+
+    <update id="updateOrganization"  parameterType="OrganizationModel" >
+
+        update tb_organization
+        set NAME = #{name} ,  DESCRIPTION = #{description} , CONTACT_PERSON = #{contactPerson}, TEL = #{tel}, FAX = #{fax} , EMAIL = #{email} , ADDRESS = #{address} , POST_CODE = #{postCode}
+        where id = #{id}
+
+    </update>
+
+    <update id="updatePosition" parameterType="OrganizationModel" >
+        update tb_organization set seq = #{seq} where id = #{id}
+    </update>
+
+    <select id="queryOrganizationList" resultType="OrganizationModel" >
+        select * from tb_organization where is_del = 0
+        order by level,seq asc
+    </select>
+
+    <select id="queryNextSeq" resultType="java.lang.Integer" >
+        select IFNULL(max(seq) , 0) + 1 from tb_organization
+        where PARENT_ID = #{parentId}
+    </select>
+
+
+    <select id="queryOrganizationById" resultType="OrganizationModel" >
+        select * from tb_organization where id = #{id}
+    </select>
+
+    <select id="queryOrgListByParentId" resultType="OrganizationModel" >
+        select t1.* , (SELECT count(1) from tb_organization t2 where t2.PARENT_ID = t1.ID ) as childCount
+        from tb_organization t1
+        where t1.PARENT_ID = #{parentId} and t1.is_del = 0
+    </select>
+
+</mapper>

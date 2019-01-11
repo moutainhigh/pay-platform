@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定唯一的命名空间 , 如果采用绑定接口方式, 则必须为接口全路径 -->
+<mapper namespace="com.pay.platform.modules.sysmgr.user.dao.UserDao">
+
+    <select id="queryUserExistsByAccount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from tb_sys_user
+        where ACCOUNT = #{account}
+    </select>
+
+    <insert id="addUser" parameterType="UserModel">
+        insert into tb_sys_user(ID,NICKNAME,ACCOUNT,PASSWORD,PHONE,AVATAR,CREATE_TIME,ORG_ID , EXTEND_IMG_URL)
+        values(uuid() , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} );
+    </insert>
+
+    <delete id="deleteUser">
+        update tb_sys_user set is_del = 1 , delete_time = now() where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateUser" parameterType="UserModel">
+        update tb_sys_user set nickname = #{nickname},account = #{account}, phone = #{phone}, avatar = #{avatar}, org_id = #{orgId} , EXTEND_IMG_URL = #{extendImgUrl}
+
+        <if test="password != null and password != '' ">
+            , password = md5(#{password})
+        </if>
+
+        where id = #{id}
+    </update>
+
+    <select id="queryUserList" parameterType="map" resultType="UserModel">
+
+        select distinct tsu.* , (select tor.name from tb_organization tor where tor.id = tsu.org_id ) as orgName
+        from tb_sys_user tsu
+
+        <where>
+
+            and tsu.is_del = 0 and tsu.account != 'admin'
+
+            <if test="nickname != null and nickname != '' ">
+                and tsu.nickname like CONCAT('%','${nickname}','%' )
+
+            </if>
+
+            <if test="account != null and account != '' ">
+                and tsu.account like CONCAT('%','${account}','%' )
+            </if>
+
+            <if test="orgIdList != null and orgIdList.size() > 0">
+                and tsu.org_id in
+                <foreach collection="orgIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+
+        </where>
+
+    </select>
+
+    <select id="queryUserById" parameterType="java.lang.String" resultType="UserModel">
+        select tsu.* , (select tor.name from tb_organization tor where tor.id = tsu.org_id ) as orgName
+        from tb_sys_user tsu
+        where tsu.id = #{id}
+    </select>
+
+    <select id="queryRoleListByUserId" parameterType="java.lang.String" resultType="RoleModel">
+
+        select * from tb_sys_role
+        where is_del = 0 and id in (
+           select role_id from tb_sys_user_role_ref where user_id = #{userId}
+        )
+        order by create_time asc
+
+    </select>
+
+    <delete id="deleteRoleByUserId" parameterType="java.lang.String">
+        delete from tb_sys_user_role_ref where user_id = #{id}
+    </delete>
+
+    <insert id="addRoleToUser" parameterType="java.util.Map">
+        insert into tb_sys_user_role_ref(id,user_id,role_id) values
+
+        <foreach collection="roleIds" item="item" index="index" separator=",">
+            (uuid(),#{userId},#{item})
+        </foreach>
+
+    </insert>
+
+    <select id="queryUserByAccount" parameterType="java.lang.String" resultType="UserModel">
+        select tsu.* , (select torg.name from tb_organization torg where torg.id = tsu.org_id ) as orgName
+        from tb_sys_user tsu where account = #{account}
+    </select>
+
+    <select id="queryPermissionListByUserId" parameterType="java.lang.String" resultType="PermissionModel">
+        select DISTINCT tsp.* from tb_sys_permission tsp
+        inner join tb_sys_role_permission_ref tsrp on tsp.ID = tsrp.PERMISSION_ID
+        inner join tb_sys_user_role_ref tsur on tsur.ROLE_ID = tsrp.ROLE_ID and tsur.USER_ID = #{userId}
+        where is_del = 0 and level != 0
+        order by level,seq asc
+    </select>
+
+    <select id="queryOrgInfoByUserId" parameterType="java.lang.String" resultType="OrganizationModel">
+        select t1.* from tb_organization t1
+        inner join tb_sys_user tsu on tsu.org_id = t1.id
+        where tsu.id = #{userId}
+    </select>
+
+    <update id="updateUserOrganization" parameterType="java.util.Map">
+        update tb_sys_user set org_id = #{orgId} where id = #{userId}
+    </update>
+
+</mapper>

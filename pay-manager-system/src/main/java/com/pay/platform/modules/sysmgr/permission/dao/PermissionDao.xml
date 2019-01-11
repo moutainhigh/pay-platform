@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定唯一的命名空间 , 如果采用绑定接口方式, 则必须为接口全路径 -->
+<mapper namespace="com.pay.platform.modules.sysmgr.permission.dao.PermissionDao" >
+
+    <insert id="addPermission"  parameterType="PermissionModel"  >
+        insert into tb_sys_permission(ID,NAME,LINK_URL,PERMISSION_URL,PARENT_ID,SEQ,LEVEL,ICON,CREATOR_ID,CREATE_TIME)
+        values(uuid() , #{name} , #{linkUrl}, #{permissionUrl}, #{parentId} , #{seq} , #{level} , #{icon} , 001 , now() );
+    </insert>
+
+    <!-- 删除权限(最多只会有两级,因此无需递归删除树) -->
+    <delete id="deletePermission" >
+
+        update tb_sys_permission set is_del = 1 , delete_time = now() where id in
+
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+        or
+
+        parent_id in
+
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </delete>
+
+    <update id="updatePermission"  parameterType="PermissionModel" >
+        update tb_sys_permission set name = #{name} , LINK_URL = #{linkUrl} , PERMISSION_URL = #{permissionUrl} , icon = #{icon} where id = #{id}
+    </update>
+
+    <update id="updatePosition" parameterType="PermissionModel" >
+        update tb_sys_permission set seq = #{seq} where id = #{id}
+    </update>
+
+    <select id="queryPermissionList" resultType="PermissionModel" >
+        select * from tb_sys_permission where is_del = 0
+        order by level,seq asc
+    </select>
+
+    <select id="queryNextSeq" resultType="java.lang.Integer" >
+       select IFNULL(max(seq) , 0) + 1 from tb_sys_permission
+       where PARENT_ID = #{parentId}
+    </select>
+
+    <select id="queryPermissionById" resultType="PermissionModel" >
+        select * from tb_sys_permission where id = #{id}
+    </select>
+
+</mapper>

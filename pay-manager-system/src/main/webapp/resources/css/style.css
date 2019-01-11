@@ -1,0 +1,307 @@
+/*
+Created by IntelliJ IDEA.
+User: zjt
+自定义的系统样式, 对默认的样式进行了扩展或覆盖
+*/
+
+/*
+ * 菜单树
+ */
+.treeview-menu > li > a {
+    height: 38px;
+    line-height: 38px;
+    padding: 0px 5px 0px 34px !important;
+    cursor: pointer;
+}
+
+.sidebar-menu span {
+    font-size: 13px !important;
+}
+
+.sidebar-menu a {
+    font-size: 13px !important;
+}
+
+.content-wrapper {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+/*
+ * 搜索框
+ */
+.search {
+    font-size: 13px !important;
+}
+
+.search tr {
+    height: 40px !important;
+}
+
+.search .form-control {
+    height: 30px !important;
+    border-radius: 3px !important;
+}
+
+.search .checkbox-inline {
+    line-height: 40px;
+}
+
+.search .btn-search {
+    margin-left: 15px;
+}
+
+.search .btn-reset {
+    margin-left: 4px;
+}
+
+/*
+ * 操作按钮
+ */
+.operation-button {
+    margin-top: 12px;
+}
+
+.operation-button button:not(:first-child) {
+    margin-left: 5px;
+}
+
+.data-table-wrapper {
+    margin-top: 14px;
+}
+
+/*
+ * 表格高度
+ */
+.data-table-wrapper table tr td {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    vertical-align: middle !important;
+    height:40px !important;
+}
+
+.btn {
+    font-size: 13px !important;
+    font-weight: bold !important;
+}
+
+/*
+ * 搜索树,内容(宽度适配)
+ */
+.panel-body .left-tree {
+    width: 220px !important;
+    float: left !important;
+    overflow: auto;
+}
+
+.panel-body .right-content {
+    padding-left: 15px !important;
+    float: right !important;
+    width: calc(100% - 221px) !important;
+}
+
+.tree-content-middle-line{
+    float: left !important;
+    width: 1px !important;
+    background-color: #dddddd;
+}
+
+/*
+ * 表格字体大小
+ */
+.bootstrap-table .table {
+    font-size: 13px !important;
+}
+
+.bootstrap-table .fixed-table-toolbar button {
+    height: 34px !important;
+}
+
+/*
+ * 顶部下拉菜单按钮高度
+ */
+.navbar-custom-menu a {
+    height: 50px !important;
+}
+
+.dropdown .user-footer a {
+    height: 34px !important;
+}
+
+.navbar-custom-menu a i {
+    padding-top: 5px !important;
+}
+
+/*
+ * 树形菜单 - 内容显示
+ */
+.tree-content {
+    font-size: 13px !important;
+}
+
+.tree-content tr {
+    height: 40px !important;
+}
+
+.tree-content.form-control {
+    height: 30px !important;
+    border-radius: 3px !important;
+}
+
+/*
+ * 添加树
+ */
+.data-tree-wrapper {
+    clear: both;
+    border: 1px solid #dddddd;
+    width: 500px;
+    min-height: 500px !important;
+}
+
+.data-tree-wrapper tree {
+    padding-top: 10px;
+}
+
+/* 文件模态框 */
+#kvFileinputModal{
+    padding-left:15px !important;
+    padding-right:15px !important;
+}
+
+
+/* bootstrap - fileupload - 头像 */
+.kv-avatar .file-preview-frame,.kv-avatar .file-preview-frame:hover {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+.kv-avatar{
+    width: 240px;
+}
+
+.kv-avatar .file-input {
+    display: table-cell;
+    max-width: 240px;
+}
+
+.input-group .input-group-btn button{
+    padding-top: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.kv-zoom-body img{
+    width:auto !important;
+    height:auto; !important;
+    max-width:100% !important;
+    max-height:100% !important;
+}
+
+.file-thumb-progress{
+    position: static !important;
+}
+
+.table-info-detail .td-label{
+    width:160px !important;
+    height:36px !important;
+    font-size:13px !important;
+    text-align: center;
+    min-height: 36px !important;
+}
+
+.table-info-detail .td-content{
+    font-size:13px !important;
+}
+
+.table-info-detail {
+    border: 1px solid #dddddd;
+}
+.table-info-detail > thead > tr > th,
+.table-info-detail > tbody > tr > th,
+.table-info-detail > tfoot > tr > th,
+.table-info-detail > thead > tr > td,
+.table-info-detail > tbody > tr > td,
+.table-info-detail > tfoot > tr > td {
+    border: 1px solid #dddddd;
+}
+
+.file-drop-zone{
+    height: auto !important;
+}
+
+.file-preview-frame{
+    margin:5px !important;
+}
+
+/**
+ * 日期
+ */
+.datepicker table tr td,
+.datepicker table thead tr,
+.datepicker table tbody tr,
+.datepicker table thead tr,
+.datepicker table tfoot tr{
+    font-size:13px !important;
+}
+
+.datepicker table tr{
+    height: auto !important;
+}
+
+
+.generate tr {
+    height: 44px !important;
+}
+
+.generate .remark {
+    color:red;
+    padding-left: 10px;
+}
+
+.generate-checkbox{
+    width:20px !important;
+    height:40px !important;
+}
+
+.checkbox-inline input[type="radio"]{
+    margin-left: -20px;
+}
+
+div .checkbox-inline:not(:first-child){
+    margin-left: 25px;
+}
+
+.form-group img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.panel-body .not-detail-tree {
+    float: left !important;
+    overflow: auto;
+}
+
+.tree-detail-label{
+    width:130px !important;
+    font-weight: normal;
+}
+
+.form-group .detail-content{
+    padding-top: 8px;
+    padding-left: 5px;
+    word-break:break-all;
+}
+
+#kvFileinputModal .glyphicon-triangle-left{
+    margin-left:10px !important;
+    font-size:50px !important;
+}
+
+#kvFileinputModal .glyphicon-triangle-right{
+    margin-right:10px !important;
+    font-size:50px !important;
+}

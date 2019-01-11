@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 指定唯一的命名空间 , 如果采用绑定接口方式, 则必须为接口全路径 -->
+<mapper namespace="com.pay.platform.modules.sysmgr.dictionary.dao.DictionaryDao" >
+
+    <insert id="addDictionary"  parameterType="DictionaryModel"  >
+        insert into tb_dictionary(ID , DICT_TYPE , DICT_DESC , ITEM_CODE , ITEM_DESC , PARENT_ID , LEVEL , SEQ , CREATE_TIME)
+        values(uuid() , #{dictType} , #{dictDesc}, #{itemCode} , #{itemDesc} , #{parentId} , #{level} , #{seq} ,now() );
+    </insert>
+
+    <delete id="deleteDictionary" >
+
+        update tb_dictionary set is_del = 1 , delete_time = now()
+        where id = #{id} or parent_id = #{id}
+
+    </delete>
+
+    <update id="updateDictionary"  parameterType="DictionaryModel" >
+        update tb_dictionary set DICT_TYPE = #{dictType} , DICT_DESC = #{dictDesc}, ITEM_CODE = #{itemCode}, ITEM_DESC = #{itemDesc}
+        where id = #{id}
+    </update>
+
+    <update id="updatePosition" parameterType="DictionaryModel" >
+        update tb_dictionary set seq = #{seq} where id = #{id}
+    </update>
+
+    <select id="queryDictionaryList" resultType="DictionaryModel" >
+
+        select * ,
+            (CASE LEVEL
+                WHEN 1 THEN concat(DICT_DESC,'（',DICT_TYPE,'）')
+                WHEN 2 THEN concat(ITEM_DESC,'（',ITEM_CODE,'）')
+                ELSE DICT_DESC
+            END)  as displayName
+        from tb_dictionary
+
+        <where>
+
+            and is_del = 0
+
+            <if test="dictType != null and dictType != '' ">
+                and DICT_TYPE like CONCAT('%','${dictType}','%' )
+            </if>
+
+            <if test="dictDesc != null and dictDesc != '' ">
+                and DICT_DESC like CONCAT('%','${dictDesc}','%' )
+            </if>
+
+        </where>
+
+        order by level,seq asc
+
+    </select>
+
+    <select id="queryDictionaryByLevelAndDictType" resultType="DictionaryModel" >
+        select * from tb_dictionary
+
+        <where>
+
+            and is_del = 0 and level = #{level} and dict_type = #{dictType}
+
+            <if test="id != null and id != '' ">
+                and id != #{id}
+            </if>
+
+        </where>
+
+        limit 0 , 1
+
+    </select>
+
+    <select id="queryDictionaryListByParentId" resultType="DictionaryModel" >
+        select t1.*,(SELECT count(1) from tb_dictionary t2 where t2.PARENT_ID = t1.ID ) as CHILD_COUNT
+        from tb_dictionary t1
+        where t1.IS_DEL = 0 and t1.PARENT_ID = #{parentId}
+    </select>
+
+    <select id="queryNextSeq" resultType="java.lang.Integer" >
+
+        select IFNULL(max(seq) , 0) + 1 from tb_dictionary
+
+        <where>
+
+            and LEVEL = #{level}
+
+            <if test="parentId != null and parentId != '' ">
+                and PARENT_ID = #{parentId}
+            </if>
+
+        </where>
+
+
+    </select>
+
+    <select id="queryDictionaryById" resultType="DictionaryModel" >
+        select * from tb_dictionary where id = #{id}
+    </select>
+
+    <select id="queryDictionaryListByDictType" resultType="DictionaryModel" >
+        select * from tb_dictionary
+
+        <where>
+            and is_del = 0 and level = 2 and dict_type = #{dictType}
+        </where>
+
+        order by seq asc
+
+    </select>
+
+    <select id="queryDictionaryItermDesc" resultType="java.lang.String" >
+        select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = #{dictType} and ITEM_CODE in
+        <foreach collection="itemCodeArray" item="itemCode" open="(" separator="," close=")">
+            #{itemCode}
+        </foreach>
+    </select>
+
+</mapper>
