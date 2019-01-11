@@ -9,10 +9,10 @@
         <where>
             and is_del = 0
             <if test="channelCode != null and channelCode != '' ">
-                and channel_code = #{channelCode}
+                and channel_code like CONCAT('%','${channelCode}','%' )
             </if>
             <if test="channelName != null and channelName != '' ">
-                and channel_name = #{channelName}
+                and channel_name like CONCAT('%','${channelName}','%' )
             </if>
         </where>
     </select>
