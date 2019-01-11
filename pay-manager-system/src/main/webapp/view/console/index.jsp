@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>快速开发平台</title>
+    <title>后台管理系统</title>
     <%@include file="common.jsp" %>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

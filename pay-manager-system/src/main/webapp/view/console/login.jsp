@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>欢迎登录快速开发平台</title>
+    <title>欢迎登录后台管理系统</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="${baseURL}/resources/plugins/bootstrap/bootstrap-3.3.5/css/bootstrap.min.css">
@@ -85,7 +85,7 @@
             <%-- 描述信息 --%>
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2 text">
-                    <h1>欢迎登录快速开发平台</h1>
+                    <h1>欢迎登录后台管理系统</h1>
                     <div class="description">
                     </div>
                 </div>

@@ -102,7 +102,7 @@
             cache: false,
             success: function (response) {
 
-                var index = response.indexOf("欢迎登录快速开发平台");
+                var index = response.indexOf("欢迎登录后台管理系统");
                 if (index > 0) {
                     window.location.href = baseURL + "/console/login";
                 } else {
