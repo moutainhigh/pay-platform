@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.merchant.dao.MerchantDao">
+
+    <select id="queryMerchantList" parameterType="MerchantModel" resultType="MerchantModel">
+        select *
+        from tb_merchant
+        <where>
+            and is_del = 0
+            <if test="merchantNo != null and merchantNo != '' ">
+                and merchant_no like CONCAT('%','${merchantNo}','%')
+            </if>
+            <if test="merchantName != null and merchantName != '' ">
+                and merchant_name like CONCAT('%','${merchantName}','%')
+            </if>
+            <if test="phone != null and phone != '' ">
+                and phone like CONCAT('%','${phone}','%')
+            </if>
+            <if test="realName != null and realName != '' ">
+                and real_name like CONCAT('%','${realName}','%')
+            </if>
+            <if test="identityCode != null and identityCode != '' ">
+                and identity_code like CONCAT('%','${identityCode}','%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryMerchantById" parameterType="java.lang.String" resultType="MerchantModel">
+        select *
+        from tb_merchant where id = #{id}
+    </select>
+
+    <insert id="addMerchant" parameterType="MerchantModel">
+        insert into tb_merchant(id , merchant_name , phone , real_name , identity_code , id_card_img1 , id_card_img2 , icp_img , create_time)
+        values(uuid() , #{merchantName} , #{phone} , #{realName} , #{identityCode} , #{idCardImg1} , #{idCardImg2} , #{icpImg} , now());
+    </insert>
+
+    <delete id="deleteMerchant">
+        delete from tb_merchant where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteMerchantByLogic">
+        update tb_merchant set is_Del = 1 where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateMerchant" parameterType="MerchantModel">
+        update tb_merchant
+        set merchant_name = #{merchantName} , phone = #{phone} , real_name = #{realName} , identity_code = #{identityCode} , id_card_img1 = #{idCardImg1} , id_card_img2 = #{idCardImg2} , icp_img = #{icpImg}
+        where id = #{id}
+    </update>
+
+</mapper>
