@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.order.dao.OrderDao">
+
+    <select id="queryOrderList" parameterType="OrderModel" resultType="OrderModel">
+        select *
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'payWay' and FIND_IN_SET(ITEM_CODE , pay_way))  as payWayDictDesc
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'payStatus' and FIND_IN_SET(ITEM_CODE , pay_status))  as payStatusDictDesc
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'notifyStatus' and FIND_IN_SET(ITEM_CODE , notify_status))  as notifyStatusDictDesc
+        from tb_order
+        <where>
+            <if test="merchantOrderNo != null and merchantOrderNo != '' ">
+                and merchant_order_no like CONCAT('%','${merchantOrderNo}','%')
+            </if>
+            <if test="platformOrderNo != null and platformOrderNo != '' ">
+                and platform_order_no like CONCAT('%','${platformOrderNo}','%')
+            </if>
+            <if test="payCode != null and payCode != '' ">
+                and pay_code like CONCAT('%','${payCode}','%')
+            </if>
+            <if test="merchantNo != null and merchantNo != '' ">
+                and merchant_no like CONCAT('%','${merchantNo}','%')
+            </if>
+
+            <if test="payWay != null and payWay != '' ">
+                and pay_way = #{payWay}
+            </if>
+            <if test="payStatus != null and payStatus != '' ">
+                and pay_status = #{payStatus}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

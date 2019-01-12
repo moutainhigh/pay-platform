@@ -49,6 +49,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.editMerchant()' ><i class='glyphicon glyphicon-pencil'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteMerchantByLogic(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
+                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' >审核</button>";
+                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' >设置费率</button>";
+
                     return html;
                 }
             }
