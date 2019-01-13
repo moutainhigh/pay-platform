@@ -1,6 +1,8 @@
 package com.pay.platform.api.pay.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
+import com.pay.platform.common.util.StringUtil;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,12 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/api/test01", method = {RequestMethod.POST, RequestMethod.GET})
     public void test01(HttpServletRequest request, HttpServletResponse response , String data) throws Exception {
 
+        //获取请求提交数据
+        String text = IOUtils.toString(request.getInputStream(), "utf-8");
+        JSONObject reqJson = new JSONObject(text);
+
+        System.out.println(" ---> " + reqJson.toString());
+
         JSONObject respJson = new JSONObject();
         respJson.put("aaaa","123");
         respJson.put("success" , true);
@@ -27,7 +35,6 @@ public class PayController extends BaseController {
         System.out.println(" ---> 提交请求成功 ");
 
         writeJson(response , respJson.toString());
-
 
     }
 

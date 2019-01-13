@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * User: zjt
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  *
  * 应用上下文, 在运行期间为其它组件提供通用的一些服务
  */
+@Component
 public class AppContext implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;           //spring容器应用上下文
