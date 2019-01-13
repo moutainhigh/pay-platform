@@ -19,6 +19,7 @@ public class ApiSignUtil {
      * @param secret：密钥
      * @return
      */
+//    对所有请求参数和时间戳进行排序  ->  并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成sign签名
     public static String buildSignByMd5(Map<String, String> params , String secret) {
 
         params.remove("sign");           //去除sign参数
@@ -33,10 +34,16 @@ public class ApiSignUtil {
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = params.get(key);
-            if (formatParams.toString().trim().length() > 0) {
-                formatParams.append("&");
+
+            //为空的参数不参与签名
+            if (value != null && value.length() > 0) {
+                if (formatParams.toString().trim().length() > 0) {
+                    formatParams.append("&");
+                }
+
+                formatParams.append(key + "=" + value);
             }
-            formatParams.append(key + "=" + value);
+
         }
 
         //3、请求参数拼接的字符串 + 商家密钥 -> MD5生成sign签名

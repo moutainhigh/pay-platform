@@ -1,4 +1,4 @@
-package com.pay.platform.api.pay;
+package com.pay.platform.api.pay.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
 import org.json.JSONObject;
