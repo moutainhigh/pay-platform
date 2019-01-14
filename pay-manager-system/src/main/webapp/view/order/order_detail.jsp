@@ -141,7 +141,7 @@ To change this template use File | Settings | File Templates.
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">通知次数：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="detailNotifiyNum" name="notifiyNum" type="text" class="form-control" readonly="readonly"/>
+                    <input id="detailnotifyNum" name="notifyNum" type="text" class="form-control" readonly="readonly"/>
                 </div>
             </div>
 

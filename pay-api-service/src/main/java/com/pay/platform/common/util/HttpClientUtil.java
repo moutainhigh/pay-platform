@@ -14,6 +14,7 @@ import org.apache.http.ssl.SSLContextBuilder;
 
 import javax.net.ssl.SSLContext;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
@@ -23,7 +24,6 @@ import java.security.cert.X509Certificate;
  * DateTime: 2016/11/29 17:36
  */
 public class HttpClientUtil {
-
     /**
      * 发送http get 请求
      *

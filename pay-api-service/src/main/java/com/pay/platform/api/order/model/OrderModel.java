@@ -1,9 +1,7 @@
-package com.pay.platform.modules.order.model;
+package com.pay.platform.api.order.model;
 
-import com.pay.platform.modules.base.model.BaseModel;
-import org.apache.ibatis.type.Alias;
 
-import java.util.Date;
+import com.pay.platform.api.base.model.BaseModel;
 
 /**
  * User: zjt
@@ -229,14 +227,13 @@ public class OrderModel extends BaseModel {
         this.notifyStatusDictDesc = notifyStatusDictDesc;
     }
 
-    public Integer getnotifyNum() {
-        return this.notifyNum;
+    public Integer getNotifyNum() {
+        return notifyNum;
     }
 
-    public void setnotifyNum(Integer notifyNum) {
+    public void setNotifyNum(Integer notifyNum) {
         this.notifyNum = notifyNum;
     }
-
 
     public String getCreateTime() {
         return this.createTime;

@@ -122,7 +122,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailPayTime").val(pageScope.currentrow.payTime);
                 $("#detailNotifyUrl").val(pageScope.currentrow.notifyUrl);
                 $("#detailNotifyStatus").val(pageScope.currentrow.notifyStatusDictDesc);
-                $("#detailNotifiyNum").val(pageScope.currentrow.notifiyNum);
+                $("#detailnotifyNum").val(pageScope.currentrow.notifyNum);
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
 
             }

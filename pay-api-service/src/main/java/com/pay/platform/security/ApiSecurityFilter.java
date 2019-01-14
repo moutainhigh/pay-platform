@@ -29,22 +29,6 @@ public class ApiSecurityFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(ApiSecurityFilter.class);
 
-    private MerchantService merchantService;
-
-    /**
-     * 商家密钥：key:商家编号 value:商家密钥
-     */
-    private final static Map<String, String> merchantSecretMap = new HashMap<>();
-
-    @Override
-    protected void initFilterBean() throws ServletException {
-
-        if (merchantService == null) {
-            merchantService = AppContext.getApplicationContext().getBean(MerchantService.class);
-        }
-
-    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -86,18 +70,13 @@ public class ApiSecurityFilter extends OncePerRequestFilter {
 
             //3,对所有请求参数和时间戳进行排序  ->  并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成sign签名
             String merchantNo = reqJson.getString("merchantNo");
-            if(StringUtil.isEmpty(merchantSecretMap.get(merchantNo))){
-                MerchantModel merchantModel = merchantService.queryMerchantByIMerchantNo(merchantNo);
-                if(merchantModel == null){
-                    respJson.put("code", "0");
-                    respJson.put("msg", "无效的商户编号!");
-                    writeJson(response, respJson.toString());
-                    return;
-                }
-                merchantSecretMap.put(merchantNo , merchantModel.getMerchantSecret());
-
+            String merchantSecret = MerchantSecretCacheUtil.getMerchantSecret(merchantNo);
+            if(StringUtil.isEmpty(merchantSecret)){
+                respJson.put("code", "0");
+                respJson.put("msg", "无效的商户编号!");
+                writeJson(response, respJson.toString());
+                return;
             }
-            String merchantSecret =  merchantSecretMap.get(merchantNo);
 
             Map<String, String> params = new HashMap<String, String>();
             String[] names = JSONObject.getNames(reqJson);

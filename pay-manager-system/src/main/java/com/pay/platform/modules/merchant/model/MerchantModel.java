@@ -41,6 +41,7 @@ public class MerchantModel extends BaseModel {
 
     private String createTime;                //创建时间
 
+    private String notifySecret;                   //回调密钥
 
     public String getId() {
         return this.id;
@@ -167,5 +168,11 @@ public class MerchantModel extends BaseModel {
         this.createTime = createTime;
     }
 
+    public String getNotifySecret() {
+        return notifySecret;
+    }
 
+    public void setNotifySecret(String notifySecret) {
+        this.notifySecret = notifySecret;
+    }
 }

@@ -31,6 +31,8 @@ public class MerchantModel extends BaseModel {
 
     private String merchantSecret;                //商家密钥
 
+    private String notifySecret;                   //回调密钥
+
     private String checkStatus;                //审核状态(waitCheck:待审核 success:审核通过 fail:审核失败)
 
     private String checkDesc;                //审核备注
@@ -166,4 +168,11 @@ public class MerchantModel extends BaseModel {
     }
 
 
+    public String getNotifySecret() {
+        return notifySecret;
+    }
+
+    public void setNotifySecret(String notifySecret) {
+        this.notifySecret = notifySecret;
+    }
 }
