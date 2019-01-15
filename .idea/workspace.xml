@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="325d4c5a-6293-4b64-b8fe-6d50bdcd3444" name="Default" comment="框架基础修改及导入">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/pay_manager_system_war.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_retry_spring_retry_1_1_5_RELEASE.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/pay_api_service_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/pay_api_service_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/pay_manager_system_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/pay_manager_system_war_exploded.xml" />
+    <list default="true" id="325d4c5a-6293-4b64-b8fe-6d50bdcd3444" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/pay-api-service.iml" afterPath="$PROJECT_DIR$/pay-api-service/pay-api-service.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/pom.xml" afterPath="$PROJECT_DIR$/pay-api-service/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/MerchantNotifyService.java" afterPath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/MerchantNotifyService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/impl/MerchantNotifyServiceImpl.java" afterPath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/impl/MerchantNotifyServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/pay/controller/PayController.java" afterPath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/pay/controller/PayController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" afterPath="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/pay-manager-system.iml" afterPath="$PROJECT_DIR$/pay-manager-system/pay-manager-system.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/pom.xml" afterPath="$PROJECT_DIR$/pay-manager-system/pom.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/pay-manager-system/target/" />
     <ignored path="$PROJECT_DIR$/pay-api-service/target/" />
@@ -969,7 +957,7 @@
       <workItem from="1547294888964" duration="16000" />
       <workItem from="1547382928189" duration="5543000" />
       <workItem from="1547430838300" duration="15537000" />
-      <workItem from="1547532765917" duration="9299000" />
+      <workItem from="1547532765917" duration="9314000" />
     </task>
     <task id="LOCAL-00001" summary="框架基础修改及导入">
       <created>1547190510272</created>
@@ -1083,7 +1071,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547456289729</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="框架基础修改及导入">
+      <created>1547544432008</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1547544432008</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1119,7 +1114,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77973000" />
+    <option name="totallyTimeSpent" value="77988000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
