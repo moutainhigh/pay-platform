@@ -88,6 +88,9 @@
             <tx:method name="list*" read-only="true"/>
             <tx:method name="test*" read-only="true"/>
 
+            <!-- 推送支付成功消息,会进行失败重试机制,需要记录回调次数,因此此处不开启事务 -->
+            <tx:method name="pushPaySuccessInfoByRetry" propagation="REQUIRED" isolation="DEFAULT" no-rollback-for="RemoteAccessException" />
+
             <!-- 除了查询操作, 其它全部开启事务, 抛出异常时回滚-->
             <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
 

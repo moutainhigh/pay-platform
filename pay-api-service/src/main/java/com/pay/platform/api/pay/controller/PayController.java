@@ -53,8 +53,7 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/openApi/pushPaySuccessInfoToMerchant", method = {RequestMethod.POST, RequestMethod.GET})
     public void testPushPaySuccessInfoToMerchant(HttpServletRequest request, HttpServletResponse response, String orderNo) throws Exception {
 
-        boolean result = merchantNotifyService.pushPaySuccessInfoToMerchant(orderNo);
-        System.out.println(" ---> " + result);
+        boolean result = merchantNotifyService.pushPaySuccessInfoByRetry(orderNo);
 
         response.getWriter().write("回调结果: " + result);
         response.getWriter().flush();
