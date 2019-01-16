@@ -11,7 +11,7 @@
  Target Server Version : 50624
  File Encoding         : utf-8
 
- Date: 01/14/2019 16:56:59 PM
+ Date: 01/16/2019 15:01:32 PM
 */
 
 SET NAMES utf8;
@@ -145,7 +145,7 @@ CREATE TABLE `tb_order` (
 --  Records of `tb_order`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tb_order` VALUES ('bb00d448-165d-11e9-9b0a-810fc5b125a5', 'aaaa', 'bbb', 'ccc', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10086', 'aasdasdas', 'zfbH5', 'waitPay', '2019-01-12 19:32:23', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'notNotify', '0', '2019-01-12 19:32:23'), ('d1b35882-165d-11e9-9b0a-810fc5b125a5', 'aaaa11', 'bbb222', 'ccc333', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10086', 'aasdasdas', 'zfbScanCode', 'payed', '2019-01-12 19:33:01', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'success', '2', '2019-01-12 19:33:01'), ('d7f395a4-165d-11e9-9b0a-810fc5b125a5', 'aaaa113', 'bbb2223', 'ccc3333', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10011', 'aasdasdas', 'wxScanCode', 'payed', '2019-01-12 19:33:12', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'notifyed', '1', '2019-01-12 19:33:12'), ('dcde8c5e-165d-11e9-9b0a-810fc5b125a5', 'aaaa1134', 'bbb22234', 'ccc33334', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10086', 'aasdasdas', 'wxH5', 'payed', '2019-01-12 19:33:20', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'notNotify', '0', '2019-01-12 19:33:20');
+INSERT INTO `tb_order` VALUES ('bb00d448-165d-11e9-9b0a-810fc5b125a5', 'aaaa', 'bbb', 'ccc', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10086', 'aasdasdas', 'zfbH5', 'waitPay', '2019-01-12 19:32:23', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'notNotify', '0', '2019-01-12 19:32:23'), ('d1b35882-165d-11e9-9b0a-810fc5b125a5', 'aaaa11', 'bbb222', 'ccc333', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10086', 'aasdasdas', 'zfbScanCode', 'payed', '2019-01-12 19:33:01', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'success', '2', '2019-01-12 19:33:01'), ('d7f395a4-165d-11e9-9b0a-810fc5b125a5', 'aaaa113', 'bbb2223', 'ccc3333', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10011', 'aasdasdas', 'wxScanCode', 'payed', '2019-01-12 19:33:12', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'notifyed', '8', '2019-01-12 19:33:12'), ('dcde8c5e-165d-11e9-9b0a-810fc5b125a5', 'aaaa1134', 'bbb22234', 'ccc33334', '测试商品', '1000.00', '0.004', '4.00', '996.00', 'ddd', '10086', 'aasdasdas', 'wxH5', 'payed', '2019-01-12 19:33:20', 'http://test001.frpgz1.idcfengye.com/openApi/testMerchantNotify', 'success', '2', '2019-01-12 19:33:20');
 COMMIT;
 
 -- ----------------------------
