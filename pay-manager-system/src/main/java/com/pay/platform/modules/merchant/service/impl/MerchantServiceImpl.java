@@ -52,4 +52,9 @@ public class MerchantServiceImpl implements MerchantService {
         return merchantDao.updateMerchant(merchant);
     }
 
+    @Override
+    public MerchantModel queryMerchantByIMerchantNo(String merchantNo) {
+        return merchantDao.queryMerchantByIMerchantNo(merchantNo);
+    }
+
 }

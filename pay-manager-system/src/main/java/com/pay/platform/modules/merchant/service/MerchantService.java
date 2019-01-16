@@ -60,4 +60,12 @@ public interface MerchantService {
      */
     Integer updateMerchant(MerchantModel merchant);
 
+    /**
+     * 根据商家编号查询商家信息
+     *
+     * @param merchantNo
+     * @return
+     */
+    MerchantModel queryMerchantByIMerchantNo(String merchantNo);
+
 }

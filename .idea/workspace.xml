@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="325d4c5a-6293-4b64-b8fe-6d50bdcd3444" name="Default" comment="">
+    <list default="true" id="325d4c5a-6293-4b64-b8fe-6d50bdcd3444" name="Default" comment="框架基础修改及导入">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/enums/PayStatusEnum.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/AESUtil.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/MerchantSecretCacheUtil.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantNotifyService.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantNotifyServiceImpl.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/timer/MerchantNotifyTimer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java" afterPath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" afterPath="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/resources/config/applicationContext.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/resources/config/applicationContext.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/pay-manager-system/target/" />
     <ignored path="$PROJECT_DIR$/pay-api-service/target/" />
@@ -18,68 +35,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AppContextListener.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/common/listener/AppContextListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-              <folding>
-                <element signature="e#2477#2478#0" expanded="true" />
-                <element signature="e#2613#2614#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MerchantNotifyServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/impl/MerchantNotifyServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-371">
-              <caret line="68" column="62" lean-forward="true" selection-start-line="68" selection-start-column="62" selection-end-line="68" selection-end-column="62" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="web.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/webapp/WEB-INF/web.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="64" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderDao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/order/dao/OrderDao.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OrderDao.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/order/dao/OrderDao.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-              <folding>
-                <element signature="e#882#886#0" expanded="true" />
-                <marker date="1547608570580" expanded="true" signature="314:424" ph="select * fro... tb_order" />
-                <marker date="1547608570580" expanded="true" signature="523:684" ph="update tb_or... " />
-                <marker date="1547608570580" expanded="true" signature="778:889" ph="select * tb_... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -92,11 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>;</find>
-      <find>release</find>
-      <find>close</find>
-      <find>close()</find>
-      <find>releaseConnection</find>
       <find>notifySecret</find>
       <find>Logger</find>
       <find>notify_num</find>
@@ -106,7 +57,6 @@
       <find>notifiyNum</find>
       <find>notifyNum</find>
       <find>success</find>
-      <find>retry</find>
       <find>value</find>
       <find>320</find>
       <find>1000</find>
@@ -117,11 +67,17 @@
       <find>contextInitialized</find>
       <find>&lt;bean</find>
       <find>.getBean</find>
-      <find>queryOrderByOrderNo</find>
       <find>.</find>
+      <find>5000</find>
+      <find>retry</find>
+      <find>pushPaySuccessInfo</find>
+      <find>merchantNotifyDao</find>
+      <find>queryOrderByOrderNo</find>
       <find>.queryOrderByOrderNo</find>
       <find>updateOrderNotifyStatus</find>
-      <find>5000</find>
+      <find>MerchantSecretCacheUtil</find>
+      <find>queryMerchantByIMerchantNo</find>
+      <find>queryTimerPushSuccessInfoOrderList</find>
     </findStrings>
     <replaceStrings>
       <replace>writeEnjoyitActualPrice</replace>
@@ -161,8 +117,9 @@
       <dir>$PROJECT_DIR$/pay-manager-system/src/main/webapp/resources/js</dir>
       <dir>$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api</dir>
       <dir>$PROJECT_DIR$/pay-manager-system</dir>
-      <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/pay-api-service</dir>
+      <dir>$PROJECT_DIR$</dir>
+      <dir>$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -176,21 +133,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/order/order_edit.jsp" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/controller/OrderController.java" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/merchant/merchant.js" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/order/order_list.jsp" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/order/order_detail.jsp" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/order/order.js" />
-        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/MerchantModel.java" />
-        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/dao/MerchantDao.xml" />
-        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/dao/MerchantDao.java" />
-        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java" />
-        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/impl/MerchantServiceImpl.java" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/security/ApiSignUtil.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/context/AppContext.java" />
         <option value="$PROJECT_DIR$/pay-api-service/src/test/com/baseframe/generate/TestApiSign.java" />
@@ -217,7 +159,6 @@
         <option value="$PROJECT_DIR$/pay-api-service/pom.xml" />
         <option value="$PROJECT_DIR$/pay-manager-system/pom.xml" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/pay/controller/PayController.java" />
-        <option value="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/common/context/AppContext.java" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/order/service/OrderService.java" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/order/dao/OrderDao.java" />
@@ -227,6 +168,22 @@
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/MerchantNotifyService.java" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/common/listener/AppContextListener.java" />
         <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/impl/MerchantNotifyServiceImpl.java" />
+        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/timer/MerchantNotifyTimer.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantNotifyService.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/MerchantSecretCacheUtil.java" />
+        <option value="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantNotifyServiceImpl.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/resources/config/applicationContext.xml" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/timer/MerchantNotifyTimer.java" />
+        <option value="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" />
       </list>
     </option>
   </component>
@@ -254,8 +211,8 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="15" />
-    <option name="y" value="23" />
+    <option name="x" value="45" />
+    <option name="y" value="24" />
     <option name="width" value="1701" />
     <option name="height" value="990" />
   </component>
@@ -306,11 +263,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.pay.platform.common.util" />
+      <recent name="com.pay.platform.common.enums" />
+      <recent name="com.pay.platform.modules.merchant.service.impl" />
+      <recent name="com.pay.platform.modules.merchant.service" />
       <recent name="com.pay.platform.common.listener" />
-      <recent name="com.pay.platform.api.order.model" />
-      <recent name="com.pay.platform.api.order.service" />
-      <recent name="com.pay.platform.api.notify.service.impl" />
-      <recent name="com.pay.platform.api.notify.service" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/pay-manager-system/src/main/resources/data" />
@@ -843,7 +800,7 @@
     <configuration default="false" name="Unnamed" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.61" ALTERNATIVE_JRE_ENABLED="false">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="pay-api-service:war exploded">
+        <artifact name="pay-manager-system:war exploded">
           <settings>
             <option name="CONTEXT_PATH" value="/" />
           </settings>
@@ -941,7 +898,7 @@
       </ConfigurationWrapper>
       <method>
         <option name="BuildArtifacts" enabled="true">
-          <artifact name="pay-api-service:war exploded" />
+          <artifact name="pay-manager-system:war exploded" />
         </option>
       </method>
     </configuration>
@@ -987,7 +944,7 @@
       <workItem from="1547430838300" duration="15537000" />
       <workItem from="1547532765917" duration="9928000" />
       <workItem from="1547548501448" duration="65000" />
-      <workItem from="1547603461436" duration="6186000" />
+      <workItem from="1547603461436" duration="10482000" />
     </task>
     <task id="LOCAL-00001" summary="框架基础修改及导入">
       <created>1547190510272</created>
@@ -1129,7 +1086,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547610183636</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="框架基础修改及导入">
+      <created>1547610604289</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1547610604289</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1165,7 +1129,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84853000" />
+    <option name="totallyTimeSpent" value="89149000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1177,7 +1141,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="15" y="23" width="1701" height="990" extended-state="0" />
+    <frame x="45" y="24" width="1701" height="990" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1204,7 +1168,7 @@
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21760097" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24231465" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
@@ -1230,7 +1194,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="52" />
+      <option name="time" value="60" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1239,101 +1203,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/impl/MerchantNotifyServiceImpl.java" />
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/MerchantService.java" />
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantNotifyService.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.2.6.RELEASE/spring-context-4.2.6.RELEASE.jar!/org/springframework/stereotype/Service.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/common/plugins/mybatis/PackagesSqlSessionFactoryBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="28" column="4" lean-forward="false" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/common/enums/PayStatusEnum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/security/ApiSecuirtyRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5/httpclient-4.5.jar!/org/apache/http/client/HttpClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="16" column="17" lean-forward="false" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/io/Closeable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="51" column="21" lean-forward="false" selection-start-line="51" selection-start-column="16" selection-end-line="51" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5/httpclient-4.5.jar!/org/apache/http/impl/client/CloseableHttpClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="33" column="28" lean-forward="false" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5/httpclient-4.5.jar!/org/apache/http/impl/client/DefaultHttpClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="32" column="50" lean-forward="false" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5/httpclient-4.5.jar!/org/apache/http/impl/client/AbstractHttpClient.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="250" column="54" lean-forward="false" selection-start-line="250" selection-start-column="54" selection-end-line="250" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/HttpClientUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="775">
-          <caret line="151" column="0" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="151" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="56" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/dao/MerchantNotifyDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/dao/MerchantNotifyDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_91.jdk/Contents/Home/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -1424,13 +1293,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="79" lean-forward="true" selection-start-line="16" selection-start-column="79" selection-end-line="16" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/resources/data/pay-platform-test.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-588">
@@ -1442,13 +1304,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="789">
           <caret line="488" column="21" lean-forward="false" selection-start-line="488" selection-start-column="21" selection-end-line="488" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="809">
-          <caret line="489" column="8" lean-forward="false" selection-start-line="489" selection-start-column="8" selection-end-line="489" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -1487,33 +1342,9 @@
         <state relative-caret-position="723">
           <caret line="63" column="0" lean-forward="true" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
           <folding>
-            <element signature="e#1842#1843#0" expanded="true" />
-            <element signature="e#1885#1886#0" expanded="true" />
+            <element signature="e#1842#1843#0" expanded="false" />
+            <element signature="e#1885#1886#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="17" lean-forward="false" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/impl/MerchantServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/security/MerchantSecretCacheUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="66" column="79" lean-forward="true" selection-start-line="66" selection-start-column="79" selection-end-line="66" selection-end-column="79" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1530,16 +1361,8 @@
         <state relative-caret-position="348">
           <caret line="34" column="62" lean-forward="true" selection-start-line="34" selection-start-column="62" selection-end-line="34" selection-end-column="62" />
           <folding>
-            <element signature="e#1064#1065#0" expanded="true" />
+            <element signature="e#1064#1065#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="105" column="9" lean-forward="false" selection-start-line="105" selection-start-column="4" selection-end-line="105" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1556,10 +1379,10 @@
         <state relative-caret-position="180">
           <caret line="16" column="13" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
           <folding>
-            <element signature="e#597#598#0" expanded="true" />
-            <element signature="e#657#658#0" expanded="true" />
-            <element signature="e#731#732#0" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
+            <element signature="e#597#598#0" expanded="false" />
+            <element signature="e#657#658#0" expanded="false" />
+            <element signature="e#731#732#0" expanded="false" />
+            <element signature="e#791#792#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1588,18 +1411,159 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="486" column="36" lean-forward="false" selection-start-line="486" selection-start-column="31" selection-end-line="486" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.2.6.RELEASE/spring-beans-4.2.6.RELEASE.jar!/org/springframework/beans/factory/annotation/Autowired.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="16" column="18" lean-forward="false" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/enums/PayStatusEnum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="38" column="1" lean-forward="true" selection-start-line="38" selection-start-column="1" selection-end-line="38" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/impl/MerchantNotifyServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="112" column="39" lean-forward="true" selection-start-line="112" selection-start-column="39" selection-end-line="112" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/order/dao/OrderDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="31" />
+        <state relative-caret-position="160">
+          <caret line="13" column="11" lean-forward="true" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantNotifyService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/AESUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="689">
+          <caret line="46" column="5" lean-forward="true" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/security/MerchantSecretCacheUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="22" column="23" lean-forward="true" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="749">
+          <caret line="65" column="24" lean-forward="true" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/MerchantSecretCacheUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-491">
+          <caret line="21" column="28" lean-forward="true" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="10" column="28" lean-forward="false" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/impl/MerchantServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="15" column="22" lean-forward="false" selection-start-line="15" selection-start-column="22" selection-end-line="15" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/dao/MerchantDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="8" selection-end-column="13" />
+          <folding>
+            <marker date="1547385003466" expanded="true" signature="330:397" ph="select * fro... tb_merchant" />
+            <marker date="1547385003466" expanded="true" signature="485:510" ph="select * fro... tb_merchant" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="61" column="13" lean-forward="false" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
+          <folding>
+            <marker date="1547620717342" expanded="true" signature="1282:1332" ph="select * fro... tb_merchant" />
+            <marker date="1547620717342" expanded="true" signature="1416:1685" ph="insert into tb_merchant... " />
+            <marker date="1547620717342" expanded="true" signature="2208:2458" ph="update tb_me... " />
+            <marker date="1547620717342" expanded="true" signature="2587:2654" ph="select * fro... tb_merchant" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1043">
+          <caret line="69" column="64" lean-forward="true" selection-start-line="69" selection-start-column="64" selection-end-line="69" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="669">
+          <caret line="56" column="41" lean-forward="false" selection-start-line="56" selection-start-column="41" selection-end-line="56" selection-end-column="41" />
+          <folding>
+            <element signature="e#1537#1538#0" expanded="true" />
+            <element signature="e#1610#1611#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="27" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/order/dao/OrderDao.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="17" lean-forward="false" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        <state relative-caret-position="360">
+          <caret line="18" column="8" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="88" />
           <folding>
             <element signature="e#882#886#0" expanded="true" />
             <marker date="1547608570580" expanded="true" signature="314:424" ph="select * fro... tb_order" />
@@ -1609,24 +1573,82 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/notify/service/impl/MerchantNotifyServiceImpl.java">
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-371">
-          <caret line="68" column="62" lean-forward="true" selection-start-line="68" selection-start-column="62" selection-end-line="68" selection-end-column="62" />
+        <state relative-caret-position="689">
+          <caret line="49" column="55" lean-forward="false" selection-start-line="49" selection-start-column="21" selection-end-line="49" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="30" column="28" lean-forward="false" selection-start-line="30" selection-start-column="28" selection-end-line="30" selection-end-column="28" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#836#837#0" expanded="true" />
+            <element signature="e#904#905#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/common/listener/AppContextListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        <state relative-caret-position="513">
+          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="79" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="46" column="50" lean-forward="false" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="50" />
           <folding>
-            <element signature="e#2477#2478#0" expanded="true" />
-            <element signature="e#2613#2614#0" expanded="true" />
+            <element signature="e#2435#2439#0" expanded="true" />
+            <marker date="1547621013559" expanded="true" signature="328:441" ph="select Group... tb_dictionary" />
+            <marker date="1547621013559" expanded="true" signature="473:592" ph="select Group... tb_dictionary" />
+            <marker date="1547621013559" expanded="true" signature="627:752" ph="select Group... tb_dictionary" />
+            <marker date="1547621013559" expanded="true" signature="1833:1943" ph="select * fro... tb_order" />
+            <marker date="1547621013559" expanded="true" signature="2042:2203" ph="update tb_or... " />
+            <marker date="1547621013559" expanded="true" signature="2331:2441" ph="select * fro... tb_order" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/timer/MerchantNotifyTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="45" column="49" lean-forward="true" selection-start-line="45" selection-start-column="49" selection-end-line="45" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantNotifyServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="42" column="19" lean-forward="false" selection-start-line="42" selection-start-column="19" selection-end-line="42" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="34" column="93" lean-forward="true" selection-start-line="34" selection-start-column="93" selection-end-line="34" selection-end-column="93" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/resources/config/applicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="68" />
+          <folding />
         </state>
       </provider>
     </entry>

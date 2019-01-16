@@ -5,9 +5,9 @@
 
     <select id="queryOrderList" parameterType="OrderModel" resultType="OrderModel">
         select *
-                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'payWay' and FIND_IN_SET(ITEM_CODE , pay_way))  as payWayDictDesc
-                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'payStatus' and FIND_IN_SET(ITEM_CODE , pay_status))  as payStatusDictDesc
-                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'notifyStatus' and FIND_IN_SET(ITEM_CODE , notify_status))  as notifyStatusDictDesc
+        , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'payWay' and FIND_IN_SET(ITEM_CODE , pay_way)) as payWayDictDesc
+        , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'payStatus' and FIND_IN_SET(ITEM_CODE , pay_status)) as payStatusDictDesc
+        , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'notifyStatus' and FIND_IN_SET(ITEM_CODE , notify_status)) as notifyStatusDictDesc
         from tb_order
         <where>
             <if test="merchantOrderNo != null and merchantOrderNo != '' ">
@@ -31,6 +31,22 @@
             </if>
 
         </where>
+    </select>
+
+    <select id="queryOrderByOrderNo" parameterType="java.lang.String" resultType="OrderModel">
+        select *
+        from tb_order
+        where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
+    </select>
+
+    <update id="updateOrderNotifyStatus" parameterType="java.lang.String">
+        update tb_order set notify_status = #{notifyStatus} , notify_num = notify_num + 1
+        where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
+    </update>
+
+    <select id="queryTimerPushSuccessInfoOrderList" parameterType="OrderModel" resultType="OrderModel">
+        select * from tb_order
+        where pay_status = 'payed' and notify_status != 'success' and notify_num &lt; 8
     </select>
 
 </mapper>

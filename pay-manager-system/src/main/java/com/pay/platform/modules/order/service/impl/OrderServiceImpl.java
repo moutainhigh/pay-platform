@@ -27,4 +27,9 @@ public class OrderServiceImpl implements OrderService {
         return new PageInfo(orderDao.queryOrderList(order));
     }
 
+    @Override
+    public List<OrderModel> queryTimerPushSuccessInfoOrderList() {
+        return orderDao.queryTimerPushSuccessInfoOrderList();
+    }
+
 }

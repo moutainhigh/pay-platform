@@ -56,4 +56,9 @@
         where id = #{id}
     </update>
 
+    <select id="queryMerchantByIMerchantNo" parameterType="java.lang.String" resultType="MerchantModel">
+        select *
+        from tb_merchant where merchant_no = #{merchantNo}
+    </select>
+
 </mapper>

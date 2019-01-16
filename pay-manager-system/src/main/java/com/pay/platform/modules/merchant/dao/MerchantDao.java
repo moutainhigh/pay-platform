@@ -62,4 +62,11 @@ public interface MerchantDao {
      */
     Integer updateMerchant(MerchantModel merchant);
 
+    /**
+     * 根据商户编号查询商户信息
+     * @param merchantNo
+     * @return
+     */
+    MerchantModel queryMerchantByIMerchantNo(String merchantNo);
+
 }

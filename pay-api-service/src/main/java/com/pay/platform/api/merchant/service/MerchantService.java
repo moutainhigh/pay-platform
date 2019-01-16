@@ -11,7 +11,7 @@ import java.util.List;
 public interface MerchantService {
 
     /**
-     * 根据商家办好查询商家信息
+     * 根据商家编号查询商家信息
      *
      * @param merchantNo
      * @return

@@ -4,6 +4,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
         http://www.springframework.org/schema/beans
@@ -11,12 +12,18 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!-- 自动扫描, 黑名单过滤, 在主容器中不扫描@Controller注解 -->
     <context:component-scan base-package="com.pay.platform.common,com.pay.platform.modules">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+
+    <!-- 开启这个配置，spring才能识别@Scheduled注解   -->
+    <task:scheduler id="qbScheduler" pool-size="10"/>
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
 
     <!-- 启动对@AspectJ注解的支持 -->
     <aop:aspectj-autoproxy/>

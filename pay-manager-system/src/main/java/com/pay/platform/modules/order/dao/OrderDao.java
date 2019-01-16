@@ -1,5 +1,6 @@
 package com.pay.platform.modules.order.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -21,5 +22,31 @@ public interface OrderDao {
      * @return
      */
     List<OrderModel> queryOrderList(OrderModel order);
+
+    /**
+     * 根据订单号查询订单：商家单号、平台单号
+     *
+     * @param orderNo
+     * @return
+     */
+    OrderModel queryOrderByOrderNo(String orderNo);
+
+    /**
+     * 更新回调商户状态
+     *
+     * @param orderNo
+     * @param notifyStatus
+     * @return
+     */
+    int updateOrderNotifyStatus(@Param("orderNo") String orderNo, @Param("notifyStatus") String notifyStatus);
+
+    /**
+     * 查询出需要定时推送支付信息的订单
+     * <p>
+     * 作为补偿机制,定时回调给商家
+     *
+     * @return
+     */
+    List<OrderModel> queryTimerPushSuccessInfoOrderList();
 
 }
