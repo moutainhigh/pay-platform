@@ -59,6 +59,10 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+    <!-- 应用程序监听器,需在spring监听器之后,否则无法获取spring容器上下文 -->
+    <listener>
+        <listener-class>com.pay.platform.common.listener.AppContextListener</listener-class>
+    </listener>
 
     <!-- 配置spring security过滤器链, 必须在spring mvc之前, 因为需在web最外层提供安全性服务  -->
     <filter>

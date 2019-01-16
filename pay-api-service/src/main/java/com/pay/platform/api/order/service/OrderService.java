@@ -3,6 +3,7 @@ package com.pay.platform.api.order.service;
 
 import com.pay.platform.api.order.model.OrderModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,11 @@ public interface OrderService {
      * @return
      */
     OrderModel queryOrderByOrderNo(String orderNo);
+
+    /**
+     * 查询待推送商家的订单
+     * @return
+     */
+    List<OrderModel> queryWaitPushMerchantOrder();
 
 }

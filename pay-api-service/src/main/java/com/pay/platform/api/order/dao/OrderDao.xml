@@ -14,4 +14,9 @@
         where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
     </update>
 
+    <select id="queryWaitPushMerchantOrder" resultType="OrderModel" >
+        select * from tb_order
+        where pay_status = 'payed' and notify_status != 'success' and notify_num &lt;  6
+    </select>
+
 </mapper>

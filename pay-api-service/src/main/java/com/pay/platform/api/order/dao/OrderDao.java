@@ -3,6 +3,8 @@ package com.pay.platform.api.order.dao;
 import com.pay.platform.api.order.model.OrderModel;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +28,11 @@ public interface OrderDao {
      * @return
      */
     int updateOrderNotifyStatus(@Param("orderNo") String orderNo, @Param("notifyStatus") String notifyStatus);
+
+    /**
+     * 查询待推送商家的订单
+     * @return
+     */
+    List<OrderModel> queryWaitPushMerchantOrder();
 
 }
