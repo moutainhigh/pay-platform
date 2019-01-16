@@ -1,25 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="325d4c5a-6293-4b64-b8fe-6d50bdcd3444" name="Default" comment="框架基础修改及导入">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/enums/PayStatusEnum.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/AESUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/MerchantSecretCacheUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantNotifyService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantNotifyServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/timer/MerchantNotifyTimer.java" />
+    <list default="true" id="325d4c5a-6293-4b64-b8fe-6d50bdcd3444" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java" afterPath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/api/merchant/service/MerchantService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" afterPath="$PROJECT_DIR$/pay-api-service/src/main/resources/config/applicationContext.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/dao/OrderDao.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/OrderService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/order/service/impl/OrderServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/resources/config/applicationContext.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/resources/config/applicationContext.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/pay-manager-system/target/" />
     <ignored path="$PROJECT_DIR$/pay-api-service/target/" />
@@ -944,7 +927,7 @@
       <workItem from="1547430838300" duration="15537000" />
       <workItem from="1547532765917" duration="9928000" />
       <workItem from="1547548501448" duration="65000" />
-      <workItem from="1547603461436" duration="10482000" />
+      <workItem from="1547603461436" duration="10498000" />
     </task>
     <task id="LOCAL-00001" summary="框架基础修改及导入">
       <created>1547190510272</created>
@@ -1093,7 +1076,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547610604289</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="框架基础修改及导入">
+      <created>1547621821959</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1547621821959</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1129,7 +1119,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89149000" />
+    <option name="totallyTimeSpent" value="89165000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
