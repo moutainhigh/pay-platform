@@ -32,6 +32,17 @@ public class PayChannelServiceImpl implements PayChannelService {
         return payChannelDao.queryPayChannelById(id);
     }
 
+    /**
+     * 根据通道编码查询编号信息
+     * @param channelCode
+     * @return
+     */
+    @Override
+    public PayChannelModel queryInfoByChannelCode(String channelCode) {
+        return payChannelDao.queryInfoByChannelCode(channelCode);
+    }
+
+
     @Override
     public Integer addPayChannel(PayChannelModel payChannel) {
         return payChannelDao.addPayChannel(payChannel);

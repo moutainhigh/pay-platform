@@ -1,15 +1,18 @@
 package com.pay.platform.modules.merchant.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.pay.platform.common.config.BizConstants;
+import com.pay.platform.common.util.BuildNumberUtils;
+import com.pay.platform.common.util.PropertyUtils;
+import com.pay.platform.common.util.encrypt.AESEncryptUtil;
+import com.pay.platform.modules.merchant.dao.MerchantDao;
 import com.pay.platform.modules.merchant.model.MerchantModel;
 import com.pay.platform.modules.merchant.service.MerchantService;
-import com.pay.platform.modules.merchant.dao.MerchantDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.UUID;
 
 
 /**
@@ -33,7 +36,16 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Integer addMerchant(MerchantModel merchant) {
+    public Integer addMerchant(MerchantModel merchant) throws Exception {
+        //生产商家编号
+        String merchantNo = BuildNumberUtils.getMerchantNo();
+        merchant.setMerchantNo(merchantNo);
+        //设置商家的密钥
+        merchant.setMerchantSecret(UUID.randomUUID().toString().replaceAll("-", ""));
+        //设置商家的回调密钥
+        String notifySecret = UUID.randomUUID().toString().replaceAll("-", "").substring(16);
+        merchant.setNotifySecret(notifySecret);
+
         return merchantDao.addMerchant(merchant);
     }
 

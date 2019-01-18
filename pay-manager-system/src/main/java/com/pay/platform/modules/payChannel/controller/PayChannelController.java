@@ -71,6 +71,26 @@ public class PayChannelController extends BaseController {
     }
 
     /**
+     * 校验channelCode是否存在
+     *
+     * @param response
+     * @param channelCode
+     * @throws Exception
+     */
+    @RequestMapping(value = "/queryInfoByChannelCode", produces = "application/json")
+    public void queryInfoByChannelCode(HttpServletResponse response, String channelCode) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        PayChannelModel payChannel = payChannelService.queryInfoByChannelCode(channelCode);
+
+        json.put("success", payChannel==null?true:false);
+        writeJson(response, json.toString());
+
+    }
+
+
+    /**
      * 新增通道
      *
      * @param response

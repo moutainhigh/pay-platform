@@ -28,6 +28,14 @@ public interface PayChannelService {
      */
     PayChannelModel queryPayChannelById(String id);
 
+
+    /**
+     * 根据通道编码查询编号信息
+     * @param channelCode
+     * @return
+     */
+    PayChannelModel queryInfoByChannelCode(String channelCode);
+
     /**
      * 新增通道
      *

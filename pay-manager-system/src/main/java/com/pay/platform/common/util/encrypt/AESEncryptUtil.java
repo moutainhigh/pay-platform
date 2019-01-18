@@ -1,104 +1,170 @@
 package com.pay.platform.common.util.encrypt;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+import com.pay.platform.common.util.StringUtil;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 
-/**
- * AES加密工具类
- */
+
+
 public class AESEncryptUtil {
 
+    private static Logger logger = Logger.getLogger(AESEncryptUtil.class);
+
+
+
     /**
-     * 初始化 AES Cipher
-     *
-     * @param password
-     * @param isEncryptMode
-     * @return
+     * 将byte[]转为各种进制的字符串
+     * @param bytes byte[]
+     * @param radix 可以转换进制的范围，从Character.MIN_RADIX到Character.MAX_RADIX，超出范围后变为10进制
+     * @return 转换后的字符串
      */
-    public static Cipher initAESCipher(String password, boolean isEncryptMode) {
-
-        try {
-
-            IvParameterSpec zeroIv = new IvParameterSpec(password.getBytes("utf-8"));
-
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-
-            final SecretKeySpec secretKey = new SecretKeySpec(password.getBytes("utf-8"), "AES");
-
-            if (isEncryptMode) {
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey, zeroIv);
-            } else {
-                cipher.init(Cipher.DECRYPT_MODE, secretKey, zeroIv);
-            }
-
-            return cipher;
-
-        } catch (NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | UnsupportedEncodingException | InvalidAlgorithmParameterException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public static String binary(byte[] bytes, int radix){
+        return new BigInteger(1, bytes).toString(radix);// 这里的1代表正数
     }
 
     /**
-     * 加密
-     *
-     * @param bytes    需要加密的内容
-     * @param password 加密密码
-     * @return
+     * base 64 encode
+     * @param bytes 待编码的byte[]
+     * @return 编码后的base 64 code
      */
-    public static byte[] encrypt(byte[] bytes, String password) {
-
-        try {
-
-            Cipher cipher = initAESCipher(password, true);
-
-            if (null == cipher) {
-                return bytes;
-            }
-
-            return cipher.doFinal(bytes); // 加密
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public static String base64Encode(byte[] bytes){
+        return Base64.encodeBase64String(bytes);
     }
 
     /**
-     * 解密
-     *
-     * @param content  待解密内容
-     * @param password 解密密钥
-     * @return
+     * base 64 decode
+     * @param base64Code 待解码的base 64 code
+     * @return 解码后的byte[]
+     * @throws Exception
      */
-    public static byte[] decrypt(byte[] content, String password) {
+    public static byte[] base64Decode(String base64Code) throws Exception{
+        return StringUtil.isEmpty(base64Code) ? null : Base64.decodeBase64(base64Code);
+    }
 
-        try {
+    /**
+     * AES加密
+     * @param content 待加密的内容
+     * @param encryptKey 加密密钥
+     * @return 加密后的byte[]
+     * @throws Exception
+     */
+    public static byte[] aesEncryptToBytes(String content, String encryptKey) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgenInit(kgen, encryptKey.getBytes());
 
-            Cipher cipher = initAESCipher(password, false);
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
 
-            if (null == cipher) {
-                return content;
-            }
+        return cipher.doFinal(content.getBytes("utf-8"));
+    }
 
-            return cipher.doFinal(content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static byte[] aesEncryptToBytes(String content, byte[] encryptKey) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgenInit(kgen, encryptKey);
 
-        return null;
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
+
+        return cipher.doFinal(content.getBytes("utf-8"));
+    }
+
+    /**
+     * AES加密为base 64 code
+     * @param content 待加密的内容
+     * @param encryptKey 加密密钥
+     * @return 加密后的base 64 code
+     * @throws Exception
+     */
+    public static String aesEncrypt(String content, String encryptKey) throws Exception {
+        return base64Encode(aesEncryptToBytes(content, encryptKey));
+    }
+
+    public static String aesEncrypt(String content, byte[] encryptKey) throws Exception {
+        return base64Encode(aesEncryptToBytes(content, encryptKey));
+    }
+
+    /**
+     * AES解密
+     * @param encryptBytes 待解密的byte[]
+     * @param decryptKey 解密密钥
+     * @return 解密后的String
+     * @throws Exception
+     */
+    public static String aesDecryptByBytes(byte[] encryptBytes, String decryptKey) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgenInit(kgen, decryptKey.getBytes());
+
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
+        byte[] decryptBytes = cipher.doFinal(encryptBytes);
+
+        return new String(decryptBytes,"utf-8");
+    }
+
+    public static String aesDecryptByBytes(byte[] encryptBytes, byte[] decryptKey) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance("AES");
+        kgenInit(kgen, decryptKey);
+
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(kgen.generateKey().getEncoded(), "AES"));
+        byte[] decryptBytes = cipher.doFinal(encryptBytes);
+
+        return new String(decryptBytes,"utf-8");
+    }
+
+    /**
+     * 将base 64 code AES解密
+     * @param encryptStr 待解密的base 64 code
+     * @param decryptKey 解密密钥
+     * @return 解密后的string
+     * @throws Exception
+     */
+    public static String aesDecrypt(String encryptStr, String decryptKey) throws Exception {
+        return StringUtil.isEmpty(encryptStr) ? null : aesDecryptByBytes(base64Decode(encryptStr), decryptKey);
+    }
+
+    public static String aesDecrypt(String encryptStr, byte[] decryptKey) throws Exception {
+        return StringUtil.isEmpty(encryptStr) ? null : aesDecryptByBytes(base64Decode(encryptStr), decryptKey);
+    }
+
+    public static byte[] getAESKey(String encodingAESKey){
+        byte[] array = Base64.decodeBase64(encodingAESKey+"=");
+        return array;
+    }
+
+    /**防止在linux下随机生成key
+     * @throws NoSuchAlgorithmException */
+    public static void kgenInit(KeyGenerator kgen, byte[] bytes)
+            throws NoSuchAlgorithmException{
+        //1.防止linux下 随机生成key
+        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+        secureRandom.setSeed(bytes);
+        //2.根据密钥初始化密钥生成器
+        kgen.init(128, secureRandom);
+    }
+
+
+
+
+
+    public static void main(String[] args) throws Exception {
+
+        String content = "success";
+
+        String encrypt = aesEncrypt(content, getAESKey("123456"));
+        System.out.println("encrypt string：" + encrypt);
+
+        String decrypt = aesDecrypt(encrypt, getAESKey("123456"));
+        System.out.println("decrypt string：" + decrypt);
+
     }
 
 }

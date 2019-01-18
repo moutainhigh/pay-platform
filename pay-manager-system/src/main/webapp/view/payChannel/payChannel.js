@@ -89,6 +89,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         return;
                     }
 
+                    var ChannelCode = $("#editChannelCode").val();
+                    if(!checkCode(ChannelCode)){
+                        $.msg.error("通道编号已存在");
+                        return;
+                    }
+
                     var btn = $(".modal-footer .btn-success");        //防止重复提交
                     btn.attr("disabled", "disabled");
 
@@ -202,14 +208,18 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editChannelCode").val(pageScope.currentrow.channelCode);
                 $("#editChannelName").val(pageScope.currentrow.channelName);
                 $("#editCostRate").val(pageScope.currentrow.costRate);
-                $("#editIsDel").val(pageScope.currentrow.isDel);
-                $("#editCreateTime").val(pageScope.currentrow.createTime);
             },
             buttonEvents: {
                 success: function () {
 
                     if (!$('#editPayChannelForm').valid()) {
                         return false;
+                    }
+
+                    var ChannelCode = $("#editChannelCode").val();
+                    if(!checkCode(ChannelCode)){
+                        $.msg.fail("通道编号已存在");
+                        return;
                     }
 
                     var btn = $(".modal-footer .btn-success");        //防止重复提交
@@ -267,5 +277,29 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         });
 
     };
+
+
+    /**
+     * 校验通道编号是否存在
+     * @param channelCode
+     */
+    function checkCode(channelCode) {
+
+            $.ajax({
+                url: baseURL + "/payChannel/queryInfoByChannelCode",
+                type: "post",
+                dataType: "json",
+                data: {"channelCode": channelCode, "_csrf": token},
+                success: function (response) {
+                    if (response && response.success != true) {
+                         return false;
+                    }
+                    return true;
+
+                }
+            });
+    }
+
+
 
 })();
