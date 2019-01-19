@@ -2,13 +2,21 @@ package com.pay.platform.modules.merchant.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -174,6 +182,43 @@ public class MerchantController extends BaseController {
             json.put("success", false);
             json.put("msg", "修改失败");
         }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 分页查询商家列表
+     *
+     * @param request
+     * @param response
+     * @param
+     * @return
+     * @throws Exception CommonRequest 标识为通用请求,任何用户可访问,不进行权限过滤
+     */
+    @ResponseBody
+    @CommonRequest
+    @RequestMapping(value = "/queryMerchantIdAndNameList", produces = "application/json")
+    public void queryMerchantIdAndNameList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel user = AppContext.getCurrentUser();
+
+        List<Map<String, Object>> merchantIdList = null;
+
+        //商家管理员可以查看当前信息
+        if (SysUserUtil.isMerchantRole(user)) {
+            merchantIdList = merchantService.queryMerchantIdAndNameList(user.getMerchantId());
+        }
+        //超级管理员可查询所有商家
+        else if (SysUserUtil.isAdminRole(user)) {
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null);
+        }
+
+        json.put("success", true);
+        json.put("msg", "查询成功");
+        json.put("merchantIdList", merchantIdList);
 
         writeJson(response, json.toString());
 

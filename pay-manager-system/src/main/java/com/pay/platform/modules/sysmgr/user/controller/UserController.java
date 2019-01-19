@@ -62,23 +62,23 @@ public class UserController extends BaseController {
         List<String> orgIdList = new ArrayList<String>();
         UserModel userModel = AppContext.getCurrentUser();
 
-        //选择机构,根据选择机构查看
-        if (StringUtil.isNotEmpty(orgId)) {
-            orgIdList.add(orgId);
-            if (isContainChildren == 1) {
-                organizationService.treeById(orgId, orgIdList);      //包含下级,则递归获取
-            }
-        }
-        //没有选择机构,默认查看当前用户可查看的所有信息
-        else {
-            orgId = userModel.getOrgId();
-            orgIdList.add(orgId);
-            organizationService.treeById(orgId, orgIdList);          //递归获取
-        }
+//        //选择机构,根据选择机构查看
+//        if (StringUtil.isNotEmpty(orgId)) {
+//            orgIdList.add(orgId);
+//            if (isContainChildren == 1) {
+//                organizationService.treeById(orgId, orgIdList);      //包含下级,则递归获取
+//            }
+//        }
+//        //没有选择机构,默认查看当前用户可查看的所有信息
+//        else {
+//            orgId = userModel.getOrgId();
+//            orgIdList.add(orgId);
+//            organizationService.treeById(orgId, orgIdList);          //递归获取
+//        }
 
         //设置分页信息
         setPageInfo(request);
-        return userService.queryUserList(nickname, account, orgIdList);
+        return userService.queryUserList(nickname, account, null);
     }
 
     /**
@@ -164,7 +164,7 @@ public class UserController extends BaseController {
 
             //如果修改自身,则需要刷新session用户数据
             UserModel currentUser = AppContext.getCurrentUser();
-            if(currentUser.getId().equals(user.getId())){
+            if (currentUser.getId().equals(user.getId())) {
                 currentUser.setNickname(user.getNickname());
                 currentUser.setAccount(user.getAccount());
                 currentUser.setPassword(Md5Util.md5_32(user.getPassword()));
@@ -268,7 +268,7 @@ public class UserController extends BaseController {
         organizationService.treeByModel(orgId, orgList);
 
         //查询该用户的组织机构 , 决定是否回显
-        if(StringUtil.isNotEmpty(userId)){
+        if (StringUtil.isNotEmpty(userId)) {
             OrganizationModel userOrgModel = userService.queryOrgInfoByUserId(userId);
             if (userOrgModel != null) {
                 orgList.forEach(orgModel -> {

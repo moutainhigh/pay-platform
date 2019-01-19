@@ -3,6 +3,7 @@ package com.pay.platform.modules.merchant.service;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pay.platform.modules.merchant.model.MerchantModel;
 
@@ -67,5 +68,12 @@ public interface MerchantService {
      * @return
      */
     MerchantModel queryMerchantByIMerchantNo(String merchantNo);
+
+    /**
+     * 查询商家id和名称
+     * @param merchantId
+     * @return
+     */
+    List<Map<String,Object>> queryMerchantIdAndNameList(String merchantId);
 
 }

@@ -56,19 +56,19 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">组织机构：</label>
-                <div class="col-md-8 col-sm-8">
-                    <div class="input-group">
-                        <input id="editOrgName" name="orgName" type="text" class="form-control" check-type="required" disabled value="${user.orgName}" >
-                        <input id="editOrgId" name="orgId" type="hidden"  >
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">组织机构：</label>--%>
+                <%--<div class="col-md-8 col-sm-8">--%>
+                    <%--<div class="input-group">--%>
+                        <%--<input id="editOrgName" name="orgName" type="text" class="form-control" check-type="required" disabled value="${user.orgName}" >--%>
+                        <%--<input id="editOrgId" name="orgId" type="hidden"  >--%>
 
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" type="button" onclick="pageScope.selectOrg();" >选择</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
+                        <%--<span class="input-group-btn">--%>
+                          <%--<button class="btn btn-default" type="button" onclick="pageScope.selectOrg();" >选择</button>--%>
+                        <%--</span>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">用户头像：</label>

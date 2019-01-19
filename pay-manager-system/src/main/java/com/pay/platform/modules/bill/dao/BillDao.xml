@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.bill.dao.BillDao">
+
+    <select id="queryEveryDayBill" resultType="java.util.Map">
+        select tab.create_time
+        , (   select tmer.merchant_no  from tb_merchant tmer    where tmer.id = #{merchantId}   ) as merchantNo
+        ,(
+        select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+        where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_Order_Amount
+        ,(
+        select IFNULL(sum(tor.merchant_amount) ,0) from tb_order tor
+        where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_Merchant_Amount
+        ,(
+        select IFNULL(sum(tor.handling_fee) ,0) from tb_order tor
+        where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_Handling_Fee
+        from (
+        select tca.create_time from tb_calendar tca where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
+        )
+        tab
+        <where>
+            <if test="beginTime != null and beginTime != '' ">
+                and to_days(tab.create_time) &gt;= to_days(#{beginTime})
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and to_days(tab.create_time) &lt;= to_days(#{endTime})
+            </if>
+        </where>
+
+    </select>
+
+</mapper>

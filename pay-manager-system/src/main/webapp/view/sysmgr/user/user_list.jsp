@@ -16,13 +16,7 @@
             </div>
             <div class="panel-body">
 
-                <div class="left-tree">
-                    <ul id="organizationTree" class="ztree"></ul>
-                </div>
-
-                <div class="tree-content-middle-line"></div>
-
-                <div class="right-content">
+                <div class="panel-body">
 
                     <!-- 搜索条件 -->
                     <form id="searchUserForm" method="post">
@@ -37,18 +31,18 @@
                                 <td width="80" align="right">登录账号：</td>
                                 <td width="150"><input ype="text" name="account" class="form-control btn-block" placeholder="" aria-describedby="basic-addon1"></td>
 
-                                <td width="80" align="right">包含下级：</td>
-                                <td width="150">
+                                <%--<td width="80" align="right">包含下级：</td>--%>
+                                <%--<td width="150">--%>
 
-                                    <label class="checkbox-inline">
-                                        <input type="radio" name="isContainChildren" value="1" checked > 是
-                                    </label>
+                                    <%--<label class="checkbox-inline">--%>
+                                        <%--<input type="radio" name="isContainChildren" value="1" checked> 是--%>
+                                    <%--</label>--%>
 
-                                    <label class="checkbox-inline">
-                                        <input type="radio" name="isContainChildren" value="0" > 不是
-                                    </label>
+                                    <%--<label class="checkbox-inline">--%>
+                                        <%--<input type="radio" name="isContainChildren" value="0"> 不是--%>
+                                    <%--</label>--%>
 
-                                </td>
+                                <%--</td>--%>
 
                                 <td colspan="2">
                                     <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">

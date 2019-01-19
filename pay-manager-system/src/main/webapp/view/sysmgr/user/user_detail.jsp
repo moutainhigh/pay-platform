@@ -36,10 +36,10 @@
                 <div class="col-md-8 col-sm-8 detail-content" id="detailPhone" ></div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">组织机构：</label>
-                <div class="col-md-8 col-sm-8 detail-content" id="detailOrgName" ></div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">组织机构：</label>--%>
+                <%--<div class="col-md-8 col-sm-8 detail-content" id="detailOrgName" ></div>--%>
+            <%--</div>--%>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">用户头像：</label>

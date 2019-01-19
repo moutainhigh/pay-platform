@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * UserModel: zjt
  * DateTime: 16/9/25 15:11
- *
+ * <p>
  * 用户实体 , 需实现UserDetails接口, 返回spring security所需信息
  */
 public class UserModel extends BaseModel implements UserDetails {
@@ -28,6 +28,7 @@ public class UserModel extends BaseModel implements UserDetails {
     private Date deleteTime;                        //删除时间
     private String phone;                           //手机号码
     private String orgId;                   //组织机构ID
+    private String merchantId;              //绑定的商户ID,根据此标识和角色码,确定当前用户是否为商家
 
 
     private List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();     //用户的角色列表(即以ROLE_开头的角色)
@@ -104,6 +105,7 @@ public class UserModel extends BaseModel implements UserDetails {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
+
     public String getId() {
         return id;
     }
@@ -176,9 +178,17 @@ public class UserModel extends BaseModel implements UserDetails {
         this.authorities = authorities;
     }
 
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
 
     /**
      * spring security所需数据
+     *
      * @return
      */
     @Override

@@ -61,4 +61,15 @@
         from tb_merchant where merchant_no = #{merchantNo}
     </select>
 
+    <select id="queryMerchantIdAndNameList" parameterType="java.lang.String" resultType="java.util.Map">
+        select id , merchant_name
+        from tb_merchant
+        <where>
+            and is_del = 0
+            <if test="merchantId != null and merchantId != '' ">
+                and id = #{merchantId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

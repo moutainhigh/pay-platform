@@ -2,6 +2,7 @@ package com.pay.platform.security;
 
 import org.springframework.util.StreamUtils;
 
+import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -44,6 +45,21 @@ public class ApiSecuirtyRequest extends HttpServletRequestWrapper {
         }
         final ByteArrayInputStream bais = new ByteArrayInputStream(requestBody);
         return new ServletInputStream() {
+            @Override
+            public boolean isFinished() {
+                return false;
+            }
+
+            @Override
+            public boolean isReady() {
+                return false;
+            }
+
+            @Override
+            public void setReadListener(ReadListener readListener) {
+
+            }
+
             @Override
             public int read() throws IOException {
                 return bais.read();

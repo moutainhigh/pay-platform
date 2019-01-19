@@ -1,5 +1,6 @@
 package com.pay.platform.modules.merchant.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -68,5 +69,12 @@ public interface MerchantDao {
      * @return
      */
     MerchantModel queryMerchantByIMerchantNo(String merchantNo);
+
+    /**
+     * 查询商家id和名称
+     * @param merchantId
+     * @return
+     */
+    List<Map<String,Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId);
 
 }
