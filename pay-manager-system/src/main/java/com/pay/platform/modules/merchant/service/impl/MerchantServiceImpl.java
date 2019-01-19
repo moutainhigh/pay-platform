@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -62,6 +64,16 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public Integer updateMerchant(MerchantModel merchant) {
         return merchantDao.updateMerchant(merchant);
+    }
+
+    @Override
+    public MerchantModel queryMerchantByIMerchantNo(String merchantNo) {
+        return merchantDao.queryMerchantByIMerchantNo(merchantNo);
+    }
+
+    @Override
+    public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId) {
+        return merchantDao.queryMerchantIdAndNameList(merchantId);
     }
 
 }
