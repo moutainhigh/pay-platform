@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-﻿  <!-- 配置默认环境配置 -->
+﻿  <!-- 配置默认环境配置  -->
     <context-param>
         <param-name>spring.profiles.default</param-name>
         <param-value>development</param-value>
