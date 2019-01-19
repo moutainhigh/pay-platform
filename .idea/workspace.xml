@@ -2,279 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7f83e82-399a-4271-ba21-918fd191438e" name="Default" comment="Merge branch 'master' of https://github.com/zhengjintao168/pay-platform&#10;&#10;# Conflicts:&#10;#&#9;.idea/artifacts/pay_api_service_war_exploded.xml&#10;#&#9;.idea/artifacts/pay_manager_system_war_exploded.xml&#10;#&#9;.idea/workspace.xml&#10;#&#9;pay-api-service/pay-api-service.iml&#10;#&#9;pay-manager-system/pay-manager-system.iml">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/enums/RoleCodeEnum.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/SysUserUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/controller/BillController.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/dao/BillDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/dao/BillDao.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/service/BillService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/service/impl/BillServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/bill/bill.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/bill/bill_list.jsp" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/pay_api_service_war.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__cglib_cglib_3_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_0_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_pagehelper_pagehelper_4_1_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_6_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_inject_guice_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_5_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jsp_jsp_api_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_11.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_jcip_jcip_annotations_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_nekohtml_nekohtml_1_9_20.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ognl_ognl_3_1_8.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ant_ant_1_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_ant_ant_launcher_1_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_freemarker_freemarker_2_3_20.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jasig_cas_client_cas_client_core_3_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_20_0_GA.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_json_json_20160212.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_openid4java_openid4java_nodeps_0_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_acl_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_aspects_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_cas_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_messaging_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_openid_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_remoting_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_taglibs_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_test_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aspects_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_instrument_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_instrument_tomcat_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jms_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_orm_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_portlet_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_websocket_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xercesImpl_2_10_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/pay-platform.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/artifacts/baseframe_war.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/artifacts/baseframe_war_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/kotlinc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__cglib_cglib_3_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_0_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__com_github_pagehelper_pagehelper_4_1_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__com_google_code_gson_gson_2_6_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__com_google_inject_guice_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__commons_pool_commons_pool_1_5_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__javax_servlet_jsp_jsp_api_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__junit_junit_4_11.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__net_jcip_jcip_annotations_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__net_sourceforge_nekohtml_nekohtml_1_9_20.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__ognl_ognl_3_1_8.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_apache_ant_ant_1_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_apache_ant_ant_launcher_1_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_freemarker_freemarker_2_3_20.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_jasig_cas_client_cas_client_core_3_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_javassist_javassist_3_20_0_GA.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_json_json_20160212.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_mybatis_mybatis_3_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_openid4java_openid4java_nodeps_0_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_acl_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_aspects_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_cas_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_config_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_core_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_messaging_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_openid_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_remoting_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_taglibs_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_test_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_security_spring_security_web_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_aspects_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_context_support_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_instrument_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_instrument_tomcat_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_jdbc_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_jms_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_messaging_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_orm_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_oxm_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_test_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_webmvc_portlet_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__org_springframework_spring_websocket_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__xerces_xercesImpl_2_10_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/pay-api-service.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-api-service/pay-manager-system.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/artifacts/baseframe_war.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/artifacts/baseframe_war_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/artifacts/pay_manager_system_war.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/artifacts/pay_manager_system_war_exploded.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/kotlinc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__cglib_cglib_3_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_0_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__com_github_pagehelper_pagehelper_4_1_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__com_google_code_gson_gson_2_6_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__com_google_inject_guice_2_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__commons_codec_commons_codec_1_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__commons_fileupload_commons_fileupload_1_3_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__commons_pool_commons_pool_1_5_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__javax_servlet_javax_servlet_api_3_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__javax_servlet_jsp_jsp_api_2_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__junit_junit_4_11.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__log4j_log4j_1_2_17.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__net_jcip_jcip_annotations_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__net_sourceforge_nekohtml_nekohtml_1_9_20.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__ognl_ognl_3_1_8.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_apache_ant_ant_1_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_apache_ant_ant_launcher_1_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_9.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_freemarker_freemarker_2_3_20.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_jasig_cas_client_cas_client_core_3_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_javassist_javassist_3_20_0_GA.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_json_json_20160212.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_mybatis_mybatis_3_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_openid4java_openid4java_nodeps_0_9_6.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_slf4j_slf4j_log4j12_1_7_7.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_acl_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_aspects_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_cas_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_config_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_core_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_messaging_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_openid_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_remoting_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_taglibs_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_test_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_security_spring_security_web_4_1_2_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_aop_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_aspects_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_beans_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_context_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_context_support_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_core_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_expression_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_instrument_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_instrument_tomcat_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_jdbc_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_jms_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_messaging_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_orm_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_oxm_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_test_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_tx_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_web_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_webmvc_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_webmvc_portlet_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__org_springframework_spring_websocket_4_2_6_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__xerces_xercesImpl_2_10_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/pay-manager-system/pay-manager-system.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/pay_api_service_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/pay_api_service_war_exploded.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/config/BizConstants.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/BuildNumberUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/PropertyUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/SnowSequenceUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/resources/config/parameterValue.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/security/ApiSecuirtyRequest.java" afterPath="$PROJECT_DIR$/pay-api-service/src/main/java/com/pay/platform/security/ApiSecuirtyRequest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/controller/MerchantController.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/controller/MerchantController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/model/MerchantModel.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/model/MerchantModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/sysmgr/user/controller/UserController.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/sysmgr/user/controller/UserController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/sysmgr/user/model/UserModel.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/sysmgr/user/model/UserModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_add.jsp" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_add.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_detail.jsp" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_detail.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_edit.jsp" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_edit.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_list.jsp" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_list.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/controller/PayChannelController.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/controller/PayChannelController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/dao/PayChannelDao.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/dao/PayChannelDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/dao/PayChannelDao.xml" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/dao/PayChannelDao.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/service/PayChannelService.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/service/PayChannelService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/service/impl/PayChannelServiceImpl.java" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/payChannel/service/impl/PayChannelServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/payChannel/payChannel.js" afterPath="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/payChannel/payChannel.js" />
     </list>
     <ignored path="$PROJECT_DIR$/pay-api-service/target/" />
     <ignored path="$PROJECT_DIR$/pay-manager-system/target/" />
@@ -327,6 +71,8 @@
       <find>to_days(tab.create_time</find>
       <find>day_order_amount</find>
       <find>dayOrderAmount</find>
+      <find>notifySecret</find>
+      <find>queryMerchantByIMerchantNo</find>
     </findStrings>
     <replaceStrings>
       <replace>writeEnjoyitActualPrice</replace>
@@ -367,14 +113,17 @@
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/controller/MerchantController.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java" />
-        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/service/BillService.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/service/impl/BillServiceImpl.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/dao/BillDao.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/controller/BillController.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/dao/BillDao.xml" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/bill/bill.js" />
+        <option value="$PROJECT_DIR$/pay-api-service/src/main/webapp/WEB-INF/web.xml" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/model/MerchantModel.java" />
         <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java" />
+        <option value="$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/encrypt/AESEncryptUtil.java" />
       </list>
     </option>
   </component>
@@ -453,62 +202,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pay-platform" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pay-manager-system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="platform" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pay-platform" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="pay-manager-system" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="platform" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="modules" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1132,22 +825,37 @@
       <workItem from="1547715039431" duration="3741000" />
       <workItem from="1547815342701" duration="1994000" />
       <workItem from="1547817734635" duration="5022000" />
-      <workItem from="1547898534402" duration="456000" />
+      <workItem from="1547898534402" duration="966000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge branch 'master' of https://github.com/zhengjintao168/pay-platform&#10;&#10;# Conflicts:&#10;#&#9;.idea/artifacts/pay_api_service_war_exploded.xml&#10;#&#9;.idea/artifacts/pay_manager_system_war_exploded.xml&#10;#&#9;.idea/workspace.xml&#10;#&#9;pay-api-service/pay-api-service.iml&#10;#&#9;pay-manager-system/pay-manager-system.iml">
+      <created>1547899043789</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1547899043789</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Merge branch 'master' of https://github.com/zhengjintao168/pay-platform&#10;&#10;# Conflicts:&#10;#&#9;.idea/artifacts/pay_api_service_war_exploded.xml&#10;#&#9;.idea/artifacts/pay_manager_system_war_exploded.xml&#10;#&#9;.idea/workspace.xml&#10;#&#9;pay-api-service/pay-api-service.iml&#10;#&#9;pay-manager-system/pay-manager-system.iml">
+      <created>1547899164706</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1547899164706</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11940000" />
+    <option name="totallyTimeSpent" value="12450000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="30" y="23" width="1703" height="963" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924107" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32924107" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1156,18 +864,19 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36394948" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295063" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel remote servers log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="15" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21252258" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="16" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1176,7 +885,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1202,56 +910,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/dao/BillDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="22" column="30" lean-forward="false" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/dao/BillDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="12" column="51" lean-forward="true" selection-start-line="12" selection-start-column="51" selection-end-line="12" selection-end-column="51" />
-          <folding>
-            <element signature="e#1480#1484#0" expanded="true" />
-            <element signature="e#1536#1540#0" expanded="true" />
-            <element signature="e#1703#1707#0" expanded="true" />
-            <element signature="e#1853#1857#0" expanded="true" />
-            <marker date="1547822617100" expanded="true" signature="284:1915" ph="select tab.c... create_time" />
-            <marker date="1547822617100" expanded="true" signature="321:400" ph="select tmer.... tb_merchant" />
-            <marker date="1547822617100" expanded="true" signature="1414:1556" ph="select tca.c... tb_calendar" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/controller/MerchantController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1340">
-          <caret line="85" column="46" lean-forward="false" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/sysmgr/user/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2160">
-          <caret line="132" column="38" lean-forward="true" selection-start-line="132" selection-start-column="38" selection-end-line="132" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_list.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="26" column="32" lean-forward="true" selection-start-line="26" selection-start-column="32" selection-end-line="26" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/sysmgr/user/user_add.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1160">
@@ -1283,6 +941,20 @@
           <caret line="26" column="55" lean-forward="true" selection-start-line="26" selection-start-column="55" selection-end-line="26" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#974#975#0" expanded="true" />
+            <element signature="e#1050#1051#0" expanded="true" />
+            <element signature="e#1121#1122#0" expanded="true" />
+            <element signature="e#1177#1178#0" expanded="true" />
+            <element signature="e#1777#1778#0" expanded="true" />
+            <element signature="e#1831#1832#0" expanded="true" />
+            <element signature="e#1903#1904#0" expanded="true" />
+            <element signature="e#1964#1965#0" expanded="true" />
+            <element signature="e#2039#2040#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+            <element signature="e#2186#2187#0" expanded="true" />
+            <element signature="e#2259#2260#0" expanded="true" />
+            <element signature="e#2359#2360#0" expanded="true" />
+            <element signature="e#2432#2433#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1474,26 +1146,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="75" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/webapp/view/bill/bill_list.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
           <caret line="19" column="72" lean-forward="false" selection-start-line="19" selection-start-column="62" selection-end-line="19" selection-end-column="72" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="77" column="94" lean-forward="false" selection-start-line="77" selection-start-column="94" selection-end-line="77" selection-end-column="94" />
           <folding />
         </state>
       </provider>
@@ -1518,19 +1174,6 @@
           <caret line="15" column="24" lean-forward="false" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1148">
-          <caret line="72" column="13" lean-forward="true" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="13" />
-          <folding>
-            <marker date="1547820564498" expanded="true" signature="1282:1332" ph="select * fro... tb_merchant" />
-            <marker date="1547820564498" expanded="true" signature="1416:1685" ph="insert into tb_merchant... " />
-            <marker date="1547820564498" expanded="true" signature="2208:2458" ph="update tb_me... " />
-            <marker date="1547820564498" expanded="true" signature="2587:2654" ph="select * fro... tb_merchant" />
           </folding>
         </state>
       </provider>
@@ -1588,16 +1231,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/controller/BillController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/sysmgr/user/service/impl/UserServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="282">
@@ -1626,16 +1259,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pay-manager-system/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1644,10 +1267,115 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/bill/controller/BillController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="686">
+          <caret line="39" column="5" lean-forward="true" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/webapp/web/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="5" column="10" lean-forward="true" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-api-service/src/main/webapp/WEB-INF/web.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="20" lean-forward="true" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/controller/MerchantController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="87" column="50" lean-forward="false" selection-start-line="87" selection-start-column="50" selection-end-line="87" selection-end-column="50" />
+        <state relative-caret-position="-2038">
+          <caret line="89" column="96" lean-forward="false" selection-start-line="89" selection-start-column="96" selection-end-line="89" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/MerchantService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="606">
+          <caret line="73" column="16" lean-forward="false" selection-start-line="73" selection-start-column="16" selection-end-line="73" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/model/MerchantModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="602">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/service/impl/MerchantServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="642">
+          <caret line="75" column="44" lean-forward="true" selection-start-line="75" selection-start-column="44" selection-end-line="75" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#974#975#0" expanded="true" />
+            <element signature="e#1050#1051#0" expanded="true" />
+            <element signature="e#1121#1122#0" expanded="true" />
+            <element signature="e#1177#1178#0" expanded="true" />
+            <element signature="e#1777#1778#0" expanded="true" />
+            <element signature="e#1831#1832#0" expanded="true" />
+            <element signature="e#1903#1904#0" expanded="true" />
+            <element signature="e#1964#1965#0" expanded="true" />
+            <element signature="e#2039#2040#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+            <element signature="e#2186#2187#0" expanded="true" />
+            <element signature="e#2259#2260#0" expanded="true" />
+            <element signature="e#2359#2360#0" expanded="true" />
+            <element signature="e#2432#2433#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="86" column="42" lean-forward="false" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="42" />
+          <folding>
+            <marker date="1547899219135" expanded="true" signature="1282:1332" ph="select * fro... tb_merchant" />
+            <marker date="1547899219135" expanded="true" signature="1416:2027" ph="insert into tb_merchant... " />
+            <marker date="1547899219135" expanded="true" signature="2550:2800" ph="update tb_me... " />
+            <marker date="1547899219135" expanded="true" signature="2929:2996" ph="select * fro... tb_merchant" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/modules/merchant/dao/MerchantDao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="71" column="0" lean-forward="true" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/encrypt/AESEncryptUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="92" column="31" lean-forward="true" selection-start-line="92" selection-start-column="31" selection-end-line="92" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pay-manager-system/src/main/java/com/pay/platform/common/util/AESUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="19" column="66" lean-forward="false" selection-start-line="19" selection-start-column="66" selection-end-line="19" selection-end-column="66" />
           <folding />
         </state>
       </provider>

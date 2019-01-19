@@ -43,6 +43,8 @@ public class MerchantModel extends BaseModel {
 
     private String notifySecret;                   //回调密钥
 
+    private String  notifySecret;  //回调密钥
+
     public String getId() {
         return this.id;
     }

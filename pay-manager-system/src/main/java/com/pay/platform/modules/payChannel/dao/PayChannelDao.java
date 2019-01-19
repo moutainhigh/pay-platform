@@ -62,4 +62,12 @@ public interface PayChannelDao {
      */
     Integer updatePayChannel(PayChannelModel payChannel);
 
+
+    /**
+     * 根据通道编码查询编号信息
+     * @param channelCode
+     * @return
+     */
+    PayChannelModel queryInfoByChannelCode(String channelCode);
+
 }

@@ -3,6 +3,18 @@
 
 <mapper namespace="com.pay.platform.modules.payChannel.dao.PayChannelDao">
 
+
+    <resultMap id="BaseResultMap" type="com.pay.platform.modules.payChannel.model.PayChannelModel">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="CHANNEL_CODE" jdbcType="VARCHAR" property="channelCode"/>
+        <result column="CHANNEL_NAME" jdbcType="VARCHAR" property="channelName"/>
+        <result column="COST_RATE" jdbcType="DOUBLE" property="costRate"/>
+        <result column="IS_DEL" jdbcType="INTEGER" property="isDel"/>
+        <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime"/>
+    </resultMap>
+
+
+
     <select id="queryPayChannelList" parameterType="PayChannelModel" resultType="PayChannelModel">
         select *
         from tb_pay_channel
@@ -46,5 +58,14 @@
         set channel_name = #{channelName} , cost_rate = #{costRate}
         where id = #{id}
     </update>
+
+    <select id="queryInfoByChannelCode" parameterType="java.lang.String" resultType="com.pay.platform.modules.payChannel.model.PayChannelModel">
+        select *
+        from
+        tb_pay_channel
+        where
+        CHANNEL_CODE = #{channelCode}
+        and IS_Del = 0
+    </select>
 
 </mapper>

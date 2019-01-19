@@ -2,6 +2,7 @@ package com.pay.platform.modules.merchant.service;
 
 import com.github.pagehelper.PageInfo;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public interface MerchantService {
      * @param merchant
      * @return
      */
-    Integer addMerchant(MerchantModel merchant);
+    Integer addMerchant(MerchantModel merchant) throws Exception;
 
     /**
      * 删除商家

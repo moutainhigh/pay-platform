@@ -1,17 +1,18 @@
 package com.pay.platform.modules.merchant.service.impl;
 
 import com.github.pagehelper.PageInfo;
-import com.pay.platform.modules.sysmgr.user.dao.UserDao;
-import com.pay.platform.modules.sysmgr.user.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.pay.platform.common.config.BizConstants;
+import com.pay.platform.common.util.BuildNumberUtils;
+import com.pay.platform.common.util.PropertyUtils;
+import com.pay.platform.common.util.encrypt.AESEncryptUtil;
+import com.pay.platform.modules.merchant.dao.MerchantDao;
 import com.pay.platform.modules.merchant.model.MerchantModel;
 import com.pay.platform.modules.merchant.service.MerchantService;
-import com.pay.platform.modules.merchant.dao.MerchantDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.UUID;
 
 
 /**
@@ -24,9 +25,6 @@ public class MerchantServiceImpl implements MerchantService {
     @Autowired
     private MerchantDao merchantDao;
 
-    @Autowired
-    private UserDao userDao;
-
     @Override
     public PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant) {
         return new PageInfo(merchantDao.queryMerchantList(merchant));
@@ -38,21 +36,17 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public Integer addMerchant(MerchantModel merchant) {
+    public Integer addMerchant(MerchantModel merchant) throws Exception {
+        //生产商家编号
+        String merchantNo = BuildNumberUtils.getMerchantNo();
+        merchant.setMerchantNo(merchantNo);
+        //设置商家的密钥
+        merchant.setMerchantSecret(UUID.randomUUID().toString().replaceAll("-", ""));
+        //设置商家的回调密钥
+        String notifySecret = UUID.randomUUID().toString().replaceAll("-", "").substring(16);
+        merchant.setNotifySecret(notifySecret);
 
-        //1, 添加商家信息
-        int count = merchantDao.addMerchant(merchant);
-
-        //2, 为商户添加账号,并绑定商家ID
-        UserModel userModel = new UserModel();
-
-
-        count += userDao.addUser(userModel);
-
-        //3, 为账号授予商家管理员角色
-
-        return count;
-
+        return merchantDao.addMerchant(merchant);
     }
 
     @Override
@@ -68,16 +62,6 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public Integer updateMerchant(MerchantModel merchant) {
         return merchantDao.updateMerchant(merchant);
-    }
-
-    @Override
-    public MerchantModel queryMerchantByIMerchantNo(String merchantNo) {
-        return merchantDao.queryMerchantByIMerchantNo(merchantNo);
-    }
-
-    @Override
-    public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId) {
-        return merchantDao.queryMerchantIdAndNameList(merchantId);
     }
 
 }
