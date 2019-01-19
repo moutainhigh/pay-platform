@@ -76,4 +76,11 @@ public interface RoleDao {
      */
     List<RoleModel> queryRoleListByPermissionId(String id);
 
+    /**
+     * 根据角色码查询角色
+     * @param code
+     * @return
+     */
+    RoleModel queryRoleByRoleCode(String code);
+
 }

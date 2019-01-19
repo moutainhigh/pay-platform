@@ -30,6 +30,12 @@
                                 <input type="text" name="payCode" id="queryPayCode" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
+                            <td width="80" align="right">所属商户：</td>
+                            <td width="150">
+                                <select name="merchantId" id="merchantId" class="form-control btn-block">
+                                </select>
+                            </td>
+
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"

@@ -5,6 +5,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +50,20 @@ public class OrderController extends BaseController {
     @RequestMapping(value = "/queryOrderList", produces = "application/json")
     public PageInfo<OrderModel> queryOrderList(HttpServletRequest request, HttpServletResponse response, OrderModel order) throws Exception {
         setPageInfo(request);
-        return orderService.queryOrderList(order);
+
+        UserModel userModel = AppContext.getCurrentUser();
+
+        //超级管理员：可查看到所有的商家,接收前端传递的商家id
+        if (SysUserUtil.isAdminRole(userModel)) {
+            return orderService.queryOrderList(order);
+        }
+        //商家管理员：只能查看自身,不接受前端传递参数
+        else if (SysUserUtil.isMerchantRole(userModel)) {
+            order.setMerchantId(userModel.getMerchantId());
+            return orderService.queryOrderList(order);
+        }
+
+        return null;
     }
 
 }

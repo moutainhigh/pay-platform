@@ -21,6 +21,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     }
                     $("#merchantId").html(str);
 
+                    loadBillTale();
+
                 } else {
                     btn.removeAttr("disabled");
                     $.msg.fail(response.msg);
@@ -33,50 +35,54 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         });
     }
 
-    pageScope.billTable = $('#billTable').initBootstrapTable({
-        url: baseURL + '/bill/queryEveryDayBill?_csrf=' + token,
-        method: 'post',
-        dataType: "json",
-        toolbar: '#billPager',
-        queryParams: function (params) {
-            $.extend(params, $('#searchBillForm').serializeObject());
-            return params;
-        },
-        onClickRow: function (row, tr) {
-            pageScope.currentrow = row;
-        },
-        responseHandler: function (response) {
-            console.log(JSON.stringify(response));
-            var griddata = {};
-            try {
-                griddata.rows = response.list || [];
-                griddata.total = response.total || 0;
-            } catch (e) {
-            }
-            return griddata;
-        },
-        columns: [
-            {title: '全选', checkbox: true},
-            {
-                title: '序号',
-                align: 'center',
-                width: 46,
-                formatter: function () {
-                    return arguments[2] + 1;
-                }
+   function loadBillTale(){
+
+        pageScope.billTable = $('#billTable').initBootstrapTable({
+            url: baseURL + '/bill/queryEveryDayBill?_csrf=' + token,
+            method: 'post',
+            dataType: "json",
+            toolbar: '#billPager',
+            queryParams: function (params) {
+                $.extend(params, $('#searchBillForm').serializeObject());
+                return params;
             },
-            {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
-            {
-                title: '日期', field: 'create_time', align: 'center', sortable: true,
-                formatter: function (value) {
-                    return $.date.formatToDate(value);
-                }
+            onClickRow: function (row, tr) {
+                pageScope.currentrow = row;
             },
-            {title: '收款总金额(元)', field: 'day_Order_Amount', align: 'center', sortable: true},
-            {title: '商家实收金额(元)', field: 'day_Merchant_Amount', align: 'center', sortable: true},
-            {title: '交易手续费(元)', field: 'day_Handling_Fee', align: 'center', sortable: true},
-        ]
-    });
+            responseHandler: function (response) {
+                console.log(JSON.stringify(response));
+                var griddata = {};
+                try {
+                    griddata.rows = response.list || [];
+                    griddata.total = response.total || 0;
+                } catch (e) {
+                }
+                return griddata;
+            },
+            columns: [
+                {title: '全选', checkbox: true},
+                {
+                    title: '序号',
+                    align: 'center',
+                    width: 46,
+                    formatter: function () {
+                        return arguments[2] + 1;
+                    }
+                },
+                {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
+                {
+                    title: '日期', field: 'create_time', align: 'center', sortable: true,
+                    formatter: function (value) {
+                        return $.date.formatToDate(value);
+                    }
+                },
+                {title: '收款总金额(元)', field: 'day_Order_Amount', align: 'center', sortable: true},
+                {title: '商家实收金额(元)', field: 'day_Merchant_Amount', align: 'center', sortable: true},
+                {title: '交易手续费(元)', field: 'day_Handling_Fee', align: 'center', sortable: true},
+            ]
+        });
+
+    }
 
     /**
      * 查询

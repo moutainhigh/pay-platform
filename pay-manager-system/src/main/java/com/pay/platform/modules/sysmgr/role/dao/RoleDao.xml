@@ -73,6 +73,9 @@
 
     </select>
 
-
+    <select id="queryRoleByRoleCode" parameterType="java.lang.String" resultType="RoleModel" >
+        select * from tb_sys_role
+        where code = #{code}
+    </select>
 
 </mapper>

@@ -5,6 +5,34 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
  */
 (function () {
 
+    queryMerchantIdAndNameList();
+
+    function queryMerchantIdAndNameList() {
+        $.ajax({
+            type: "post",
+            url: baseURL + "/merchant/queryMerchantIdAndNameList?_csrf=" + token,
+            dataType: "json",
+            success: function (response) {
+                if (response && response.success == true) {
+                    var str = "<option value=''>请选择</option>";
+
+                    for (var i = 0; i < response.merchantIdList.length; i++) {
+                        str += "  <option  value='" + response.merchantIdList[i].id + "'>" + response.merchantIdList[i].merchant_name + " </option> ";
+                    }
+                    $("#merchantId").html(str);
+
+                } else {
+                    btn.removeAttr("disabled");
+                    $.msg.fail(response.msg);
+                    return false;
+                }
+            },
+            error: function () {
+                return false;
+            }
+        });
+    }
+
     pageScope.orderTable = $('#orderTable').initBootstrapTable({
         url: baseURL + '/order/queryOrderList?_csrf=' + token,
         method: 'post',

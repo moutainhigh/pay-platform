@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * UserModel: zjt
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer addUser(UserModel user) {
+        user.setId(UUID.randomUUID().toString());
         return userDao.addUser(user);
     }
 

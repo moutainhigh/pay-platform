@@ -31,7 +31,7 @@
         from tb_merchant where id = #{id}
     </select>
 
-    <insert id="addMerchant" parameterType="MerchantModel">
+    <insert id="addMerchant" parameterType="MerchantModel" >
         insert into
         tb_merchant
         (
@@ -49,7 +49,7 @@
          merchant_secret
          )
         values(
-         uuid(),
+         #{id},
          #{merchantName},
          #{phone},
          #{realName},

@@ -22,7 +22,9 @@
             <if test="merchantNo != null and merchantNo != '' ">
                 and merchant_no like CONCAT('%','${merchantNo}','%')
             </if>
-
+            <if test="merchantId != null and merchantId != '' ">
+                and merchant_id = #{merchantId}
+            </if>
             <if test="payWay != null and payWay != '' ">
                 and pay_way = #{payWay}
             </if>

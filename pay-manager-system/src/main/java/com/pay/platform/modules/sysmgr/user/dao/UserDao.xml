@@ -11,7 +11,7 @@
 
     <insert id="addUser" parameterType="UserModel">
         insert into tb_sys_user(ID,NICKNAME,ACCOUNT,PASSWORD,PHONE,AVATAR,CREATE_TIME,ORG_ID , EXTEND_IMG_URL)
-        values(uuid() , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} );
+        values( #{id} , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} );
     </insert>
 
     <delete id="deleteUser">
