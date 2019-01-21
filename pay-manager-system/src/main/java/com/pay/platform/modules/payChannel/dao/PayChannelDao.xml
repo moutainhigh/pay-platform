@@ -68,4 +68,13 @@
         and IS_Del = 0
     </select>
 
+
+    <select id="queryAllPayChannelList" resultType="PayChannelModel">
+        select *
+        from tb_pay_channel
+        <where>
+            and is_del = 0
+        </where>
+    </select>
+
 </mapper>

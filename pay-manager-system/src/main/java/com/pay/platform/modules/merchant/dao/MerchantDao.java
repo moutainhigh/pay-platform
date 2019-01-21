@@ -77,4 +77,11 @@ public interface MerchantDao {
      */
     List<Map<String,Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId);
 
+
+    /**
+     * 审核
+     * @param merchant
+     * @return
+     */
+    Integer review(MerchantModel merchant);
 }

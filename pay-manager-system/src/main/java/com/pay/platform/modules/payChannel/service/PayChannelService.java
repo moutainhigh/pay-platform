@@ -68,4 +68,10 @@ public interface PayChannelService {
      */
     Integer updatePayChannel(PayChannelModel payChannel);
 
+    /**
+     * 根据通道编码查询编号信息
+     * @return
+     */
+    List<PayChannelModel> queryAllPayChannelList();
+
 }

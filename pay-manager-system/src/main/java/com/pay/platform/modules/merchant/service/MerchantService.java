@@ -77,4 +77,12 @@ public interface MerchantService {
      */
     List<Map<String,Object>> queryMerchantIdAndNameList(String merchantId);
 
+
+    /**
+     * 审核
+     * @param merchant
+     * @return
+     */
+    Integer review(MerchantModel merchant);
+
 }

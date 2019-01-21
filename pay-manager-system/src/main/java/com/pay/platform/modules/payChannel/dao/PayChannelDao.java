@@ -70,4 +70,12 @@ public interface PayChannelDao {
      */
     PayChannelModel queryInfoByChannelCode(String channelCode);
 
+
+    /**
+     * 读取所有的费率信息
+     *
+     * @return
+     */
+    List<PayChannelModel> queryAllPayChannelList();
+
 }

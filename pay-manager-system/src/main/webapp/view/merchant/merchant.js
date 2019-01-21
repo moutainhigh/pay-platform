@@ -42,6 +42,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {title: '真实姓名', field: 'realName', align: 'center', sortable: true},
             {title: '身份证号码', field: 'identityCode', align: 'center', sortable: true},
             {
+                title: '状态', field: 'checkStatus', align: 'center', sortable: true, formatter: function (value) {
+                    return value == "waitCheck" ? "待审核" : value == "success" ? "通过" : "失败";
+                }
+            },
+            {
                 title: '操作',
                 align: 'center',
                 formatter: function (value, row, index) {
@@ -49,8 +54,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.editMerchant()' ><i class='glyphicon glyphicon-pencil'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteMerchantByLogic(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' >审核</button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' >设置费率</button>";
+                    if (row.checkStatus == "waitCheck") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
+                    }
+                    if (row.checkStatus == "success") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.rate()' >设置费率</button>";
+                    }
 
                     return html;
                 }
@@ -136,7 +145,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         $.msg.success(response.msg);
                         pageScope.merchantTable.bootstrapTable('refresh');
                     } else {
-                        $.msg.fail(response.msg);
+                        $.msg.error(response.msg);
                     }
 
                 }
@@ -171,7 +180,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         $.msg.success(response.msg);
                         pageScope.merchantTable.bootstrapTable('refresh');
                     } else {
-                        $.msg.fail(response.msg);
+                        $.msg.error(response.msg);
                     }
 
                 }
@@ -242,13 +251,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                                 $(".modal-footer .btn-danger").trigger("click");
                                 pageScope.merchantTable.bootstrapTable('refresh');
                             } else {
-                                $.msg.fail(response.msg);
+                                $.msg.error(response.msg);
                                 return false;
                             }
 
                         },
                         error: function () {
-                            $.msg.fail('修改失败，可能是由网络原因引起的，请稍候再试');
+                            $.msg.error('修改失败，可能是由网络原因引起的，请稍候再试');
                             btn.removeAttr("disabled");
                             return false;
                         }
@@ -295,11 +304,149 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailCheckStatus").val(pageScope.currentrow.checkStatus);
                 $("#detailCheckDesc").val(pageScope.currentrow.checkDesc);
                 $("#detailIsDel").val(pageScope.currentrow.isDel);
+                var checkStatus = pageScope.currentrow.checkStatus;
+                $("#checkStatus").val(checkStatus == "waitCheck" ? "待审核" : checkStatus == "success" ? "审核通过" : "审核失败");
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
+                $("#checkDesc").text(pageScope.currentrow.checkDesc);
 
             }
         });
 
     };
+    /**
+     * 审核
+     * @param id
+     */
+    pageScope.review = function () {
+
+        $.dialog.show({
+            url: baseURL + "/view/merchant/merchant_review.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+
+                $("#reviewId").val(pageScope.currentrow.id);
+
+
+            },
+            buttonEvents: {
+                success: function () {
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    $('#reviewMerchantForm').ajaxSubmit({
+                        dataType: 'json',
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.merchantTable.bootstrapTable('refresh');
+                            } else {
+                                $.msg.error(response.msg);
+                                return false;
+                            }
+
+                        },
+                        error: function () {
+                            $.msg.error('修改失败，可能是由网络原因引起的，请稍候再试');
+                            btn.removeAttr("disabled");
+                            return false;
+                        }
+                    });
+
+                    return false;
+
+                }
+            }
+        });
+
+    };
+
+
+    /**
+     * 設置費率
+     * @param id
+     */
+    pageScope.rate = function () {
+
+        $.dialog.show({
+            url: baseURL + "/view/merchant/merchant_rate.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+                $("#merchantId").val(pageScope.currentrow.id);
+                queryAllPayChannelList();
+            },
+            buttonEvents: {
+                success: function () {
+
+                    var rate = $("#rate").val();
+                    var nowRate = $("#costRate").val();
+                    if(rate>nowRate){
+                        $.msg.error('费率比通道费率低！');
+                        return;
+                    }
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    $('#reviewMerchantForm').ajaxSubmit({
+                        dataType: 'json',
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.merchantTable.bootstrapTable('refresh');
+                            } else {
+                                $.msg.error(response.msg);
+                                return false;
+                            }
+
+                        },
+                        error: function () {
+                            $.msg.error('修改失败，可能是由网络原因引起的，请稍候再试');
+                            btn.removeAttr("disabled");
+                            return false;
+                        }
+                    });
+
+                    return false;
+
+                }
+            }
+        });
+
+    };
+
+
+    /**
+     * 读取所有通道
+     * @param channelCode
+     */
+    function queryAllPayChannelList() {
+
+        $.ajax({
+            url: baseURL + "/payChannel/queryAllPayChannelList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str="";
+                    for (var i=0;i<data.length;i++){
+                        str+="<option  rate='"+data[i].costRate+"' value='"+data[i].id+"'>"+data[i].channelName+"<"+data[i].costRate+"></option>";
+                    }
+                    $("#costRate").val(data[0].costRate);
+                    $("#channel").html(str);
+                } else {
+                    $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
+                }
+
+            }
+        });
+    };
+
 
 })();

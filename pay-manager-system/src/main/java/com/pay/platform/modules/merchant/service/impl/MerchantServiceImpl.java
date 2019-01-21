@@ -112,4 +112,14 @@ public class MerchantServiceImpl implements MerchantService {
         return merchantDao.queryMerchantIdAndNameList(merchantId);
     }
 
+    /**
+     * 审核商家
+     * @param merchant
+     * @return
+     */
+    @Override
+    public Integer review(MerchantModel merchant) {
+        return merchantDao.review(merchant);
+    }
+
 }

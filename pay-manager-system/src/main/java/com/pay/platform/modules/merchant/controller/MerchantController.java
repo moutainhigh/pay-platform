@@ -224,4 +224,33 @@ public class MerchantController extends BaseController {
 
     }
 
+
+    /**
+     * 审核
+     *
+     * @param request
+     * @param response
+     * @param merchant
+     * @throws Exception
+     */
+    @RequestMapping(value = "/review", produces = "application/json",method = RequestMethod.POST)
+    @SystemControllerLog(module = "商家管理", operation = "审核商家")
+    public void review(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer count = merchantService.review(merchant);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "修改成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "修改失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
 }

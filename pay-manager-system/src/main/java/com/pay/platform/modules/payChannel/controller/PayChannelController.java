@@ -70,25 +70,6 @@ public class PayChannelController extends BaseController {
 
     }
 
-    /**
-     * 校验channelCode是否存在
-     *
-     * @param response
-     * @param channelCode
-     * @throws Exception
-     */
-    @RequestMapping(value = "/queryInfoByChannelCode", produces = "application/json")
-    public void queryInfoByChannelCode(HttpServletResponse response, String channelCode) throws Exception {
-
-        JSONObject json = new JSONObject();
-
-        PayChannelModel payChannel = payChannelService.queryInfoByChannelCode(channelCode);
-
-        json.put("success", payChannel==null?true:false);
-        writeJson(response, json.toString());
-
-    }
-
 
     /**
      * 新增通道
@@ -102,6 +83,13 @@ public class PayChannelController extends BaseController {
     public void addPayChannel(HttpServletResponse response, PayChannelModel payChannel) throws Exception {
 
         JSONObject json = new JSONObject();
+
+        if (null != payChannelService.queryInfoByChannelCode(payChannel.getChannelCode())) {
+            json.put("success", false);
+            json.put("msg", "通道编号已经存在");
+            writeJson(response, json.toString());
+            return;
+        }
 
         Integer count = payChannelService.addPayChannel(payChannel);
 
@@ -146,7 +134,7 @@ public class PayChannelController extends BaseController {
 
     /**
      * 逻辑删除通道 - 字段为isDel
-     *
+     *addPayChannel
      * @param response
      * @param ids
      * @throws Exception
@@ -197,6 +185,24 @@ public class PayChannelController extends BaseController {
 
         writeJson(response, json.toString());
 
+    }
+
+    /**
+     * 读取所有的通道费率信息
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryAllPayChannelList", produces = "application/json", method = RequestMethod.POST)
+    public void queryAllPayChannelList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        JSONObject json = new JSONObject();
+        final List<PayChannelModel> list = payChannelService.queryAllPayChannelList();
+        json.put("success", true);
+        json.put("data", list);
+        writeJson(response, json.toString());
     }
 
 }

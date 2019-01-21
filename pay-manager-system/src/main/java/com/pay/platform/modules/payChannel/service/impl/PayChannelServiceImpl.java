@@ -63,4 +63,13 @@ public class PayChannelServiceImpl implements PayChannelService {
         return payChannelDao.updatePayChannel(payChannel);
     }
 
+    /**
+     * 根据通道编码查询编号信息
+     * @return
+     */
+    @Override
+    public List<PayChannelModel> queryAllPayChannelList() {
+        return payChannelDao.queryAllPayChannelList();
+    }
+
 }

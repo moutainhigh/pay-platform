@@ -47,6 +47,14 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">状态：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input id="checkStatus" type="text" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+
+
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">身份证号码：</label>
@@ -85,7 +93,13 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
-
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">备注：</label>
+                <div class="col-md-8 col-sm-8" >
+                    <div class="kv-avatar" style="margin-top:6px" id="checkDesc">
+                    </div>
+                </div>
+            </div>
         </form>
 
     </div>

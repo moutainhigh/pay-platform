@@ -100,4 +100,15 @@
         </where>
     </select>
 
+
+    <update id="review" parameterType="MerchantModel">
+        update tb_merchant
+        set
+            check_status=#{checkStatus,jdbcType=VARCHAR},
+            check_desc=#{checkDesc,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR} and check_status='waitCheck'
+    </update>
+
+
+
 </mapper>
