@@ -12,11 +12,11 @@
 <div class="modal-body">
     <div class="bootbox-body">
 
-        <form id="reviewMerchantForm" action="${baseURL}/merchant/" class="form-horizontal"  method="post">
+        <form id="reviewMerchantForm" action="${baseURL}/merchantRate/add" class="form-horizontal"  method="post">
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" id="merchantId" name="merchantId"/>
-            <input type="hidden" id="rate"/>
+            <input type="hidden" id="costRate"/>
 
 
             <div class="form-group">
@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">费率：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="costRate" name="costRate" type="text" class="form-control" check-type="required number" range="0~1" placeholder="请输入成本费率(千分之5,请输入0.005)"/>
+                    <input id="rate" name="rate" type="text" class="form-control" check-type="required number" range="0~1" placeholder="请输入成本费率(千分之5,请输入0.005)"/>
                 </div>
             </div>
 
@@ -60,6 +60,6 @@
      */
     function selectChange(obj) {
         var rate =  $("#channel").find("option:selected").attr("rate");
-        $("#rate").val(rate);
+        $("#costRate").val(rate);
     }
 </script>

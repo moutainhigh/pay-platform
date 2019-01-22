@@ -379,8 +379,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             buttonEvents: {
                 success: function () {
 
-                    var rate = $("#rate").val();
-                    var nowRate = $("#costRate").val();
+                    var rate = $("#costRate").val();
+                    var nowRate = $("#rate").val();
                     if(rate>nowRate){
                         $.msg.error('费率比通道费率低！');
                         return;
