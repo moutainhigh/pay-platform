@@ -16,6 +16,7 @@ public interface OrderDao {
 
     /**
      * 根据订单号查询订单：商家单号、平台单号
+     *
      * @param orderNo
      * @return
      */
@@ -23,6 +24,7 @@ public interface OrderDao {
 
     /**
      * 更新回调商户状态
+     *
      * @param orderNo
      * @param notifyStatus
      * @return
@@ -31,8 +33,20 @@ public interface OrderDao {
 
     /**
      * 查询待推送商家的订单
+     *
      * @return
      */
     List<OrderModel> queryWaitPushMerchantOrder();
+
+    /**
+     * 更新支付信息
+     *
+     * @param platformOrderNo
+     * @param payNo
+     * @param payStatus
+     * @param payTime
+     * @return
+     */
+    int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo, @Param("payStatus") String payStatus, @Param("payTime") String payTime);
 
 }

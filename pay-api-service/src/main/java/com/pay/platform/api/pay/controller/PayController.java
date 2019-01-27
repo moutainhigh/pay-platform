@@ -2,8 +2,10 @@ package com.pay.platform.api.pay.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.notify.service.MerchantNotifyService;
+import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.AESUtil;
+import com.pay.platform.common.util.DateUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * User: zjt
@@ -26,6 +29,9 @@ public class PayController extends BaseController {
 
     @Autowired
     private MerchantNotifyService merchantNotifyService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -91,50 +97,22 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/openApi/testRedisLock", method = {RequestMethod.POST, RequestMethod.GET})
     public void testRedisLock(HttpServletRequest request, HttpServletResponse response, String data) throws Exception {
 
-        String key = "payCallback::12345";
         for (int i = 0; i < 10; i++) {
-            new Thread(new TestRedisLockTast(key)).start();
+            new Thread(new TestRedisLockTast()).start();
         }
 
     }
 
-    private static int count = 0;
 
     class TestRedisLockTast implements Runnable {
-
-        private String key = null;
-
-        TestRedisLockTast(String key) {
-            this.key = key;
-        }
 
         @Override
         public void run() {
 
-            RedisLock lock = null;
-
             try {
-
-                lock = new RedisLock(redisTemplate, key);
-
-                //加上分布式锁,避免重复回调执行
-                if (lock.lock()) {
-                    count++;
-                    System.out.println(System.currentTimeMillis() + " ---> 执行 --> " + count + " --> " + key);
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+                orderService.paySuccessBusinessHandle("bbb2223" , UUID.randomUUID().toString() , DateUtil.getCurrentDateTime());
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                if (lock != null) {
-                    lock.unlock();              //释放分布式锁
-                }
             }
 
         }

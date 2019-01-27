@@ -25,4 +25,13 @@ public interface OrderService {
      */
     List<OrderModel> queryWaitPushMerchantOrder();
 
+    /**
+     * 支付成功回调 - 业务处理
+     * @param platformOrderNo
+     * @param payNo
+     * @param payTime
+     * @return
+     */
+    boolean paySuccessBusinessHandle(String platformOrderNo , String payNo , String payTime) throws Exception;
+
 }
