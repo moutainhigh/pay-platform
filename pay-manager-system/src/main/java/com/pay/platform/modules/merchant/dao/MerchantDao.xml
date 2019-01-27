@@ -4,7 +4,16 @@
 <mapper namespace="com.pay.platform.modules.merchant.dao.MerchantDao">
 
     <select id="queryMerchantList" parameterType="MerchantModel" resultType="MerchantModel">
-        select *
+        select
+        id,
+        merchant_no,
+        merchant_name,
+        phone,
+        real_name,
+        check_status,
+        identity_code,
+        create_time,
+        check_desc
         from tb_merchant
         <where>
             and is_del = 0
@@ -27,41 +36,50 @@
     </select>
 
     <select id="queryMerchantById" parameterType="java.lang.String" resultType="MerchantModel">
-        select *
-        from tb_merchant where id = #{id}
+        select
+            id,
+            merchant_no,
+            merchant_name,
+            phone,
+            real_name,
+            check_status,
+            create_time,
+            identity_code,
+            id_card_img1,
+            id_card_img2,
+            icp_img,
+            check_desc
+        from tb_merchant
+        where id = #{id}
     </select>
 
-    <insert id="addMerchant" parameterType="MerchantModel" >
+    <insert id="addMerchant" parameterType="MerchantModel">
         insert into
-        tb_merchant
-        (
-        id ,
-         merchant_name ,
-         phone ,
-         real_name ,
-         identity_code ,
-         id_card_img1 ,
-         id_card_img2 ,
-         icp_img ,
+            tb_merchant
+        (id,
+         merchant_name,
+         phone,
+         real_name,
+         identity_code,
+         id_card_img1,
+         id_card_img2,
+         icp_img,
          create_time,
          merchant_no,
          notify_secret,
-         merchant_secret
-         )
-        values(
-         #{id},
-         #{merchantName},
-         #{phone},
-         #{realName},
-         #{identityCode},
-         #{idCardImg1},
-         #{idCardImg2},
-         #{icpImg},
-         now(),
-         #{merchantNo},
-         #{notifySecret},
-         #{merchantSecret}
-         );
+         merchant_secret)
+        values (#{id},
+                #{merchantName},
+                #{phone},
+                #{realName},
+                #{identityCode},
+                #{idCardImg1},
+                #{idCardImg2},
+                #{icpImg},
+                now(),
+                #{merchantNo},
+                #{notifySecret},
+                #{merchantSecret});
     </insert>
 
     <delete id="deleteMerchant">
@@ -80,13 +98,20 @@
 
     <update id="updateMerchant" parameterType="MerchantModel">
         update tb_merchant
-        set merchant_name = #{merchantName} , phone = #{phone} , real_name = #{realName} , identity_code = #{identityCode} , id_card_img1 = #{idCardImg1} , id_card_img2 = #{idCardImg2} , icp_img = #{icpImg}
+        set merchant_name = #{merchantName},
+            phone         = #{phone},
+            real_name     = #{realName},
+            identity_code = #{identityCode},
+            id_card_img1  = #{idCardImg1},
+            id_card_img2  = #{idCardImg2},
+            icp_img       = #{icpImg}
         where id = #{id}
     </update>
 
     <select id="queryMerchantByIMerchantNo" parameterType="java.lang.String" resultType="MerchantModel">
         select *
-        from tb_merchant where merchant_no = #{merchantNo}
+        from tb_merchant
+        where merchant_no = #{merchantNo}
     </select>
 
     <select id="queryMerchantIdAndNameList" parameterType="java.lang.String" resultType="java.util.Map">
@@ -106,9 +131,9 @@
         set
             check_status=#{checkStatus,jdbcType=VARCHAR},
             check_desc=#{checkDesc,jdbcType=VARCHAR}
-        where id = #{id,jdbcType=VARCHAR} and check_status='waitCheck'
+        where id = #{id,jdbcType=VARCHAR}
+          and check_status = 'waitCheck'
     </update>
-
 
 
 </mapper>
