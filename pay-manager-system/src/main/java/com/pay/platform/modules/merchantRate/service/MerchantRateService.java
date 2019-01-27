@@ -20,4 +20,11 @@ public interface MerchantRateService {
      * @return
      */
     List<MerchantRateListModel> queryMerchantRateList(String merchantId);
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    Integer delete(String id);
 }

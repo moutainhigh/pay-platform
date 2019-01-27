@@ -10,6 +10,9 @@ import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.merchantRate.model.MerchantRateListModel;
+import com.pay.platform.modules.merchantRate.model.MerchantRateModel;
+import com.pay.platform.modules.merchantRate.service.MerchantRateService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
@@ -41,6 +44,9 @@ public class MerchantController extends BaseController {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired
+    private MerchantRateService service;
 
     /**
      * 分页查询商家列表
@@ -251,6 +257,57 @@ public class MerchantController extends BaseController {
 
         writeJson(response, json.toString());
 
+    }
+
+
+
+
+
+    @RequestMapping(value = "/add", produces = "application/json")
+    @SystemControllerLog(module = "商家費率", operation = "新增費率")
+    public void addPayChannel(HttpServletResponse response, MerchantRateModel model) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer count = service.add(model);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "新增成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "新增失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+
+    @RequestMapping(value = "/queryMerchantRateList", produces = "application/json")
+    @SystemControllerLog(module = "商家費率", operation = "查詢商家費率列表")
+    public void queryMerchantRateList(HttpServletResponse response, String merchantId) throws Exception {
+        JSONObject json = new JSONObject();
+        List<MerchantRateListModel> merchantRateListModels = service.queryMerchantRateList(merchantId);
+        json.put("success", true);
+        json.put("msg", "查询成功");
+        json.put("data", merchantRateListModels);
+        writeJson(response, json.toString());
+    }
+
+    @RequestMapping(value = "/delete", produces = "application/json")
+    @SystemControllerLog(module = "商家費率", operation = "删除费率")
+    public void delete(HttpServletResponse response, String id) throws Exception {
+        JSONObject json = new JSONObject();
+        final Integer delete = service.delete(id);
+        if (delete == 1) {
+            json.put("success", true);
+            json.put("msg", "查询成功");
+        }else{
+            json.put("success", false);
+            json.put("msg", "查询失敗");
+        }
+        writeJson(response, json.toString());
     }
 
 }

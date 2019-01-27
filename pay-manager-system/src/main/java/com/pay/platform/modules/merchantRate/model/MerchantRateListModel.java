@@ -11,6 +11,16 @@ public class MerchantRateListModel extends BaseModel {
 
     private BigDecimal rate;                //商家费率
 
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getChannelName() {
         return channelName;
     }

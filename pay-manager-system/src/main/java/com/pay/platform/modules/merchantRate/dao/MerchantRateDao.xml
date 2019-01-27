@@ -15,6 +15,7 @@
     <resultMap id="ListMap" type="com.pay.platform.modules.merchantRate.model.MerchantRateListModel">
         <result column="CHANNEL_NAME" jdbcType="VARCHAR" property="channelName"/>
         <result column="RATE" jdbcType="NUMERIC" property="rate"/>
+        <result column="ID" jdbcType="VARCHAR" property="id"/>
     </resultMap>
 
 
@@ -28,12 +29,18 @@
     <!--查询商家的渠道费率-->
     <select id="queryMerchantRateList" resultMap="ListMap">
         select
-          t1.rate RATE,t2.channel_name CHANNEL_NAME
+          t1.rate RATE,t2.channel_name CHANNEL_NAME,t1.ID
         from
           tb_merchant_rate t1 left join tb_pay_channel t2 on t1.channel_id = t2.id
         where
           merchant_id=#{merchantId}
-         where t1.is_del = 0
     </select>
+
+
+    <!--查询商家的渠道费率-->
+    <delete id="delete" >
+        delete from tb_merchant_rate where id=#{id}
+    </delete>
+
 
 </mapper>

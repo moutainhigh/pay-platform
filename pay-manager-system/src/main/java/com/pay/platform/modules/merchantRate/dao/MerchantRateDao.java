@@ -26,4 +26,11 @@ public interface MerchantRateDao {
      */
     List<MerchantRateListModel> queryMerchantRateList(@Param("merchantId") String merchantId);
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    Integer delete(@Param("id") String id);
+
 }

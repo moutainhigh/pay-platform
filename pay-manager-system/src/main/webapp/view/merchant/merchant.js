@@ -375,6 +375,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             onLoad: function () {
                 $("#merchantId").val(pageScope.currentrow.id);
                 queryAllPayChannelList();
+                selectMerchantRate(pageScope.currentrow.id);
             },
             buttonEvents: {
                 success: function () {
@@ -396,8 +397,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
                             if (response && response.success) {
                                 $.msg.success(response.msg);
-                                $(".modal-footer .btn-danger").trigger("click");
-                                pageScope.merchantTable.bootstrapTable('refresh');
+                                selectMerchantRate(pageScope.currentrow.id);
                             } else {
                                 $.msg.error(response.msg);
                                 return false;
@@ -447,6 +447,40 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             }
         });
     };
+
+
+    /**
+     * 读取商家的费率列表
+     */
+    function selectMerchantRate(merchantId) {
+        $.ajax({
+            url: baseURL + "/merchant/queryMerchantRateList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token,"merchantId":merchantId},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str="";
+                    for (var i=0;i<data.length;i++){
+                        str+=' <tr class="active" id="'+data[i].id+'" >';
+                        str+='<td>'+data[i].channelName+'</td>' +
+                            '<td>'+data[i].rate+'</td>' +
+                            '<td><button   onclick="del(\''+data[i].id+'\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
+                        str+=' </tr>';
+                    }
+                    $("#rateList").html(str);
+                } else {
+                    $.msg.error('读取费率失败');
+                }
+
+            }
+        });
+    };
+
+
+
+
 
 
 })();

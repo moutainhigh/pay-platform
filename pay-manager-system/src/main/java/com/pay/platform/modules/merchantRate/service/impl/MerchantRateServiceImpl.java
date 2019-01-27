@@ -40,5 +40,16 @@ public class MerchantRateServiceImpl implements MerchantRateService {
         return merchantRateListModels;
     }
 
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer delete(String id){
+        Integer count = dao.delete(id);
+        return count;
+    }
+
 
 }
