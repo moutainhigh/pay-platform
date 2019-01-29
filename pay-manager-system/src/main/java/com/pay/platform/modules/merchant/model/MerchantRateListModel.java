@@ -1,4 +1,4 @@
-package com.pay.platform.modules.merchantRate.model;
+package com.pay.platform.modules.merchant.model;
 
 import com.pay.platform.modules.base.model.BaseModel;
 

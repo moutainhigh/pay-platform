@@ -1,4 +1,3 @@
-package com.pay.platform.generate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -148,8 +147,8 @@ public class TestRedis {
 
     @Test
     public void testRedisPool() {
-        RedisUtil.getJedis().set("newname", "中文测试");
-        System.out.println(RedisUtil.getJedis().get("newname"));
+//        RedisUtil.getJedis().set("newname", "中文测试");
+//        System.out.println(RedisUtil.getJedis().get("newname"));
     }
 
 

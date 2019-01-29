@@ -1,7 +1,7 @@
-package com.pay.platform.modules.merchantRate.dao;
+package com.pay.platform.modules.merchant.dao;
 
-import com.pay.platform.modules.merchantRate.model.MerchantRateListModel;
-import com.pay.platform.modules.merchantRate.model.MerchantRateModel;
+import com.pay.platform.modules.merchant.model.MerchantRateListModel;
+import com.pay.platform.modules.merchant.model.MerchantRateModel;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 

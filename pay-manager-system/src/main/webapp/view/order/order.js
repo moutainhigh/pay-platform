@@ -68,14 +68,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {title: '平台订单号', field: 'platformOrderNo', align: 'center', sortable: true},
             {title: '支付单号', field: 'payCode', align: 'center', sortable: true},
             {title: '订单金额(元)', field: 'orderAmount', align: 'center', sortable: true},
-            {title: '商户金额(元)', field: 'merchantAmount', align: 'center', sortable: true},
-            {
-                title: '费率', field: 'rate', align: 'center', sortable: true, formatter: function (value) {
-                    return value + "%";
-                }
-            },
+            {title: '实际金额(元)', field: 'actualAmount', align: 'center', sortable: true},
             {title: '手续费(元)', field: 'handlingFee', align: 'center', sortable: true},
             {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
+            {title: '通道收入', field: 'channelAmount', align: 'center', sortable: true},
+            {title: '平台收入', field: 'platformAmount', align: 'center', sortable: true},
+            {title: '代理收入', field: 'agentAmount', align: 'center', sortable: true},
             {
                 title: '支付方式 ',
                 field: 'payWay',
@@ -131,6 +129,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
         $.dialog.show({
             url: baseURL + "/view/order/order_detail.jsp?" + _csrf + "=" + token,
+            size:"large",
             onLoad: function () {
 
                 $("#detailId").val(pageScope.currentrow.id);
@@ -139,9 +138,19 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailPayCode").val(pageScope.currentrow.payCode);
                 $("#detailGoodsName").val(pageScope.currentrow.goodsName);
                 $("#detailOrderAmount").val(pageScope.currentrow.orderAmount);
-                $("#detailRate").val(pageScope.currentrow.rate + "%");
+
+                $("#detailCostRate").val(pageScope.currentrow.costRate + "%");
+                $("#detailAgentRate").val(pageScope.currentrow.agentRate + "%");
+                $("#detailMerchantRate").val(pageScope.currentrow.merchantRate + "%");
+
+                $("#detailChannelAmount").val(pageScope.currentrow.channelAmount);
+
+
+                $("#detailPlatformAmount").val(pageScope.currentrow.platformAmount);
+                $("#detailAgentAmount").val(pageScope.currentrow.agentAmount);
+
                 $("#detailHandlingFee").val(pageScope.currentrow.handlingFee);
-                $("#detailMerchantAmount").val(pageScope.currentrow.merchantAmount);
+                $("#detailActualAmount").val(pageScope.currentrow.actualAmount);
                 $("#detailMerchantId").val(pageScope.currentrow.merchantId);
                 $("#detailMerchantNo").val(pageScope.currentrow.merchantNo);
                 $("#detailChannelId").val(pageScope.currentrow.channelId);

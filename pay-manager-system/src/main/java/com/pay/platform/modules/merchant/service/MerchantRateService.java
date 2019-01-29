@@ -1,7 +1,7 @@
-package com.pay.platform.modules.merchantRate.service;
+package com.pay.platform.modules.merchant.service;
 
-import com.pay.platform.modules.merchantRate.model.MerchantRateListModel;
-import com.pay.platform.modules.merchantRate.model.MerchantRateModel;
+import com.pay.platform.modules.merchant.model.MerchantRateListModel;
+import com.pay.platform.modules.merchant.model.MerchantRateModel;
 
 import java.util.List;
 

@@ -23,11 +23,16 @@ public class OrderModel extends BaseModel {
 
     private Double orderAmount;                //订单金额(元)
 
-    private Double rate;                //费率
+    private Double actualAmount;                //实际金额(元)
 
     private Double handlingFee;                //手续费(元)
 
-    private Double merchantAmount;                //商户金额(元)
+    private Double costRate;                //成本费率
+    private Double channelAmount;           //通道收入
+    private Double agentRate;                   //代理费率
+    private Double platformAmount;              //平台收入
+    private Double merchantRate;            //商家费率
+    private Double agentAmount;             //代理收入
 
     private String merchantId;                //商家ID
 
@@ -35,7 +40,9 @@ public class OrderModel extends BaseModel {
 
     private String channelId;                //通道ID
 
-    private String payWay;                //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付) 
+    private String agentId;             //代理Id
+
+    private String payWay;                //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付)
     private String payWayDictDesc;        //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付)  - 字典显示值
 
     private String payStatus;                //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
@@ -106,16 +113,6 @@ public class OrderModel extends BaseModel {
         this.orderAmount = orderAmount;
     }
 
-
-    public Double getRate() {
-        return this.rate;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
-
-
     public Double getHandlingFee() {
         return this.handlingFee;
     }
@@ -123,16 +120,6 @@ public class OrderModel extends BaseModel {
     public void setHandlingFee(Double handlingFee) {
         this.handlingFee = handlingFee;
     }
-
-
-    public Double getMerchantAmount() {
-        return this.merchantAmount;
-    }
-
-    public void setMerchantAmount(Double merchantAmount) {
-        this.merchantAmount = merchantAmount;
-    }
-
 
     public String getMerchantId() {
         return this.merchantId;
@@ -227,14 +214,6 @@ public class OrderModel extends BaseModel {
         this.notifyStatusDictDesc = notifyStatusDictDesc;
     }
 
-    public Integer getNotifyNum() {
-        return notifyNum;
-    }
-
-    public void setNotifyNum(Integer notifyNum) {
-        this.notifyNum = notifyNum;
-    }
-
     public String getCreateTime() {
         return this.createTime;
     }
@@ -244,4 +223,75 @@ public class OrderModel extends BaseModel {
     }
 
 
+    public Double getActualAmount() {
+        return actualAmount;
+    }
+
+    public void setActualAmount(Double actualAmount) {
+        this.actualAmount = actualAmount;
+    }
+
+    public Double getCostRate() {
+        return costRate;
+    }
+
+    public void setCostRate(Double costRate) {
+        this.costRate = costRate;
+    }
+
+    public Double getChannelAmount() {
+        return channelAmount;
+    }
+
+    public void setChannelAmount(Double channelAmount) {
+        this.channelAmount = channelAmount;
+    }
+
+    public Double getAgentRate() {
+        return agentRate;
+    }
+
+    public void setAgentRate(Double agentRate) {
+        this.agentRate = agentRate;
+    }
+
+    public Double getPlatformAmount() {
+        return platformAmount;
+    }
+
+    public void setPlatformAmount(Double platformAmount) {
+        this.platformAmount = platformAmount;
+    }
+
+    public Double getMerchantRate() {
+        return merchantRate;
+    }
+
+    public void setMerchantRate(Double merchantRate) {
+        this.merchantRate = merchantRate;
+    }
+
+    public Double getAgentAmount() {
+        return agentAmount;
+    }
+
+    public void setAgentAmount(Double agentAmount) {
+        this.agentAmount = agentAmount;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
+    }
+
+    public Integer getNotifyNum() {
+        return notifyNum;
+    }
+
+    public void setNotifyNum(Integer notifyNum) {
+        this.notifyNum = notifyNum;
+    }
 }

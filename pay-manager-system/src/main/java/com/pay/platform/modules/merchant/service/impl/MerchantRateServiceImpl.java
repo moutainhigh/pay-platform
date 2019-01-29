@@ -1,10 +1,9 @@
-package com.pay.platform.modules.merchantRate.service.impl;
+package com.pay.platform.modules.merchant.service.impl;
 
-import com.pay.platform.modules.merchantRate.dao.MerchantRateDao;
-import com.pay.platform.modules.merchantRate.model.MerchantRateListModel;
-import com.pay.platform.modules.merchantRate.model.MerchantRateModel;
-import com.pay.platform.modules.merchantRate.service.MerchantRateService;
-import org.apache.ibatis.annotations.Param;
+import com.pay.platform.modules.merchant.dao.MerchantRateDao;
+import com.pay.platform.modules.merchant.model.MerchantRateListModel;
+import com.pay.platform.modules.merchant.model.MerchantRateModel;
+import com.pay.platform.modules.merchant.service.MerchantRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

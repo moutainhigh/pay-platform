@@ -14,7 +14,7 @@
         </if>
         ) day_Order_Amount
         ,(
-        select IFNULL(sum(tor.merchant_amount) ,0) from tb_order tor
+        select IFNULL(sum(tor.actual_amount) ,0) from tb_order tor
         where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
         <if test="merchantId != null and merchantId != '' ">
             and tor.merchant_id = #{merchantId}

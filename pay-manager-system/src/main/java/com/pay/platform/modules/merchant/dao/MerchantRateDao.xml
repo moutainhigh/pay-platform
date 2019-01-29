@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.pay.platform.modules.merchantRate.dao.MerchantRateDao">
+<mapper namespace="com.pay.platform.modules.merchant.dao.MerchantRateDao">
 
 
-    <resultMap id="BaseResultMap" type="com.pay.platform.modules.merchantRate.model.MerchantRateModel">
+    <resultMap id="BaseResultMap" type="com.pay.platform.modules.merchant.model.MerchantRateModel">
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="MERCHANT_ID" jdbcType="VARCHAR" property="merchantId"/>
         <result column="CHANNEL_ID" jdbcType="VARCHAR" property="channelId"/>
@@ -12,7 +12,7 @@
         <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime"/>
     </resultMap>
 
-    <resultMap id="ListMap" type="com.pay.platform.modules.merchantRate.model.MerchantRateListModel">
+    <resultMap id="ListMap" type="com.pay.platform.modules.merchant.model.MerchantRateListModel">
         <result column="CHANNEL_NAME" jdbcType="VARCHAR" property="channelName"/>
         <result column="RATE" jdbcType="NUMERIC" property="rate"/>
         <result column="ID" jdbcType="VARCHAR" property="id"/>
