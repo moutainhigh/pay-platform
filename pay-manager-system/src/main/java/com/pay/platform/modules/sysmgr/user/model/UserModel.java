@@ -28,6 +28,8 @@ public class UserModel extends BaseModel implements UserDetails {
     private Date deleteTime;                        //删除时间
     private String phone;                           //手机号码
     private String orgId;                   //组织机构ID
+
+    private String agentId;                //绑定的代理ID,根据此标识和角色码,确定当前用户是否为商家
     private String merchantId;              //绑定的商户ID,根据此标识和角色码,确定当前用户是否为商家
 
 
@@ -184,6 +186,14 @@ public class UserModel extends BaseModel implements UserDetails {
 
     public void setMerchantId(String merchantId) {
         this.merchantId = merchantId;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
     }
 
     /**

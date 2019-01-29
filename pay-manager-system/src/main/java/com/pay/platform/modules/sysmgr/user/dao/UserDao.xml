@@ -10,8 +10,8 @@
     </select>
 
     <insert id="addUser" parameterType="UserModel">
-        insert into tb_sys_user(ID,NICKNAME,ACCOUNT,PASSWORD,PHONE,AVATAR,CREATE_TIME,ORG_ID , EXTEND_IMG_URL)
-        values( #{id} , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} );
+        insert into tb_sys_user(ID,NICKNAME,ACCOUNT,PASSWORD,PHONE,AVATAR,CREATE_TIME,ORG_ID , EXTEND_IMG_URL , agent_id , merchant_id)
+        values( #{id} , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} , #{agentId} , #{merchantId} );
     </insert>
 
     <delete id="deleteUser">
