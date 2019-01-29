@@ -77,8 +77,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     }
                 },
                 {title: '收款总金额(元)', field: 'day_Order_Amount', align: 'center', sortable: true},
-                {title: '商家实收金额(元)', field: 'day_Merchant_Amount', align: 'center', sortable: true},
+                {title: '实收金额(元)', field: 'day_actual_amount', align: 'center', sortable: true},
                 {title: '交易手续费(元)', field: 'day_Handling_Fee', align: 'center', sortable: true},
+                {title: '通道总收入(元)', field: 'day_channel_amount', align: 'center', sortable: true},
+                {title: '平台总收入(元)', field: 'day_platform_amount', align: 'center', sortable: true},
+                {title: '代理总收入(元)', field: 'day_agent_amount', align: 'center', sortable: true},
             ]
         });
 

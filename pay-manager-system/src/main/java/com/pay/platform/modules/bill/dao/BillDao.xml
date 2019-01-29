@@ -19,7 +19,7 @@
         <if test="merchantId != null and merchantId != '' ">
             and tor.merchant_id = #{merchantId}
         </if>
-        ) day_Merchant_Amount
+        ) day_actual_amount
         ,(
         select IFNULL(sum(tor.handling_fee) ,0) from tb_order tor
         where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
@@ -27,8 +27,29 @@
             and tor.merchant_id = #{merchantId}
         </if>
         ) day_Handling_Fee
+        ,(
+        select IFNULL(sum(tor.channel_amount) ,0) from tb_order tor
+        where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_channel_amount
+        ,(
+        select IFNULL(sum(tor.platform_amount) ,0) from tb_order tor
+        where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_platform_amount
+        ,(
+        select IFNULL(sum(tor.agent_amount) ,0) from tb_order tor
+        where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tab.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_agent_amount
         from (
-        select tca.create_time from tb_calendar tca where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
+          select tca.create_time from tb_calendar tca where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
         )
         tab
         <where>
