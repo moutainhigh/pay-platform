@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.agent.dao.AgentDao">
+
+    <select id="queryAgentList" parameterType="AgentModel" resultType="AgentModel">
+        select *
+        from tb_agent
+        <where>
+            and is_del = 0
+            <if test="agentNo != null and agentNo != '' ">
+                and agent_no like CONCAT('%','${agentNo}','%')
+            </if>
+            <if test="agentName != null and agentName != '' ">
+                and agent_name like CONCAT('%','${agentName}','%')
+            </if>
+            <if test="phone != null and phone != '' ">
+                and phone like CONCAT('%','${phone}','%')
+            </if>
+            <if test="realName != null and realName != '' ">
+                and real_name like CONCAT('%','${realName}','%')
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAgentById" parameterType="java.lang.String" resultType="AgentModel">
+        select *
+        from tb_agent where id = #{id}
+    </select>
+
+    <insert id="addAgent" parameterType="AgentModel">
+        insert into tb_agent(id , agent_no , agent_name , phone , real_name , identity_code , id_card_img1 , id_card_img2 , icp_img , create_time)
+        values( #{id} , #{agentNo} , #{agentName} , #{phone} , #{realName} , #{identityCode} , #{idCardImg1} , #{idCardImg2} , #{icpImg} , now());
+    </insert>
+
+    <delete id="deleteAgent">
+        delete from tb_agent where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAgentByLogic">
+        update tb_agent set is_Del = 1 where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateAgent" parameterType="AgentModel">
+        update tb_agent
+        set agent_name = #{agentName} , phone = #{phone} , real_name = #{realName} , identity_code = #{identityCode} , id_card_img1 = #{idCardImg1} , id_card_img2 = #{idCardImg2} , icp_img = #{icpImg}
+        where id = #{id}
+    </update>
+
+</mapper>
