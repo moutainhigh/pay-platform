@@ -11,13 +11,22 @@ import java.util.Map;
 public interface BillService {
 
     /**
-     * 查询每日流水
+     * 查看代理每日流水
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    PageInfo<Map<String,Object>> queryAgentEveryDayBill(String agentId, String beginTime, String endTime);
+
+    /**
+     * 查询商家每日流水
      *
      * @param merchantId
      * @param beginTime
      * @param endTime
      * @return
      */
-    PageInfo<Map<String, Object>> queryEveryDayBill(String merchantId, String beginTime, String endTime ,  String agentId);
+    PageInfo<Map<String, Object>> queryMerchantEveryDayBill(String merchantId, String beginTime, String endTime ,  String agentId);
 
 }

@@ -3,6 +3,7 @@ package com.pay.platform.modules.agent.service;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pay.platform.modules.agent.model.AgentModel;
 
@@ -59,5 +60,7 @@ public interface AgentService {
      * @return
      */
     Integer updateAgent(AgentModel agent);
+
+    List<Map<String,Object>> queryAgentIdAndNameList(String agentId);
 
 }

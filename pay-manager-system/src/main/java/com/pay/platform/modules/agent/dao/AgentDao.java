@@ -1,5 +1,6 @@
 package com.pay.platform.modules.agent.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -61,5 +62,7 @@ public interface AgentDao {
      * @return
      */
     Integer updateAgent(AgentModel agent);
+
+    List<Map<String,Object>> queryAgentIdAndNameList(@Param("agentId") String agentId);
 
 }

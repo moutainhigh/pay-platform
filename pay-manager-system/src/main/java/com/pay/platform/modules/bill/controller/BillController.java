@@ -35,25 +35,46 @@ public class BillController extends BaseController {
     @Autowired
     private BillService billService;
 
-    @RequestMapping(value = "/queryEveryDayBill")
+    @RequestMapping(value = "/agent/queryAgentEveryDayBill")
     @ResponseBody
-    @SystemControllerLog(module = "流水管理", operation = "查看流水列表")
-    public PageInfo<Map<String, Object>> queryEveryDayBill(HttpServletRequest request, HttpServletResponse response, String merchantId, String beginTime, String endTime) {
+    @SystemControllerLog(module = "代理流水", operation = "查看代理每日流水")
+    public PageInfo<Map<String, Object>> queryAgentEveryDayBill(HttpServletRequest request, String agentId, String beginTime, String endTime) {
+
+        setPageInfo(request);
+        UserModel userModel = AppContext.getCurrentUser();
+
+        //超级管理员：可查看到所有的代理流水,接收前端传递的agentId
+        if (SysUserUtil.isAdminRole(userModel)) {
+            return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);
+        }
+        //代理管理员：可查到自身流水
+        else if (SysUserUtil.isAgentRole(userModel)) {
+            return billService.queryAgentEveryDayBill(userModel.getAgentId(), beginTime, endTime);
+        }
+
+        return null;
+
+    }
+
+    @RequestMapping(value = "/merchant/queryMerchantEveryDayBill")
+    @ResponseBody
+    @SystemControllerLog(module = "商家流水", operation = "查看商家每日流水")
+    public PageInfo<Map<String, Object>> queryMerchantEveryDayBill(HttpServletRequest request, HttpServletResponse response, String merchantId, String beginTime, String endTime) {
 
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
 
         //超级管理员：可查看到所有的商家,接收前端传递的商家id
         if (SysUserUtil.isAdminRole(userModel)) {
-            return billService.queryEveryDayBill(merchantId, beginTime, endTime , null);
+            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, null);
         }
         //代理管理员：可查到下级商家的流水,接收前端传递的商家id
         else if (SysUserUtil.isAgentRole(userModel)) {
-            return billService.queryEveryDayBill(merchantId, beginTime, endTime , userModel.getAgentId());
+            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, userModel.getAgentId());
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
-            return billService.queryEveryDayBill(userModel.getMerchantId(), beginTime, endTime, null);
+            return billService.queryMerchantEveryDayBill(userModel.getMerchantId(), beginTime, endTime, null);
         }
 
         return null;

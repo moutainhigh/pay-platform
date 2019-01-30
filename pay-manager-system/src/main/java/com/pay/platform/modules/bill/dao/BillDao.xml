@@ -3,7 +3,56 @@
 
 <mapper namespace="com.pay.platform.modules.bill.dao.BillDao">
 
-    <select id="queryEveryDayBill" resultType="java.util.Map">
+    <select id="queryAgentEveryDayBill" resultType="java.util.Map">
+        select tab.create_time , tab.agentName
+        ,(
+        select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        ) day_Order_Amount
+        ,(
+        select IFNULL(sum(tor.actual_amount) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        ) day_actual_amount
+        ,(
+        select IFNULL(sum(tor.handling_fee) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        ) day_Handling_Fee
+        ,(
+        select IFNULL(sum(tor.channel_amount) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        ) day_channel_amount
+        ,(
+        select IFNULL(sum(tor.platform_amount) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        ) day_platform_amount
+        ,(
+        select IFNULL(sum(tor.agent_amount) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        ) day_agent_amount
+        from (
+        select tca.create_time , (
+        select GROUP_CONCAT(tor.platform_order_no)
+        from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and tor.agent_id = #{agentId}
+        </if>
+        ) orderNos
+        , (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName
+        from tb_calendar tca
+        where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
+        ) tab
+        <where>
+            <if test="beginTime != null and beginTime != '' ">
+                and to_days(tab.create_time) &gt;= to_days(#{beginTime})
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and to_days(tab.create_time) &lt;= to_days(#{endTime})
+            </if>
+        </where>
+
+    </select>
+
+    <select id="queryMerchantEveryDayBill" resultType="java.util.Map">
         select tab.create_time , tab.merchantNo
         ,(
             select IFNULL(sum(tor.order_amount) ,0) from tb_order tor

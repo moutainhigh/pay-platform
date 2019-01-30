@@ -14,12 +14,22 @@ import java.util.Map;
 public interface BillDao {
 
     /**
-     * 查询每日流水
+     * 查看代理每日流水
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    List<Map<String, Object>> queryAgentEveryDayBill(@Param("agentId") String agentId,@Param("beginTime")  String beginTime, @Param("endTime") String endTime);
+
+    /**
+     * 查询商家每日流水
+     *
      * @param merchantId
      * @param beginTime
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> queryEveryDayBill(@Param("merchantId") String merchantId, @Param("beginTime") String beginTime, @Param("endTime") String endTime,@Param("agentId") String agentId);
+    List<Map<String, Object>> queryMerchantEveryDayBill(@Param("merchantId") String merchantId, @Param("beginTime") String beginTime, @Param("endTime") String endTime,@Param("agentId") String agentId);
 
 }

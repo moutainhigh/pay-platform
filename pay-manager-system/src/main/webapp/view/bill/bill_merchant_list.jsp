@@ -6,7 +6,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">流水管理</h3>
+                <h3 class="panel-title">商家流水管理</h3>
             </div>
             <div class="panel-body">
 
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${baseURL}/view/bill/bill.js"></script>
+<script type="text/javascript" src="${baseURL}/view/bill/bill_merchant.js"></script>
 <script type="text/javascript">
 
     $(function () {

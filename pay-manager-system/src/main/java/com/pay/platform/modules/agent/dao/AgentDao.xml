@@ -53,4 +53,15 @@
         where id = #{id}
     </update>
 
+    <select id="queryAgentIdAndNameList" parameterType="java.lang.String" resultType="AgentModel">
+        select id , agent_name
+        from tb_agent
+        <where>
+            and is_del = 0
+            <if test="agentId != null and agentId != '' ">
+                and id = #{agentId}
+            </if>
+        </where>
+    </select>
+
 </mapper>

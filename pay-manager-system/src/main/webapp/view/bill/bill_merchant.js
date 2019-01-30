@@ -38,7 +38,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
    function loadBillTale(){
 
         pageScope.billTable = $('#billTable').initBootstrapTable({
-            url: baseURL + '/bill/queryEveryDayBill?_csrf=' + token,
+            url: baseURL + '/bill/merchant/queryMerchantEveryDayBill?_csrf=' + token,
             method: 'post',
             dataType: "json",
             toolbar: '#billPager',

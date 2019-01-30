@@ -94,4 +94,9 @@ public class AgentServiceImpl implements AgentService {
         return agentDao.updateAgent(agent);
     }
 
+    @Override
+    public List<Map<String, Object>> queryAgentIdAndNameList(String agentId) {
+        return agentDao.queryAgentIdAndNameList(agentId);
+    }
+
 }

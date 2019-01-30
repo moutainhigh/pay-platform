@@ -3,8 +3,13 @@ package com.pay.platform.modules.agent.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -174,6 +179,43 @@ public class AgentController extends BaseController {
             json.put("success", false);
             json.put("msg", "修改失败");
         }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 分页查询代理列表
+     *
+     * @param request
+     * @param response
+     * @param
+     * @return
+     * @throws Exception CommonRequest 标识为通用请求,任何用户可访问,不进行权限过滤
+     */
+    @ResponseBody
+    @CommonRequest
+    @RequestMapping(value = "/queryAgentIdAndNameList", produces = "application/json")
+    public void queryAgentIdAndNameList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel user = AppContext.getCurrentUser();
+
+        List<Map<String, Object>> agentIdList = null;
+
+        //超级管理员可查询所有商家
+        if (SysUserUtil.isAdminRole(user)) {
+            agentIdList = agentService.queryAgentIdAndNameList(null);
+        }
+        //代理管理员可查询自身
+        else if (SysUserUtil.isAgentRole(user)) {
+            agentIdList = agentService.queryAgentIdAndNameList(user.getAgentId());
+        }
+
+        json.put("success", true);
+        json.put("msg", "查询成功");
+        json.put("agentIdList", agentIdList);
 
         writeJson(response, json.toString());
 
