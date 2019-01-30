@@ -73,9 +73,10 @@ public interface MerchantService {
     /**
      * 查询商家id和名称
      * @param merchantId
+     * @param agentId
      * @return
      */
-    List<Map<String,Object>> queryMerchantIdAndNameList(String merchantId);
+    List<Map<String,Object>> queryMerchantIdAndNameList(String merchantId , String agentId);
 
 
     /**

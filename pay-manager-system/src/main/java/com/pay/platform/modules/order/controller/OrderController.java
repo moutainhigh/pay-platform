@@ -57,6 +57,11 @@ public class OrderController extends BaseController {
         if (SysUserUtil.isAdminRole(userModel)) {
             return orderService.queryOrderList(order);
         }
+        //代理管理员：可查到下级商家的流水,接收前端传递的商家id
+        else if (SysUserUtil.isAgentRole(userModel)) {
+            order.setAgentId(userModel.getAgentId());
+            return orderService.queryOrderList(order);
+        }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
             order.setMerchantId(userModel.getMerchantId());

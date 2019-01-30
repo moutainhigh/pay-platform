@@ -73,9 +73,10 @@ public interface MerchantDao {
     /**
      * 查询商家id和名称
      * @param merchantId
+     * @param agentId
      * @return
      */
-    List<Map<String,Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId);
+    List<Map<String,Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId , @Param("agentId") String agentId);
 
 
     /**

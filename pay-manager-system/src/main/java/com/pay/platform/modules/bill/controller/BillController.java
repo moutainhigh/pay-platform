@@ -45,11 +45,15 @@ public class BillController extends BaseController {
 
         //超级管理员：可查看到所有的商家,接收前端传递的商家id
         if (SysUserUtil.isAdminRole(userModel)) {
-            return billService.queryEveryDayBill(merchantId, beginTime, endTime);
+            return billService.queryEveryDayBill(merchantId, beginTime, endTime , null);
+        }
+        //代理管理员：可查到下级商家的流水,接收前端传递的商家id
+        else if (SysUserUtil.isAgentRole(userModel)) {
+            return billService.queryEveryDayBill(merchantId, beginTime, endTime , userModel.getAgentId());
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
-            return billService.queryEveryDayBill(userModel.getMerchantId(), beginTime, endTime);
+            return billService.queryEveryDayBill(userModel.getMerchantId(), beginTime, endTime, null);
         }
 
         return null;

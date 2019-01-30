@@ -33,6 +33,9 @@
             select tca.create_time , (
                 select GROUP_CONCAT(tor.platform_order_no)
                 from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+                <if test="agentId != null and agentId != '' ">
+                    and tor.agent_id = #{agentId}
+                </if>
                 <if test="merchantId != null and merchantId != '' ">
                     and tor.merchant_id = #{merchantId}
                 </if>

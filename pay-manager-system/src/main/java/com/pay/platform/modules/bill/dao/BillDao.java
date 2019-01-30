@@ -20,6 +20,6 @@ public interface BillDao {
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> queryEveryDayBill(@Param("merchantId") String merchantId, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> queryEveryDayBill(@Param("merchantId") String merchantId, @Param("beginTime") String beginTime, @Param("endTime") String endTime,@Param("agentId") String agentId);
 
 }

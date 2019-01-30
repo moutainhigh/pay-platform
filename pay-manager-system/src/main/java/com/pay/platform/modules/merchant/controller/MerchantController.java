@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.merchant.model.MerchantRateListModel;
 import com.pay.platform.modules.merchant.model.MerchantRateModel;
@@ -93,6 +94,15 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
+        UserModel userModel = AppContext.getCurrentUser();
+        if (!SysUserUtil.isAgentRole(userModel)) {
+            json.put("success", false);
+            json.put("msg", "只有代理才能新增商户!");
+            writeJson(response, json.toString());
+            return;
+        }
+
+        merchant.setAgentId(userModel.getAgentId());
         Integer count = merchantService.addMerchant(merchant);
 
         if (count > 0) {
@@ -209,13 +219,17 @@ public class MerchantController extends BaseController {
 
         List<Map<String, Object>> merchantIdList = null;
 
-        //商家管理员可以查看当前信息
-        if (SysUserUtil.isMerchantRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(user.getMerchantId());
-        }
         //超级管理员可查询所有商家
-        else if (SysUserUtil.isAdminRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null);
+        if (SysUserUtil.isAdminRole(user)) {
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, null);
+        }
+        //代理管理员可查询下级商家
+        else if (SysUserUtil.isAgentRole(user)) {
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, user.getAgentId());
+        }
+        //商家管理员可以查看当前信息
+        else if (SysUserUtil.isMerchantRole(user)) {
+            merchantIdList = merchantService.queryMerchantIdAndNameList(user.getMerchantId(), null);
         }
 
         json.put("success", true);
@@ -235,7 +249,7 @@ public class MerchantController extends BaseController {
      * @param merchant
      * @throws Exception
      */
-    @RequestMapping(value = "/review", produces = "application/json",method = RequestMethod.POST)
+    @RequestMapping(value = "/review", produces = "application/json", method = RequestMethod.POST)
     @SystemControllerLog(module = "商家管理", operation = "审核商家")
     public void review(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
 
@@ -254,9 +268,6 @@ public class MerchantController extends BaseController {
         writeJson(response, json.toString());
 
     }
-
-
-
 
 
     @RequestMapping(value = "/add", produces = "application/json")
@@ -299,7 +310,7 @@ public class MerchantController extends BaseController {
         if (delete == 1) {
             json.put("success", true);
             json.put("msg", "查询成功");
-        }else{
+        } else {
             json.put("success", false);
             json.put("msg", "查询失敗");
         }

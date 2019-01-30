@@ -20,8 +20,8 @@ public class BillServiceImpl implements BillService {
     private BillDao billDao;
 
     @Override
-    public PageInfo<Map<String, Object>> queryEveryDayBill(String merchantId, String beginTime, String endTime) {
-        return new PageInfo(billDao.queryEveryDayBill(merchantId, beginTime, endTime));
+    public PageInfo<Map<String, Object>> queryEveryDayBill(String merchantId, String beginTime, String endTime ,  String agentId) {
+        return new PageInfo(billDao.queryEveryDayBill(merchantId, beginTime, endTime,agentId));
     }
 
 }

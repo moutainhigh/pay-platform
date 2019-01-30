@@ -43,6 +43,8 @@ public class MerchantModel extends BaseModel {
 
     private String notifySecret;                   //回调密钥
 
+    private String agentId;         //绑定的代理ID
+
     public String getId() {
         return this.id;
     }
@@ -174,5 +176,13 @@ public class MerchantModel extends BaseModel {
 
     public void setNotifySecret(String notifySecret) {
         this.notifySecret = notifySecret;
+    }
+
+    public String getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(String agentId) {
+        this.agentId = agentId;
     }
 }

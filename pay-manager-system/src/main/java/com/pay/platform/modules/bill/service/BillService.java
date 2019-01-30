@@ -18,6 +18,6 @@ public interface BillService {
      * @param endTime
      * @return
      */
-    PageInfo<Map<String, Object>> queryEveryDayBill(String merchantId, String beginTime, String endTime);
+    PageInfo<Map<String, Object>> queryEveryDayBill(String merchantId, String beginTime, String endTime ,  String agentId);
 
 }

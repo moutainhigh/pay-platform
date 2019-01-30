@@ -4,16 +4,7 @@
 <mapper namespace="com.pay.platform.modules.merchant.dao.MerchantDao">
 
     <select id="queryMerchantList" parameterType="MerchantModel" resultType="MerchantModel">
-        select
-        id,
-        merchant_no,
-        merchant_name,
-        phone,
-        real_name,
-        check_status,
-        identity_code,
-        create_time,
-        check_desc
+        select id, merchant_no, merchant_name, phone,real_name,check_status, identity_code,  create_time,check_desc, agent_id
         from tb_merchant
         <where>
             and is_del = 0
@@ -36,19 +27,8 @@
     </select>
 
     <select id="queryMerchantById" parameterType="java.lang.String" resultType="MerchantModel">
-        select
-            id,
-            merchant_no,
-            merchant_name,
-            phone,
-            real_name,
-            check_status,
-            create_time,
-            identity_code,
-            id_card_img1,
-            id_card_img2,
-            icp_img,
-            check_desc
+        select  id,  merchant_no, merchant_name, phone,  real_name, check_status, create_time,  identity_code,
+            id_card_img1,  id_card_img2,icp_img,  check_desc, agent_id
         from tb_merchant
         where id = #{id}
     </select>
@@ -67,7 +47,7 @@
          create_time,
          merchant_no,
          notify_secret,
-         merchant_secret)
+         merchant_secret,agent_id)
         values (#{id},
                 #{merchantName},
                 #{phone},
@@ -79,7 +59,8 @@
                 now(),
                 #{merchantNo},
                 #{notifySecret},
-                #{merchantSecret});
+                #{merchantSecret},
+                #{agentId});
     </insert>
 
     <delete id="deleteMerchant">
@@ -109,7 +90,7 @@
     </update>
 
     <select id="queryMerchantByIMerchantNo" parameterType="java.lang.String" resultType="MerchantModel">
-        select *
+        select  id, merchant_no, merchant_name, phone,real_name,check_status, identity_code,  create_time,check_desc , agent_id
         from tb_merchant
         where merchant_no = #{merchantNo}
     </select>
@@ -121,6 +102,9 @@
             and is_del = 0
             <if test="merchantId != null and merchantId != '' ">
                 and id = #{merchantId}
+            </if>
+            <if test="agentId != null and agentId != '' ">
+                and agent_id = #{agentId}
             </if>
         </where>
     </select>

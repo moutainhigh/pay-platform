@@ -15,30 +15,6 @@ import java.util.List;
 public class SysUserUtil {
 
     /**
-     * 判断是否为商户管理员
-     *
-     * @param userModel
-     * @return
-     */
-    public static boolean isMerchantRole(UserModel userModel) {
-
-        boolean flag = false;
-
-        if (StringUtil.isNotEmpty(userModel.getMerchantId())) {
-
-            for (GrantedAuthority grantedAuthorityList : userModel.getAuthorities()) {
-                if (RoleCodeEnum.ROLE_MERCHANT.getCode().equalsIgnoreCase(grantedAuthorityList.getAuthority())) {
-                    flag = true;
-                }
-            }
-
-        }
-
-        return flag;
-
-    }
-
-    /**
      * 判断是否为超级管理员
      *
      * @param userModel
@@ -62,5 +38,52 @@ public class SysUserUtil {
 
     }
 
+    /**
+     * 判断是否为代理管理员
+     *
+     * @param userModel
+     * @return
+     */
+    public static boolean isAgentRole(UserModel userModel) {
+
+        boolean flag = false;
+
+        if (StringUtil.isNotEmpty(userModel.getAgentId())) {
+
+            for (GrantedAuthority grantedAuthorityList : userModel.getAuthorities()) {
+                if (RoleCodeEnum.ROLE_AGENT.getCode().equalsIgnoreCase(grantedAuthorityList.getAuthority())) {
+                    flag = true;
+                }
+            }
+
+        }
+
+        return flag;
+
+    }
+
+    /**
+     * 判断是否为商户管理员
+     *
+     * @param userModel
+     * @return
+     */
+    public static boolean isMerchantRole(UserModel userModel) {
+
+        boolean flag = false;
+
+        if (StringUtil.isNotEmpty(userModel.getMerchantId())) {
+
+            for (GrantedAuthority grantedAuthorityList : userModel.getAuthorities()) {
+                if (RoleCodeEnum.ROLE_MERCHANT.getCode().equalsIgnoreCase(grantedAuthorityList.getAuthority())) {
+                    flag = true;
+                }
+            }
+
+        }
+
+        return flag;
+
+    }
 
 }
