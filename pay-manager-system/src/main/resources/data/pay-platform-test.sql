@@ -169,7 +169,8 @@ CREATE TABLE `tb_merchant_rate` (
   `channel_id` char(36) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '通道ID',
   `rate` decimal(10,3) DEFAULT '0.000' COMMENT '商家费率',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_MER_CHANNEL` (`merchant_id`,`channel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商家费率';
 
 -- ----------------------------
