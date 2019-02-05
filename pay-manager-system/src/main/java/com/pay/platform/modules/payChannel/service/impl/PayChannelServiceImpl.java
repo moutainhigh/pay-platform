@@ -72,4 +72,9 @@ public class PayChannelServiceImpl implements PayChannelService {
         return payChannelDao.queryAllPayChannelList();
     }
 
+    @Override
+    public List<Map<String, Object>> queryAllPayChannelListAndAgentRate(String agentId) {
+        return payChannelDao.queryAllPayChannelListAndAgentRate(agentId);
+    }
+
 }

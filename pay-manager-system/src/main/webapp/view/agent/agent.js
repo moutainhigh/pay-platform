@@ -320,9 +320,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             buttonEvents: {
                 success: function () {
 
-                    var rate = $("#costRate").val();
+                    var costRate = $("#channel").find(":selected").attr("costRate");
                     var nowRate = $("#rate").val();
-                    if (rate > nowRate) {
+                    if (costRate > nowRate) {
                         $.msg.error('不得低于成本费率!');
                         return;
                     }
@@ -336,6 +336,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                             btn.removeAttr("disabled");
 
                             if (response && response.success) {
+                                $.msg.success(response.msg);
                                 selectAgentRate(pageScope.currentrow.id);
                             } else {
                                 $.msg.error(response.msg);
@@ -374,9 +375,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     var data = response.data;
                     var str = "";
                     for (var i = 0; i < data.length; i++) {
-                        str += "<option  rate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（" + data[i].costRate + "）</option>";
+                        str += "<option  costRate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + data[i].costRate + "）</option>";
                     }
-                    $("#costRate").val(data[0].costRate);
                     $("#channel").html(str);
                 } else {
                     $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');

@@ -14,7 +14,6 @@
     </resultMap>
 
 
-
     <select id="queryPayChannelList" parameterType="PayChannelModel" resultType="PayChannelModel">
         select *
         from tb_pay_channel
@@ -75,6 +74,13 @@
         <where>
             and is_del = 0
         </where>
+    </select>
+
+    <select id="queryAllPayChannelListAndAgentRate" resultType="java.util.Map">
+         select id , channel_code  as channelCode , channel_name as channelName , cost_rate costRate , is_del as isDel , create_time  createTime
+        ,( select tar.rate from tb_agent_rate tar where tar.agent_id = #{agentId}) as agentCostRate
+        from tb_pay_channel
+        where is_del = 0
     </select>
 
 </mapper>

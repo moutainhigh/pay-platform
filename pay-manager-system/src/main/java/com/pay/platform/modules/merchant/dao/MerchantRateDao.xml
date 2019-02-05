@@ -3,29 +3,16 @@
 
 <mapper namespace="com.pay.platform.modules.merchant.dao.MerchantRateDao">
 
-    <resultMap id="BaseResultMap" type="com.pay.platform.modules.merchant.model.MerchantRateModel">
-        <id column="ID" jdbcType="VARCHAR" property="id"/>
-        <result column="MERCHANT_ID" jdbcType="VARCHAR" property="merchantId"/>
-        <result column="CHANNEL_ID" jdbcType="VARCHAR" property="channelId"/>
-        <result column="RATE" jdbcType="NUMERIC" property="rate"/>
-        <result column="CREATE_TIME" jdbcType="VARCHAR" property="createTime"/>
-    </resultMap>
-
-    <resultMap id="ListMap" type="com.pay.platform.modules.merchant.model.MerchantRateListModel">
-        <result column="CHANNEL_NAME" jdbcType="VARCHAR" property="channelName"/>
-        <result column="RATE" jdbcType="NUMERIC" property="rate"/>
-        <result column="ID" jdbcType="VARCHAR" property="id"/>
-    </resultMap>
-
-    <insert id="add" parameterType="MerchantRateModel">
+    <!-- 新增商家费率 -->
+    <insert id="addMerchantRate" parameterType="com.pay.platform.modules.merchant.model.MerchantRateModel">
         replace into tb_merchant_rate
          (id , merchant_id , channel_id , rate , create_time)
         values
         (uuid() , #{merchantId} , #{channelId} , #{rate} , now());
     </insert>
 
-    <!--查询商家的渠道费率-->
-    <select id="queryMerchantRateList" resultMap="ListMap">
+    <!-- 查询商家的渠道费率 -->
+    <select id="queryMerchantRateList" resultType="com.pay.platform.modules.merchant.model.MerchantRateListModel">
         select
           t1.rate RATE,t2.channel_name CHANNEL_NAME,t1.ID
         from
@@ -34,8 +21,8 @@
           merchant_id=#{merchantId}
     </select>
 
-    <!--查询商家的渠道费率-->
-    <delete id="delete" >
+    <!-- 删除商家费率 -->
+    <delete id="deleteMerchantRate" >
         delete from tb_merchant_rate where id=#{id}
     </delete>
 

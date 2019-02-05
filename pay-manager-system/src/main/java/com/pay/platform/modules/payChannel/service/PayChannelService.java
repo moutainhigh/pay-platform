@@ -3,6 +3,7 @@ package com.pay.platform.modules.payChannel.service;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pay.platform.modules.payChannel.model.PayChannelModel;
 
@@ -73,5 +74,12 @@ public interface PayChannelService {
      * @return
      */
     List<PayChannelModel> queryAllPayChannelList();
+
+    /**
+     * 读取所有的通道费率信息,以及代理费率信息
+     * @param agentId
+     * @return
+     */
+    List<Map<String,Object>> queryAllPayChannelListAndAgentRate(String agentId);
 
 }

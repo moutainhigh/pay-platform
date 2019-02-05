@@ -12,7 +12,7 @@ public interface MerchantRateService {
      * @param model
      * @return
      */
-    Integer add(MerchantRateModel model);
+    Integer addMerchantRate(MerchantRateModel model);
 
     /**
      * 查询商家的费率列表
@@ -26,5 +26,5 @@ public interface MerchantRateService {
      * @param id
      * @return
      */
-    Integer delete(String id);
+    Integer deleteMerchantRate(String id);
 }

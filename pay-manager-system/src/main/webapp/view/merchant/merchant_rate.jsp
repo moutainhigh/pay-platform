@@ -13,22 +13,22 @@
     <div class="bootbox-body">
 
         <div class="modal-footer operation-button">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>渠道</th>
-                <th>费率</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody  id="rateList">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>渠道</th>
+                    <th>费率</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="rateList">
 
 
                 <%--<td>.active</td>--%>
                 <%--<td>表示当前活动的信息</td>--%>
                 <%--<td><button>删除</button></td>--%>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
 
 
@@ -36,8 +36,6 @@
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" id="merchantId" name="merchantId"/>
-            <input type="hidden" id="costRate"/>
-
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">通道：</label>
@@ -72,93 +70,35 @@
 
         $('#reteMerchantForm').validation();            //表单验证初始化
 
-        queryAllPayChannelList();           //查看所有支付通道
-
-        selectMerchantRate();               //加载商家费率信息
-
     });
-
-    /**
-     * 读取所有通道
-     * @param channelCode
-     */
-    function queryAllPayChannelList() {
-
-        $.ajax({
-            url: baseURL + "/payChannel/queryAllPayChannelList",
-            type: "post",
-            dataType: "json",
-            data: {"_csrf": token},
-            success: function (response) {
-                if (response && response.success == true) {
-                    var data = response.data;
-                    var str = "";
-                    for (var i = 0; i < data.length; i++) {
-                        str += "<option  rate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（" + data[i].costRate + "）</option>";
-                    }
-                    $("#costRate").val(data[0].costRate);
-                    $("#channel").html(str);
-                } else {
-                    $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
-                }
-
-            }
-        });
-    };
-
-    /**
-     * 读取商家的费率列表
-     */
-    function selectMerchantRate() {
-
-        var merchantId = $("#merchantId").val();
-
-        $.ajax({
-            url: baseURL + "/merchant/queryMerchantRateList",
-            type: "post",
-            dataType: "json",
-            data: {"_csrf": token, "merchantId": merchantId},
-            success: function (response) {
-                if (response && response.success == true) {
-                    var data = response.data;
-                    var str = "";
-                    for (var i = 0; i < data.length; i++) {
-                        str += ' <tr class="active" id="' + data[i].id + '" >';
-                        str += '<td>' + data[i].channelName + '</td>' +
-                            '<td>' + data[i].rate + '</td>' +
-                            '<td><button   onclick="deleteMerchantRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
-                        str += ' </tr>';
-                    }
-                    $("#rateList").html(str);
-                } else {
-                    $.msg.error('读取费率失败');
-                }
-
-            }
-        });
-    };
 
     /**
      * 删除费率
      * @param id
      */
     function deleteMerchantRate(id) {
-        $.ajax({
-            url: baseURL + "/merchant/deleteMerchantRate",
-            type: "post",
-            dataType: "json",
-            data: {"_csrf": token,"id":id},
-            success: function (response) {
-                if (response && response.success == true) {
-                    //删除当前行
-                    $("#"+id).remove();
-                    $.msg.success('成功');
-                } else {
-                    $.msg.error('删除费率失败，可能是由网络原因引起的，请稍候再试');
-                }
 
-            }
+        $.msg.confirm(function () {
+
+            $.ajax({
+                url: baseURL + "/merchant/deleteMerchantRate",
+                type: "post",
+                dataType: "json",
+                data: {"_csrf": token, "id": id},
+                success: function (response) {
+                    if (response && response.success == true) {
+                        //删除当前行
+                        $("#" + id).remove();
+                        $.msg.success('成功');
+                    } else {
+                        $.msg.error('删除费率失败，可能是由网络原因引起的，请稍候再试');
+                    }
+
+                }
+            });
+
         });
+
     }
 
     /**

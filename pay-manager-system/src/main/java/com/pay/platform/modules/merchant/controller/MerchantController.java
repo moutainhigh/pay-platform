@@ -286,7 +286,7 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
-        Integer count = service.add(model);
+        Integer count = service.addMerchantRate(model);
 
         if (count > 0) {
             json.put("success", true);
@@ -306,7 +306,7 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
-        Integer delete = service.delete(id);
+        Integer delete = service.deleteMerchantRate(id);
 
         if (delete == 1) {
             json.put("success", true);

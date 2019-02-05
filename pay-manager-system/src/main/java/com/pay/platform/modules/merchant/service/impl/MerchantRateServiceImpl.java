@@ -12,42 +12,41 @@ import java.util.List;
 @Service
 public class MerchantRateServiceImpl implements MerchantRateService {
 
-
     @Autowired
     private MerchantRateDao dao;
 
-
     /**
      * 新增
+     *
      * @param model
      * @return
      */
     @Override
-    public Integer add(MerchantRateModel model) {
-        Integer add = dao.add(model);
-        return add;
+    public Integer addMerchantRate(MerchantRateModel model) {
+        return dao.addMerchantRate(model);
     }
 
     /**
      * 查询商家的费率列表
+     *
      * @param merchantId
      * @return
      */
     @Override
-    public List<MerchantRateListModel> queryMerchantRateList(String merchantId){
+    public List<MerchantRateListModel> queryMerchantRateList(String merchantId) {
         List<MerchantRateListModel> merchantRateListModels = dao.queryMerchantRateList(merchantId);
         return merchantRateListModels;
     }
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
     @Override
-    public Integer delete(String id){
-        Integer count = dao.delete(id);
-        return count;
+    public Integer deleteMerchantRate(String id) {
+        return dao.deleteMerchantRate(id);
     }
 
 

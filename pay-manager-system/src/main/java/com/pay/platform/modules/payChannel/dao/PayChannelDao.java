@@ -1,5 +1,6 @@
 package com.pay.platform.modules.payChannel.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -77,5 +78,12 @@ public interface PayChannelDao {
      * @return
      */
     List<PayChannelModel> queryAllPayChannelList();
+
+    /**
+     * 读取所有的通道费率信息,以及代理费率信息
+     * @param agentId
+     * @return
+     */
+    List<Map<String,Object>> queryAllPayChannelListAndAgentRate(@Param("agentId") String agentId);
 
 }

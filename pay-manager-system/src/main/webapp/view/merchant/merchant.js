@@ -370,13 +370,18 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             url: baseURL + "/view/merchant/merchant_rate.jsp?" + _csrf + "=" + token,
             onLoad: function () {
                 $("#merchantId").val(pageScope.currentrow.id);
+
+                queryAllPayChannelListAndAgentRate(pageScope.currentrow.agentId);           //查看所有支付通道
+
+                selectMerchantRate(pageScope.currentrow.id);               //加载商家费率信息
+
             },
             buttonEvents: {
                 success: function () {
 
-                    var rate = $("#costRate").val();
+                    var costRate = $("#channel").find(":selected").attr("costRate");
                     var nowRate = $("#rate").val();
-                    if (rate > nowRate) {
+                    if (costRate > nowRate) {
                         $.msg.error('不得低于成本费率!');
                         return;
                     }
@@ -411,6 +416,72 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             }
         });
 
+    };
+
+    /**
+     * 读取所有通道
+     * @param channelCode
+     */
+    function queryAllPayChannelListAndAgentRate(agentId) {
+
+        $.ajax({
+            url: baseURL + "/payChannel/queryAllPayChannelListAndAgentRate",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token, "agentId": agentId},
+            success: function (response) {
+
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (data[i].agentCostRate) {
+                            str += "<option costRate='" + data[i].agentCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + data[i].agentCostRate + "）</option>";
+                        } else {
+                            str += "<option costRate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + data[i].costRate + "）</option>";
+                        }
+
+                    }
+
+                    $("#channel").html(str);
+                } else {
+                    $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
+                }
+
+            }
+        });
+
+    };
+
+    /**
+     * 读取商家的费率列表
+     */
+    function selectMerchantRate(merchantId) {
+
+        $.ajax({
+            url: baseURL + "/merchant/queryMerchantRateList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token, "merchantId": merchantId},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+                        str += ' <tr class="active" id="' + data[i].id + '" >';
+                        str += '<td>' + data[i].channelName + '</td>' +
+                            '<td>' + data[i].rate + '</td>' +
+                            '<td><button   onclick="deleteMerchantRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
+                        str += ' </tr>';
+                    }
+                    $("#rateList").html(str);
+                } else {
+                    $.msg.error('读取费率失败');
+                }
+
+            }
+        });
     };
 
 })();

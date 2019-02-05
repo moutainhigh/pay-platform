@@ -32,8 +32,6 @@
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" id="agentId" name="agentId"/>
-            <input type="hidden" id="costRate"/>
-
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">通道：</label>

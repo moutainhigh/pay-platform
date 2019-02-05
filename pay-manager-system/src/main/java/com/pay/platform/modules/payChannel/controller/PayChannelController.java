@@ -3,6 +3,7 @@ package com.pay.platform.modules.payChannel.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.security.CommonRequest;
@@ -135,7 +136,8 @@ public class PayChannelController extends BaseController {
 
     /**
      * 逻辑删除通道 - 字段为isDel
-     *addPayChannel
+     * addPayChannel
+     *
      * @param response
      * @param ids
      * @throws Exception
@@ -202,6 +204,25 @@ public class PayChannelController extends BaseController {
     public void queryAllPayChannelList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         JSONObject json = new JSONObject();
         final List<PayChannelModel> list = payChannelService.queryAllPayChannelList();
+        json.put("success", true);
+        json.put("data", list);
+        writeJson(response, json.toString());
+    }
+
+    /**
+     * 读取所有的通道费率信息,以及代理费率信息
+     *
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryAllPayChannelListAndAgentRate", produces = "application/json", method = RequestMethod.POST)
+    @CommonRequest
+    public void queryAllPayChannelListAndAgentRate(HttpServletRequest request, HttpServletResponse response, String agentId) throws Exception {
+        JSONObject json = new JSONObject();
+        List<Map<String, Object>> list = payChannelService.queryAllPayChannelListAndAgentRate(agentId);
         json.put("success", true);
         json.put("data", list);
         writeJson(response, json.toString());

@@ -16,7 +16,7 @@ public interface MerchantRateDao {
      * @param merchantRateModel
      * @return
      */
-    Integer add(MerchantRateModel merchantRateModel);
+    Integer addMerchantRate(MerchantRateModel merchantRateModel);
 
 
     /**
@@ -31,6 +31,6 @@ public interface MerchantRateDao {
      * @param id
      * @return
      */
-    Integer delete(@Param("id") String id);
+    Integer deleteMerchantRate(@Param("id") String id);
 
 }
