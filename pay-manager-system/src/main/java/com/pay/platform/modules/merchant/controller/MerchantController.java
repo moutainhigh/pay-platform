@@ -303,15 +303,19 @@ public class MerchantController extends BaseController {
     @RequestMapping(value = "/deleteMerchantRate", produces = "application/json")
     @SystemControllerLog(module = "商家費率", operation = "删除费率")
     public void deleteMerchantRate(HttpServletResponse response, String id) throws Exception {
+
         JSONObject json = new JSONObject();
-        final Integer delete = service.delete(id);
+
+        Integer delete = service.delete(id);
+
         if (delete == 1) {
             json.put("success", true);
-            json.put("msg", "查询成功");
+            json.put("msg", "删除成功");
         } else {
             json.put("success", false);
-            json.put("msg", "查询失敗");
+            json.put("msg", "删除失敗");
         }
+
         writeJson(response, json.toString());
     }
 

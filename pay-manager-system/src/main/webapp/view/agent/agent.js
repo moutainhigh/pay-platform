@@ -58,6 +58,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.editAgent()' ><i class='glyphicon glyphicon-pencil'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showAgentDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteAgentByLogic(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
+                    html += "<button type='button' class='btn btn-link' onclick='pageScope.rate()' >设置费率</button>";
                     return html;
                 }
             }
@@ -299,6 +300,120 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             }
         });
 
+    };
+
+    /**
+     * 設置費率
+     * @param id
+     */
+    pageScope.rate = function () {
+
+        $.dialog.show({
+            url: baseURL + "/view/agent/agent_rate.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+                $("#agentId").val(pageScope.currentrow.id);
+
+                queryAllPayChannelList();           //查看所有支付通道
+
+                selectAgentRate(pageScope.currentrow.id);               //加载代理费率信息
+            },
+            buttonEvents: {
+                success: function () {
+
+                    var rate = $("#costRate").val();
+                    var nowRate = $("#rate").val();
+                    if (rate > nowRate) {
+                        $.msg.error('不得低于成本费率!');
+                        return;
+                    }
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    $('#reteAgentForm').ajaxSubmit({
+                        dataType: 'json',
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                selectAgentRate(pageScope.currentrow.id);
+                            } else {
+                                $.msg.error(response.msg);
+                                return false;
+                            }
+
+                        },
+                        error: function () {
+                            $.msg.error('修改失败，可能是由网络原因引起的，请稍候再试');
+                            btn.removeAttr("disabled");
+                            return false;
+                        }
+                    });
+
+                    return false;
+
+                }
+            }
+        });
+
+    };
+
+    /**
+     * 读取所有通道
+     * @param channelCode
+     */
+    function queryAllPayChannelList() {
+
+        $.ajax({
+            url: baseURL + "/payChannel/queryAllPayChannelList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+                        str += "<option  rate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（" + data[i].costRate + "）</option>";
+                    }
+                    $("#costRate").val(data[0].costRate);
+                    $("#channel").html(str);
+                } else {
+                    $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
+                }
+
+            }
+        });
+    };
+
+    /**
+     * 读取代理的费率列表
+     */
+    function selectAgentRate(agentId) {
+
+        $.ajax({
+            url: baseURL + "/agent/queryAgentRateList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token, "agentId": agentId},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+                        str += ' <tr class="active" id="' + data[i].id + '" >';
+                        str += '<td>' + data[i].channelName + '</td>' +
+                            '<td>' + data[i].rate + '</td>' +
+                            '<td><button   onclick="deleteAgentRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
+                        str += ' </tr>';
+                    }
+                    $("#rateList").html(str);
+                } else {
+                    $.msg.error('读取费率失败');
+                }
+
+            }
+        });
     };
 
 })();

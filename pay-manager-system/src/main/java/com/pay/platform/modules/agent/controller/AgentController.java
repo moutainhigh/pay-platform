@@ -8,6 +8,9 @@ import java.util.Map;
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.agent.model.AgentRateListModel;
+import com.pay.platform.modules.agent.model.AgentRateModel;
+import com.pay.platform.modules.agent.service.AgentRateService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
@@ -38,6 +41,9 @@ public class AgentController extends BaseController {
 
     @Autowired
     private AgentService agentService;
+
+    @Autowired
+    private AgentRateService agentRateService;
 
     /**
      * 分页查询代理列表
@@ -219,6 +225,76 @@ public class AgentController extends BaseController {
 
         writeJson(response, json.toString());
 
+    }
+
+    /**
+     * 查询代理费率列表
+     *
+     * @param response
+     * @param agentId
+     * @throws Exception
+     */
+    @RequestMapping(value = "/queryAgentRateList", produces = "application/json")
+    @SystemControllerLog(module = "代理費率", operation = "查询代理费率列表")
+    public void queryAgentRateList(HttpServletResponse response, String agentId) throws Exception {
+        JSONObject json = new JSONObject();
+        List<AgentRateListModel> AgentRateListModels = agentRateService.queryAgentRateList(agentId);
+        json.put("success", true);
+        json.put("msg", "查询成功");
+        json.put("data", AgentRateListModels);
+        writeJson(response, json.toString());
+    }
+
+    /**
+     * 新增代理费率
+     *
+     * @param response
+     * @param model
+     * @throws Exception
+     */
+    @RequestMapping(value = "/addAgentRate", produces = "application/json")
+    @SystemControllerLog(module = "代理費率", operation = "新增費率")
+    public void addAgentRate(HttpServletResponse response, AgentRateModel model) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer count = agentRateService.addAgentRate(model);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "保存成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "保存失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 删除代理费率
+     *
+     * @param response
+     * @param id
+     * @throws Exception
+     */
+    @RequestMapping(value = "/deleteAgentRate", produces = "application/json")
+    @SystemControllerLog(module = "代理費率", operation = "删除费率")
+    public void deleteAgentRate(HttpServletResponse response, String id) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer delete = agentRateService.deletAgentRate(id);
+        if (delete == 1) {
+            json.put("success", true);
+            json.put("msg", "删除成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "删除失敗");
+        }
+
+        writeJson(response, json.toString());
     }
 
 }
