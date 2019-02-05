@@ -269,28 +269,6 @@ public class MerchantController extends BaseController {
 
     }
 
-
-    @RequestMapping(value = "/add", produces = "application/json")
-    @SystemControllerLog(module = "商家費率", operation = "新增費率")
-    public void addPayChannel(HttpServletResponse response, MerchantRateModel model) throws Exception {
-
-        JSONObject json = new JSONObject();
-
-        Integer count = service.add(model);
-
-        if (count > 0) {
-            json.put("success", true);
-            json.put("msg", "新增成功");
-        } else {
-            json.put("success", false);
-            json.put("msg", "新增失败");
-        }
-
-        writeJson(response, json.toString());
-
-    }
-
-
     @RequestMapping(value = "/queryMerchantRateList", produces = "application/json")
     @SystemControllerLog(module = "商家費率", operation = "查詢商家費率列表")
     public void queryMerchantRateList(HttpServletResponse response, String merchantId) throws Exception {
@@ -302,9 +280,29 @@ public class MerchantController extends BaseController {
         writeJson(response, json.toString());
     }
 
-    @RequestMapping(value = "/delete", produces = "application/json")
+    @RequestMapping(value = "/addMerchantRate", produces = "application/json")
+    @SystemControllerLog(module = "商家費率", operation = "新增費率")
+    public void addMerchantRate(HttpServletResponse response, MerchantRateModel model) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer count = service.add(model);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "保存成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "保存失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+    @RequestMapping(value = "/deleteMerchantRate", produces = "application/json")
     @SystemControllerLog(module = "商家費率", operation = "删除费率")
-    public void delete(HttpServletResponse response, String id) throws Exception {
+    public void deleteMerchantRate(HttpServletResponse response, String id) throws Exception {
         JSONObject json = new JSONObject();
         final Integer delete = service.delete(id);
         if (delete == 1) {

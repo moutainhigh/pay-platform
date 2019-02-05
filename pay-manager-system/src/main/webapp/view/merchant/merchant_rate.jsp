@@ -32,7 +32,7 @@
         </div>
 
 
-        <form id="reviewMerchantForm" action="${baseURL}/merchant/add" class="form-horizontal" method="post">
+        <form id="reteMerchantForm" action="${baseURL}/merchant/addMerchantRate" class="form-horizontal" method="post">
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" id="merchantId" name="merchantId"/>
@@ -62,32 +62,89 @@
 </div>
 
 <div class="modal-footer operation-button">
-    <button data-bb-handler="success" type="button" class="btn btn-success">添加</button>
+    <button data-bb-handler="success" type="button" class="btn btn-success">保存</button>
     <button data-bb-handler="cancel" type="button" class="btn btn-danger">取消</button>
 </div>
 
 <script>
 
-
     $(function () {
 
-        $('#reviewMerchantForm').validation();            //表单验证初始化
+        $('#reteMerchantForm').validation();            //表单验证初始化
 
+        queryAllPayChannelList();           //查看所有支付通道
+
+        selectMerchantRate();               //加载商家费率信息
 
     });
 
     /**
-     * 改变费率选择
+     * 读取所有通道
      * @param channelCode
      */
-    function selectChange(obj) {
-        var rate = $("#channel").find("option:selected").attr("rate");
-        $("#costRate").val(rate);
-    }
+    function queryAllPayChannelList() {
 
-    function del(id) {
         $.ajax({
-            url: baseURL + "/merchant/delete",
+            url: baseURL + "/payChannel/queryAllPayChannelList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+                        str += "<option  rate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（" + data[i].costRate + "）</option>";
+                    }
+                    $("#costRate").val(data[0].costRate);
+                    $("#channel").html(str);
+                } else {
+                    $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
+                }
+
+            }
+        });
+    };
+
+    /**
+     * 读取商家的费率列表
+     */
+    function selectMerchantRate() {
+
+        var merchantId = $("#merchantId").val();
+
+        $.ajax({
+            url: baseURL + "/merchant/queryMerchantRateList",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token, "merchantId": merchantId},
+            success: function (response) {
+                if (response && response.success == true) {
+                    var data = response.data;
+                    var str = "";
+                    for (var i = 0; i < data.length; i++) {
+                        str += ' <tr class="active" id="' + data[i].id + '" >';
+                        str += '<td>' + data[i].channelName + '</td>' +
+                            '<td>' + data[i].rate + '</td>' +
+                            '<td><button   onclick="deleteMerchantRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
+                        str += ' </tr>';
+                    }
+                    $("#rateList").html(str);
+                } else {
+                    $.msg.error('读取费率失败');
+                }
+
+            }
+        });
+    };
+
+    /**
+     * 删除费率
+     * @param id
+     */
+    function deleteMerchantRate(id) {
+        $.ajax({
+            url: baseURL + "/merchant/deleteMerchantRate",
             type: "post",
             dataType: "json",
             data: {"_csrf": token,"id":id},
@@ -102,6 +159,15 @@
 
             }
         });
+    }
+
+    /**
+     * 改变费率选择
+     * @param channelCode
+     */
+    function selectChange(obj) {
+        var rate = $("#channel").find("option:selected").attr("rate");
+        $("#costRate").val(rate);
     }
 
 </script>

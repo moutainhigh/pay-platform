@@ -3,7 +3,6 @@
 
 <mapper namespace="com.pay.platform.modules.merchant.dao.MerchantRateDao">
 
-
     <resultMap id="BaseResultMap" type="com.pay.platform.modules.merchant.model.MerchantRateModel">
         <id column="ID" jdbcType="VARCHAR" property="id"/>
         <result column="MERCHANT_ID" jdbcType="VARCHAR" property="merchantId"/>
@@ -17,7 +16,6 @@
         <result column="RATE" jdbcType="NUMERIC" property="rate"/>
         <result column="ID" jdbcType="VARCHAR" property="id"/>
     </resultMap>
-
 
     <insert id="add" parameterType="MerchantRateModel">
         replace into tb_merchant_rate
@@ -36,11 +34,9 @@
           merchant_id=#{merchantId}
     </select>
 
-
     <!--查询商家的渠道费率-->
     <delete id="delete" >
         delete from tb_merchant_rate where id=#{id}
     </delete>
-
 
 </mapper>

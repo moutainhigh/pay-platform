@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -197,6 +198,7 @@ public class PayChannelController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/queryAllPayChannelList", produces = "application/json", method = RequestMethod.POST)
+    @CommonRequest
     public void queryAllPayChannelList(HttpServletRequest request, HttpServletResponse response) throws Exception {
         JSONObject json = new JSONObject();
         final List<PayChannelModel> list = payChannelService.queryAllPayChannelList();
