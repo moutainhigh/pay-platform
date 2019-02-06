@@ -86,4 +86,15 @@ public interface UserService {
      */
     OrganizationModel queryOrgInfoByUserId(String userId);
 
+    /**
+     * 修改用户密码
+     * @param userId
+     * @param oldPassword
+     * @param password
+     * @return
+     */
+    Integer updateUserPassword(String userId, String oldPassword, String password);
+
+    int queryUserByUserIdAndPassword(String id, String oldPassword);
+
 }

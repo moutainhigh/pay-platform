@@ -120,4 +120,14 @@ public class UserServiceImpl implements UserService {
         return userDao.queryOrgInfoByUserId(userId);
     }
 
+    @Override
+    public Integer updateUserPassword(String userId, String oldPassword, String password) {
+        return userDao.updateUserPassword(userId, oldPassword, password);
+    }
+
+    @Override
+    public int queryUserByUserIdAndPassword(String id, String oldPassword) {
+        return userDao.queryUserByUserIdAndPassword(id , oldPassword);
+    }
+
 }

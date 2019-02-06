@@ -62,20 +62,6 @@ public class UserController extends BaseController {
         List<String> orgIdList = new ArrayList<String>();
         UserModel userModel = AppContext.getCurrentUser();
 
-//        //选择机构,根据选择机构查看
-//        if (StringUtil.isNotEmpty(orgId)) {
-//            orgIdList.add(orgId);
-//            if (isContainChildren == 1) {
-//                organizationService.treeById(orgId, orgIdList);      //包含下级,则递归获取
-//            }
-//        }
-//        //没有选择机构,默认查看当前用户可查看的所有信息
-//        else {
-//            orgId = userModel.getOrgId();
-//            orgIdList.add(orgId);
-//            organizationService.treeById(orgId, orgIdList);          //递归获取
-//        }
-
         //设置分页信息
         setPageInfo(request);
         return userService.queryUserList(nickname, account, null);
@@ -142,7 +128,7 @@ public class UserController extends BaseController {
     }
 
     /**
-     * 修改用户 (通用模块,因为可修改个人信息)
+     * 修改用户
      *
      * @param request
      * @param response
@@ -151,10 +137,59 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/updateUser", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
     @SystemControllerLog(module = "用户管理", operation = "修改用户")
-    @CommonRequest
-    public void updateUser(HttpServletRequest request, HttpServletResponse response, UserModel user) throws Exception {
+    public void updateUser(HttpServletRequest request, HttpServletResponse response, UserModel user, String oldPassword) throws Exception {
 
         JSONObject json = new JSONObject();
+
+        Integer count = userService.updateUser(user);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "修改成功");
+
+            //如果修改自身,则需要刷新session用户数据
+            UserModel currentUser = AppContext.getCurrentUser();
+            if (currentUser.getId().equals(user.getId())) {
+                currentUser.setNickname(user.getNickname());
+                currentUser.setAccount(user.getAccount());
+                currentUser.setPassword(Md5Util.md5_32(user.getPassword()));
+                currentUser.setOrgId(user.getOrgId());
+                currentUser.setAvatar(user.getAvatar());
+            }
+
+        } else {
+            json.put("success", false);
+            json.put("msg", "修改失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+    /**
+     * 修改用户 (通用模块,因为可修改个人信息)
+     *
+     * @param request
+     * @param response
+     * @param user
+     * @throws Exception
+     */
+    @RequestMapping(value = "/updateUserByUserPersonalCenter", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @SystemControllerLog(module = "用户管理", operation = "修改用户")
+    @CommonRequest
+    public void updateUserByUserPersonalCenter(HttpServletRequest request, HttpServletResponse response, UserModel user, String oldPassword) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        //修改密码需要先校验旧密码是否正确
+        if (StringUtil.isNotEmpty(user.getPassword())) {
+            int flag = userService.queryUserByUserIdAndPassword(user.getId(), oldPassword);
+            if (flag == 0) {
+                json.put("success", false);
+                json.put("msg", "修改失败,请检查旧密码是否正确！");
+                writeJson(response, json.toString());
+                return;
+            }
+        }
 
         Integer count = userService.updateUser(user);
 
@@ -312,5 +347,53 @@ public class UserController extends BaseController {
 
     }
 
+    /**
+     * 修改密码：首次登陆需要进行修改
+     *
+     * @param request
+     * @param response
+     * @param oldPassword
+     * @param password
+     * @throws Exception
+     */
+    @RequestMapping(value = "/updateUserPassword", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @SystemControllerLog(module = "用户管理", operation = "修改密码")
+    @CommonRequest
+    public void updateUserPassword(HttpServletRequest request, HttpServletResponse response, String oldPassword, String password) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel currentUser = AppContext.getCurrentUser();
+        String userId = currentUser.getId();
+
+        //修改密码需要先校验旧密码是否正确
+        if (StringUtil.isNotEmpty(password)) {
+            int flag = userService.queryUserByUserIdAndPassword(userId, oldPassword);
+            if (flag == 0) {
+                json.put("success", false);
+                json.put("msg", "修改失败,请检查旧密码是否正确！");
+                writeJson(response, json.toString());
+                return;
+            }
+        }
+
+        Integer count = userService.updateUserPassword(userId, oldPassword, password);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "修改成功");
+
+            //刷新session实体数据
+            currentUser.setPassword(Md5Util.md5_32(password));
+            currentUser.setNeedInitPassword(0);
+
+        } else {
+            json.put("success", false);
+            json.put("msg", "修改失败!");
+        }
+
+        writeJson(response, json.toString());
+
+    }
 
 }

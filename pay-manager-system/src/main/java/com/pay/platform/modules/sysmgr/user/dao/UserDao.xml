@@ -112,4 +112,14 @@
         update tb_sys_user set org_id = #{orgId} where id = #{userId}
     </update>
 
+    <update id="updateUserPassword" parameterType="UserModel">
+        update tb_sys_user set password = md5(#{password}) , need_init_password = 0
+        where id = #{userId} and password = md5(#{oldPassword})
+    </update>
+    
+    <select id="queryUserByUserIdAndPassword" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(1) from tb_sys_user
+        where id = #{id} and password = md5(#{oldPassword})
+    </select>
+
 </mapper>

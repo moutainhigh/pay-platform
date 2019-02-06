@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
+<%@ page import="com.pay.platform.common.context.AppContext" %>
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %><%--
   Created by IntelliJ IDEA.
   User: zjt
   Date: 16/10/4
@@ -42,4 +44,26 @@
 
 </div>
 </body>
+<script type="text/javascript">
+
+    $(function(){
+
+        <%-- 商家和代理首次登陆需要修改密码 --%>
+        <%
+            UserModel userModel = AppContext.getCurrentUser();
+            if (userModel != null) {
+                if (SysUserUtil.isAgentRole(userModel) || SysUserUtil.isMerchantRole(userModel)) {
+                    if (1 == userModel.getNeedInitPassword()) {
+                        out.println("$.dialog.show({");
+                        out.println(" url: baseURL + \"/view/sysmgr/user/user_update_password.jsp?_csrf=\" + token, ");
+                        out.println(" }); ");
+                    }
+                }
+            }
+        %>
+
+    });
+
+</script>
+
 </html>

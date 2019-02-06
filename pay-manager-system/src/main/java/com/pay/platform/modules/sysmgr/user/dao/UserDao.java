@@ -125,4 +125,14 @@ public interface UserDao {
      */
     OrganizationModel queryOrgInfoByUserId(@Param("userId") String userId);
 
+    /**
+     * 修改密码
+     * @param userId
+     * @param oldPassword
+     * @param password
+     * @return
+     */
+    Integer updateUserPassword(@Param("userId") String userId, @Param("oldPassword") String oldPassword, @Param("password") String password);
+
+    int queryUserByUserIdAndPassword(@Param("id") String id,@Param("oldPassword") String oldPassword);
 }

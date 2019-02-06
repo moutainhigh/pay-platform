@@ -16,7 +16,7 @@
 <div class="modal-body">
     <div class="bootbox-body">
 
-        <form id="editUserForm" action="${baseURL}/sysmgr/user/updateUser" class="form-horizontal">
+        <form id="editUserForm" action="${baseURL}/sysmgr/user/updateUserByUserPersonalCenter" class="form-horizontal">
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" name="id" value="${currentUser.id}"/>
@@ -32,6 +32,13 @@
                 <label class="col-md-3 col-sm-3 control-label">登录账号：</label>
                 <div class="col-md-8 col-sm-8">
                     <input name="account" value="${currentUser.account}" type="text" class="form-control" check-type="required" maxlength="20" placeholder="请输入登录账号"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">旧密码：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input type="password" name="oldPassword" id="oldPassword" placeholder="请填写旧密码" class="form-control" maxlength="20" autocomplete="old-password">
                 </div>
             </div>
 
@@ -92,7 +99,7 @@
 </div>
 
 <div class="modal-footer operation-button">
-    <button data-bb-handler="success" type="button" class="btn btn-success" onclick="pageScope.updateUser()">保存</button>
+    <button data-bb-handler="success" type="button" class="btn btn-success" onclick="pageScope.updateUserByUserPersonalCenter()">保存</button>
     <button data-bb-handler="cancel" type="button" class="btn btn-danger">取消</button>
 </div>
 
@@ -118,7 +125,7 @@
     /**
      * 修改用户信息
      */
-    pageScope.updateUser = function () {
+    pageScope.updateUserByUserPersonalCenter = function () {
 
         //表单验证
         if (!$("#editUserForm").valid()) {
