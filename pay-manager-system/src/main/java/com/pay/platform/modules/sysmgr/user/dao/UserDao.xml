@@ -130,4 +130,9 @@
         )
     </select>
 
+    <insert id="addAccountAmountInfo" parameterType="java.lang.String">
+        insert into tb_user_amount (id , user_id , account_amount , freeze_amount , create_time)
+        values (uuid() , #{userId} , 0 , 0 , now());
+    </insert>
+
 </mapper>

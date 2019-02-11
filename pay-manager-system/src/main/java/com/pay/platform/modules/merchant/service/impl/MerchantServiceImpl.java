@@ -84,6 +84,9 @@ public class MerchantServiceImpl implements MerchantService {
         RoleModel roleModel = roleDao.queryRoleByRoleCode(RoleCodeEnum.ROLE_MERCHANT.getCode());
         count += userService.grantRole(userId, roleModel.getId().split(","));
 
+        //4, 生成资金账户信息
+        count += userDao.addAccountAmountInfo(userId);
+
         return count;
     }
 
