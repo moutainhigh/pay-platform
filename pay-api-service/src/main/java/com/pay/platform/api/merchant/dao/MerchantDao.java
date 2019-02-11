@@ -28,25 +28,4 @@ public interface MerchantDao {
      */
     List<MerchantModel> queryMerchantList();
 
-    /**
-     * 增加商家账户余额
-     *
-     * @param merchantId
-     * @param amount
-     * @return
-     */
-    int addAccountAmount(@Param("merchantId") String merchantId, @Param("amount") Double amount);
-
-    /**
-     * 增加商家账户余额-流水记录
-     *
-     * @param merchantId
-     * @param sourceOrderNo
-     * @param type
-     * @param amount
-     * @return
-     */
-    int addAccountAmountBillLog(@Param("merchantId") String merchantId, @Param("sourceOrderNo") String sourceOrderNo,
-                                @Param("type") String type, @Param("amount") Double amount);
-
 }

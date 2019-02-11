@@ -12,14 +12,4 @@
         select * from tb_merchant
     </select>
 
-    <update id="addAccountAmount">
-        update tb_merchant set account_amount = (account_amount + abs(#{amount}))
-        where id = #{merchantId}
-    </update>
-
-    <insert id="addAccountAmountBillLog">
-        insert into tb_merchant_account_amount_log (id , merchant_id ,	source_order_no,type,amount,create_time )
-        values( uuid() , #{merchantId} , #{sourceOrderNo} , #{type} , #{amount} , now())
-    </insert>
-
 </mapper>
