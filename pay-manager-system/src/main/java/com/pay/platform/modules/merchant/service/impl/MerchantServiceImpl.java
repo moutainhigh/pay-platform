@@ -85,7 +85,7 @@ public class MerchantServiceImpl implements MerchantService {
         count += userService.grantRole(userId, roleModel.getId().split(","));
 
         //4, 生成资金账户信息
-        count += userDao.addAccountAmountInfo(userId);
+        count += userDao.addAccountAmountInfo(userId , null , merchant.getId());
 
         return count;
     }

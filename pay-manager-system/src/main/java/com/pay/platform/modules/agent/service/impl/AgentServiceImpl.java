@@ -77,7 +77,7 @@ public class AgentServiceImpl implements AgentService {
         count += userService.grantRole(userId, roleModel.getId().split(","));
 
         //4, 生成资金账户信息
-        count += userDao.addAccountAmountInfo(userId);
+        count += userDao.addAccountAmountInfo(userId, agent.getId() , null);
 
         return count;
     }

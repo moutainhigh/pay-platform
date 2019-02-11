@@ -139,10 +139,12 @@ public interface UserDao {
     Map<String,Object> queryMerchantSecretByUserId(@Param("userId") String userId);
 
     /**
-     * 生产资金账户信息
+     * 生成资金账户信息
      * @param userId
+     * @param agentId
+     * @param merchantId
      * @return
      */
-    int addAccountAmountInfo(@Param("userId") String userId);
+    int addAccountAmountInfo(@Param("userId") String userId , @Param("agentId") String agentId , @Param("merchantId") String merchantId);
 
 }
