@@ -135,4 +135,7 @@ public interface UserDao {
     Integer updateUserPassword(@Param("userId") String userId, @Param("oldPassword") String oldPassword, @Param("password") String password);
 
     int queryUserByUserIdAndPassword(@Param("id") String id,@Param("oldPassword") String oldPassword);
+
+    Map<String,Object> queryMerchantSecretByUserId(@Param("userId") String userId);
+
 }

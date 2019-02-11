@@ -122,4 +122,12 @@
         where id = #{id} and password = md5(#{oldPassword})
     </select>
 
+    <select id="queryMerchantSecretByUserId" parameterType="java.lang.String" resultType="java.util.Map">
+        select tm.merchant_secret merchantSecret , tm.notify_secret notifySecret
+        from tb_merchant tm
+        where tm.id = (
+            select tuser.merchant_id from tb_sys_user tuser where tuser.id = #{userId}
+        )
+    </select>
+
 </mapper>

@@ -1,3 +1,6 @@
+<%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
+<%@ page import="com.pay.platform.common.context.AppContext" %>
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -53,6 +56,15 @@
                             <button type="button" class="btn btn-primary" onclick="pageScope.toEditUser('${currentUser.id}');">
                                 <i class="glyphicon glyphicon-pencil"></i>修改
                             </button>
+                            <%-- 商家则显示查看密钥按钮 --%>
+                            <%
+                                UserModel userModel = AppContext.getCurrentUser();
+                                if (userModel != null && SysUserUtil.isMerchantRole(userModel)) {
+                                    out.print("<button type=\"button\" class=\"btn btn-primary\" onclick=\"pageScope.showMerchantSecret();\">");
+                                    out.print("<i class=\"glyphicon glyphicon-file\"></i>查看商家密钥");
+                                    out.print("</button>");
+                                }
+                            %>
                         </td>
                     </tr>
 
@@ -84,6 +96,23 @@
 
         //触发菜单按钮事件,重新刷新此页
         $("#btnPersonalInfo").trigger("click");
+
+    };
+
+    /**
+     * 查看商家密钥
+     */
+    pageScope.showMerchantSecret = function(){
+
+        $.dialog.show({
+            url: baseURL + "/view/sysmgr/user/user_show_secret.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+
+            },
+            success: function (response) {
+
+            }
+        });
 
     };
 

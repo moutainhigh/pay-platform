@@ -130,4 +130,9 @@ public class UserServiceImpl implements UserService {
         return userDao.queryUserByUserIdAndPassword(id , oldPassword);
     }
 
+    @Override
+    public Map<String, Object> queryMerchantSecretByUserId(String userId) {
+        return userDao.queryMerchantSecretByUserId(userId);
+    }
+
 }

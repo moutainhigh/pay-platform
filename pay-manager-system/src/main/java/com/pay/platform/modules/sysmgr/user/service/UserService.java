@@ -5,6 +5,7 @@ import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * UserModel: zjt
@@ -96,5 +97,12 @@ public interface UserService {
     Integer updateUserPassword(String userId, String oldPassword, String password);
 
     int queryUserByUserIdAndPassword(String id, String oldPassword);
+
+    /**
+     * 查询商家密钥
+     * @param userId
+     * @return
+     */
+    Map<String,Object> queryMerchantSecretByUserId(String userId);
 
 }

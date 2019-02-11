@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * UserModel: zjt
@@ -391,6 +392,40 @@ public class UserController extends BaseController {
             json.put("success", false);
             json.put("msg", "修改失败!");
         }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 查询当前用户的组织机构
+     *
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/showMerchantSecret", produces = "application/json;charset=UTF-8")
+    @CommonRequest
+    public void showMerchantSecret(String password , HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel currentUser = AppContext.getCurrentUser();
+        String userId = currentUser.getId();
+
+        //1、校验密码是否正确
+        int flag = userService.queryUserByUserIdAndPassword(userId, password);
+        if (flag == 0) {
+            json.put("success", false);
+            json.put("msg", "密码错误！");
+            writeJson(response, json.toString());
+            return;
+        }
+
+        //2、查询商家密钥、回调密钥并返回
+        Map<String,Object> merchantSecretMap = userService.queryMerchantSecretByUserId(userId);
+        json.put("success" , true);
+        json.put("msg", "查询成功！");
+        json.put("data", merchantSecretMap);
 
         writeJson(response, json.toString());
 
