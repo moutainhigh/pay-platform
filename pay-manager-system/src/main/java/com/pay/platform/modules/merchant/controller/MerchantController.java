@@ -95,14 +95,13 @@ public class MerchantController extends BaseController {
         JSONObject json = new JSONObject();
 
         UserModel userModel = AppContext.getCurrentUser();
-        if (!SysUserUtil.isAgentRole(userModel)) {
+        if (!SysUserUtil.isAdminRole(userModel)) {
             json.put("success", false);
-            json.put("msg", "只有代理才能新增商户!");
+            json.put("msg", "只有平台才能新增商户!");
             writeJson(response, json.toString());
             return;
         }
 
-        merchant.setAgentId(userModel.getAgentId());
         Integer count = merchantService.addMerchant(merchant);
 
         if (count > 0) {
@@ -129,6 +128,14 @@ public class MerchantController extends BaseController {
     public void deleteMerchant(HttpServletResponse response, String ids) throws Exception {
 
         JSONObject json = new JSONObject();
+
+        UserModel userModel = AppContext.getCurrentUser();
+        if (!SysUserUtil.isAdminRole(userModel)) {
+            json.put("success", false);
+            json.put("msg", "只有平台才能删除商户!");
+            writeJson(response, json.toString());
+            return;
+        }
 
         Integer count = merchantService.deleteMerchant(ids.split(","));
 
@@ -185,6 +192,13 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
+        UserModel userModel = AppContext.getCurrentUser();
+        if (!SysUserUtil.isAdminRole(userModel)) {
+            json.put("success", false);
+            json.put("msg", "只有平台才能修改商户!");
+            writeJson(response, json.toString());
+            return;
+        }
         Integer count = merchantService.updateMerchant(merchant);
 
         if (count > 0) {

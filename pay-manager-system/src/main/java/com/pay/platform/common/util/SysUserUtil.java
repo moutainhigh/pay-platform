@@ -86,4 +86,25 @@ public class SysUserUtil {
 
     }
 
+    /**
+     * 判断是否为超级管理员
+     *
+     * @param userModel
+     * @return
+     */
+    public static String getRoleCode(UserModel userModel) {
+
+        if (isAdminRole(userModel)) {
+            return RoleCodeEnum.ROLE_ADMIN.getCode();
+        } else if (isAgentRole(userModel)) {
+            return RoleCodeEnum.ROLE_AGENT.getCode();
+        }
+        else if (isMerchantRole(userModel)) {
+            return RoleCodeEnum.ROLE_MERCHANT.getCode();
+        }
+
+        return null;
+
+    }
+
 }

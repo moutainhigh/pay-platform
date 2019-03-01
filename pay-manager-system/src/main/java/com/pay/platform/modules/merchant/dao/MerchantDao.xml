@@ -85,7 +85,8 @@
             identity_code = #{identityCode},
             id_card_img1  = #{idCardImg1},
             id_card_img2  = #{idCardImg2},
-            icp_img       = #{icpImg}
+            icp_img       = #{icpImg},
+            agent_id       = #{agentId}
         where id = #{id}
     </update>
 

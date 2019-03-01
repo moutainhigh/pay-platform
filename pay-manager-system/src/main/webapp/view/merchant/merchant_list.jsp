@@ -1,5 +1,16 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
+<%@ page import="com.pay.platform.common.context.AppContext" %>
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" %>
 
+<%
+    UserModel userModel = AppContext.getCurrentUser();
+    session.putValue("roleCode", SysUserUtil.getRoleCode(userModel));
+%>
+<script type="text/javascript">
+    var roleCode = "${roleCode}";
+</script>
 
 <div class="row">
     <div class="col-md-12">
@@ -49,13 +60,15 @@
                 <!-- 操作按钮 -->
                 <div class="operation-button columns columns-left bars pull-left">
 
-                    <button id="add" class="btn btn-success" onclick="pageScope.addMerchant()">
-                        <i class="glyphicon glyphicon-plus"></i> 新增
-                    </button>
+                    <c:if test="${roleCode == 'ROLE_ADMIN'}">
+                        <button id="add" class="btn btn-success" onclick="pageScope.addMerchant()">
+                            <i class="glyphicon glyphicon-plus"></i> 新增
+                        </button>
 
-                    <button id="remove" class="btn btn-danger" onclick="pageScope.deleteMerchantByLogic()">
-                        <i class="glyphicon glyphicon-remove"></i> 删除
-                    </button>
+                        <button id="remove" class="btn btn-danger" onclick="pageScope.deleteMerchantByLogic()">
+                            <i class="glyphicon glyphicon-remove"></i> 删除
+                        </button>
+                    </c:if>
 
                 </div>
 
@@ -72,11 +85,3 @@
 </div>
 
 <script type="text/javascript" src="${baseURL}/view/merchant/merchant.js"></script>
-<script type="text/javascript">
-
-    $(function () {
-
-
-    });
-
-</script>

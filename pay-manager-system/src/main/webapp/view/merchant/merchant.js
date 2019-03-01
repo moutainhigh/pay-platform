@@ -51,9 +51,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = "";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.editMerchant()' ><i class='glyphicon glyphicon-pencil'></i></button>";
+                    if (roleCode == "ROLE_ADMIN") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.editMerchant()' ><i class='glyphicon glyphicon-pencil'></i></button>";
+                    }
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteMerchantByLogic(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
+                    if (roleCode == "ROLE_ADMIN") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteMerchantByLogic(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
+                    }
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.rate()' >设置费率</button>";
 
@@ -87,7 +91,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
                     var btn = $(".modal-footer .btn-success");        //防止重复提交
                     btn.attr("disabled", "disabled");
-
 
                     $('#addMerchantForm').ajaxSubmit({
                         dataType: 'json',
@@ -226,6 +229,34 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editCheckDesc").val(pageScope.currentrow.checkDesc);
                 $("#editIsDel").val(pageScope.currentrow.isDel);
                 $("#editCreateTime").val(pageScope.currentrow.createTime);
+
+
+                $.ajax({
+                    type: "post",
+                    url: baseURL + "/agent/queryAgentIdAndNameList?_csrf=" + token,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response && response.success == true) {
+                            var str = "";
+                            for (var i = 0; i < response.agentIdList.length; i++) {
+                                if (response.agentIdList[i].id == pageScope.currentrow.agentId) {
+                                    str += "  <option selected='selected'  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
+                                } else {
+                                    str += "  <option  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
+                                }
+                            }
+                            $("#editAgentId").html(str);
+                        } else {
+                            btn.removeAttr("disabled");
+                            $.msg.fail(response.msg);
+                            return false;
+                        }
+                    },
+                    error: function () {
+                        return false;
+                    }
+                });
+
             },
             buttonEvents: {
                 success: function () {

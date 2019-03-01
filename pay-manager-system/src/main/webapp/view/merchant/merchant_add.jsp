@@ -40,6 +40,13 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">所属代理：</label>
+                <div class="col-md-8 col-sm-8">
+                    <select name="agentId" id="agentId" class="form-control btn-block" check-type="required">
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">真实姓名：</label>
@@ -130,7 +137,34 @@
             hiddenField: "#addIcpImg",                   //返回隐藏域路径
         });
 
+        queryAgentIdAndNameList();
 
     });
+
+    function queryAgentIdAndNameList() {
+        $.ajax({
+            type: "post",
+            url: baseURL + "/agent/queryAgentIdAndNameList?_csrf=" + token,
+            dataType: "json",
+            success: function (response) {
+                if (response && response.success == true) {
+                    var str = "<option value=''>请选择绑定代理</option>";
+
+                    for (var i = 0; i < response.agentIdList.length; i++) {
+                        str += "  <option  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
+                    }
+                    $("#agentId").html(str);
+
+                } else {
+                    btn.removeAttr("disabled");
+                    $.msg.fail(response.msg);
+                    return false;
+                }
+            },
+            error: function () {
+                return false;
+            }
+        });
+    }
 
 </script>

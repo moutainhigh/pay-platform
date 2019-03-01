@@ -25,7 +25,6 @@ To change this template use File | Settings | File Templates.
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="hidden" id="editId" name="id"/>
 
-
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">商户名称：</label>
                 <div class="col-md-8 col-sm-8">
@@ -43,6 +42,13 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">所属代理：</label>
+                <div class="col-md-8 col-sm-8">
+                    <select name="agentId" id="editAgentId" class="form-control btn-block" check-type="required">
+                    </select>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">真实姓名：</label>
