@@ -219,8 +219,43 @@ $.fn.extend({
             }
         });
 
-    }
+    },
 
+    /**
+     * 加载字典 - 用于界面显示
+     * @param option.agentId: 代理id,回显用
+     */
+    loadAgentIdAndNameList: function (option) {
+
+        var self = $(this);
+
+        $.ajax({
+            type: "post",
+            url: baseURL + "/agent/queryAgentIdAndNameList?_csrf=" + token,
+            dataType: "json",
+            success: function (response) {
+                if (response && response.success == true) {
+                    var str = "<option value=''>请选择代理</option>";
+                    for (var i = 0; i < response.agentIdList.length; i++) {
+                        if (option && response.agentIdList[i].id == option.agentId) {
+                            str += "  <option selected  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
+                        } else {
+                            str += "  <option  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
+                        }
+                    }
+                    self.html(str);
+                } else {
+                    btn.removeAttr("disabled");
+                    $.msg.fail(response.msg);
+                    return false;
+                }
+            },
+            error: function () {
+                return false;
+            }
+        });
+
+    }
 
 });
 

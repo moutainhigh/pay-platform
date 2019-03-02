@@ -8,6 +8,9 @@
         from tb_merchant
         <where>
             and is_del = 0
+            <if test="agentId != null and agentId != '' ">
+                and agent_Id = #{agentId}
+            </if>
             <if test="merchantNo != null and merchantNo != '' ">
                 and merchant_no like CONCAT('%','${merchantNo}','%')
             </if>

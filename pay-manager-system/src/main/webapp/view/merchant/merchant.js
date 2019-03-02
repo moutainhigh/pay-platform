@@ -231,31 +231,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editCreateTime").val(pageScope.currentrow.createTime);
 
 
-                $.ajax({
-                    type: "post",
-                    url: baseURL + "/agent/queryAgentIdAndNameList?_csrf=" + token,
-                    dataType: "json",
-                    success: function (response) {
-                        if (response && response.success == true) {
-                            var str = "";
-                            for (var i = 0; i < response.agentIdList.length; i++) {
-                                if (response.agentIdList[i].id == pageScope.currentrow.agentId) {
-                                    str += "  <option selected='selected'  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
-                                } else {
-                                    str += "  <option  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
-                                }
-                            }
-                            $("#editAgentId").html(str);
-                        } else {
-                            btn.removeAttr("disabled");
-                            $.msg.fail(response.msg);
-                            return false;
-                        }
-                    },
-                    error: function () {
-                        return false;
-                    }
-                });
+                $("#editAgentId").loadAgentIdAndNameList({agentId:pageScope.currentrow.agentId});
 
             },
             buttonEvents: {

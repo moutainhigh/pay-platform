@@ -26,6 +26,12 @@
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
+                            <td width="80" align="right">所属代理：</td>
+                            <td width="150">
+                                <select name="agentId" id="queryAgentId" class="form-control btn-block" >
+                                </select>
+                            </td>
+
                             <td width="80" align="right">商家编号：</td>
                             <td width="150">
                                 <input type="text" name="merchantNo" id="queryMerchantNo" class="form-control btn-block" aria-describedby="basic-addon1">
@@ -85,3 +91,6 @@
 </div>
 
 <script type="text/javascript" src="${baseURL}/view/merchant/merchant.js"></script>
+<script type="text/javascript">
+    $("#queryAgentId").loadAgentIdAndNameList();
+</script>
