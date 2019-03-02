@@ -255,7 +255,53 @@ $.fn.extend({
             }
         });
 
+    } ,
+
+    /**
+     * 加载商家 信息下拉框
+     * @param option
+     *  agentId：根据上级代理级联
+     *  merchantId：回显用
+     */
+    loadMerchantIdAndNameList: function (option) {
+
+        var self = $(this);
+
+        var agentId = "";
+        if(option && option.agentId){
+            agentId = option.agentId;
+        }
+
+        $.ajax({
+            type: "post",
+            url: baseURL + "/merchant/queryMerchantIdAndNameList?_csrf=" + token + "&agentId=" + agentId,
+            dataType: "json",
+            success: function (response) {
+                if (response && response.success == true) {
+                    var str = "<option value=''>请选择商家</option>";
+
+                    for (var i = 0; i < response.merchantIdList.length; i++) {
+                        if (option && option.merchantId && response.merchantIdList[i].id == option.merchantId) {
+                            str += "  <option selected='selected'  value='" + response.merchantIdList[i].id + "'>" + response.merchantIdList[i].merchant_name + " </option> ";
+                        } else {
+                            str += "  <option  value='" + response.merchantIdList[i].id + "'>" + response.merchantIdList[i].merchant_name + " </option> ";
+                        }
+
+                    }
+                    self.html(str);
+                } else {
+                    btn.removeAttr("disabled");
+                    $.msg.fail(response.msg);
+                    return false;
+                }
+            },
+            error: function () {
+                return false;
+            }
+        });
+
     }
+
 
 });
 

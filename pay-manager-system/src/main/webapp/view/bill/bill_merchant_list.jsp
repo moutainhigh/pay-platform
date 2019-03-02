@@ -15,9 +15,15 @@
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
+                            <td width="80" align="right">所属代理：</td>
+                            <td width="150">
+                                <select name="agentId" id="queryAgentId" class="form-control btn-block">
+                                </select>
+                            </td>
+
                             <td width="80" align="right">所属商户：</td>
                             <td width="150">
-                                <select name="merchantId" id="merchantId" class="form-control btn-block">
+                                <select name="merchantId" id="queryMerchantId" class="form-control btn-block">
                                 </select>
                             </td>
 
@@ -71,6 +77,15 @@
     $(function () {
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();
+
+        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
+
+        //级联操作
+        $("#queryAgentId").change(function(){
+            var value = $(this).val();
+            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
+        });
+
     });
 
 </script>

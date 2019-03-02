@@ -30,9 +30,15 @@
                                 <input type="text" name="payCode" id="queryPayCode" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
+                            <td width="80" align="right">所属代理：</td>
+                            <td width="150">
+                                <select name="agentId" id="queryAgentId" class="form-control btn-block">
+                                </select>
+                            </td>
+
                             <td width="80" align="right">所属商户：</td>
                             <td width="150">
-                                <select name="merchantId" id="merchantId" class="form-control btn-block">
+                                <select name="merchantId" id="queryMerchantId" class="form-control btn-block">
                                 </select>
                             </td>
 
@@ -102,6 +108,13 @@
 
     $(function () {
 
+        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
+
+        //级联操作
+        $("#queryAgentId").change(function(){
+            var value = $(this).val();
+            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
+        });
 
     });
 

@@ -11,6 +11,8 @@ import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.agent.model.AgentRateListModel;
 import com.pay.platform.modules.agent.model.AgentRateModel;
 import com.pay.platform.modules.agent.service.AgentRateService;
+import com.pay.platform.modules.merchant.model.MerchantModel;
+import com.pay.platform.modules.merchant.service.MerchantService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import com.pay.platform.modules.sysmgr.user.service.UserService;
 import com.pay.platform.security.CommonRequest;
@@ -45,6 +47,9 @@ public class AgentController extends BaseController {
 
     @Autowired
     private AgentRateService agentRateService;
+
+    @Autowired
+    private MerchantService merchantService;
 
     /**
      * 分页查询代理列表
@@ -211,13 +216,18 @@ public class AgentController extends BaseController {
 
         List<Map<String, Object>> agentIdList = null;
 
-        //超级管理员可查询所有商家
+        //超级管理员可查询所有代理信息
         if (SysUserUtil.isAdminRole(user)) {
             agentIdList = agentService.queryAgentIdAndNameList(null);
         }
-        //代理管理员可查询自身
+        //代理管理员：只能查询自身
         else if (SysUserUtil.isAgentRole(user)) {
             agentIdList = agentService.queryAgentIdAndNameList(user.getAgentId());
+        }
+        //商家管理员：只能查询上级的代理
+        else if (SysUserUtil.isMerchantRole(user)) {
+            MerchantModel merchantModel = merchantService.queryMerchantById(user.getMerchantId());
+            agentIdList = agentService.queryAgentIdAndNameList(merchantModel.getAgentId());
         }
 
         json.put("success", true);

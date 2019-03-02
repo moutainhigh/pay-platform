@@ -225,7 +225,7 @@ public class MerchantController extends BaseController {
     @ResponseBody
     @CommonRequest
     @RequestMapping(value = "/queryMerchantIdAndNameList", produces = "application/json")
-    public void queryMerchantIdAndNameList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void queryMerchantIdAndNameList(HttpServletRequest request, HttpServletResponse response , String agentId ) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -235,7 +235,7 @@ public class MerchantController extends BaseController {
 
         //超级管理员可查询所有商家
         if (SysUserUtil.isAdminRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null, null);
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId);
         }
         //代理管理员可查询下级商家
         else if (SysUserUtil.isAgentRole(user)) {
