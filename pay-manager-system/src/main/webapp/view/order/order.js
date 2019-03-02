@@ -38,7 +38,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             },
             {title: '商户订单号', field: 'merchantOrderNo', align: 'center', sortable: true},
             {title: '平台订单号', field: 'platformOrderNo', align: 'center', sortable: true},
-            {title: '支付单号', field: 'payCode', align: 'center', sortable: true},
+            // {title: '支付单号', field: 'payCode', align: 'center', sortable: true},
             {title: '订单金额(元)', field: 'orderAmount', align: 'center', sortable: true},
             {title: '实际金额(元)', field: 'actualAmount', align: 'center', sortable: true},
             {title: '手续费(元)', field: 'handlingFee', align: 'center', sortable: true},
@@ -79,6 +79,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 formatter: function (value, row, index) {
                     var html = "";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showOrderDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
+
+                    if(row.payStatus == 'payed'){
+                        var platformOrderNo = row.platformOrderNo;
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.pushPaySuccessInfo(\""+row.platformOrderNo+"\")' >补单回调商户</button>";
+                    }
+
                     return html;
                 }
             }
@@ -138,5 +144,28 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         });
 
     };
+
+    /**
+     * 手动补单-回调商家
+     */
+    pageScope.pushPaySuccessInfo = function(orderNo){
+        $.ajax({
+            url: baseURL + "/order/pushPaySuccessInfo",
+            type: "post",
+            dataType: "json",
+            data: {"orderNo": orderNo, "_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+                    $.msg.success(response.msg);
+                    pageScope.orderTable.bootstrapTable('refresh');
+                } else {
+                    $.msg.error(response.msg);
+                }
+
+            }
+        });
+
+    }
 
 })();

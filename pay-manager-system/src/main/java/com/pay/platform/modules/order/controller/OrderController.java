@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.merchant.service.MerchantNotifyService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -36,6 +37,9 @@ public class OrderController extends BaseController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private MerchantNotifyService merchantNotifyService;
 
     /**
      * 分页查询订单列表
@@ -69,6 +73,33 @@ public class OrderController extends BaseController {
         }
 
         return null;
+    }
+
+    /**
+     * 手动补单-回调商家
+     *
+     * @param response
+     * @param orderNo
+     * @throws Exception
+     */
+    @RequestMapping(value = "/pushPaySuccessInfo", produces = "application/json")
+    @SystemControllerLog(module = "商家管理", operation = "手动补单-回调商家")
+    public void pushPaySuccessInfo(HttpServletResponse response, String orderNo) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        boolean flag = merchantNotifyService.pushPaySuccessInfo(orderNo);
+
+        if (flag) {
+            json.put("success", true);
+            json.put("msg", "回调成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "回调失败,未收到商家响应");
+        }
+
+        writeJson(response, json.toString());
+
     }
 
 }

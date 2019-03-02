@@ -11,6 +11,7 @@ import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.merchant.model.MerchantRateListModel;
 import com.pay.platform.modules.merchant.model.MerchantRateModel;
+import com.pay.platform.modules.merchant.service.MerchantNotifyService;
 import com.pay.platform.modules.merchant.service.MerchantRateService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import com.pay.platform.security.CommonRequest;
@@ -41,6 +42,9 @@ public class MerchantController extends BaseController {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired
+    private MerchantNotifyService merchantNotifyService;
 
     @Autowired
     private MerchantRateService service;
