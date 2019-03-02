@@ -80,9 +80,9 @@
                 <!-- 操作按钮 -->
                 <div class="operation-button columns columns-left bars pull-left">
 
-                    <button id="add" class="btn btn-success" onclick="pageScope.exportOrder()">
-                        <i class="glyphicon glyphicon-plus"></i> 导出
-                    </button>
+                    <%--<button id="add" class="btn btn-success" onclick="pageScope.exportOrder()">--%>
+                        <%--<i class="glyphicon glyphicon-plus"></i> 导出--%>
+                    <%--</button>--%>
                 </div>
 
                 <!-- 数据表格 -->
