@@ -60,11 +60,6 @@
                             <td width="80" align="right">支付方式：</td>
                             <td width="150">
                                 <select name="payWay" class="form-control" id="queryPayWay" class="form-control btn-block" aria-describedby="basic-addon1">
-                                    <option value="">请选择</option>
-                                    <option value="zfbScanCode">支付宝扫码支付</option>
-                                    <option value="zfbH5">支付宝h5支付</option>
-                                    <option value="wxScanCode">微信扫码支付</option>
-                                    <option value="wxH5">微信H5支付</option>
                                 </select>
                             </td>
 
@@ -114,6 +109,12 @@
         $("#queryAgentId").change(function(){
             var value = $(this).val();
             $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
+        });
+
+        //加载字典(下拉框)
+        $("#queryPayWay").loadDictionaryForSelect({
+            "dictType":"payWay",
+            "value":""
         });
 
     });
