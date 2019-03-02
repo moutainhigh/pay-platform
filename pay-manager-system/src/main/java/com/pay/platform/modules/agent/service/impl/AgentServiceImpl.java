@@ -59,10 +59,10 @@ public class AgentServiceImpl implements AgentService {
         agent.setId(UUID.randomUUID().toString());
         agent.setAgentNo(agentNo);
 
-        //1, 添加商家信息
+        //1, 添加代理信息
         int count =  agentDao.addAgent(agent);
 
-        //2, 为商户添加账号,并绑定商家ID
+        //2, 为代理添加账号,并绑定代理ID
         UserModel userModel = new UserModel();
         userModel.setAccount(agent.getAgentNo());
         userModel.setPassword(agent.getAgentNo());      //初始化密码,跟账号一样,商家首次登陆后续配置,并修改提现密码
@@ -71,7 +71,7 @@ public class AgentServiceImpl implements AgentService {
         userModel.setNickname(agent.getAgentName());
         count += userService.addUser(userModel);
 
-        //3, 为账号授予商家管理员角色
+        //3, 为账号授予代理管理员角色
         String userId = userModel.getId();
         RoleModel roleModel = roleDao.queryRoleByRoleCode(RoleCodeEnum.ROLE_AGENT.getCode());
         count += userService.grantRole(userId, roleModel.getId().split(","));
