@@ -101,7 +101,7 @@ public class MerchantServiceImpl implements MerchantService {
         int count = 0;
 
         count += merchantDao.deleteMerchantByLogic(ids);
-        count += userDao.deleteUserByAgentIdOfLogic(ids);
+        count += userDao.deleteUserByMerchantIdOfLogic(ids);
 
         return count;
 

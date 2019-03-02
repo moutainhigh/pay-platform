@@ -43,7 +43,7 @@
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">真实姓名：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="addRealName" name="realName" type="text" class="form-control" check-type="required" maxlength="255" placeholder="请输入真实姓名"/>
+                    <input id="addRealName" name="realName" type="text" class="form-control"  maxlength="255" placeholder="请输入真实姓名"/>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">身份证号码：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="addIdentityCode" name="identityCode" type="text" class="form-control" check-type="required" maxlength="255" placeholder="请输入身份证号码"/>
+                    <input id="addIdentityCode" name="identityCode" type="text" class="form-control"  maxlength="255" placeholder="请输入身份证号码"/>
                 </div>
             </div>
 

@@ -46,7 +46,7 @@ To change this template use File | Settings | File Templates.
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">真实姓名：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="editRealName" name="realName" check-type="required"
+                    <input id="editRealName" name="realName"
                            type="text" class="form-control" maxlength="255" placeholder="请输入真实姓名"/>
                 </div>
             </div>
@@ -55,7 +55,7 @@ To change this template use File | Settings | File Templates.
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">身份证号码：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="editIdentityCode" name="identityCode" check-type="required"
+                    <input id="editIdentityCode" name="identityCode"
                            type="text" class="form-control" maxlength="255" placeholder="请输入身份证号码"/>
                 </div>
             </div>
