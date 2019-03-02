@@ -89,7 +89,12 @@ public class AgentServiceImpl implements AgentService {
 
     @Override
     public Integer deleteAgentByLogic(String[] ids) {
-        return agentDao.deleteAgentByLogic(ids);
+        int count = 0;
+
+        count += agentDao.deleteAgentByLogic(ids);
+        count += userDao.deleteUserByAgentIdOfLogic(ids);
+
+        return count;
     }
 
     @Override

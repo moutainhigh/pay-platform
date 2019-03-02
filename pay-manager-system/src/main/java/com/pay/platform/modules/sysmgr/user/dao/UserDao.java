@@ -147,4 +147,18 @@ public interface UserDao {
      */
     int addAccountAmountInfo(@Param("userId") String userId , @Param("agentId") String agentId , @Param("merchantId") String merchantId);
 
+    /**
+     * 根据代理id删除用户
+     * @param ids
+     * @return
+     */
+    int deleteUserByAgentIdOfLogic(String[] ids);
+
+    /**
+     * 根据商家id删除用户
+     * @param ids
+     * @return
+     */
+    int deleteUserByMerchantIdOfLogic(String[] ids);
+
 }

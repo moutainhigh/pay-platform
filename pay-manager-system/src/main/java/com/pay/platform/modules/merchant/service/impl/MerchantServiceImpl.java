@@ -97,7 +97,14 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public Integer deleteMerchantByLogic(String[] ids) {
-        return merchantDao.deleteMerchantByLogic(ids);
+
+        int count = 0;
+
+        count += merchantDao.deleteMerchantByLogic(ids);
+        count += userDao.deleteUserByAgentIdOfLogic(ids);
+
+        return count;
+
     }
 
     @Override

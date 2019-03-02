@@ -12,6 +12,7 @@ import com.pay.platform.modules.agent.model.AgentRateListModel;
 import com.pay.platform.modules.agent.model.AgentRateModel;
 import com.pay.platform.modules.agent.service.AgentRateService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import com.pay.platform.modules.sysmgr.user.service.UserService;
 import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
