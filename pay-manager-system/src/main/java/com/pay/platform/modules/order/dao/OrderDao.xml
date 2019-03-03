@@ -59,4 +59,9 @@
         where platform_order_no = #{platformOrderNo}
     </update>
 
+    <select id="queryNeedSyncPayOrderStatusList" resultType="OrderModel" >
+        select * from tb_order
+        where notify_status != 'success' and notify_num &lt;  6  and create_time &gt;= DATE_SUB(NOW(),INTERVAL 30 MINUTE);
+    </select>
+
 </mapper>
