@@ -65,12 +65,16 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 }
             },
             {
-                title: '支付时间',
-                field: 'payTime',
+                title: '下单时间',
+                field: 'createTime',
                 align: 'center',
                 sortable: true,
                 formatter: function (value) {
-                    return $.date.formatToDateTime(value);
+                    if ($.validate.isNotEmpty(value)) {
+                        return $.date.formatToDateTime(value);
+                    } else {
+                        return "";
+                    }
                 }
             },
             {

@@ -18,7 +18,7 @@ public interface OrderService {
      * @param order
      * @return
      */
-    PageInfo<OrderModel> queryOrderList(OrderModel order);
+    PageInfo<OrderModel> queryOrderList(OrderModel order , String beginTime , String endTime);
 
     /**
      * 查询出需要定时推送支付信息的订单

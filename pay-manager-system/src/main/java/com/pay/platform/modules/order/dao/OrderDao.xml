@@ -10,31 +10,36 @@
         , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'notifyStatus' and FIND_IN_SET(ITEM_CODE , notify_status)) as notifyStatusDictDesc
         from tb_order
         <where>
-            <if test="merchantOrderNo != null and merchantOrderNo != '' ">
-                and merchant_order_no like CONCAT('%','${merchantOrderNo}','%')
+            <if test="order.merchantOrderNo != null and order.merchantOrderNo != '' ">
+                and merchant_order_no like CONCAT('%','${order.merchantOrderNo}','%')
             </if>
-            <if test="platformOrderNo != null and platformOrderNo != '' ">
-                and platform_order_no like CONCAT('%','${platformOrderNo}','%')
+            <if test="order.platformOrderNo != null and order.platformOrderNo != '' ">
+                and platform_order_no like CONCAT('%','${order.platformOrderNo}','%')
             </if>
-            <if test="payCode != null and payCode != '' ">
-                and pay_code like CONCAT('%','${payCode}','%')
+            <if test="order.payCode != null and order.payCode != '' ">
+                and pay_code like CONCAT('%','${order.payCode}','%')
             </if>
-            <if test="merchantNo != null and merchantNo != '' ">
-                and merchant_no like CONCAT('%','${merchantNo}','%')
+            <if test="order.merchantNo != null and order.merchantNo != '' ">
+                and merchant_no like CONCAT('%','${order.merchantNo}','%')
             </if>
-            <if test="agentId != null and agentId != '' ">
-                and agent_id = #{agentId}
+            <if test="order.gentId != null and order.agentId != '' ">
+                and agent_id = #{order.agentId}
             </if>
-            <if test="merchantId != null and merchantId != '' ">
-                and merchant_id = #{merchantId}
+            <if test="order.merchantId != null and order.merchantId != '' ">
+                and merchant_id = #{order.merchantId}
             </if>
-            <if test="payWay != null and payWay != '' ">
-                and pay_way = #{payWay}
+            <if test="order.payWay != null and order.payWay != '' ">
+                and pay_way = #{order.payWay}
             </if>
-            <if test="payStatus != null and payStatus != '' ">
-                and pay_status = #{payStatus}
+            <if test="order.payStatus != null and order.payStatus != '' ">
+                and pay_status = #{order.payStatus}
             </if>
-
+            <if test="beginTime != null and beginTime != '' ">
+                and create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and create_time &lt;= #{endTime}
+            </if>
         </where>
     </select>
 

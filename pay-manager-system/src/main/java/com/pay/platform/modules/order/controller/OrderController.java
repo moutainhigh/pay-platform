@@ -55,24 +55,24 @@ public class OrderController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/queryOrderList", produces = "application/json")
-    public PageInfo<OrderModel> queryOrderList(HttpServletRequest request, HttpServletResponse response, OrderModel order) throws Exception {
+    public PageInfo<OrderModel> queryOrderList(HttpServletRequest request, HttpServletResponse response, OrderModel order, String beginTime, String endTime) throws Exception {
         setPageInfo(request);
 
         UserModel userModel = AppContext.getCurrentUser();
 
         //超级管理员：可查看到所有的商家,接收前端传递的商家id
         if (SysUserUtil.isAdminRole(userModel)) {
-            return orderService.queryOrderList(order);
+            return orderService.queryOrderList(order, beginTime, endTime);
         }
         //代理管理员：可查到下级商家的流水,接收前端传递的商家id
         else if (SysUserUtil.isAgentRole(userModel)) {
             order.setAgentId(userModel.getAgentId());
-            return orderService.queryOrderList(order);
+            return orderService.queryOrderList(order, beginTime, endTime);
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
             order.setMerchantId(userModel.getMerchantId());
-            return orderService.queryOrderList(order);
+            return orderService.queryOrderList(order, beginTime, endTime);
         }
 
         return null;

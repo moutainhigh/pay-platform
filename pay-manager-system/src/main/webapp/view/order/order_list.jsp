@@ -52,7 +52,6 @@
                                 <select name="merchantId" id="queryMerchantId" class="form-control btn-block">
                                 </select>
                             </td>
-
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"
@@ -82,6 +81,22 @@
                                     <option value="payed">已支付</option>
                                     <option value="payFail">支付失败</option>
                                 </select>
+                            </td>
+
+                            <td width="80" align="right">开始时间：</td>
+                            <td width="200">
+                                <div class='input-group date' id='beginTime_div'>
+                                    <input name="beginTime" id="beginTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                            </td>
+
+                            <td width="80" align="right">结束时间：</td>
+                            <td width="200">
+                                <div class='input-group date' id='endTime_div'>
+                                    <input name="endTime" id="endTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
                             </td>
 
                         </tr>
@@ -129,5 +144,8 @@
         });
 
     });
+
+    $('#beginTime_div').datetimepicker();
+    $('#endTime_div').datetimepicker();
 
 </script>

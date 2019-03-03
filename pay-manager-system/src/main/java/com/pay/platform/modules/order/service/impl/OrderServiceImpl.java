@@ -30,8 +30,8 @@ public class OrderServiceImpl implements OrderService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public PageInfo<OrderModel> queryOrderList(OrderModel order) {
-        return new PageInfo(orderDao.queryOrderList(order));
+    public PageInfo<OrderModel> queryOrderList(OrderModel order , String beginTime , String endTime) {
+        return new PageInfo(orderDao.queryOrderList(order , beginTime , endTime));
     }
 
     @Override

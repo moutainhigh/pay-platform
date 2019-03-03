@@ -248,7 +248,7 @@ $.fn.extend({
                     }
                     self.html(str);
 
-                    if(option.onSuccess){
+                    if(option && option.onSuccess != undefined){
                         option.onSuccess();
                     }
 

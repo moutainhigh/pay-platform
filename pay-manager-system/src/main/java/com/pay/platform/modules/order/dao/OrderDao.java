@@ -21,7 +21,7 @@ public interface OrderDao {
      * @param order
      * @return
      */
-    List<OrderModel> queryOrderList(OrderModel order);
+    List<OrderModel> queryOrderList(@Param("order") OrderModel order, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /**
      * 根据订单号查询订单：商家单号、平台单号
