@@ -1,4 +1,4 @@
-package com.pay.platform.api.notify.dao;
+package com.pay.platform.api.merchant.dao;
 
 import com.pay.platform.api.merchant.model.MerchantModel;
 import org.apache.ibatis.annotations.Param;

@@ -1,8 +1,8 @@
-package com.pay.platform.api.notify.service.impl;
+package com.pay.platform.api.merchant.service.impl;
 
 import com.pay.platform.api.merchant.dao.MerchantDao;
-import com.pay.platform.api.notify.dao.MerchantNotifyDao;
-import com.pay.platform.api.notify.service.MerchantNotifyService;
+import com.pay.platform.api.merchant.dao.MerchantNotifyDao;
+import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.common.enums.PayStatusEnum;

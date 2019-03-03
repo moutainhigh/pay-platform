@@ -1,13 +1,13 @@
-package com.pay.platform.api.pay.controller;
+package com.pay.platform.api.payCharge.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
-import com.pay.platform.api.notify.service.MerchantNotifyService;
+import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.order.service.OrderService;
-import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.AESUtil;
 import com.pay.platform.common.util.DateUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -25,7 +23,7 @@ import java.util.UUID;
  * DateTime: 2019/1/6 19:38
  */
 @Controller
-public class PayController extends BaseController {
+public class TestController extends BaseController {
 
     @Autowired
     private MerchantNotifyService merchantNotifyService;
@@ -97,10 +95,19 @@ public class PayController extends BaseController {
     @RequestMapping(value = "/openApi/testRedisLock", method = {RequestMethod.POST, RequestMethod.GET})
     public void testRedisLock(HttpServletRequest request, HttpServletResponse response, String data) throws Exception {
 
-        for (int i = 0; i < 10; i++) {
-            new Thread(new TestRedisLockTast()).start();
-        }
+        orderService.paySuccessBusinessHandle("bbb2223" , UUID.randomUUID().toString() , DateUtil.getCurrentDateTime());
 
+//        for (int i = 0; i < 10; i++) {
+//            new Thread(new TestRedisLockTast()).start();
+//        }
+
+    }
+
+    @Test
+    public void testJsonObject(){
+        String result = null;
+        JSONObject jsonObject = new JSONObject(result);
+        System.out.println(jsonObject);
     }
 
 

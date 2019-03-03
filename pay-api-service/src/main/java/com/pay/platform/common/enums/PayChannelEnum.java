@@ -2,14 +2,11 @@ package com.pay.platform.common.enums;
 
 /**
  * User: zjt
- * DateTime: 2019/2/11 14:44
- *
- * 账户余额 - 操作类型
+ * DateTime: 2019/3/2 22:22
  */
-public enum  AccountAmountType {
+public enum  PayChannelEnum {
 
-    paySuccess("收款成功"),                         //增加账户余额
-    withdrawSuccess("提现成功");                    //扣减账户余额
+    JU_FU_BAO_CHARGE("聚福宝话冲");
 
     /**
      * 获取编码
@@ -31,7 +28,7 @@ public enum  AccountAmountType {
      * 构造函数
      */
     private String msg;
-    AccountAmountType(String msg) {
+    PayChannelEnum(String msg) {
         this.msg = msg;
     }
 

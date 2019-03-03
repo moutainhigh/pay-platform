@@ -1,4 +1,4 @@
-package com.pay.platform.api.notify.service;
+package com.pay.platform.api.merchant.service;
 
 /**
  * User: zjt

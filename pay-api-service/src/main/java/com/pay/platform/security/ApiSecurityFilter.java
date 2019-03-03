@@ -48,7 +48,7 @@ public class ApiSecurityFilter extends OncePerRequestFilter {
                 return;
             }
             JSONObject reqJson = new JSONObject(text);
-            logger.info("接口请求提交数据：" + text);
+            logger.info("请求报文：" + text);
 
             //1,判断是否包含timestamp,sign参数
             if (!reqJson.has("timestamp") || !reqJson.has("sign") || !reqJson.has("merchantNo") ) {

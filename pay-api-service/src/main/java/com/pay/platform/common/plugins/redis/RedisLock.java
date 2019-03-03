@@ -27,7 +27,7 @@ public class RedisLock {
     /**
      * 锁超时时间，防止线程在入锁以后，无限的执行等待
      */
-    private int expireMsecs = 60 * 1000;
+    private int expireMsecs = 30 * 1000;
 
     /**
      * 锁等待时间，防止线程饥饿
