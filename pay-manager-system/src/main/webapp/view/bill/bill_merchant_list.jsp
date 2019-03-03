@@ -1,5 +1,16 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
+<%@ page import="com.pay.platform.common.context.AppContext" %>
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" %>
 
+<%
+    UserModel userModel = AppContext.getCurrentUser();
+    session.putValue("roleCode", SysUserUtil.getRoleCode(userModel));
+%>
+<script type="text/javascript">
+    var roleCode = "${roleCode}";
+</script>
 
 <div class="row">
     <div class="col-md-12">
@@ -46,7 +57,7 @@
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"
-                                       onclick="javascript:document.getElementById('searchBillForm').reset(); pageScope.search();">
+                                       onclick="resetForm();">
                             </td>
 
                         </tr>
@@ -78,14 +89,27 @@
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();
 
-        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
+        //加载代理,以供选择
+        $("#queryAgentId").loadAgentIdAndNameList({
+            onSuccess: function () {
+                $("#queryAgentId").find("option:eq(1)").attr("selected","selected");            //默认选中第一个
+                var defaultAgentId = $("#queryAgentId").find("option:eq(1)").val();
+                $("#queryMerchantId").loadMerchantIdAndNameList({agentId: defaultAgentId});     //加载对应商家
+            }
+        });
 
         //级联操作
-        $("#queryAgentId").change(function(){
+        $("#queryAgentId").change(function () {
             var value = $(this).val();
-            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
+            $("#queryMerchantId").loadMerchantIdAndNameList({agentId: value});
         });
 
     });
+
+    function resetForm() {
+        $("#queryAgentId").find("option:selected").attr("selected", false);
+        javascript:document.getElementById('searchBillForm').reset();
+        pageScope.search();
+    }
 
 </script>

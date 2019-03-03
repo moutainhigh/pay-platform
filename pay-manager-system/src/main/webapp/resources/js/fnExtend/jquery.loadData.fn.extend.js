@@ -41,6 +41,9 @@ $.fn.extend({
             sortable: true,                                            //启用排序
             sortName: option.sortName || "create_time",                //默认排序方式
             sortOrder: option.sortOrder || "desc",
+            onLoadSuccess: option.onLoadSuccess || function () {
+
+            },
             onPostBody: option.onPostBody || function () {
                 return false;
             },
@@ -244,6 +247,11 @@ $.fn.extend({
                         }
                     }
                     self.html(str);
+
+                    if(option.onSuccess){
+                        option.onSuccess();
+                    }
+
                 } else {
                     btn.removeAttr("disabled");
                     $.msg.fail(response.msg);
@@ -255,7 +263,7 @@ $.fn.extend({
             }
         });
 
-    } ,
+    },
 
     /**
      * 加载商家 信息下拉框
@@ -268,7 +276,7 @@ $.fn.extend({
         var self = $(this);
 
         var agentId = "";
-        if(option && option.agentId){
+        if (option && option.agentId) {
             agentId = option.agentId;
         }
 

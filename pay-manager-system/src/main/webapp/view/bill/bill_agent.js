@@ -50,7 +50,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 pageScope.currentrow = row;
             },
             responseHandler: function (response) {
-                console.log(JSON.stringify(response));
                 var griddata = {};
                 try {
                     griddata.rows = response.list || [];
@@ -82,7 +81,14 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 {title: '通道总收入(元)', field: 'day_channel_amount', align: 'center', sortable: true},
                 {title: '平台总收入(元)', field: 'day_platform_amount', align: 'center', sortable: true},
                 {title: '代理总收入(元)', field: 'day_agent_amount', align: 'center', sortable: true},
-            ]
+            ], onLoadSuccess: function () {
+
+                if (roleCode == "ROLE_AGENT") {
+                    pageScope.billTable.bootstrapTable('hideColumn', 'day_channel_amount');
+                    pageScope.billTable.bootstrapTable('hideColumn', 'day_platform_amount');
+                }
+
+            }
         });
 
     }

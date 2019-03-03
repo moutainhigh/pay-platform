@@ -36,13 +36,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     return arguments[2] + 1;
                 }
             },
+            {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
             {title: '商户订单号', field: 'merchantOrderNo', align: 'center', sortable: true},
             {title: '平台订单号', field: 'platformOrderNo', align: 'center', sortable: true},
             // {title: '支付单号', field: 'payCode', align: 'center', sortable: true},
             {title: '订单金额(元)', field: 'orderAmount', align: 'center', sortable: true},
             {title: '实际金额(元)', field: 'actualAmount', align: 'center', sortable: true},
             {title: '手续费(元)', field: 'handlingFee', align: 'center', sortable: true},
-            {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
             {title: '通道收入', field: 'channelAmount', align: 'center', sortable: true},
             {title: '平台收入', field: 'platformAmount', align: 'center', sortable: true},
             {title: '代理收入', field: 'agentAmount', align: 'center', sortable: true},
@@ -86,7 +86,20 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     return html;
                 }
             }
-        ]
+        ], onLoadSuccess: function () {
+
+            if (roleCode == "ROLE_AGENT") {
+                pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
+            }
+            else if (roleCode == "ROLE_MERCHANT") {
+                pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
+            }
+
+
+        }
     });
 
 

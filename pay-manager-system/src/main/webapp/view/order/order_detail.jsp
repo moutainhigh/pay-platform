@@ -42,9 +42,9 @@ To change this template use File | Settings | File Templates.
                     <input id="detailPayCode" name="payCode" type="text" class="form-control" readonly="readonly"/>
                 </div>
 
-                <label class="col-md-2 col-sm-2 control-label">商品名称：</label>
+                <label class="col-md-2 col-sm-2 control-label">商家编号：</label>
                 <div class="col-md-4 col-sm-4">
-                    <input id="detailGoodsName" name="goodsName" type="text" class="form-control" readonly="readonly"/>
+                    <input id="detailMerchantNo" name="merchantNo" type="text" class="form-control" readonly="readonly"/>
                 </div>
             </div>
 
@@ -75,41 +75,40 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-2 col-sm-2 control-label">成本费率：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailCostRate" type="text" class="form-control" readonly="readonly"/>
-                </div>
+            <c:if test="${roleCode == 'ROLE_ADMIN'}">
+                <div class="form-group">
+                    <label class="col-md-2 col-sm-2 control-label">成本费率：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailCostRate" type="text" class="form-control" readonly="readonly"/>
+                    </div>
 
-                <label class="col-md-2 col-sm-2 control-label">通道收入：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailChannelAmount" type="text" class="form-control" readonly="readonly"/>
+                    <label class="col-md-2 col-sm-2 control-label">通道收入：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailChannelAmount" type="text" class="form-control" readonly="readonly"/>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label class="col-md-2 col-sm-2 control-label">平台收入：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailPlatformAmount" type="text" class="form-control" readonly="readonly"/>
+                    </div>
+                </div>
+            </c:if>
 
-            <div class="form-group">
-                <label class="col-md-2 col-sm-2 control-label">代理费率：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailAgentRate"  type="text" class="form-control" readonly="readonly"/>
-                </div>
+            <c:if test="${roleCode == 'ROLE_AGENT'}">
+                <div class="form-group">
+                    <label class="col-md-2 col-sm-2 control-label">代理费率：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailAgentRate" type="text" class="form-control" readonly="readonly"/>
+                    </div>
 
-                <label class="col-md-2 col-sm-2 control-label">平台收入：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailPlatformAmount" type="text" class="form-control" readonly="readonly"/>
-                </div>
-            </div>
+                    <label class="col-md-2 col-sm-2 control-label">代理收入：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailAgentAmount" type="text" class="form-control" readonly="readonly"/>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-md-2 col-sm-2 control-label">商家编号：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailMerchantNo" name="merchantNo" type="text" class="form-control" readonly="readonly"/>
                 </div>
-
-                <label class="col-md-2 col-sm-2 control-label">代理收入：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailAgentAmount" type="text" class="form-control" readonly="readonly"/>
-                </div>
-            </div>
+            </c:if>
 
             <div class="form-group">
                 <label class="col-md-2 col-sm-2 control-label">通道名称：</label>
