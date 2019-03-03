@@ -20,7 +20,7 @@
     </update>
 
     <update id="updateOrderPayInfo" parameterType="java.lang.String">
-        update tb_order set pay_code = #{payNo} , pay_status = #{payStatus} , pay_time = #{payTime}
+        update tb_order set pay_code = #{payNo} , pay_status = #{payStatus} , pay_time = #{payTime} , channel_actual_amount = #{channelActuatAmount}
         where platform_order_no = #{platformOrderNo}
     </update>
     

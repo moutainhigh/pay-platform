@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime) throws Exception {
+    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime , String channelActuatAmount) throws Exception {
 
         int count = 0;
 
@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
 
                 //修改支付状态、支付单号
                 if (!(PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus()))) {
-                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime);
+                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime , channelActuatAmount);
                 }
 
             }

@@ -32,6 +32,6 @@ public interface OrderService {
      * @param payTime
      * @return
      */
-    boolean paySuccessBusinessHandle(String platformOrderNo , String payNo , String payTime) throws Exception;
+    boolean paySuccessBusinessHandle(String platformOrderNo , String payNo , String payTime , String channelActuatAmount) throws Exception;
 
 }

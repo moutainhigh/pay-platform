@@ -1,5 +1,6 @@
 package com.pay.platform.api.payCharge.controller;
 
+import com.google.gson.JsonObject;
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.order.model.OrderModel;
@@ -69,13 +70,6 @@ public class PayChargeController extends BaseController {
             String notifyUrl = reqJson.getString("notifyUrl");
             String clientIp = reqJson.getString("clientIp");
 
-            //非空校验
-            json = ValidateUtil.isEmpty(reqJson, Arrays.asList("merchantNo", "merchantOrderNo", "orderAmount", "payWay", "notifyUrl", "clientIp"));
-            if ("0".equals(json.getString("status"))) {
-                writeJson(response, json.toString());
-                return;
-            }
-
             //创建订单
             String baseUrl = IpUtil.getBaseURL(request);
             String result = payChargeService.createOrderByCharge(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, clientIp, baseUrl);
@@ -99,6 +93,7 @@ public class PayChargeController extends BaseController {
             getCurrentLogger().error(e.getMessage(), e);
             json.put("status", "0");
             json.put("msg", "服务器内部错误：" + e.getMessage());
+            writeJson(response, json.toString());
         } finally {
             getCurrentLogger().info("响应报文：{}", json.toString());
         }
@@ -132,11 +127,10 @@ public class PayChargeController extends BaseController {
                 if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {
                     String platformOrderNo = data.getString("merchantOrderNo");
                     String payTime = data.getString("payTime");
-                    String orderAmount = data.getString("orderAmount");
-                    String amount = data.getString("amount");
+                    String channelActuatAmount = data.getString("amount");
 
                     //相关业务处理：更新订单状态等
-                    boolean flag = orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime);
+                    boolean flag = orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
 
                     //推送支付回调给商家
                     if (flag) {
@@ -197,10 +191,10 @@ public class PayChargeController extends BaseController {
                             if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {
                                 String payTime = data.getString("payTime");
                                 String orderAmount = data.getString("orderAmount");
-                                String amount = data.getString("amount");
+                                String channelActuatAmount = data.getString("amount");
 
                                 //相关业务处理：更新订单状态等
-                                orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime);
+                                orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
                                 orderModel = orderServicel.queryOrderByOrderNo(platformOrderNo);
 
                             }
@@ -213,19 +207,19 @@ public class PayChargeController extends BaseController {
 
             }
 
-            Map<String,Object> data = new HashMap();
-            data.put("merchantOrderNo" , orderModel.getMerchantOrderNo());
-            data.put("platformOrderNo" , orderModel.getPlatformOrderNo());
-            data.put("payStatus" , orderModel.getPayStatus());
-            data.put("payWay" , orderModel.getPayWay());
-            data.put("payTime" , orderModel.getPayTime());
-            data.put("orderAmount" , orderModel.getOrderAmount());
-            data.put("actualAmount" , orderModel.getActualAmount());
-            data.put("handlingFee" , orderModel.getHandlingFee());
+            Map<String, Object> data = new HashMap();
+            data.put("merchantOrderNo", orderModel.getMerchantOrderNo());
+            data.put("platformOrderNo", orderModel.getPlatformOrderNo());
+            data.put("payStatus", orderModel.getPayStatus());
+            data.put("payWay", orderModel.getPayWay());
+            data.put("payTime", orderModel.getPayTime());
+            data.put("orderAmount", orderModel.getOrderAmount());
+            data.put("actualAmount", orderModel.getActualAmount());
+            data.put("handlingFee", orderModel.getHandlingFee());
 
             json.put("status", "1");
             json.put("msg", "查询成功");
-            json.put("data",data);
+            json.put("data", data);
 
             writeJson(response, json.toString());
 

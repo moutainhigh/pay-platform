@@ -95,7 +95,7 @@ public class TestController extends BaseController {
     @RequestMapping(value = "/openApi/testRedisLock", method = {RequestMethod.POST, RequestMethod.GET})
     public void testRedisLock(HttpServletRequest request, HttpServletResponse response, String data) throws Exception {
 
-        orderService.paySuccessBusinessHandle("bbb2223" , UUID.randomUUID().toString() , DateUtil.getCurrentDateTime());
+//        orderService.paySuccessBusinessHandle("bbb2223" , UUID.randomUUID().toString() , DateUtil.getCurrentDateTime());
 
 //        for (int i = 0; i < 10; i++) {
 //            new Thread(new TestRedisLockTast()).start();
@@ -117,7 +117,7 @@ public class TestController extends BaseController {
         public void run() {
 
             try {
-                orderService.paySuccessBusinessHandle("bbb2223" , UUID.randomUUID().toString() , DateUtil.getCurrentDateTime());
+//                orderService.paySuccessBusinessHandle("bbb2223" , UUID.randomUUID().toString() , DateUtil.getCurrentDateTime());
             } catch (Exception e) {
                 e.printStackTrace();
             }

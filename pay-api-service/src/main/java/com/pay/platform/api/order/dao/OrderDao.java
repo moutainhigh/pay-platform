@@ -47,6 +47,7 @@ public interface OrderDao {
      * @param payTime
      * @return
      */
-    int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo, @Param("payStatus") String payStatus, @Param("payTime") String payTime);
+    int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
+            , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
 
 }
