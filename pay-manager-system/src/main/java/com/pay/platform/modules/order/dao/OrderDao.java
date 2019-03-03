@@ -61,6 +61,4 @@ public interface OrderDao {
     int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
             , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
 
-    List<OrderModel> queryNeedSyncPayOrderStatusList();
-
 }

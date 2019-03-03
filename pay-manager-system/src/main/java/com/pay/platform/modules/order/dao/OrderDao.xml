@@ -51,17 +51,12 @@
 
     <select id="queryTimerPushSuccessInfoOrderList" parameterType="OrderModel" resultType="OrderModel">
         select * from tb_order
-        where pay_status = 'payed' and notify_status != 'success' and notify_num &lt; 8
+        where notify_status != 'success' and notify_num &lt; 8  and create_time &gt;= DATE_SUB(NOW(),INTERVAL 30 MINUTE);
     </select>
 
     <update id="updateOrderPayInfo" parameterType="java.lang.String">
         update tb_order set pay_code = #{payNo} , pay_status = #{payStatus} , pay_time = #{payTime} , channel_actual_amount = #{channelActuatAmount}
         where platform_order_no = #{platformOrderNo}
     </update>
-
-    <select id="queryNeedSyncPayOrderStatusList" resultType="OrderModel" >
-        select * from tb_order
-        where notify_status != 'success' and notify_num &lt;  6  and create_time &gt;= DATE_SUB(NOW(),INTERVAL 30 MINUTE);
-    </select>
 
 </mapper>

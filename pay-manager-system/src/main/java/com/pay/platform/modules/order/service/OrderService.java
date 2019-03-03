@@ -44,10 +44,4 @@ public interface OrderService {
      */
     boolean paySuccessBusinessHandle(String platformOrderNo , String payNo , String payTime , String channelActuatAmount) throws Exception;
 
-    /**
-     * 查询需要同步状态的订单
-     * @return
-     */
-    List<OrderModel> queryNeedSyncPayOrderStatusList() ;
-
 }

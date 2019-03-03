@@ -90,9 +90,4 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    @Override
-    public List<OrderModel> queryNeedSyncPayOrderStatusList() {
-        return orderDao.queryNeedSyncPayOrderStatusList();
-    }
-
 }

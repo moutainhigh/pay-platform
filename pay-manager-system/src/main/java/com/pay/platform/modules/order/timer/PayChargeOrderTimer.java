@@ -28,12 +28,17 @@ public class PayChargeOrderTimer {
 
     /**
      * 同步订单状态
+     *
+     * 5分钟执行一次，查询半个小时内的未支付订单及未推送订单；
+     *
+     * 并同步最新状态，推送支付回调给商家
      */
-    @Scheduled(cron = "0 0/5 * * * ?")
+//    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void syncPayChargeOrderStatus() {
 
         //1、查询30分钟内未推送的订单
-        List<OrderModel> orderModelList = orderService.queryNeedSyncPayOrderStatusList();
+        List<OrderModel> orderModelList = orderService.queryTimerPushSuccessInfoOrderList();
 
         //2、遍历并回调给商家
         for (OrderModel orderModel : orderModelList) {
