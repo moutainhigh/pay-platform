@@ -63,16 +63,28 @@ public class HttpClientUtil {
         HttpPost httpost = new HttpPost(url); // 设置响应头信息
         httpost.addHeader("Content-type", "application/json; charset=utf-8");
         httpost.setHeader("Accept", "application/json");
-        httpost.setEntity(new StringEntity(jsonBody, "UTF-8"));
+        httpost.addHeader("Connection", "close");
+        httpost.getParams().setParameter("http.socket.timeout", 10000);
 
-        HttpResponse response = httpClient.execute(httpost);
+        try {
 
-        int code = response.getStatusLine().getStatusCode();
-        if (code == 200) {
-            return getJsonStrFromHttpResponse(response);
+            httpost.setEntity(new StringEntity(jsonBody, "UTF-8"));
+            HttpResponse response = httpClient.execute(httpost);
+
+            int code = response.getStatusLine().getStatusCode();
+            if (code == 200) {
+                return getJsonStrFromHttpResponse(response);
+            }
+
+            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            httpost.releaseConnection();
+            httpost.abort();
         }
-
-        return null;
 
     }
 
