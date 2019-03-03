@@ -8,6 +8,8 @@ import com.pay.platform.common.util.JsonUtil;
 import com.pay.platform.security.ApiSignUtil;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,6 +61,7 @@ public class TestPayChargeApi {
      * @param response
      * @throws Exception
      */
+    @RequestMapping(value = "/openApi/testMerchantNotify", method = {RequestMethod.POST, RequestMethod.GET})
     public void testMerchantNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String text = IOUtils.toString(request.getInputStream(), "utf-8");
