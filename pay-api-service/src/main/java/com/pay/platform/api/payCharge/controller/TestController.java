@@ -84,7 +84,7 @@ public class TestController extends BaseController {
         String text = IOUtils.toString(request.getInputStream(), "utf-8");
         System.out.println(" 回调报文 ---> " + text);
 
-        String params = AESUtil.decrypt(text, "6625484sd5czx6aw");
+        String params = AESUtil.decrypt(text, "b7874e246f916b97");
         System.out.println(" 解密后 ---> " + params);
 
         response.getWriter().write("SUCCESS");
