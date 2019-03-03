@@ -128,9 +128,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailGoodsName").val(pageScope.currentrow.goodsName);
                 $("#detailOrderAmount").val(pageScope.currentrow.orderAmount);
 
-                $("#detailCostRate").val(pageScope.currentrow.costRate + "%");
-                $("#detailAgentRate").val(pageScope.currentrow.agentRate + "%");
-                $("#detailMerchantRate").val(pageScope.currentrow.merchantRate + "%");
+                $("#detailCostRate").val(pageScope.currentrow.costRate);    // + "%");
+                $("#detailAgentRate").val(pageScope.currentrow.agentRate);    // + "%");
+                $("#detailMerchantRate").val(pageScope.currentrow.merchantRate);    // + "%");
 
                 $("#detailChannelAmount").val(pageScope.currentrow.channelAmount);
 
