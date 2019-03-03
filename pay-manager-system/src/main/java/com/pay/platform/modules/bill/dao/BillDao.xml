@@ -77,7 +77,8 @@
         ,(
         select IFNULL(sum(tor.agent_amount) ,0) from tb_order tor
         where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
-        ) day_agent_amount
+        ) day_agent_amount,
+        tab.day_all_order_num,tab.day_payed_order_num
         from (
             select tca.create_time , (
                 select GROUP_CONCAT(tor.platform_order_no)
@@ -88,7 +89,27 @@
                 <if test="merchantId != null and merchantId != '' ">
                     and tor.merchant_id = #{merchantId}
                 </if>
-            ) orderNos
+            ) orderNos,
+             (
+                select count(1)
+                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
+                <if test="agentId != null and agentId != '' ">
+                    and tor.agent_id = #{agentId}
+                </if>
+                <if test="merchantId != null and merchantId != '' ">
+                    and tor.merchant_id = #{merchantId}
+                </if>
+            ) day_all_order_num
+            , (
+            select count(1)
+            from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
+            <if test="agentId != null and agentId != '' ">
+                and tor.agent_id = #{agentId}
+            </if>
+            <if test="merchantId != null and merchantId != '' ">
+                and tor.merchant_id = #{merchantId}
+            </if>
+            ) day_payed_order_num
             , (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo
             from tb_calendar tca
             where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())

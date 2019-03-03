@@ -81,6 +81,19 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 {title: '通道总收入(元)', field: 'day_channel_amount', align: 'center', sortable: true},
                 {title: '平台总收入(元)', field: 'day_platform_amount', align: 'center', sortable: true},
                 {title: '代理总收入(元)', field: 'day_agent_amount', align: 'center', sortable: true},
+                {
+                    title: '成功率', field: 'create_time', align: 'center', sortable: true,
+                    formatter: function (value, row, index) {
+                        var day_all_order_num = row.day_all_order_num;
+                        var day_payed_order_num = row.day_payed_order_num;
+                        if (parseInt(day_payed_order_num) != 0) {
+                            var result = (parseInt(day_payed_order_num) / parseInt(day_all_order_num)) * 100;
+                            return result.toFixed(2) + "%";
+                        } else {
+                            return "0%";
+                        }
+                    }
+                },
             ], onLoadSuccess: function () {
 
                 if (roleCode == "ROLE_AGENT") {
