@@ -49,4 +49,16 @@ public interface OrderDao {
      */
     List<OrderModel> queryTimerPushSuccessInfoOrderList();
 
+    /**
+     * 更新支付信息
+     *
+     * @param platformOrderNo
+     * @param payNo
+     * @param payStatus
+     * @param payTime
+     * @return
+     */
+    int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
+            , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
+
 }

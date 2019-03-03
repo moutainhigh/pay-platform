@@ -6,7 +6,10 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.enums.PayStatusEnum;
+import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.common.util.payCharge.util.PayUtil;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import org.json.JSONObject;
@@ -88,14 +91,57 @@ public class OrderController extends BaseController {
 
         JSONObject json = new JSONObject();
 
-        boolean flag = merchantNotifyService.pushPaySuccessInfo(orderNo);
+        OrderModel orderModel = orderService.queryOrderByOrderNo(orderNo);
+        if (orderModel == null) {
+            json.put("status", "0");
+            json.put("msg", "订单不存在");
+            writeJson(response, json.toString());
+            return;
+        }
 
-        if (flag) {
-            json.put("success", true);
-            json.put("msg", "回调成功");
+        //待支付状态: 则主动查询通道接口，获取最新状态，再进行回调
+        if (PayStatusEnum.waitPay.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
+
+            try {
+                String platformOrderNo = orderModel.getPlatformOrderNo();
+                String result = PayUtil.findOrder(platformOrderNo);
+                if (StringUtil.isNotEmpty(result)) {
+                    JSONObject resultJson = new JSONObject(result);
+                    if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
+                        JSONObject data = resultJson.getJSONObject("data");
+                        //支付成功
+                        if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {
+                            String payTime = data.getString("finishedDate");
+                            String channelActuatAmount = data.getString("actualPayment");
+
+                            //相关业务处理：更新订单状态等
+                            orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
+                            orderModel = orderService.queryOrderByOrderNo(orderNo);
+                        }
+
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        //已支付状态：直接回调
+        if (PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
+            boolean flag = merchantNotifyService.pushPaySuccessInfo(orderNo);
+
+            if (flag) {
+                json.put("success", true);
+                json.put("msg", "回调成功");
+            } else {
+                json.put("success", false);
+                json.put("msg", "回调失败,未收到商家响应");
+            }
+
         } else {
             json.put("success", false);
-            json.put("msg", "回调失败,未收到商家响应");
+            json.put("msg", "回调失败,可能是订单未支付或是回调延迟,请稍后再试。");
         }
 
         writeJson(response, json.toString());

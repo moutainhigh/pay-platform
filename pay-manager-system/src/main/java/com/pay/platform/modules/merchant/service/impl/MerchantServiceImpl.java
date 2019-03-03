@@ -118,6 +118,11 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public MerchantModel queryMerchantSecretByIMerchantNo(String merchantNo) {
+        return merchantDao.queryMerchantSecretByIMerchantNo(merchantNo);
+    }
+
+    @Override
     public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId, String agentId) {
         return merchantDao.queryMerchantIdAndNameList(merchantId , agentId);
     }

@@ -71,6 +71,13 @@ public interface MerchantService {
     MerchantModel queryMerchantByIMerchantNo(String merchantNo);
 
     /**
+     * 根据商户编号查询商户密钥信息
+     * @param merchantNo
+     * @return
+     */
+    MerchantModel queryMerchantSecretByIMerchantNo(String merchantNo);
+
+    /**
      * 查询商家id和名称
      * @param merchantId
      * @param agentId

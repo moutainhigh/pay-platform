@@ -28,4 +28,21 @@ public interface OrderService {
      */
     List<OrderModel> queryTimerPushSuccessInfoOrderList();
 
+    /**
+     * 根据订单号查询订单：商家单号、平台单号
+     * @param orderNo
+     * @return
+     */
+    OrderModel queryOrderByOrderNo(String orderNo);
+
+    /**
+     * 支付成功回调 - 业务处理
+     * @param platformOrderNo
+     * @param payNo
+     * @param payTime
+     * @return
+     */
+    boolean paySuccessBusinessHandle(String platformOrderNo , String payNo , String payTime , String channelActuatAmount) throws Exception;
+
+
 }

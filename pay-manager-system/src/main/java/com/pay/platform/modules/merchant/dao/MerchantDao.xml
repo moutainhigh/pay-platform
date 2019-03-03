@@ -99,6 +99,13 @@
         where merchant_no = #{merchantNo}
     </select>
 
+    <select id="queryMerchantSecretByIMerchantNo" parameterType="java.lang.String" resultType="MerchantModel">
+        select *
+        from tb_merchant
+        where merchant_no = #{merchantNo}
+    </select>
+
+
     <select id="queryMerchantIdAndNameList" parameterType="java.lang.String" resultType="java.util.Map">
         select id , merchant_name
         from tb_merchant

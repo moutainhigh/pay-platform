@@ -44,7 +44,7 @@ public class MerchantSecretCacheUtil {
 
         //懒加载: 商户密钥获取
         if (StringUtil.isEmpty(merchantSecretMap.get(merchantNo))) {
-            MerchantModel merchantModel = merchantService.queryMerchantByIMerchantNo(merchantNo);
+            MerchantModel merchantModel = merchantService.queryMerchantSecretByIMerchantNo(merchantNo);
             if (merchantModel != null) {
                 merchantSecretMap.put(merchantNo, merchantModel.getMerchantSecret());
                 notifySecretMap.put(merchantNo, merchantModel.getNotifySecret());
@@ -68,7 +68,7 @@ public class MerchantSecretCacheUtil {
 
         //懒加载: 商户密钥获取
         if (StringUtil.isEmpty(notifySecretMap.get(merchantNo))) {
-            MerchantModel merchantModel = merchantService.queryMerchantByIMerchantNo(merchantNo);
+            MerchantModel merchantModel = merchantService.queryMerchantSecretByIMerchantNo(merchantNo);
             if (merchantModel != null) {
                 merchantSecretMap.put(merchantNo, merchantModel.getMerchantSecret());
                 notifySecretMap.put(merchantNo, merchantModel.getNotifySecret());

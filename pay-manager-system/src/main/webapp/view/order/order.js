@@ -80,10 +80,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     var html = "";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showOrderDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
 
-                    if(row.payStatus == 'payed'){
-                        var platformOrderNo = row.platformOrderNo;
-                        html += "<button type='button' class='btn btn-link' onclick='pageScope.pushPaySuccessInfo(\""+row.platformOrderNo+"\")' >补单回调商户</button>";
-                    }
+                    var platformOrderNo = row.platformOrderNo;
+                    html += "<button type='button' class='btn btn-link' onclick='pageScope.pushPaySuccessInfo(\"" + row.platformOrderNo + "\")' >补单回调商户</button>";
 
                     return html;
                 }
@@ -107,7 +105,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
         $.dialog.show({
             url: baseURL + "/view/order/order_detail.jsp?" + _csrf + "=" + token,
-            size:"large",
+            size: "large",
             onLoad: function () {
 
                 $("#detailId").val(pageScope.currentrow.id);
@@ -148,7 +146,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
     /**
      * 手动补单-回调商家
      */
-    pageScope.pushPaySuccessInfo = function(orderNo){
+    pageScope.pushPaySuccessInfo = function (orderNo) {
         $.ajax({
             url: baseURL + "/order/pushPaySuccessInfo",
             type: "post",
