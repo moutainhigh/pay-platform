@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -107,16 +108,17 @@ public class PayChargeController extends BaseController {
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/openApi/payNotifyOfCharge", method = RequestMethod.POST)
+    @RequestMapping(value = "/openApi/payNotifyOfCharge", method = {RequestMethod.POST , RequestMethod.GET})
     public void payNotifyOfCharge(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
 
             String secretData = IOUtils.toString(request.getInputStream(), "utf-8");
+            String sign = URLDecoder.decode(new JSONObject(secretData).getString("sign"),"UTF-8");
 
             //解密获取报文
             AESOperator aes = new AESOperator(PayUtil.AES_SECRET);
-            String text = aes.decrypt(secretData);
+            String text = aes.decrypt(sign);
             getCurrentLogger().info("充值结果回调：" + text);
             JSONObject reqJson = new JSONObject(text);
 
@@ -189,9 +191,8 @@ public class PayChargeController extends BaseController {
                             JSONObject data = resultJson.getJSONObject("data");
                             //支付成功
                             if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {
-                                String payTime = data.getString("payTime");
-                                String orderAmount = data.getString("orderAmount");
-                                String channelActuatAmount = data.getString("amount");
+                                String payTime = data.getString("finishedDate");
+                                String channelActuatAmount = data.getString("actualPayment");
 
                                 //相关业务处理：更新订单状态等
                                 orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);

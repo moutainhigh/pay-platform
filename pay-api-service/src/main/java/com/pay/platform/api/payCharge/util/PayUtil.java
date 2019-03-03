@@ -41,7 +41,7 @@ public class PayUtil {
         map.put("merchantOrderNo", orderNo);
         map.put("amount", amount);
         map.put("payType", payType);
-        map.put("notifyUrl", "http://www.myquanzi.com/pay/jfbpay/notify_ur1l.php");
+        map.put("notifyUrl", notifyUrl);
         map.put("clientIp", clientIp);
 
         AESOperator aes = new AESOperator(AES_SECRET);
@@ -52,8 +52,9 @@ public class PayUtil {
         param.put("merchantId", MERCHANT_ID);
         param.put("sign", reqStr);
 
+        logger.info("话冲请求报文:" + JsonUtil.parseToJsonStr(map));
         String resStr = HttpClientPost.reqPost(url, param.toString());
-        logger.info("话冲响应数据:" + orderNo + "->" + resStr);
+        logger.info("话冲响应报文:" + orderNo + "->" + resStr);
 
         return resStr;
     }

@@ -64,6 +64,7 @@ public class PayChargeServiceImpl implements PayChargeService {
         orderModel.setHandlingFee(handlingFee);
         orderModel.setActualAmount(actualAmount);
         orderModel.setCostRate(costRate);
+        orderModel.setNotifyUrl(notifyUrl);
         orderModel.setChannelAmount(channelAmount);
         orderModel.setAgentRate(agentRate);
         orderModel.setPlatformAmount(platformAmount);
