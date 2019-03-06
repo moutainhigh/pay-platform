@@ -101,14 +101,14 @@
                 </if>
             ) day_all_order_num
             , (
-            select count(1)
-            from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
-            <if test="agentId != null and agentId != '' ">
-                and tor.agent_id = #{agentId}
-            </if>
-            <if test="merchantId != null and merchantId != '' ">
-                and tor.merchant_id = #{merchantId}
-            </if>
+                select count(1)
+                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
+                <if test="agentId != null and agentId != '' ">
+                    and tor.agent_id = #{agentId}
+                </if>
+                <if test="merchantId != null and merchantId != '' ">
+                    and tor.merchant_id = #{merchantId}
+                </if>
             ) day_payed_order_num
             , (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo
             from tb_calendar tca

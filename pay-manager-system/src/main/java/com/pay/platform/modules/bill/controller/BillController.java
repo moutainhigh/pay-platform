@@ -59,10 +59,13 @@ public class BillController extends BaseController {
     @RequestMapping(value = "/merchant/queryMerchantEveryDayBill")
     @ResponseBody
     @SystemControllerLog(module = "商家流水", operation = "查看商家每日流水")
-    public PageInfo<Map<String, Object>> queryMerchantEveryDayBill(HttpServletRequest request, HttpServletResponse response, String merchantId, String beginTime, String endTime , String agentId) {
+    public PageInfo<Map<String, Object>> queryMerchantEveryDayBill(HttpServletRequest request, HttpServletResponse response
+            , String merchantId, String beginTime, String endTime , String agentId , String statisticsWay) {
 
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
+
+        System.out.println(" ---> " + statisticsWay);
 
         //超级管理员：可查看到所有的商家,接收前端传递的代理id/商家id
         if (SysUserUtil.isAdminRole(userModel)) {

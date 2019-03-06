@@ -239,6 +239,11 @@ $.fn.extend({
             success: function (response) {
                 if (response && response.success == true) {
                     var str = "<option value=''>请选择代理</option>";
+
+                    if(option && option.isDelDefaultOption){
+                        str = ""
+                    }
+
                     for (var i = 0; i < response.agentIdList.length; i++) {
                         if (option && response.agentIdList[i].id == option.agentId) {
                             str += "  <option selected  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";
@@ -286,7 +291,11 @@ $.fn.extend({
             dataType: "json",
             success: function (response) {
                 if (response && response.success == true) {
+
                     var str = "<option value=''>请选择商家</option>";
+                    if(option && option.isDelDefaultOption){
+                        str = "";
+                    }
 
                     for (var i = 0; i < response.merchantIdList.length; i++) {
                         if (option && option.merchantId && response.merchantIdList[i].id == option.merchantId) {
@@ -297,6 +306,11 @@ $.fn.extend({
 
                     }
                     self.html(str);
+
+                    if(option && option.onSuccess != undefined){
+                        option.onSuccess();
+                    }
+
                 } else {
                     btn.removeAttr("disabled");
                     $.msg.fail(response.msg);

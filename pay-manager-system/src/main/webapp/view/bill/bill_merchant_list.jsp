@@ -41,7 +41,7 @@
                             <td width="80" align="right">开始时间：</td>
                             <td width="150">
                                 <div class='input-group date' id='beginTime_div'>
-                                    <input name="beginTime" id="beginTime" type="text" class="form-control" data-date-format="YYYY-MM-DD" aria-describedby="basic-addon1"/>
+                                    <input name="beginTime" id="beginTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
                             </td>
@@ -49,9 +49,17 @@
                             <td width="80" align="right">结束时间：</td>
                             <td width="150">
                                 <div class='input-group date' id='endTime_div'>
-                                    <input name="endTime" id="endTime" type="text" class="form-control" data-date-format="YYYY-MM-DD" aria-describedby="basic-addon1"/>
+                                    <input name="endTime" id="endTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 </div>
+                            </td>
+
+                            <td width="80" align="right">统计方式：</td>
+                            <td width="150">
+                                <select name="statisticsWay" id="queryStatisticsWay" class="form-control btn-block">
+                                    <option value="day">按天</option>
+                                    <option value="timeLine">按时间段</option>
+                                </select>
                             </td>
 
                             <td colspan="2">
@@ -91,10 +99,20 @@
 
         //加载代理,以供选择
         $("#queryAgentId").loadAgentIdAndNameList({
+            isDelDefaultOption: true,
             onSuccess: function () {
-                $("#queryAgentId").find("option:eq(1)").attr("selected","selected");            //默认选中第一个
-                var defaultAgentId = $("#queryAgentId").find("option:eq(1)").val();
-                $("#queryMerchantId").loadMerchantIdAndNameList({agentId: defaultAgentId});     //加载对应商家
+
+                var defaultAgentId = $("#queryAgentId").find("option:selected").val();
+
+                //加载对应商家
+                $("#queryMerchantId").loadMerchantIdAndNameList({
+                    isDelDefaultOption: true,
+                    agentId: defaultAgentId,
+                    onSuccess: function () {
+                        pageScope.billTable.bootstrapTable('refresh');
+                    }
+                });
+
             }
         });
 
