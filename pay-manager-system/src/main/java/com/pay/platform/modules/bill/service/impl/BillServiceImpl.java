@@ -29,4 +29,9 @@ public class BillServiceImpl implements BillService {
         return new PageInfo(billDao.queryMerchantEveryDayBill(merchantId, beginTime, endTime, agentId));
     }
 
+    @Override
+    public PageInfo<Map<String, Object>> queryMerchantBillByDateTime(String agentId, String merchantId, String beginTime, String endTime) {
+        return new PageInfo(billDao.queryMerchantBillByDateTime(agentId, merchantId, beginTime, endTime));
+    }
+
 }

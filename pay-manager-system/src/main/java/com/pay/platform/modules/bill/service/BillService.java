@@ -29,4 +29,14 @@ public interface BillService {
      */
     PageInfo<Map<String, Object>> queryMerchantEveryDayBill(String merchantId, String beginTime, String endTime ,  String agentId);
 
+    /**
+     * 根据时间段查询商家流水
+     * @param agentId
+     * @param merchantId
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    PageInfo<Map<String,Object>> queryMerchantBillByDateTime(String agentId, String merchantId, String beginTime, String endTime);
+
 }

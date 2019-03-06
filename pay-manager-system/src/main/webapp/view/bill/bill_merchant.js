@@ -40,7 +40,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {
                 title: '日期', field: 'create_time', align: 'center', sortable: true,
                 formatter: function (value) {
-                    return $.date.formatToDate(value);
+                    var statisticsWay = $("#queryStatisticsWay").val();
+                    if ("day" == statisticsWay) {
+                        return $.date.formatToDate(value);
+                    } else if ("timeLine" == statisticsWay) {
+                        return $("#beginTime").val() + " - " + $("#endTime").val();
+                    }
                 }
             },
             {title: '收款总金额(元)', field: 'day_Order_Amount', align: 'center', sortable: true},
@@ -80,6 +85,25 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      * 查询
      */
     pageScope.search = function () {
+
+        var statisticsWay = $("#queryStatisticsWay").val();
+        if ("timeLine" == statisticsWay) {
+            var beginTime = $("#beginTime").val();
+            var endTime = $("#endTime").val();
+            if($.validate.isEmpty(beginTime)){
+                $.msg.toast("请选择开始时间");
+                return;
+            }
+            if($.validate.isEmpty(endTime)){
+                $.msg.toast("请选择结束时间");
+                return;
+            }
+            if(endTime < beginTime){
+                $.msg.toast("开始时间不可大于结束时间!");
+                return;
+            }
+        }
+
         pageScope.billTable.bootstrapTable('refresh');
     };
 

@@ -15,12 +15,13 @@ public interface BillDao {
 
     /**
      * 查看代理每日流水
+     *
      * @param agentId
      * @param beginTime
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> queryAgentEveryDayBill(@Param("agentId") String agentId,@Param("beginTime")  String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> queryAgentEveryDayBill(@Param("agentId") String agentId, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /**
      * 查询商家每日流水
@@ -30,6 +31,18 @@ public interface BillDao {
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> queryMerchantEveryDayBill(@Param("merchantId") String merchantId, @Param("beginTime") String beginTime, @Param("endTime") String endTime,@Param("agentId") String agentId);
+    List<Map<String, Object>> queryMerchantEveryDayBill(@Param("merchantId") String merchantId, @Param("beginTime") String beginTime
+            , @Param("endTime") String endTime, @Param("agentId") String agentId);
+
+    /**
+     * 根据时间段查询商家流水
+     * @param agentId
+     * @param merchantId
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    List<Map<String, Object>> queryMerchantBillByDateTime(@Param("agentId") String agentId, @Param("merchantId") String merchantId
+            , @Param("beginTime") String beginTime, @Param("endTime") String endTime );
 
 }

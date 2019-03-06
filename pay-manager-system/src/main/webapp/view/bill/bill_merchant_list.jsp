@@ -39,7 +39,7 @@
                             </td>
 
                             <td width="80" align="right">开始时间：</td>
-                            <td width="150">
+                            <td width="200">
                                 <div class='input-group date' id='beginTime_div'>
                                     <input name="beginTime" id="beginTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -47,7 +47,7 @@
                             </td>
 
                             <td width="80" align="right">结束时间：</td>
-                            <td width="150">
+                            <td width="200">
                                 <div class='input-group date' id='endTime_div'>
                                     <input name="endTime" id="endTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>

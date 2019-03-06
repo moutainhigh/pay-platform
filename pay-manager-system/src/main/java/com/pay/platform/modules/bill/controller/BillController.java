@@ -3,6 +3,7 @@ package com.pay.platform.modules.bill.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.bill.service.BillService;
@@ -60,24 +61,28 @@ public class BillController extends BaseController {
     @ResponseBody
     @SystemControllerLog(module = "商家流水", operation = "查看商家每日流水")
     public PageInfo<Map<String, Object>> queryMerchantEveryDayBill(HttpServletRequest request, HttpServletResponse response
-            , String merchantId, String beginTime, String endTime , String agentId , String statisticsWay) {
+            , String merchantId, String beginTime, String endTime, String agentId, String statisticsWay) {
 
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
 
-        System.out.println(" ---> " + statisticsWay);
-
-        //超级管理员：可查看到所有的商家,接收前端传递的代理id/商家id
-        if (SysUserUtil.isAdminRole(userModel)) {
-            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, agentId);
-        }
         //代理管理员：可查到下级商家的流水,接收前端传递的商家id
-        else if (SysUserUtil.isAgentRole(userModel)) {
-            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, userModel.getAgentId());
+        if (SysUserUtil.isAgentRole(userModel)) {
+            agentId = userModel.getAgentId();
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
-            return billService.queryMerchantEveryDayBill(userModel.getMerchantId(), beginTime, endTime, null);
+            merchantId = userModel.getMerchantId();
+        }
+
+        if (StringUtil.isEmpty(merchantId)) {
+            return null;
+        }
+
+        if ("day".equalsIgnoreCase(statisticsWay)) {
+            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, agentId);
+        } else if ("timeLine".equalsIgnoreCase(statisticsWay)) {
+            return billService.queryMerchantBillByDateTime(agentId, merchantId, beginTime, endTime);
         }
 
         return null;

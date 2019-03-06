@@ -125,4 +125,31 @@
 
     </select>
 
+    <select id="queryMerchantBillByDateTime" resultType="java.util.Map">
+        select
+            IFNULL(sum(tor.order_amount) ,0) as day_Order_Amount , IFNULL(sum(tor.actual_amount) ,0) as day_actual_amount ,
+            IFNULL(sum(tor.handling_fee) ,0) as day_Handling_Fee , IFNULL(sum(tor.channel_amount) ,0) as day_channel_amount ,
+            IFNULL(sum(tor.platform_amount) ,0)  as day_platform_amount , IFNULL(sum(tor.agent_amount) ,0) as day_agent_amount ,
+            count(1) as day_payed_order_num ,
+            (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo ,
+            (
+              select count(1) from tb_order tor2
+              where tor2.CREATE_TIME &gt;= #{beginTime} and tor2.create_time &lt;= #{endTime}
+              <if test="agentId != null and agentId != '' ">
+                    and tor2.agent_id = #{agentId}
+              </if>
+              <if test="merchantId != null and merchantId != '' ">
+                    and tor2.merchant_id = #{merchantId}
+              </if>
+            ) as day_all_order_num
+        from tb_order tor
+        where tor.pay_status = 'payed' and tor.CREATE_TIME &gt;= #{beginTime} and tor.create_time &lt;= #{endTime}
+        <if test="agentId != null and agentId != '' ">
+            and tor.agent_id = #{agentId}
+        </if>
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+    </select>
+
 </mapper>
