@@ -42,7 +42,7 @@ public interface BillDao {
      * @param endTime
      * @return
      */
-    List<Map<String, Object>> queryMerchantBillByDateTime(@Param("agentId") String agentId, @Param("merchantId") String merchantId
+    List<Map<String, Object>> queryBillByDateTime(@Param("agentId") String agentId, @Param("merchantId") String merchantId
             , @Param("beginTime") String beginTime, @Param("endTime") String endTime );
 
 }

@@ -30,8 +30,8 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public PageInfo<Map<String, Object>> queryMerchantBillByDateTime(String agentId, String merchantId, String beginTime, String endTime) {
-        return new PageInfo(billDao.queryMerchantBillByDateTime(agentId, merchantId, beginTime, endTime));
+    public PageInfo<Map<String, Object>> queryBillByDateTime(String agentId, String merchantId, String beginTime, String endTime) {
+        return new PageInfo(billDao.queryBillByDateTime(agentId, merchantId, beginTime, endTime));
     }
 
 }

@@ -39,18 +39,20 @@ public class BillController extends BaseController {
     @RequestMapping(value = "/agent/queryAgentEveryDayBill")
     @ResponseBody
     @SystemControllerLog(module = "代理流水", operation = "查看代理每日流水")
-    public PageInfo<Map<String, Object>> queryAgentEveryDayBill(HttpServletRequest request, String agentId, String beginTime, String endTime) {
+    public PageInfo<Map<String, Object>> queryAgentEveryDayBill(HttpServletRequest request, String agentId, String beginTime, String endTime, String statisticsWay) {
 
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
 
-        //超级管理员：可查看到所有的代理流水,接收前端传递的agentId
-        if (SysUserUtil.isAdminRole(userModel)) {
-            return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);
-        }
         //代理管理员：可查到自身流水
-        else if (SysUserUtil.isAgentRole(userModel)) {
-            return billService.queryAgentEveryDayBill(userModel.getAgentId(), beginTime, endTime);
+        if (SysUserUtil.isAgentRole(userModel)) {
+            agentId = userModel.getAgentId();
+        }
+
+        if ("day".equalsIgnoreCase(statisticsWay)) {
+            return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);
+        } else if ("timeLine".equalsIgnoreCase(statisticsWay)) {
+            return billService.queryBillByDateTime(agentId, null, beginTime, endTime);
         }
 
         return null;
@@ -82,7 +84,7 @@ public class BillController extends BaseController {
         if ("day".equalsIgnoreCase(statisticsWay)) {
             return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, agentId);
         } else if ("timeLine".equalsIgnoreCase(statisticsWay)) {
-            return billService.queryMerchantBillByDateTime(agentId, merchantId, beginTime, endTime);
+            return billService.queryBillByDateTime(agentId, merchantId, beginTime, endTime);
         }
 
         return null;
