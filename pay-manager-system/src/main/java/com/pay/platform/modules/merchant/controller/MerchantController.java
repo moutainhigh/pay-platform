@@ -352,6 +352,15 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
+        //防止前端用户退出后,还一直重复调用定时器,当退出登录后
+        UserModel userModel = AppContext.getCurrentUser();
+        if (userModel == null) {
+            json.put("success", false);
+            json.put("msg", "已退出登录,通知前端清除定时器轮询!");
+            json.put("code", "sessionTimeOut");
+            writeJson(response, json.toString());
+        }
+
         //1,查询商家累计收款金额
         Map<String, Object> map = merchantService.queryMerchantAmountInfo(merchantId);
         double totalAmount = Double.parseDouble(map.get("totalAmount").toString());
@@ -366,10 +375,7 @@ public class MerchantController extends BaseController {
             json.put("msg", "已达到可提现金额,为了您的资金安全,请及时联系平台财务提现！");
 
             //记录最后一次提醒的时间及金额
-            merchantService.saveMerchantNotifyWithdrawAmount(merchantId , totalAmount);
-        } else {
-            json.put("success", false);
-            json.put("msg", "未达到可提现金额或距离上一次提醒之间收款金额未超过10万！");
+            merchantService.saveMerchantNotifyWithdrawAmount(merchantId, totalAmount);
         }
 
         writeJson(response, json.toString());
