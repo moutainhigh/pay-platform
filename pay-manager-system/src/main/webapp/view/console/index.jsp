@@ -95,7 +95,7 @@
             dataType: "json",
             success: function (response) {
                 if (response && response.success == true) {
-                    $.msg.alert("温馨提示" , response.msg);
+                    $.msg.alert("温馨提示", response.msg);
                 }
             }
         });
