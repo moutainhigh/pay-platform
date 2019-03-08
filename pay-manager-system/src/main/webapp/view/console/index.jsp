@@ -80,7 +80,7 @@
 
         //商家需要开启定时服务,轮询,提醒商家及时进行提现
         if (roleCode == "ROLE_MERCHANT") {
-            setInterval('looperQueryMerchantAmountOfNotifyWithdraw()', 5000);
+            setInterval('looperQueryMerchantAmountOfNotifyWithdraw()', 30000);
         }
 
     });
@@ -92,6 +92,7 @@
         $.ajax({
             type: "GET",
             url: baseURL + "/merchant/queryMerchantAmountOfNotifyWithdraw?merchantId=" + merchantId,
+            async:true,
             dataType: "json",
             success: function (response) {
                 if (response && response.success == true) {
