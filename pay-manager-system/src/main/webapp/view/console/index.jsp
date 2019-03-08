@@ -1,6 +1,22 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
 <%@ page import="com.pay.platform.common.context.AppContext" %>
-<%@ page import="com.pay.platform.common.util.SysUserUtil" %><%--
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %>
+<%
+    {
+        UserModel userModel = AppContext.getCurrentUser();
+        if (userModel != null) {
+            session.putValue("roleCode", SysUserUtil.getRoleCode(userModel));
+            session.putValue("merchantId", userModel.getMerchantId());
+        }
+    }
+%>
+<script type="text/javascript">
+    var roleCode = "${roleCode}";
+    var merchantId = "${merchantId}";
+</script>
+
+<%--
   Created by IntelliJ IDEA.
   User: zjt
   Date: 16/10/4
@@ -20,9 +36,9 @@
     <%@include file="header.jsp" %>
 
     <!-- 内容区域-->
-    <div class="content-wrapper" id="content-main" >
+    <div class="content-wrapper" id="content-main">
         <div class="row">
-            <div class="col-md-12" >
+            <div class="col-md-12">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -46,11 +62,11 @@
 </body>
 <script type="text/javascript">
 
-    $(function(){
+    $(function () {
 
         <%-- 商家和代理首次登陆需要修改密码 --%>
         <%
-            UserModel userModel = AppContext.getCurrentUser();
+                UserModel userModel = AppContext.getCurrentUser();
             if (userModel != null) {
                 if (SysUserUtil.isAgentRole(userModel) || SysUserUtil.isMerchantRole(userModel)) {
                     if (1 == userModel.getNeedInitPassword()) {
@@ -62,7 +78,28 @@
             }
         %>
 
+        //商家需要开启定时服务,轮询,提醒商家及时进行提现
+        if (roleCode == "ROLE_MERCHANT") {
+            setInterval('looperQueryMerchantAmountOfNotifyWithdraw()', 5000);
+        }
+
     });
+
+    /**
+     * 轮询,提醒商家及时进行提现
+     */
+    function looperQueryMerchantAmountOfNotifyWithdraw() {
+        $.ajax({
+            type: "GET",
+            url: baseURL + "/merchant/queryMerchantAmountOfNotifyWithdraw?merchantId=" + merchantId,
+            dataType: "json",
+            success: function (response) {
+                if (response && response.success == true) {
+                    $.msg.alert("温馨提示" , response.msg);
+                }
+            }
+        });
+    }
 
 </script>
 
