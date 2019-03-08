@@ -76,6 +76,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 pageScope.billTable.bootstrapTable('hideColumn', 'day_channel_amount');
                 pageScope.billTable.bootstrapTable('hideColumn', 'day_platform_amount');
                 pageScope.billTable.bootstrapTable('hideColumn', 'day_agent_amount');
+
+                queryMerchantAmountOfNotifyWithdraw();
             }
 
         }

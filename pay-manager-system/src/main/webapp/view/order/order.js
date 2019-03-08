@@ -100,6 +100,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
+
+                queryMerchantAmountOfNotifyWithdraw();
             }
 
 

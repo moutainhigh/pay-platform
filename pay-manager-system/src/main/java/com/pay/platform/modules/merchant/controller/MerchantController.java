@@ -352,15 +352,6 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
-        //防止前端用户退出后,还一直重复调用定时器,当退出登录后
-        UserModel userModel = AppContext.getCurrentUser();
-        if (userModel == null) {
-            json.put("success", false);
-            json.put("msg", "已退出登录,通知前端清除定时器轮询!");
-            json.put("code", "sessionTimeOut");
-            writeJson(response, json.toString());
-        }
-
         //1,查询商家累计收款金额
         Map<String, Object> map = merchantService.queryMerchantAmountInfo(merchantId);
         double totalAmount = Double.parseDouble(map.get("totalAmount").toString());

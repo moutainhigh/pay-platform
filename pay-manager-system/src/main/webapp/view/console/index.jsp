@@ -62,8 +62,6 @@
 </body>
 <script type="text/javascript">
 
-    var looperTimer;
-
     $(function () {
 
         <%-- 商家和代理首次登陆需要修改密码 --%>
@@ -80,9 +78,9 @@
             }
         %>
 
-        //商家需要开启定时服务,轮询,提醒商家及时进行提现
+        //查询提醒商家及时进行提现
         if (roleCode == "ROLE_MERCHANT") {
-            looperTimer = setInterval('looperQueryMerchantAmountOfNotifyWithdraw()', 30000);
+            queryMerchantAmountOfNotifyWithdraw();
         }
 
     });
@@ -90,7 +88,7 @@
     /**
      * 轮询,提醒商家及时进行提现
      */
-    function looperQueryMerchantAmountOfNotifyWithdraw() {
+    function queryMerchantAmountOfNotifyWithdraw() {
         $.ajax({
             type: "GET",
             url: baseURL + "/merchant/queryMerchantAmountOfNotifyWithdraw?merchantId=" + merchantId,
@@ -100,12 +98,6 @@
 
                 if (response && response.success == true) {
                     $.msg.alert("温馨提示", response.msg);
-                }
-
-                //session已超时,清楚定时器
-                if (response && response.code == "sessionTimeOut") {
-                    console.log(JSON.stringify(response));
-                    clearInterval(looperTimer);
                 }
 
             }
