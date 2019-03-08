@@ -137,4 +137,14 @@ public class MerchantServiceImpl implements MerchantService {
         return merchantDao.review(merchant);
     }
 
+    @Override
+    public Map<String, Object> queryMerchantAmountInfo(String merchantId) {
+        return merchantDao.queryMerchantAmountInfo(merchantId);
+    }
+
+    @Override
+    public int saveMerchantNotifyWithdrawAmount(String merchantId, double totalAmount) {
+        return merchantDao.saveMerchantNotifyWithdrawAmount(merchantId , totalAmount);
+    }
+
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.merchant.model.MerchantRateListModel;
@@ -229,7 +230,7 @@ public class MerchantController extends BaseController {
     @ResponseBody
     @CommonRequest
     @RequestMapping(value = "/queryMerchantIdAndNameList", produces = "application/json")
-    public void queryMerchantIdAndNameList(HttpServletRequest request, HttpServletResponse response , String agentId ) throws Exception {
+    public void queryMerchantIdAndNameList(HttpServletRequest request, HttpServletResponse response, String agentId) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -335,6 +336,44 @@ public class MerchantController extends BaseController {
         }
 
         writeJson(response, json.toString());
+    }
+
+    /**
+     * 查询商家金额,用于提醒商家提现
+     *
+     * @param response
+     * @param merchantId
+     * @throws Exception
+     */
+    @CommonRequest
+    @RequestMapping(value = "/queryMerchantAmountOfNotifyWithdraw", produces = "application/json")
+    @SystemControllerLog(module = "查询商家金额", operation = "查询商家金额提醒商家提现")
+    public void queryMerchantAmountOfNotifyWithdraw(HttpServletResponse response, String merchantId) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        //1,查询商家累计收款金额
+        Map<String, Object> map = merchantService.queryMerchantAmountInfo(merchantId);
+        double totalAmount = Double.parseDouble(map.get("totalAmount").toString());
+
+        //2,查询上一次提醒商家提现时的金额
+        double lastNotifyAmount = Double.parseDouble(map.get("lastNotifyAmount").toString());
+
+        //每达到10万提醒一次商家提现
+        double difference = DecimalCalculateUtil.sub(totalAmount, lastNotifyAmount);
+        if (difference > 100000) {
+            json.put("success", true);
+            json.put("msg", "已达到可提现金额,为了您的资金安全,请及时联系平台财务提现！");
+
+            //记录最后一次提醒的时间及金额
+            merchantService.saveMerchantNotifyWithdrawAmount(merchantId , totalAmount);
+        } else {
+            json.put("success", false);
+            json.put("msg", "未达到可提现金额或距离上一次提醒之间收款金额未超过10万！");
+        }
+
+        writeJson(response, json.toString());
+
     }
 
 }

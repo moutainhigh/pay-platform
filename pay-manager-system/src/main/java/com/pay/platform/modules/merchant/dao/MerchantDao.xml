@@ -130,5 +130,17 @@
           and check_status = 'waitCheck'
     </update>
 
+    <select id="queryMerchantAmountInfo" parameterType="java.lang.String" resultType="java.util.Map">
+        select IFNULL(( select sum(actual_amount)  from tb_order tor where tor.merchant_id = #{merchantId} ) ,0) as totalAmount ,
+            IFNULL( (select tmwn.last_notify_amount  from tb_merchant_withdraw_notify tmwn  where tmwn.merchant_id = #{merchantId} ), 0) as lastNotifyAmount
+        from dual
+    </select>
+
+    <insert id="saveMerchantNotifyWithdrawAmount">
+         replace into tb_merchant_withdraw_notify
+         (id , merchant_id , last_notify_amount ,  create_time)
+        values
+        (uuid() , #{merchantId} , #{totalAmount} , now());
+    </insert>
 
 </mapper>

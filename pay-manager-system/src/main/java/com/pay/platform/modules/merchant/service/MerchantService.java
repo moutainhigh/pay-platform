@@ -93,4 +93,19 @@ public interface MerchantService {
      */
     Integer review(MerchantModel merchant);
 
+    /**
+     * 查询商家金额,用于提醒商家提现
+     * @param merchantId
+     * @throws Exception
+     */
+    Map<String,Object> queryMerchantAmountInfo(String merchantId);
+
+    /**
+     * 记录最后一次提醒提现的时间及金额
+     * @param merchantId
+     * @param totalAmount
+     * @return
+     */
+    int saveMerchantNotifyWithdrawAmount(String merchantId, double totalAmount);
+
 }

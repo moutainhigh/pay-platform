@@ -65,6 +65,7 @@ public interface MerchantDao {
 
     /**
      * 根据商户编号查询商户信息
+     *
      * @param merchantNo
      * @return
      */
@@ -72,6 +73,7 @@ public interface MerchantDao {
 
     /**
      * 根据商户编号查询商户密钥信息
+     *
      * @param merchantNo
      * @return
      */
@@ -79,17 +81,24 @@ public interface MerchantDao {
 
     /**
      * 查询商家id和名称
+     *
      * @param merchantId
      * @param agentId
      * @return
      */
-    List<Map<String,Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId , @Param("agentId") String agentId);
+    List<Map<String, Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId, @Param("agentId") String agentId);
 
 
     /**
      * 审核
+     *
      * @param merchant
      * @return
      */
     Integer review(MerchantModel merchant);
+
+    Map<String, Object> queryMerchantAmountInfo(@Param("merchantId") String merchantId);
+
+    int saveMerchantNotifyWithdrawAmount(@Param("merchantId") String merchantId, @Param("totalAmount") double totalAmount);
+
 }
