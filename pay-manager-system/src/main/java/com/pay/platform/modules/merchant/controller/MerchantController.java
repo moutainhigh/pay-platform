@@ -352,24 +352,29 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
-        //1,查询商家累计收款金额
-        Map<String, Object> map = merchantService.queryMerchantAmountInfo(merchantId);
-        double totalAmount = Double.parseDouble(map.get("totalAmount").toString());
+        MerchantModel merchantModel = merchantService.queryMerchantById(merchantId);
+        if (1 == merchantModel.getNeedNotifyWithdraw()) {
 
-        //2,查询上一次提醒商家提现时的金额
-        double lastNotifyAmount = Double.parseDouble(map.get("lastNotifyAmount").toString());
+            //1,查询商家累计收款金额
+            Map<String, Object> map = merchantService.queryMerchantAmountInfo(merchantId);
+            double totalAmount = Double.parseDouble(map.get("totalAmount").toString());
 
-        //每达到10万提醒一次商家提现
-        double difference = DecimalCalculateUtil.sub(totalAmount, lastNotifyAmount);
-        if (difference > 100000) {
-            json.put("success", true);
-            json.put("msg", "已达到可提现金额,为了您的资金安全,请及时联系平台财务提现！");
+            //2,查询上一次提醒商家提现时的金额
+            double lastNotifyAmount = Double.parseDouble(map.get("lastNotifyAmount").toString());
 
-            //记录最后一次提醒的时间及金额
-            merchantService.saveMerchantNotifyWithdrawAmount(merchantId, totalAmount);
+            //每达到10万提醒一次商家提现
+            double difference = DecimalCalculateUtil.sub(totalAmount, lastNotifyAmount);
+            if (difference > 100000) {
+                json.put("success", true);
+                json.put("msg", "已达到可提现金额,为了您的资金安全,请及时联系平台财务提现！");
+
+                //记录最后一次提醒的时间及金额
+                merchantService.saveMerchantNotifyWithdrawAmount(merchantId, totalAmount);
+            }
+
+            writeJson(response, json.toString());
+
         }
-
-        writeJson(response, json.toString());
 
     }
 

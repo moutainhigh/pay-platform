@@ -45,6 +45,9 @@ public class MerchantModel extends BaseModel {
 
     private String agentId;         //绑定的代理ID
 
+    private int needNotifyWithdraw;      //是否开启提现通知0:不开启 1:开启
+
+
     public String getId() {
         return this.id;
     }
@@ -184,5 +187,13 @@ public class MerchantModel extends BaseModel {
 
     public void setAgentId(String agentId) {
         this.agentId = agentId;
+    }
+
+    public int getNeedNotifyWithdraw() {
+        return needNotifyWithdraw;
+    }
+
+    public void setNeedNotifyWithdraw(int needNotifyWithdraw) {
+        this.needNotifyWithdraw = needNotifyWithdraw;
     }
 }

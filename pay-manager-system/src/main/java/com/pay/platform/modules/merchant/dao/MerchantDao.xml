@@ -31,7 +31,7 @@
 
     <select id="queryMerchantById" parameterType="java.lang.String" resultType="MerchantModel">
         select  id,  merchant_no, merchant_name, phone,  real_name, check_status, create_time,  identity_code,
-            id_card_img1,  id_card_img2,icp_img,  check_desc, agent_id
+            id_card_img1,  id_card_img2,icp_img,  check_desc, agent_id , need_notify_withdraw
         from tb_merchant
         where id = #{id}
     </select>
