@@ -41,7 +41,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {
                 title: '成本费率', field: 'costRate', align: 'center', sortable: true,
                 formatter: function (value) {
-                    return value;//+ "%";
+                    return (value * 100) + "%";
                 }
             },
             {
@@ -89,7 +89,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         return;
                     }
 
-
+                    var costRate = $("#addCostRate").val().replace("%", "");
+                    if (!$.validate.isNumber(costRate)) {
+                        $.msg.error("请输入合法的费率");
+                        return;
+                    }
 
                     var btn = $(".modal-footer .btn-success");        //防止重复提交
                     btn.attr("disabled", "disabled");
@@ -203,13 +207,19 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editId").val(pageScope.currentrow.id);
                 $("#editChannelCode").val(pageScope.currentrow.channelCode);
                 $("#editChannelName").val(pageScope.currentrow.channelName);
-                $("#editCostRate").val(pageScope.currentrow.costRate);
+                $("#editCostRate").val((pageScope.currentrow.costRate * 100) + "%");
             },
             buttonEvents: {
                 success: function () {
 
                     if (!$('#editPayChannelForm').valid()) {
                         return false;
+                    }
+
+                    var costRate = $("#editCostRate").val().replace("%", "");
+                    if (!$.validate.isNumber(costRate)) {
+                        $.msg.error("请输入合法的费率");
+                        return;
                     }
 
                     var btn = $(".modal-footer .btn-success");        //防止重复提交
@@ -259,7 +269,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailId").val(pageScope.currentrow.id);
                 $("#detailChannelCode").val(pageScope.currentrow.channelCode);
                 $("#detailChannelName").val(pageScope.currentrow.channelName);
-                $("#detailCostRate").val(pageScope.currentrow.costRate);    // + "%");
+
+                $("#detailCostRate").val((pageScope.currentrow.costRate * 100) + "%");   //
                 $("#detailIsDel").val(pageScope.currentrow.isDel);
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
 
@@ -267,9 +278,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         });
 
     };
-
-
-
 
 
 })();

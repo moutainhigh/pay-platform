@@ -44,7 +44,7 @@
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">成本费率：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="addCostRate" name="costRate" type="text" class="form-control" check-type="required number" range="0~1" placeholder="请输入成本费率(千分之5,请输入0.005)"/>
+                    <input id="addCostRate" name="costRate" type="text" class="form-control" check-type="required" value="0.00%" placeholder="请输入成本费率"/>
                 </div>
             </div>
 

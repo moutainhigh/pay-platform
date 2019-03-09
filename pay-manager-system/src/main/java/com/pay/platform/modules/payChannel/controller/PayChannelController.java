@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -93,6 +94,11 @@ public class PayChannelController extends BaseController {
             return;
         }
 
+        //去除百分号,再除以100存储
+        String costRate = payChannel.getCostRate().replace("%","");
+        double doubleCostRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(costRate) , 100);
+        payChannel.setCostRate(String.valueOf(doubleCostRate));
+
         Integer count = payChannelService.addPayChannel(payChannel);
 
         if (count > 0) {
@@ -175,6 +181,11 @@ public class PayChannelController extends BaseController {
     public void updatePayChannel(HttpServletRequest request, HttpServletResponse response, PayChannelModel payChannel) throws Exception {
 
         JSONObject json = new JSONObject();
+
+        //去除百分号,再除以100存储
+        String costRate = payChannel.getCostRate().replace("%","");
+        double doubleCostRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(costRate) , 100);
+        payChannel.setCostRate(String.valueOf(doubleCostRate));
 
         Integer count = payChannelService.updatePayChannel(payChannel);
 

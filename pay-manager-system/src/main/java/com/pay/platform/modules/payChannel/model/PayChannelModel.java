@@ -19,7 +19,7 @@ public class PayChannelModel extends BaseModel {
 
     private String channelName;                //通道名称
 
-    private Double costRate;                //成本费率
+    private String costRate;                //成本费率
 
     private Integer isDel;                //是否删除(0:否 1:是)
 
@@ -52,15 +52,13 @@ public class PayChannelModel extends BaseModel {
         this.channelName = channelName;
     }
 
-
-    public Double getCostRate() {
-        return this.costRate;
+    public String getCostRate() {
+        return costRate;
     }
 
-    public void setCostRate(Double costRate) {
+    public void setCostRate(String costRate) {
         this.costRate = costRate;
     }
-
 
     public Integer getIsDel() {
         return this.isDel;

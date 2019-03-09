@@ -6,30 +6,30 @@
  */
 $.extend({
 
-    validate : {
+    validate: {
 
         /**
          * 非空验证
          * @param str
          * @returns {boolean}
          */
-        isEmpty:function(str){
+        isEmpty: function (str) {
             return (str == null || str == undefined || str == '');
         }
 
-        , isNotEmpty:function(str){
+        , isNotEmpty: function (str) {
             return (str != null && str != undefined && str != '');
         }
 
         /**
          * 判断是否大写开头
          */
-        , isUpperCaseStart:function (str) {
+        , isUpperCaseStart: function (str) {
 
-            if($.validate.isNotEmpty(str)){
+            if ($.validate.isNotEmpty(str)) {
 
                 //获取第一个字符
-                var c = str.substring(0,1);
+                var c = str.substring(0, 1);
                 return (str >= 'A' && str <= 'Z');
             }
 
@@ -40,14 +40,30 @@ $.extend({
         /**
          * 判断是否为合法的包名
          */
-        , isJavaPackageName:function (str) {
+        , isJavaPackageName: function (str) {
 
-            if($.validate.isNotEmpty(str)){
+            if ($.validate.isNotEmpty(str)) {
                 var regExp = new RegExp(/^[A-Za-z\d.]+$/);
                 return (regExp.test(str) && "." != str.charAt(str.length - 1));
             }
 
             return false;
+
+        }
+        /**
+         * 判断是否为数字：包含正负整数，0以及正负浮点数
+         * @param val
+         * @returns {boolean}
+         */
+        , isNumber: function (val) {
+
+            var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+            var regNeg = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/; //负浮点数
+            if (regPos.test(val) || regNeg.test(val)) {
+                return true;
+            } else {
+                return false;
+            }
 
         }
 
