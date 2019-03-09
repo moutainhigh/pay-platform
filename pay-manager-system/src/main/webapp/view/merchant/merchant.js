@@ -43,7 +43,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {title: '身份证号码', field: 'identityCode', align: 'center', sortable: true},
             {
                 title: '状态', field: 'checkStatus', align: 'center', sortable: true, formatter: function (value) {
-                return value == "waitCheck" ? "待审核" : value == "success" ? "通过" : "失败";
+                    return value == "waitCheck" ? "待审核" : value == "success" ? "通过" : "失败";
+                }
+            },
+            {
+                title: '开启提现通知', field: 'needNotifyWithdraw', align: 'center', sortable: true, formatter: function (value) {
+                return value == 1 ? "开启" : "关闭";
             }
             },
             {
@@ -229,7 +234,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editCheckDesc").val(pageScope.currentrow.checkDesc);
                 $("#editIsDel").val(pageScope.currentrow.isDel);
                 $("#editCreateTime").val(pageScope.currentrow.createTime);
-
+                $("input[name='needNotifyWithdraw'][value='"+pageScope.currentrow.needNotifyWithdraw+"']").attr("checked","checked");
 
                 $("#editAgentId").loadAgentIdAndNameList({agentId:pageScope.currentrow.agentId});
 

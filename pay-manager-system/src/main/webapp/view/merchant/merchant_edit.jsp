@@ -51,6 +51,18 @@ To change this template use File | Settings | File Templates.
             </div>
 
             <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">开启提现通知：</label>
+                <div class="col-md-8 col-sm-8 form-inline">
+                    <label class="radio-inline">
+                        <input type="radio" name="needNotifyWithdraw" check-type="required" value="1">开启
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="needNotifyWithdraw" check-type="required" value="0">关闭
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">真实姓名：</label>
                 <div class="col-md-8 col-sm-8">
                     <input id="editRealName" name="realName"
