@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.finance.withdraw.dao.WithdrawDao">
+
+    <select id="queryWithdrawList" parameterType="WithdrawModel" resultType="WithdrawModel">
+        select *
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'checkStatus' and FIND_IN_SET(ITEM_CODE , check_status))  as checkStatusDictDesc
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(ITEM_CODE , withdraw_status))  as withdrawStatusDictDesc
+        from tb_merchant_withdraw_info
+    </select>
+
+    <select id="queryWithdrawById" parameterType="java.lang.String" resultType="WithdrawModel">
+        select *
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'checkStatus' and FIND_IN_SET(ITEM_CODE , check_status))  as checkStatusDictDesc
+                , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(ITEM_CODE , withdraw_status))  as withdrawStatusDictDesc
+        from tb_merchant_withdraw_info where id = #{id}
+    </select>
+
+    <insert id="addWithdraw" parameterType="WithdrawModel">
+        insert into tb_merchant_withdraw_info(id , withdraw_amount , real_name , bank_name , bank_card , province_name , city_name , create_time)
+        values(uuid() , #{withdrawAmount} , #{realName} , #{bankName} , #{bankCard} , #{provinceName} , #{cityName} , now());
+    </insert>
+
+    <delete id="deleteWithdraw">
+        delete from tb_merchant_withdraw_info where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteWithdrawByLogic">
+        update tb_merchant_withdraw_info set is_Del = 1 where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateWithdraw" parameterType="WithdrawModel">
+        update tb_merchant_withdraw_info
+        set merchant_id = #{merchantId} , order_no = #{orderNo} , withdraw_amount = #{withdrawAmount} , actual_amount = #{actualAmount} , real_name = #{realName} , bank_name = #{bankName} , bank_card = #{bankCard} , province_name = #{provinceName} , city_name = #{cityName} , check_status = #{checkStatus} , remark = #{remark} , withdraw_status = #{withdrawStatus} , bill_no = #{billNo} , notify_response = #{notifyResponse} , rate = #{rate} , handling_fee = #{handlingFee}
+        where id = #{id}
+    </update>
+
+</mapper>
