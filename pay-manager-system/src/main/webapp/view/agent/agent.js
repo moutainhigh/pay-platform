@@ -320,9 +320,15 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             buttonEvents: {
                 success: function () {
 
-                    var costRate = $("#channel").find(":selected").attr("costRate");
-                    var nowRate = $("#rate").val();
-                    if (costRate > nowRate) {
+
+                    var costRate = $("#channel").find(":selected").attr("costRate").replace("%", "");
+                    var nowRate = $("#rate").val().replace("%", "");
+                    if (!$.validate.isNumber(nowRate)) {
+                        $.msg.error("请输入合法的费率");
+                        return;
+                    }
+
+                    if (parseFloat(costRate) > parseFloat(nowRate)) {
                         $.msg.error('不得低于成本费率!');
                         return;
                     }
@@ -375,7 +381,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     var data = response.data;
                     var str = "";
                     for (var i = 0; i < data.length; i++) {
-                        str += "<option  costRate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + data[i].costRate + "）</option>";
+                        var showCostRate = (data[i].costRate * 100).toFixed(2) + "%";
+                        str += "<option  costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
                     }
                     $("#channel").html(str);
                 } else {
@@ -401,9 +408,10 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     var data = response.data;
                     var str = "";
                     for (var i = 0; i < data.length; i++) {
+                        var showAgentRate = (data[i].rate * 100).toFixed(2) + "%";
+
                         str += ' <tr class="active" id="' + data[i].id + '" >';
-                        str += '<td>' + data[i].channelName + '</td>' +
-                            '<td>' + data[i].rate + '</td>' +
+                        str += '<td>' + data[i].channelName + '</td>' + '<td>' + showAgentRate + '</td>' +
                             '<td><button   onclick="deleteAgentRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
                         str += ' </tr>';
                     }

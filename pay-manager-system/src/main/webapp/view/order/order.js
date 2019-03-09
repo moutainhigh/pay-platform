@@ -85,7 +85,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showOrderDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
 
                     var platformOrderNo = row.platformOrderNo;
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.pushPaySuccessInfo(\"" + row.platformOrderNo + "\")' >补单回调商户</button>";
+                    html += "<button type='button' class='btn btn-link' onclick='pageScope.pushPaySuccessInfo(\"" + row.platformOrderNo + "\")' >补单回调</button>";
 
                     return html;
                 }
@@ -134,9 +134,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailGoodsName").val(pageScope.currentrow.goodsName);
                 $("#detailOrderAmount").val(pageScope.currentrow.orderAmount);
 
-                $("#detailCostRate").val(pageScope.currentrow.costRate);    // + "%");
-                $("#detailAgentRate").val(pageScope.currentrow.agentRate);    // + "%");
-                $("#detailMerchantRate").val(pageScope.currentrow.merchantRate);    // + "%");
+                $("#detailCostRate").val((pageScope.currentrow.costRate * 100).toFixed(2) + "%");
+                $("#detailAgentRate").val((pageScope.currentrow.agentRate * 100).toFixed(2) + "%");
+                $("#detailMerchantRate").val((pageScope.currentrow.merchantRate * 100).toFixed(2) + "%");
 
                 $("#detailChannelAmount").val(pageScope.currentrow.channelAmount);
 

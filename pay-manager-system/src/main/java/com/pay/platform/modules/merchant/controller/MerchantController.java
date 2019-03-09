@@ -305,6 +305,11 @@ public class MerchantController extends BaseController {
 
         JSONObject json = new JSONObject();
 
+        //去除百分号,再除以100存储
+        String rate = model.getRate().replace("%","");
+        double doubleRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(rate) , 100);
+        model.setRate(String.valueOf(doubleRate));
+
         Integer count = service.addMerchantRate(model);
 
         if (count > 0) {

@@ -95,7 +95,7 @@ To change this template use File | Settings | File Templates.
                 </div>
             </c:if>
 
-            <c:if test="${roleCode == 'ROLE_AGENT'}">
+            <c:if test="${roleCode == 'ROLE_AGENT' || roleCode == 'ROLE_ADMIN'}">
                 <div class="form-group">
                     <label class="col-md-2 col-sm-2 control-label">代理费率：</label>
                     <div class="col-md-4 col-sm-4">

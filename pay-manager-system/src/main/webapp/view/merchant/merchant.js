@@ -391,10 +391,15 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             buttonEvents: {
                 success: function () {
 
-                    var costRate = $("#channel").find(":selected").attr("costRate");
-                    var nowRate = $("#rate").val();
-                    if (costRate > nowRate) {
-                        $.msg.error('不得低于成本费率!');
+                    var costRate = $("#channel").find(":selected").attr("costRate").replace("%", "");
+                    var nowRate = $("#rate").val().replace("%", "");
+                    if (!$.validate.isNumber(nowRate)) {
+                        $.msg.error("请输入合法的费率");
+                        return;
+                    }
+
+                    if (parseFloat(costRate) > parseFloat(nowRate)) {
+                        $.msg.error('不得低于上级成本费率!');
                         return;
                     }
 
@@ -449,9 +454,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     for (var i = 0; i < data.length; i++) {
 
                         if (data[i].agentCostRate) {
-                            str += "<option costRate='" + data[i].agentCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + data[i].agentCostRate + "）</option>";
+                            var showCostRate = (data[i].agentCostRate * 100).toFixed(2) + "%";
+                            str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
                         } else {
-                            str += "<option costRate='" + data[i].costRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + data[i].costRate + "）</option>";
+                            var showCostRate = (data[i].costRate * 100).toFixed(2) + "%";
+                            str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
                         }
 
                     }
@@ -481,9 +488,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     var data = response.data;
                     var str = "";
                     for (var i = 0; i < data.length; i++) {
+                        var showMerchantRate = (data[i].rate * 100).toFixed(2) + "%";
+
                         str += ' <tr class="active" id="' + data[i].id + '" >';
                         str += '<td>' + data[i].channelName + '</td>' +
-                            '<td>' + data[i].rate + '</td>' +
+                            '<td>' + showMerchantRate + '</td>' +
                             '<td><button   onclick="deleteMerchantRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
                         str += ' </tr>';
                     }

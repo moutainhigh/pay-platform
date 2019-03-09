@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.agent.model.AgentRateListModel;
 import com.pay.platform.modules.agent.model.AgentRateModel;
@@ -268,6 +269,11 @@ public class AgentController extends BaseController {
     public void addAgentRate(HttpServletResponse response, AgentRateModel model) throws Exception {
 
         JSONObject json = new JSONObject();
+
+        //去除百分号,再除以100存储
+        String rate = model.getRate().replace("%","");
+        double doubleRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(rate) , 100);
+        model.setRate(String.valueOf(doubleRate));
 
         Integer count = agentRateService.addAgentRate(model);
 

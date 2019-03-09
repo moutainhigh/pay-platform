@@ -13,7 +13,7 @@ public class AgentRateModel extends BaseModel {
 
     private String channelId;                //通道ID
 
-    private BigDecimal rate;                //商家费率
+    private String rate;                //商家费率
 
     private String createTime;                //创建时间
 
@@ -41,11 +41,11 @@ public class AgentRateModel extends BaseModel {
         this.channelId = channelId;
     }
 
-    public BigDecimal getRate() {
+    public String getRate() {
         return rate;
     }
 
-    public void setRate(BigDecimal rate) {
+    public void setRate(String rate) {
         this.rate = rate;
     }
 

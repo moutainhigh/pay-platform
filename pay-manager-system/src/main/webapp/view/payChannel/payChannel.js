@@ -41,7 +41,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {
                 title: '成本费率', field: 'costRate', align: 'center', sortable: true,
                 formatter: function (value) {
-                    return (value * 100) + "%";
+                    return (value * 100).toFixed(2) + "%";
                 }
             },
             {
@@ -207,7 +207,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editId").val(pageScope.currentrow.id);
                 $("#editChannelCode").val(pageScope.currentrow.channelCode);
                 $("#editChannelName").val(pageScope.currentrow.channelName);
-                $("#editCostRate").val((pageScope.currentrow.costRate * 100) + "%");
+                $("#editCostRate").val((pageScope.currentrow.costRate * 100).toFixed(2) + "%");
             },
             buttonEvents: {
                 success: function () {
@@ -270,7 +270,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailChannelCode").val(pageScope.currentrow.channelCode);
                 $("#detailChannelName").val(pageScope.currentrow.channelName);
 
-                $("#detailCostRate").val((pageScope.currentrow.costRate * 100) + "%");   //
+                $("#detailCostRate").val((pageScope.currentrow.costRate * 100).toFixed(2) + "%");   //
                 $("#detailIsDel").val(pageScope.currentrow.isDel);
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
 
