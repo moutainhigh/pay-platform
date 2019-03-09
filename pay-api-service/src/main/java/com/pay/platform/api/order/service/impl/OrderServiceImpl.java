@@ -4,6 +4,7 @@ import com.pay.platform.api.merchant.dao.MerchantDao;
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
+import com.pay.platform.common.enums.AccountAmountType;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.plugins.redis.RedisLock;
 import org.slf4j.Logger;
@@ -69,9 +70,22 @@ public class OrderServiceImpl implements OrderService {
 
                 OrderModel orderModel = orderDao.queryOrderByOrderNo(platformOrderNo);
 
-                //修改支付状态、支付单号
                 if (!(PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus()))) {
+                    //1、修改支付状态、支付单号
                     count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime , channelActuatAmount);
+
+                    //2、增加代理的账户余额,并记录流水
+                    String agentId = orderModel.getAgentId();
+                    String agentUserId = orderDao.queryUserIdByAgentId(agentId);
+                    count += orderDao.addAccountAmount(agentUserId, orderModel.getAgentAmount());
+                    count += orderDao.addAccountAmountBillLog(agentUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getAgentAmount());
+
+                    //3、增加商家的账户余额,并记录流水
+                    String merchantId = orderModel.getMerchantId();
+                    String merchantUserId = orderDao.queryUserIdByMerchantId(merchantId);
+                    count += orderDao.addAccountAmount(merchantUserId, orderModel.getActualAmount());
+                    count += orderDao.addAccountAmountBillLog(merchantUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getActualAmount());
+
                 }
 
             }
@@ -85,7 +99,11 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        return count == 1;
+        if (count == 5) {
+            return true;
+        } else {
+            throw new Exception("订单:" + platformOrderNo + "支付回调业务处理失败,回滚事务!");
+        }
 
     }
 
