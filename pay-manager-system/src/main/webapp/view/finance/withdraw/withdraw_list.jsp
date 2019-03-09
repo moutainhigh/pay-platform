@@ -1,5 +1,16 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
+<%@ page import="com.pay.platform.common.context.AppContext" %>
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %>
 
+<%
+    UserModel userModel = AppContext.getCurrentUser();
+    session.putValue("roleCode", SysUserUtil.getRoleCode(userModel));
+%>
+<script type="text/javascript">
+    var roleCode = "${roleCode}";
+</script>
 
 <div class="row">
     <div class="col-md-12">
@@ -41,6 +52,19 @@
 
                     </table>
                 </form>
+
+                <div style="height: 30px;margin-left: 15px;color:red;font: 14px bold;">
+                    <span width="80" align="right">账户余额：</span>
+                    <span width="150" id="accountAmount" >0.00</span>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span width="80" align="right">冻结资金：</span>
+                    <span width="150" id="freezeAmount">0.00</span>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span width="80" align="right">可提现余额：</span>
+                    <span width="150" id="withdrawableAmount" >0.00</span>
+                </div>
 
                 <!-- 操作按钮 -->
                 <div class="operation-button columns columns-left bars pull-left">

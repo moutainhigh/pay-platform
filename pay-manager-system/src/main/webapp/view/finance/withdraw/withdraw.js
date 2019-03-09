@@ -69,7 +69,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     return html;
                 }
             }
-        ]
+        ], onLoadSuccess: function () {
+
+            if (roleCode == "ROLE_MERCHANT") {
+                queryMerchantAmountOfNotifyWithdraw();
+            }
+
+        }
     });
 
 
