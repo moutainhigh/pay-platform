@@ -24,24 +24,4 @@
         where platform_order_no = #{platformOrderNo}
     </update>
 
-    <select id="queryUserIdByAgentId" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from tb_sys_user
-        where agent_id = #{agentId}
-    </select>
-
-    <select id="queryUserIdByMerchantId" parameterType="java.lang.String" resultType="java.lang.String">
-        select id from tb_sys_user
-        where merchant_id = #{merchantId}
-    </select>
-
-    <update id="addAccountAmount">
-        update tb_account_amount set account_amount = (account_amount + abs(#{amount}))
-        where user_id = #{userId}
-    </update>
-
-    <insert id="addAccountAmountBillLog">
-        insert into tb_account_amount_log (id , user_id ,	ref_order_no , type , amount , create_time )
-        values( uuid() , #{userId} , #{refOrderNo} , #{type} , #{amount} , now())
-    </insert>
-
 </mapper>

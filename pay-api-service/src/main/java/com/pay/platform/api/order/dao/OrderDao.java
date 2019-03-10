@@ -50,40 +50,4 @@ public interface OrderDao {
     int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
             , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
 
-    /**
-     * 根据代理Id查询用户id
-     *
-     * @param agentId
-     * @return
-     */
-    String queryUserIdByAgentId(@Param("agentId") String agentId);
-
-    /**
-     * 根据商家Id查询用户id
-     *
-     * @param merchantId
-     * @return
-     */
-    String queryUserIdByMerchantId(@Param("merchantId") String merchantId);
-
-    /**
-     * 增加账户余额
-     *
-     * @param userId
-     * @param amount
-     * @return
-     */
-    int addAccountAmount(@Param("userId") String userId, @Param("amount") Double amount);
-
-    /**
-     * 增加账户余额-流水记录
-     *
-     * @param userId
-     * @param refOrderNo
-     * @param type
-     * @param amount
-     * @return
-     */
-    int addAccountAmountBillLog(@Param("userId") String userId, @Param("refOrderNo") String refOrderNo, @Param("type") String type, @Param("amount") Double amount);
-
 }

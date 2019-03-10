@@ -47,19 +47,4 @@
         where id = #{userId}
     </update>
     
-    <select id="queryAccountAmountInfo" resultType="java.util.Map">
-        select * from tb_account_amount
-        where user_id = #{userId};
-    </select>
-
-    <update id="addFreezeAmount">
-        update tb_account_amount set freeze_amount = (freeze_amount + abs(#{amount}))
-        where user_id = #{userId}
-    </update>
-
-    <insert id="addFreezeAmountBillLog">
-        insert into tb_freeze_amount_log (id , user_id ,	ref_order_no , type , amount , create_time )
-        values( uuid() , #{userId} , #{refOrderNo} , #{type} , #{amount} , now())
-    </insert>
-
 </mapper>

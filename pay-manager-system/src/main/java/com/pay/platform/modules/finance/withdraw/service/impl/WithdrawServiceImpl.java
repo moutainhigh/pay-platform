@@ -9,6 +9,7 @@ import com.pay.platform.common.enums.WithdrawStatusEnum;
 import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.OrderNoUtil;
+import com.pay.platform.modules.order.dao.AccountAmountDao;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,6 +28,9 @@ public class WithdrawServiceImpl implements WithdrawService {
 
     @Autowired
     private WithdrawDao withdrawDao;
+
+    @Autowired
+    private AccountAmountDao accountAmountDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -55,7 +59,7 @@ public class WithdrawServiceImpl implements WithdrawService {
             if (lock.lock()) {
 
                 //校验是否有剩余可提现的资金
-                Map<String, Object> accountAmountInfo = withdrawDao.queryAccountAmountInfo(userId);
+                Map<String, Object> accountAmountInfo = accountAmountDao.queryAccountAmountInfo(userId);
                 double accountAmount = Double.parseDouble(accountAmountInfo.get("account_amount").toString());
                 double freezeAmount = Double.parseDouble(accountAmountInfo.get("freeze_amount").toString());
                 double withdrawableAmount = DecimalCalculateUtil.sub(accountAmount, freezeAmount);
@@ -72,10 +76,10 @@ public class WithdrawServiceImpl implements WithdrawService {
                 count += withdrawDao.addWithdraw(withdraw);
 
                 //2、增加冻结资金
-                count += withdrawDao.addFreezeAmount(userId , withdraw.getWithdrawAmount());
+                count += accountAmountDao.addFreezeAmount(userId , withdraw.getWithdrawAmount());
 
                 //3、记录冻结资金操作记录
-                count += withdrawDao.addFreezeAmountBillLog(userId , orderNo , WithdrawStatusEnum.withdrawApply.getCode(), withdraw.getWithdrawAmount());
+                count += accountAmountDao.addFreezeAmountBillLog(userId , orderNo , WithdrawStatusEnum.withdrawApply.getCode(), withdraw.getWithdrawAmount());
 
             }
 
@@ -117,7 +121,7 @@ public class WithdrawServiceImpl implements WithdrawService {
 
     @Override
     public Map<String, Object> queryAccountAmountInfo(String userId) {
-        return withdrawDao.queryAccountAmountInfo(userId);
+        return accountAmountDao.queryAccountAmountInfo(userId);
     }
 
 }

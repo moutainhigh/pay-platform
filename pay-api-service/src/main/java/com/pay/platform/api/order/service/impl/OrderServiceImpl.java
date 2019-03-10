@@ -1,6 +1,7 @@
 package com.pay.platform.api.order.service.impl;
 
 import com.pay.platform.api.merchant.dao.MerchantDao;
+import com.pay.platform.api.order.dao.AccountAmountDao;
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
@@ -28,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private MerchantDao merchantDao;
+
+    @Autowired
+    private AccountAmountDao accountAmountDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -76,15 +80,15 @@ public class OrderServiceImpl implements OrderService {
 
                     //2、增加代理的账户余额,并记录流水
                     String agentId = orderModel.getAgentId();
-                    String agentUserId = orderDao.queryUserIdByAgentId(agentId);
-                    count += orderDao.addAccountAmount(agentUserId, orderModel.getAgentAmount());
-                    count += orderDao.addAccountAmountBillLog(agentUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getAgentAmount());
+                    String agentUserId = accountAmountDao.queryUserIdByAgentId(agentId);
+                    count += accountAmountDao.addAccountAmount(agentUserId, orderModel.getAgentAmount());
+                    count += accountAmountDao.addAccountAmountBillLog(agentUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getAgentAmount());
 
                     //3、增加商家的账户余额,并记录流水
                     String merchantId = orderModel.getMerchantId();
-                    String merchantUserId = orderDao.queryUserIdByMerchantId(merchantId);
-                    count += orderDao.addAccountAmount(merchantUserId, orderModel.getActualAmount());
-                    count += orderDao.addAccountAmountBillLog(merchantUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getActualAmount());
+                    String merchantUserId = accountAmountDao.queryUserIdByMerchantId(merchantId);
+                    count += accountAmountDao.addAccountAmount(merchantUserId, orderModel.getActualAmount());
+                    count += accountAmountDao.addAccountAmountBillLog(merchantUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getActualAmount());
 
                 }
 
