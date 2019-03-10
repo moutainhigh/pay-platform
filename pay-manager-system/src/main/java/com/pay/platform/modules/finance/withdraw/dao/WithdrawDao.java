@@ -78,4 +78,24 @@ public interface WithdrawDao {
      */
     Map<String,Object> queryAccountAmountInfo(@Param("userId") String userId);
 
+    /**
+     * 增加冻结资金
+     *
+     * @param userId
+     * @param amount
+     * @return
+     */
+    int addFreezeAmount(@Param("userId") String userId, @Param("amount") Double amount);
+
+    /**
+     * 增加账户余额-流水记录
+     *
+     * @param userId
+     * @param refOrderNo
+     * @param type
+     * @param amount
+     * @return
+     */
+    int addFreezeAmountBillLog(@Param("userId") String userId, @Param("refOrderNo") String refOrderNo, @Param("type") String type, @Param("amount") Double amount);
+
 }

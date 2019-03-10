@@ -18,8 +18,8 @@
     </select>
 
     <insert id="addWithdraw" parameterType="WithdrawModel">
-        insert into tb_merchant_withdraw_info(id , withdraw_amount , real_name , bank_name , bank_card , province_name , city_name , create_time)
-        values(uuid() , #{withdrawAmount} , #{realName} , #{bankName} , #{bankCard} , #{provinceName} , #{cityName} , now());
+        insert into tb_merchant_withdraw_info(id , merchant_id , order_no , withdraw_amount , actual_amount , real_name , bank_name , bank_card , province_name , city_name , create_time)
+        values(uuid() , #{merchant_id} , #{orderNo}, #{withdrawAmount} , #{actualAmount} , #{realName} , #{bankName} , #{bankCard} , #{provinceName} , #{cityName} , now());
     </insert>
 
     <delete id="deleteWithdraw">
@@ -51,5 +51,15 @@
         select * from tb_account_amount
         where user_id = #{userId};
     </select>
+
+    <update id="addFreezeAmount">
+        update tb_account_amount set freeze_amount = (freeze_amount + abs(#{amount}))
+        where user_id = #{userId}
+    </update>
+
+    <insert id="addFreezeAmountBillLog">
+        insert into tb_freeze_amount_log (id , user_id ,	ref_order_no , type , amount , create_time )
+        values( uuid() , #{userId} , #{refOrderNo} , #{type} , #{amount} , now())
+    </insert>
 
 </mapper>

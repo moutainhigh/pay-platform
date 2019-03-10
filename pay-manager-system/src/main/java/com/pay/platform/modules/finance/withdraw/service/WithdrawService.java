@@ -32,10 +32,11 @@ public interface WithdrawService {
     /**
      * 新增提现申请
      *
+     * @param userId ,
      * @param withdraw
      * @return
      */
-    Integer addWithdraw(WithdrawModel withdraw);
+    Integer addWithdraw(String userId , WithdrawModel withdraw) throws Exception ;
 
     /**
      * 删除提现申请

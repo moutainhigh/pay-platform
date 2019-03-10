@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.encrypt.Md5Util;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,14 +93,26 @@ public class WithdrawController extends BaseController {
 
         JSONObject json = new JSONObject();
 
-        Integer count = withdrawService.addWithdraw(withdraw);
+        UserModel userModel = AppContext.getCurrentUser();
+        String userId = userModel.getId();
+        String merchantId = userModel.getMerchantId();
 
-        if (count > 0) {
-            json.put("success", true);
-            json.put("msg", "新增成功");
-        } else {
+        try {
+
+            withdraw.setMerchantId(merchantId);
+            Integer count = withdrawService.addWithdraw(userId, withdraw);
+
+            if (count > 0) {
+                json.put("success", true);
+                json.put("msg", "申请提现成功");
+            } else {
+                json.put("success", false);
+                json.put("msg", "申请提现失败");
+            }
+
+        } catch (Exception e) {
             json.put("success", false);
-            json.put("msg", "新增失败");
+            json.put("msg",  e.getMessage());
         }
 
         writeJson(response, json.toString());
