@@ -366,4 +366,29 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
     };
 
+    /**
+     * 查询账户资金情况
+     * @param id
+     */
+    pageScope.queryAccountAmount = function () {
+
+        $.ajax({
+            url: baseURL + "/finance/withdraw/queryAccountAmount?" + _csrf + "=" + token,
+            type: "post",
+            dataType: "json",
+            success: function (response) {
+
+                if (response && response.success == true) {
+                    $("#accountAmount").html(response.data.accountAmount);
+                    $("#freezeAmount").html(response.data.freezeAmount);
+                    $("#withdrawableAmount").html(response.data.withdrawableAmount);
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
+    };
+
 })();

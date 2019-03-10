@@ -46,5 +46,10 @@
         update tb_sys_user set withdraw_password = md5(#{withdrawPassword})
         where id = #{userId}
     </update>
+    
+    <select id="queryAccountAmountInfo" resultType="java.util.Map">
+        select * from tb_account_amount
+        where user_id = #{userId};
+    </select>
 
 </mapper>

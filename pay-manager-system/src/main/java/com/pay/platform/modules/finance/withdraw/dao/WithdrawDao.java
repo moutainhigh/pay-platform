@@ -71,4 +71,11 @@ public interface WithdrawDao {
      */
     Integer initWithdrawPassword(@Param("userId") String userId, @Param("withdrawPassword") String withdrawPassword);
 
+    /**
+     * 查询账户资金
+     * @param userId
+     * @return
+     */
+    Map<String,Object> queryAccountAmountInfo(@Param("userId") String userId);
+
 }

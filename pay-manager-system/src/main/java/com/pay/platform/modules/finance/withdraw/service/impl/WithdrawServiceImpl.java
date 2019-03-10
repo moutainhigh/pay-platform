@@ -57,4 +57,9 @@ public class WithdrawServiceImpl implements WithdrawService {
         return withdrawDao.initWithdrawPassword(userId, withdrawPassword);
     }
 
+    @Override
+    public Map<String, Object> queryAccountAmountInfo(String userId) {
+        return withdrawDao.queryAccountAmountInfo(userId);
+    }
+
 }

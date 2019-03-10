@@ -3,6 +3,7 @@ package com.pay.platform.modules.finance.withdraw.service;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pay.platform.modules.finance.withdraw.model.WithdrawModel;
 
@@ -68,4 +69,10 @@ public interface WithdrawService {
      */
     Integer initWithdrawPassword(String userId, String withdrawPassword);
 
+    /**
+     * 查询账户资金情况
+     * @param userId
+     * @return
+     */
+    Map<String,Object> queryAccountAmountInfo(String userId);
 }

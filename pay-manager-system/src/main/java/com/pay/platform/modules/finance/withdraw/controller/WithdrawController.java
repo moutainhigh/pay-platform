@@ -2,10 +2,13 @@ package com.pay.platform.modules.finance.withdraw.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.encrypt.Md5Util;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
@@ -269,6 +272,39 @@ public class WithdrawController extends BaseController {
             json.put("msg", "校验失败");
         }
 
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 查询账户资金
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/queryAccountAmount", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @SystemControllerLog(module = "提现申请", operation = "查询账户资金")
+    public void queryAccountAmount(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel currentUser = AppContext.getCurrentUser();
+        String userId = currentUser.getId();
+
+        Map<String, Object> accountAmountInfo = withdrawService.queryAccountAmountInfo(userId);
+        double accountAmount = Double.parseDouble(accountAmountInfo.get("account_amount").toString());
+        double freezeAmount = Double.parseDouble(accountAmountInfo.get("freeze_amount").toString());
+        double withdrawableAmount = DecimalCalculateUtil.sub(accountAmount, freezeAmount);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("accountAmount", accountAmount);
+        data.put("freezeAmount", freezeAmount);
+        data.put("withdrawableAmount", withdrawableAmount);
+
+        json.put("success", true);
+        json.put("msg", "查询成功");
+        json.put("data", data);
         writeJson(response, json.toString());
 
     }
