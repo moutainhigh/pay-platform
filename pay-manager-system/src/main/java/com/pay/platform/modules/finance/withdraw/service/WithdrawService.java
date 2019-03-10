@@ -60,4 +60,12 @@ public interface WithdrawService {
      */
     Integer updateWithdraw(WithdrawModel withdraw);
 
+    /**
+     * 初始化提现密码
+     * @param userId
+     * @param withdrawPassword
+     * @return
+     */
+    Integer initWithdrawPassword(String userId, String withdrawPassword);
+
 }

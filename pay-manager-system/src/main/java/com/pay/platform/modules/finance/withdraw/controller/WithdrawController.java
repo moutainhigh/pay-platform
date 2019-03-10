@@ -5,6 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.encrypt.Md5Util;
+import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,5 +183,95 @@ public class WithdrawController extends BaseController {
         writeJson(response, json.toString());
 
     }
+
+    /**
+     * 查询是否设置过提现密码
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/queryIsInitWithdrawPassword", produces = "application/json", method = RequestMethod.POST)
+    @SystemControllerLog(module = "查询是否设置过提现密码", operation = "查询是否设置过提现密码")
+    public void queryIsInitWithdrawPassword(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel userModel = AppContext.getCurrentUser();
+        String withdrawPassword = userModel.getWithdrawPassword();
+        if (StringUtil.isNotEmpty(withdrawPassword)) {
+            json.put("success", true);
+            json.put("msg", "已设置提现密码。");
+        } else {
+            json.put("success", false);
+            json.put("msg", "未设置提现密码。");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 初始化提现密码
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/initWithdrawPassword", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @SystemControllerLog(module = "提现申请", operation = "初始化提现密码")
+    public void initWithdrawPassword(HttpServletRequest request, HttpServletResponse response, String withdrawPassword) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel currentUser = AppContext.getCurrentUser();
+        String userId = currentUser.getId();
+
+        Integer count = withdrawService.initWithdrawPassword(userId, withdrawPassword);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "修改成功");
+
+            //刷新session实体数据
+            currentUser.setWithdrawPassword(Md5Util.md5_32(withdrawPassword));
+
+        } else {
+            json.put("success", false);
+            json.put("msg", "修改失败!");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 校验提现密码
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/checkWithdrawPassword", produces = "application/json;charset=UTF-8", method = RequestMethod.POST)
+    @SystemControllerLog(module = "提现申请", operation = "校验提现密码")
+    public void checkWithdrawPassword(HttpServletRequest request, HttpServletResponse response, String withdrawPassword) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        UserModel currentUser = AppContext.getCurrentUser();
+        String userId = currentUser.getId();
+
+        if (currentUser.getWithdrawPassword().equalsIgnoreCase(Md5Util.md5_32(withdrawPassword))) {
+            json.put("success", true);
+            json.put("msg", "校验成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "校验失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
 
 }

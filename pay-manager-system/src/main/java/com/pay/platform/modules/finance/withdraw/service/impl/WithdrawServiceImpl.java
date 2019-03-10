@@ -52,4 +52,9 @@ public class WithdrawServiceImpl implements WithdrawService {
         return withdrawDao.updateWithdraw(withdraw);
     }
 
+    @Override
+    public Integer initWithdrawPassword(String userId, String withdrawPassword) {
+        return withdrawDao.initWithdrawPassword(userId, withdrawPassword);
+    }
+
 }

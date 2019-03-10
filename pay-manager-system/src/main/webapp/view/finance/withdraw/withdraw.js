@@ -91,6 +91,137 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      */
     pageScope.addWithdraw = function () {
 
+        //判断是否设置过提现密码,首次需要设置提现密码
+        $.ajax({
+            url: baseURL + "/finance/withdraw/queryIsInitWithdrawPassword",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token},
+            success: function (response) {
+
+                //输入提现密码
+                if (response && response.success == true) {
+                    pageScope.checkWithdrawPassword();
+                }
+                //初始化提现密码
+                else {
+                    pageScope.initWithdrawPassword();
+                }
+
+            }
+        });
+
+    };
+
+    /**
+     * 初始化提现密码
+     */
+    pageScope.initWithdrawPassword = function () {
+        var dialog = $.dialog.show({
+            url: baseURL + "/view/finance/withdraw/init_withdraw_password.jsp?" + _csrf + "=" + token,
+            buttonEvents: {
+                success: function () {
+                    
+                    if (!$("#initWithdrawPasswordForm").valid()) {                   //表单验证
+                        return;
+                    }
+
+                    var withdrawPassword = $("#withdrawPassword").val();
+                    var confirmWithdrawPassword = $("#confirmWithdrawPassword").val();
+                    if ($.validate.isNotEmpty(withdrawPassword)) {
+
+                        if ($.validate.isEmpty(confirmWithdrawPassword)) {
+                            $.msg.error("请输入确认密码!");
+                            return;
+                        }
+
+                        if (withdrawPassword != confirmWithdrawPassword) {
+                            $.msg.error("两次输入密码不一致!");
+                            return;
+                        }
+
+                    }
+                    if(!$.validate.checkPassWord(withdrawPassword)){
+                        $.msg.error("提现密码必须为8位的英文与数字组合!");
+                        return;
+                    }
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    $('#initWithdrawPasswordForm').ajaxSubmit({
+                        dataType: 'json',
+                        type: "post",
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.showAddWithdrawDialog();
+                            }
+                            else {
+                                $.msg.error(response.msg);
+                            }
+
+                        }, error: function (e) {
+                            btn.removeAttr("disabled");
+                        }
+
+                    });
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 输入提现密码
+     */
+    pageScope.checkWithdrawPassword = function () {
+        var dialog = $.dialog.show({
+            url: baseURL + "/view/finance/withdraw/check_withdraw_password.jsp?" + _csrf + "=" + token,
+            buttonEvents: {
+                success: function () {
+
+                    if (!$("#checkWithdrawPassword").valid()) {                   //表单验证
+                        return;
+                    }
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    $('#checkWithdrawPassword').ajaxSubmit({
+                        dataType: 'json',
+                        type: "post",
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.showAddWithdrawDialog();
+                            }
+                            else {
+                                $.msg.error(response.msg);
+                            }
+
+                        }, error: function (e) {
+                            btn.removeAttr("disabled");
+                        }
+
+                    });
+
+                }
+            }
+        });
+    }
+
+    /**
+     * 显示发起提现的对话框
+     */
+    pageScope.showAddWithdrawDialog = function () {
+
         var dialog = $.dialog.show({
             url: baseURL + "/view/finance/withdraw/withdraw_add.jsp?" + _csrf + "=" + token,
             buttonEvents: {
@@ -129,7 +260,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             }
         });
 
-    };
+    }
 
     /**
      * 删除提现申请

@@ -33,6 +33,7 @@ public class UserModel extends BaseModel implements UserDetails {
     private String merchantId;              //绑定的商户ID,根据此标识和角色码,确定当前用户是否为商家
     private int needInitPassword;           //是否需要初始化密码（0:不需要 1:需要）; 代理和商户首次登陆需要修改密码;
 
+    private String withdrawPassword;        //提现密码
 
     private List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();     //用户的角色列表(即以ROLE_开头的角色)
 
@@ -242,5 +243,13 @@ public class UserModel extends BaseModel implements UserDetails {
 
     public void setNeedInitPassword(int needInitPassword) {
         this.needInitPassword = needInitPassword;
+    }
+
+    public String getWithdrawPassword() {
+        return withdrawPassword;
+    }
+
+    public void setWithdrawPassword(String withdrawPassword) {
+        this.withdrawPassword = withdrawPassword;
     }
 }

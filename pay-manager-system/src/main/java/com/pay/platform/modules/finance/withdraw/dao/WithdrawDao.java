@@ -1,5 +1,6 @@
 package com.pay.platform.modules.finance.withdraw.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -61,5 +62,13 @@ public interface WithdrawDao {
      * @return
      */
     Integer updateWithdraw(WithdrawModel withdraw);
+
+    /**
+     * 初始化提现密码
+     * @param userId
+     * @param withdrawPassword
+     * @return
+     */
+    Integer initWithdrawPassword(@Param("userId") String userId, @Param("withdrawPassword") String withdrawPassword);
 
 }

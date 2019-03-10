@@ -14,7 +14,7 @@
 
 <div class="modal-header">
     <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h4 class="modal-title">新增提现申请</h4>
+    <h4 class="modal-title">提现申请</h4>
 </div>
 
 <div class="modal-body">
