@@ -245,6 +245,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                                 $.msg.success(response.msg);
                                 pageScope.withdrawTable.bootstrapTable('refresh');
                                 $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.queryAccountAmount();
                             }
                             else {
                                 $.msg.error(response.msg);

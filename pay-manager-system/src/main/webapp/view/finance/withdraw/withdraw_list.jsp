@@ -73,9 +73,9 @@
                         <i class="glyphicon glyphicon-plus"></i> 新增
                     </button>
 
-                    <button id="remove" class="btn btn-danger" onclick="pageScope.deleteWithdraw()">
-                        <i class="glyphicon glyphicon-remove"></i> 删除
-                    </button>
+                    <%--<button id="remove" class="btn btn-danger" onclick="pageScope.deleteWithdraw()">--%>
+                        <%--<i class="glyphicon glyphicon-remove"></i> 删除--%>
+                    <%--</button>--%>
 
                 </div>
 

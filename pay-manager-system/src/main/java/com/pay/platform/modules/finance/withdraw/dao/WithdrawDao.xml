@@ -19,7 +19,7 @@
 
     <insert id="addWithdraw" parameterType="WithdrawModel">
         insert into tb_merchant_withdraw_info(id , merchant_id , order_no , withdraw_amount , actual_amount , real_name , bank_name , bank_card , province_name , city_name , create_time)
-        values(uuid() , #{merchant_id} , #{orderNo}, #{withdrawAmount} , #{actualAmount} , #{realName} , #{bankName} , #{bankCard} , #{provinceName} , #{cityName} , now());
+        values(uuid() , #{merchantId} , #{orderNo}, #{withdrawAmount} , #{actualAmount} , #{realName} , #{bankName} , #{bankCard} , #{provinceName} , #{cityName} , now());
     </insert>
 
     <delete id="deleteWithdraw">
