@@ -19,9 +19,11 @@ public interface WithdrawDao {
      * 分页查询提现申请列表
      *
      * @param withdraw
+     * @param beginTime
+     * @param endTime
      * @return
      */
-    List<WithdrawModel> queryWithdrawList(WithdrawModel withdraw);
+    List<WithdrawModel> queryWithdrawList(@Param("withdraw") WithdrawModel withdraw, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /**
      * 根据id查询提现申请信息
@@ -65,6 +67,7 @@ public interface WithdrawDao {
 
     /**
      * 初始化提现密码
+     *
      * @param userId
      * @param withdrawPassword
      * @return

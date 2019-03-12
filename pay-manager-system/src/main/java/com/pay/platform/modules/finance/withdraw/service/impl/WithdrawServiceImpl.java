@@ -36,8 +36,8 @@ public class WithdrawServiceImpl implements WithdrawService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public PageInfo<WithdrawModel> queryWithdrawList(WithdrawModel withdraw) {
-        return new PageInfo(withdrawDao.queryWithdrawList(withdraw));
+    public PageInfo<WithdrawModel> queryWithdrawList(WithdrawModel withdraw, String beginTime, String endTime) {
+        return new PageInfo(withdrawDao.queryWithdrawList(withdraw, beginTime, endTime));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class WithdrawServiceImpl implements WithdrawService {
                 double withdrawableAmount = DecimalCalculateUtil.sub(accountAmount, freezeAmount);
 
                 double withdrawAmount = withdraw.getWithdrawAmount();
-                if(withdrawAmount > withdrawableAmount){
+                if (withdrawAmount > withdrawableAmount) {
                     throw new Exception("申请提现失败,可提现余额不足！");
                 }
 
@@ -76,10 +76,10 @@ public class WithdrawServiceImpl implements WithdrawService {
                 count += withdrawDao.addWithdraw(withdraw);
 
                 //2、增加冻结资金
-                count += accountAmountDao.addFreezeAmount(userId , withdraw.getWithdrawAmount());
+                count += accountAmountDao.addFreezeAmount(userId, withdraw.getWithdrawAmount());
 
                 //3、记录冻结资金操作记录
-                count += accountAmountDao.addFreezeAmountBillLog(userId , orderNo , WithdrawStatusEnum.withdrawApply.getCode(), withdraw.getWithdrawAmount());
+                count += accountAmountDao.addFreezeAmountBillLog(userId, orderNo, WithdrawStatusEnum.withdrawApply.getCode(), withdraw.getWithdrawAmount());
 
             }
 
@@ -92,7 +92,7 @@ public class WithdrawServiceImpl implements WithdrawService {
             }
         }
 
-        if(count != 3){
+        if (count != 3) {
             throw new Exception("发起提现失败,请稍后再试！");
         }
 

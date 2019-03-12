@@ -55,9 +55,9 @@ public class WithdrawController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/queryWithdrawList", produces = "application/json")
-    public PageInfo<WithdrawModel> queryWithdrawList(HttpServletRequest request, HttpServletResponse response, WithdrawModel withdraw) throws Exception {
+    public PageInfo<WithdrawModel> queryWithdrawList(HttpServletRequest request, HttpServletResponse response, WithdrawModel withdraw, String beginTime, String endTime) throws Exception {
         setPageInfo(request);
-        return withdrawService.queryWithdrawList(withdraw);
+        return withdrawService.queryWithdrawList(withdraw, beginTime, endTime);
     }
 
     /**
@@ -112,7 +112,7 @@ public class WithdrawController extends BaseController {
 
         } catch (Exception e) {
             json.put("success", false);
-            json.put("msg",  e.getMessage());
+            json.put("msg", e.getMessage());
         }
 
         writeJson(response, json.toString());

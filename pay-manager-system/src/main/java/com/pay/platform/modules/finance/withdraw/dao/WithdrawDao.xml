@@ -8,6 +8,29 @@
                 , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'checkStatus' and FIND_IN_SET(ITEM_CODE , check_status))  as checkStatusDictDesc
                 , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(ITEM_CODE , withdraw_status))  as withdrawStatusDictDesc
         from tb_merchant_withdraw_info
+
+        <where>
+            <if test="withdraw.orderNo != null and withdraw.orderNo != '' ">
+                and order_no like CONCAT('%','${order.orderNo}','%')
+            </if>
+            <if test="withdraw.realName != null and withdraw.realName != '' ">
+                and real_name like CONCAT('%','${order.realName}','%')
+            </if>
+            <if test="withdraw.bankCard != null and withdraw.bankCard != '' ">
+                and bank_Card like CONCAT('%','${order.bankCard}','%')
+            </if>
+
+            <if test="withdraw.withdrawStatus != null and withdraw.withdrawStatus != '' ">
+                and withdraw_status = #{withdrawStatus}
+            </if>
+            <if test="beginTime != null and beginTime != '' ">
+                and create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and create_time &lt;= #{endTime}
+            </if>
+        </where>
+
     </select>
 
     <select id="queryWithdrawById" parameterType="java.lang.String" resultType="WithdrawModel">
