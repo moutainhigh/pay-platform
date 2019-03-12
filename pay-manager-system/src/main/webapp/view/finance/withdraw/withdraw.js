@@ -59,6 +59,15 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 }
             },
             {
+                title: '申请时间',
+                field: 'createTime',
+                align: 'center',
+                sortable: true,
+                formatter: function (value, row, index) {
+                    return $.date.formatToDateTime(value);
+                }
+            },
+            {
                 title: '操作',
                 align: 'center',
                 formatter: function (value, row, index) {

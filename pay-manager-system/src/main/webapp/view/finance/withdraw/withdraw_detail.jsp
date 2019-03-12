@@ -71,6 +71,26 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">审核状态：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input id="detailCheckStatus"  type="text" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">提现状态：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input id="detailWithdrawStatus" type="text" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">申请时间：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input id="detailCreateTime" type="text" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
 
         </form>
 
