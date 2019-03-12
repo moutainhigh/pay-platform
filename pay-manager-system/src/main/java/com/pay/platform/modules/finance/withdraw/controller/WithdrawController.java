@@ -57,7 +57,11 @@ public class WithdrawController extends BaseController {
     @RequestMapping(value = "/queryWithdrawList", produces = "application/json")
     public PageInfo<WithdrawModel> queryWithdrawList(HttpServletRequest request, HttpServletResponse response, WithdrawModel withdraw, String beginTime, String endTime) throws Exception {
         setPageInfo(request);
-        return withdrawService.queryWithdrawList(withdraw, beginTime, endTime);
+
+        UserModel userModel = AppContext.getCurrentUser();
+        String merchantId = userModel.getMerchantId();
+
+        return withdrawService.queryWithdrawList(withdraw , merchantId, beginTime, endTime);
     }
 
     /**

@@ -8,6 +8,7 @@
                 , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'checkStatus' and FIND_IN_SET(ITEM_CODE , check_status))  as checkStatusDictDesc
                 , ( select Group_concat(item_desc) from tb_dictionary where DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(ITEM_CODE , withdraw_status))  as withdrawStatusDictDesc
         from tb_merchant_withdraw_info
+        where merchant_id = #{merchantId}
 
         <where>
             <if test="withdraw.orderNo != null and withdraw.orderNo != '' ">

@@ -36,8 +36,8 @@ public class WithdrawServiceImpl implements WithdrawService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public PageInfo<WithdrawModel> queryWithdrawList(WithdrawModel withdraw, String beginTime, String endTime) {
-        return new PageInfo(withdrawDao.queryWithdrawList(withdraw, beginTime, endTime));
+    public PageInfo<WithdrawModel> queryWithdrawList(WithdrawModel withdraw, String merchantId, String beginTime, String endTime) {
+        return new PageInfo(withdrawDao.queryWithdrawList(withdraw, merchantId, beginTime, endTime));
     }
 
     @Override

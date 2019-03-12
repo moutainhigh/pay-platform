@@ -19,7 +19,7 @@ public interface WithdrawService {
      * @param withdraw
      * @return
      */
-    PageInfo<WithdrawModel> queryWithdrawList(WithdrawModel withdraw, String beginTime, String endTime);
+    PageInfo<WithdrawModel> queryWithdrawList(WithdrawModel withdraw , String merchantId , String beginTime, String endTime);
 
     /**
      * 根据id查询提现申请

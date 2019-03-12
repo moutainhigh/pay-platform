@@ -23,7 +23,8 @@ public interface WithdrawDao {
      * @param endTime
      * @return
      */
-    List<WithdrawModel> queryWithdrawList(@Param("withdraw") WithdrawModel withdraw, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<WithdrawModel> queryWithdrawList(@Param("withdraw") WithdrawModel withdraw , @Param("merchantId") String merchantId
+            , @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /**
      * 根据id查询提现申请信息
