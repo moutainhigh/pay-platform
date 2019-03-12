@@ -10,27 +10,25 @@
         from tb_merchant_withdraw_info
         where merchant_id = #{merchantId}
 
-        <where>
-            <if test="withdraw.orderNo != null and withdraw.orderNo != '' ">
-                and order_no like CONCAT('%','${withdraw.orderNo}','%')
-            </if>
-            <if test="withdraw.realName != null and withdraw.realName != '' ">
-                and real_name like CONCAT('%','${withdraw.realName}','%')
-            </if>
-            <if test="withdraw.bankCard != null and withdraw.bankCard != '' ">
-                and bank_Card like CONCAT('%','${withdraw.bankCard}','%')
-            </if>
+        <if test="withdraw.orderNo != null and withdraw.orderNo != '' ">
+            and order_no like CONCAT('%','${withdraw.orderNo}','%')
+        </if>
+        <if test="withdraw.realName != null and withdraw.realName != '' ">
+            and real_name like CONCAT('%','${withdraw.realName}','%')
+        </if>
+        <if test="withdraw.bankCard != null and withdraw.bankCard != '' ">
+            and bank_Card like CONCAT('%','${withdraw.bankCard}','%')
+        </if>
 
-            <if test="withdraw.withdrawStatus != null and withdraw.withdrawStatus != '' ">
-                and withdraw_status = #{withdraw.withdrawStatus}
-            </if>
-            <if test="beginTime != null and beginTime != '' ">
-                and create_time &gt;= #{beginTime}
-            </if>
-            <if test="endTime != null and endTime != '' ">
-                and create_time &lt;= #{endTime}
-            </if>
-        </where>
+        <if test="withdraw.withdrawStatus != null and withdraw.withdrawStatus != '' ">
+            and withdraw_status = #{withdraw.withdrawStatus}
+        </if>
+        <if test="beginTime != null and beginTime != '' ">
+            and create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and create_time &lt;= #{endTime}
+        </if>
 
     </select>
 
