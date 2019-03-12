@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.finance.payFor.dao.PayForDao">
+
+    <select id="queryPayForList" resultType="WithdrawModel">
+        select tab.* from (
+            select tmwi.*
+            , ( select Group_concat(td.item_desc) from tb_dictionary td where td.DICT_TYPE = 'checkStatus' and FIND_IN_SET(td.ITEM_CODE , tmwi.check_status)) as checkStatusDictDesc
+            , ( select Group_concat(td.item_desc) from tb_dictionary td where td.DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(td.ITEM_CODE , tmwi.withdraw_status)) as withdrawStatusDictDesc
+            , (select tm.agent_id agentId from tb_merchant tm where tm.id = tmwi.merchant_id) as agentId , tm.merchant_name , tm.merchant_no
+            from tb_merchant_withdraw_info tmwi
+            inner JOIN tb_merchant tm on tm.id = tmwi.merchant_id
+        ) tab
+        <where>
+            <if test="agentId != null and agentId != '' ">
+                and tab.agentId = #{agentId}
+            </if>
+            <if test="merchantId != null and merchantId != '' ">
+                and tab.merchant_id = #{merchantId}
+            </if>
+            <if test="withdraw.orderNo != null and withdraw.orderNo != '' ">
+                and tab.order_no like CONCAT('%','${withdraw.orderNo}','%')
+            </if>
+            <if test="withdraw.realName != null and withdraw.realName != '' ">
+                and tab.real_name like CONCAT('%','${withdraw.realName}','%')
+            </if>
+            <if test="withdraw.bankCard != null and withdraw.bankCard != '' ">
+                and tab.bank_Card like CONCAT('%','${withdraw.bankCard}','%')
+            </if>
+            <if test="withdraw.withdrawStatus != null and withdraw.withdrawStatus != '' ">
+                and tab.withdraw_status = #{withdraw.withdrawStatus}
+            </if>
+            <if test="beginTime != null and beginTime != '' ">
+                and tab.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and tab.create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

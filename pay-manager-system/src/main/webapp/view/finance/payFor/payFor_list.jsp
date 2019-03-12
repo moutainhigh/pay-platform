@@ -22,7 +22,7 @@
             <div class="panel-body">
 
                 <!-- 搜索条件 -->
-                <form id="searchWithdrawForm" method="post">
+                <form id="searchPayForForm" method="post">
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
@@ -49,15 +49,10 @@
                                 <input type="text" name="realName" id="queryRealName" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
-                            <td width="80" align="right">银行卡号：</td>
-                            <td width="150">
-                                <input type="text" name="bankCard" id="queryBankCard" class="form-control btn-block" aria-describedby="basic-addon1">
-                            </td>
-
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"
-                                       onclick="javascript:document.getElementById('searchWithdrawForm').reset(); pageScope.search();">
+                                       onclick="javascript:document.getElementById('searchPayForForm').reset(); pageScope.search();">
                             </td>
 
                         </tr>
@@ -90,6 +85,11 @@
                                 </div>
                             </td>
 
+                            <td width="80" align="right">银行卡号：</td>
+                            <td width="150">
+                                <input type="text" name="bankCard" id="queryBankCard" class="form-control btn-block" aria-describedby="basic-addon1">
+                            </td>
+
                         </tr>
 
                     </table>
@@ -112,7 +112,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${baseURL}/view/finance/withdraw/withdraw.js"></script>
+<script type="text/javascript" src="${baseURL}/view/finance/payFor/payFor.js"></script>
 <script type="text/javascript">
 
     $(function () {
@@ -124,6 +124,9 @@
             var value = $(this).val();
             $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
         });
+
+        $('#beginTime_div').datetimepicker();
+        $('#endTime_div').datetimepicker();
 
     });
 

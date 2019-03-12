@@ -11,7 +11,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         dataType: "json",
         toolbar: '#payForPager',
         queryParams: function (params) {
-            $.extend(params, $('#searchpayForForm').serializeObject());
+            $.extend(params, $('#searchPayForForm').serializeObject());
             return params;
         },
         onClickRow: function (row, tr) {
@@ -37,7 +37,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 }
             },
             {title: '提现单号', field: 'orderNo', align: 'center', sortable: true},
-            {title: '提现金额', field: 'payForAmount', align: 'center', sortable: true},
+            {title: '提现金额', field: 'withdrawAmount', align: 'center', sortable: true},
             {title: '真实姓名', field: 'realName', align: 'center', sortable: true},
             {title: '银行卡号', field: 'bankCard', align: 'center', sortable: true},
             {
@@ -50,12 +50,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 }
             },
             {
-                title: '提现状态',
-                field: 'payForStatus',
+                title: '代付状态',
+                field: 'withdrawStatus',
                 align: 'center',
                 sortable: true,
                 formatter: function (value, row, index) {
-                    return row.payForStatusDictDesc;
+                    return row.withdrawStatusDictDesc;
                 }
             },
             {
@@ -64,7 +64,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 formatter: function (value, row, index) {
                     var html = "";
                     // html += "<button type='button' class='btn btn-link' onclick='pageScope.editpayFor()' ><i class='glyphicon glyphicon-pencil'></i></button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showpayForDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                     // html += "<button type='button' class='btn btn-link' onclick='pageScope.deletepayFor(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
                     return html;
                 }
