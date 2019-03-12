@@ -5,12 +5,12 @@
 
     <select id="queryPayForList" resultType="WithdrawModel">
         select tab.* from (
-            select tmwi.*
-            , ( select Group_concat(td.item_desc) from tb_dictionary td where td.DICT_TYPE = 'checkStatus' and FIND_IN_SET(td.ITEM_CODE , tmwi.check_status)) as checkStatusDictDesc
-            , ( select Group_concat(td.item_desc) from tb_dictionary td where td.DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(td.ITEM_CODE , tmwi.withdraw_status)) as withdrawStatusDictDesc
-            , (select tm.agent_id agentId from tb_merchant tm where tm.id = tmwi.merchant_id) as agentId , tm.merchant_name , tm.merchant_no
-            from tb_merchant_withdraw_info tmwi
-            inner JOIN tb_merchant tm on tm.id = tmwi.merchant_id
+        select tmwi.*
+        , ( select Group_concat(td.item_desc) from tb_dictionary td where td.DICT_TYPE = 'checkStatus' and FIND_IN_SET(td.ITEM_CODE , tmwi.check_status)) as checkStatusDictDesc
+        , ( select Group_concat(td.item_desc) from tb_dictionary td where td.DICT_TYPE = 'withdrawStatus' and FIND_IN_SET(td.ITEM_CODE , tmwi.withdraw_status)) as withdrawStatusDictDesc
+        , (select tm.agent_id agentId from tb_merchant tm where tm.id = tmwi.merchant_id) as agentId , tm.merchant_name , tm.merchant_no
+        from tb_merchant_withdraw_info tmwi
+        inner JOIN tb_merchant tm on tm.id = tmwi.merchant_id
         ) tab
         <where>
             <if test="agentId != null and agentId != '' ">
@@ -39,5 +39,17 @@
             </if>
         </where>
     </select>
+
+    <update id="payForReview" parameterType="MerchantModel">
+        update tb_merchant_withdraw_info
+        set check_status = #{checkStatus} ,check_desc = #{checkDesc}
+        where id = #{id}
+    </update>
+
+    <update id="updateWithdrawStatus" parameterType="java.lang.String">
+        update tb_merchant_withdraw_info
+        set withdraw_status = #{withdrawStatus}
+        where id = #{id}
+    </update>
 
 </mapper>

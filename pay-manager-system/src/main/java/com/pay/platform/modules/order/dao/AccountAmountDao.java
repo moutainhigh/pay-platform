@@ -77,4 +77,23 @@ public interface AccountAmountDao {
      */
     int addFreezeAmountBillLog(@Param("userId") String userId, @Param("refOrderNo") String refOrderNo, @Param("type") String type, @Param("amount") Double amount);
 
+    /**
+     * 减少账户余额
+     *
+     * @param userId
+     * @param amount
+     * @return
+     */
+    int reduceAccountAmount(@Param("userId") String userId, @Param("amount") Double amount);
+
+    /**
+     * 减少冻结资金
+     *
+     * @param userId
+     * @param amount
+     * @return
+     */
+    int reduceFreezeAmount(@Param("userId") String userId, @Param("amount") Double amount);
+
+
 }

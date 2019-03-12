@@ -51,6 +51,16 @@ public class WithdrawModel extends BaseModel {
 
     private String createTime;                //创建时间
 
+    private String checkDesc;               //审核状态
+
+
+    public String getCheckDesc() {
+        return checkDesc;
+    }
+
+    public void setCheckDesc(String checkDesc) {
+        this.checkDesc = checkDesc;
+    }
 
     public String getId() {
         return this.id;

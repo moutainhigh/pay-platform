@@ -1,10 +1,3 @@
-<%--
-Created by IntelliJ IDEA.
-User: zjt
-Date: 2016/10/6
-Time: 15:21
-To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -13,16 +6,34 @@ To change this template use File | Settings | File Templates.
 
 <div class="modal-header">
     <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">x</button>
-    <h4 class="modal-title">提现申请详情</h4>
+    <h4 class="modal-title">代付审核</h4>
 </div>
 
 <div class="modal-body">
     <div class="bootbox-body">
 
-        <form id="addWithdrawForm" action="" class="form-horizontal">
+        <form id="reviewPayForForm" action="${baseURL}/finance/payFor/review" class="form-horizontal"  method="post">
 
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <input type="hidden" id="reviewId" name="id"/>
 
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">状态：</label>
+                <div class="col-md-8 col-sm-8">
+                    <select class="form-control" name="checkStatus" id="checkStatus">
+                        <option value="waitCheck">待审核</option>
+                        <option value="checkSuccess">审核通过</option>
+                        <option value="checkFail">审核失败</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">审核备注：</label>
+                <div class="col-md-8 col-sm-8">
+                    <textarea id="checkDesc" name="checkDesc" type="text" class="form-control"/>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">提现金额：</label>
@@ -79,13 +90,6 @@ To change this template use File | Settings | File Templates.
             </div>
 
             <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">审核备注：</label>
-                <div class="col-md-8 col-sm-8">
-                    <textarea id="checkDesc" name="checkDesc" type="text" class="form-control" readonly/>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">提现状态：</label>
                 <div class="col-md-8 col-sm-8">
                     <input id="detailWithdrawStatus" type="text" class="form-control" readonly="readonly"/>
@@ -105,5 +109,6 @@ To change this template use File | Settings | File Templates.
 </div>
 
 <div class="modal-footer operation-button">
+    <button data-bb-handler="success" type="button" class="btn btn-success">保存</button>
     <button data-bb-handler="cancel" type="button" class="btn btn-danger">取消</button>
 </div>

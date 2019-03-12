@@ -38,4 +38,14 @@
         values( uuid() , #{userId} , #{refOrderNo} , #{type} , #{amount} , now())
     </insert>
 
+    <update id="reduceAccountAmount">
+        update tb_account_amount set account_amount = (account_amount - abs(#{amount}))
+        where user_id = #{userId} and account_amount &gt;= abs(#{amount})
+    </update>
+
+    <update id="reduceFreezeAmount">
+        update tb_account_amount set freeze_amount = (freeze_amount - abs(#{amount}))
+        where user_id = #{userId} and freeze_amount &gt;= abs(#{amount})
+    </update>
+
 </mapper>

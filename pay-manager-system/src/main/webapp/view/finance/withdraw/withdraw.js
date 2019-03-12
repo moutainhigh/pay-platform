@@ -370,6 +370,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailRate").val(pageScope.currentrow.rate);
                 $("#detailHandlingFee").val(pageScope.currentrow.handlingFee);
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
+                $("#checkDesc").html(pageScope.currentrow.checkDesc);
 
             }
         });
