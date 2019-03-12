@@ -18,11 +18,11 @@ public class ValidateUtil {
      * @param notEmptyFieldName：非空字段名称
      * @throws Exception
      */
-    public static JSONObject isEmpty(Object sourceObj, List<String> notEmptyFieldName) throws Exception {
+    public static ValidateResult isEmpty(Object sourceObj, List<String> notEmptyFieldName) throws Exception {
 
-        JSONObject json = new JSONObject();
-        json.put("status", "1");
-        json.put("msg", "校验成功");
+        ValidateResult result = new ValidateResult();
+        result.setSuccess(true);
+        result.setMsg("校验成功");
 
         //得到类字节码对象
         Class userCla = (Class) sourceObj.getClass();
@@ -39,15 +39,16 @@ public class ValidateUtil {
 
                 Object fieldValue = field.get(sourceObj);
                 if (fieldValue == null || fieldValue.toString().trim().length() == 0) {
-                    json.put("status", "0");
-                    json.put("msg", "参数错误: " + fieldName + "不可为空");
+                    result.setSuccess(false);
+                    result.setMsg("参数错误: " + fieldName + "不可为空");
+                    break;
                 }
 
             }
 
         }
 
-        return json;
+        return result;
 
     }
 
