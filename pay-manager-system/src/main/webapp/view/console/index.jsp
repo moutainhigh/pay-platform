@@ -26,7 +26,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>后台管理系统</title>
+    <title>恒立信支付</title>
     <%@include file="common.jsp" %>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

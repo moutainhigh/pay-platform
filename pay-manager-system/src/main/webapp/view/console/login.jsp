@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>欢迎登录后台管理系统</title>
+    <title>欢迎登录恒立信支付</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="${baseURL}/resources/plugins/bootstrap/bootstrap-3.3.5/css/bootstrap.min.css">

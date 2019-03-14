@@ -13,7 +13,7 @@
     <!-- Logo -->
     <a class="logo" style="cursor: default;" >
         <span class="logo-mini"><b>A</b>LT</span>
-        <span class="logo-lg"><b>后台管理系统</b></span>
+        <span class="logo-lg"><b>恒立信支付</b></span>
     </a>
 
     <!-- 开关按钮 -->
