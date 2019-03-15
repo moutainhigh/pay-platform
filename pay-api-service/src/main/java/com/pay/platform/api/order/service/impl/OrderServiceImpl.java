@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 
@@ -50,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 支付成功后 - 业务处理
+     * <p>
+     * 注意：当redis与mysql事务同时存在时，需手动添加@Transactional注解
      *
      * @param platformOrderNo
      * @param payNo
@@ -58,8 +61,7 @@ public class OrderServiceImpl implements OrderService {
      * @throws Exception
      */
     @Override
-    @Transactional
-    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime , String channelActuatAmount) throws Exception {
+    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime, String channelActuatAmount) throws Exception {
 
         int count = 0;
 
@@ -76,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
 
                 if (!(PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus()))) {
                     //1、修改支付状态、支付单号
-                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime , channelActuatAmount);
+                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime, channelActuatAmount);
 
                     //2、增加代理的账户余额,并记录流水
                     String agentId = orderModel.getAgentId();
@@ -94,10 +96,7 @@ public class OrderServiceImpl implements OrderService {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;                        //抛出异常,回滚事务
-        } finally {
+        }  finally {
             if (lock != null) {
                 lock.unlock();              //释放分布式锁
             }
