@@ -122,7 +122,6 @@ public class PayForServiceImpl implements PayForService {
      * @throws Exception
      */
     @Override
-    @Transactional
     public boolean updateWithdrawStatusToFail(String id, String withdrawStatus) throws Exception{
 
         int count = 0;
