@@ -96,15 +96,22 @@
             <tx:method name="test*" read-only="true"/>
 
             <!-- 除了查询操作, 其它全部开启事务, 抛出异常时回滚-->
-            <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Exception"/>
+            <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" rollback-for="Throwable"/>
 
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
-        <aop:pointcut id="transactionPointcut" expression="execution(* com.pay.platform.modules.*.service.*.*(..))"/>
+        <aop:pointcut id="transactionPointcut" expression="bean(*ServiceImpl) || bean(*Service)"/>
         <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice"/>
     </aop:config>
+
+
+    <!--&lt;!&ndash; 指定对service层进行拦截&ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="serviceOperation" expression="bean(*ServiceImpl) || bean(*Service)"/>-->
+        <!--<aop:advisor advice-ref="transactionAdvice" pointcut-ref="serviceOperation"/>-->
+    <!--</aop:config>-->
 
     <!-- 引入配置文件 -->
     <!--<bean id="propertyConfigurer"-->

@@ -13,6 +13,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 /**
  * User: zjt
@@ -43,6 +45,14 @@ public class PayForServiceImpl implements PayForService {
         return payForDao.payForReview(id, checkStatus, checkDesc);
     }
 
+    /**
+     * 设置为提现成功
+     * 注意：当redis与mysql事务同时存在时，需手动添加@Transactional注解
+     * @param id
+     * @param withdrawStatus
+     * @return
+     * @throws Exception
+     */
     @Override
     public boolean updateWithdrawStatusToSuccess(String id, String withdrawStatus) throws Exception {
 
@@ -82,16 +92,13 @@ public class PayForServiceImpl implements PayForService {
                 count += accountAmountDao.reduceAccountAmount(userId , withdrawModel.getWithdrawAmount());
 
                 //4、商家账户余额操作日志
-                count += accountAmountDao.addFreezeAmountBillLog(userId , withdrawModel.getOrderNo() , FreezeAmountType.withdrawSuccess.getCode() , withdrawModel.getWithdrawAmount());
+                count += accountAmountDao.addAccountAmountBillLog(userId , withdrawModel.getOrderNo() , FreezeAmountType.withdrawSuccess.getCode() , withdrawModel.getWithdrawAmount());
 
                 //5、修改提现状态
                 count += payForDao.updateWithdrawStatus(id , withdrawStatus);
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;                        //抛出异常,回滚事务
         } finally {
             if (lock != null) {
                 lock.unlock();              //释放分布式锁
@@ -106,7 +113,16 @@ public class PayForServiceImpl implements PayForService {
 
     }
 
+    /**
+     * 设置为提现失败
+     * 注意：当redis与mysql事务同时存在时，需手动添加@Transactional注解
+     * @param id
+     * @param withdrawStatus
+     * @return
+     * @throws Exception
+     */
     @Override
+    @Transactional
     public boolean updateWithdrawStatusToFail(String id, String withdrawStatus) throws Exception{
 
         int count = 0;
@@ -140,17 +156,14 @@ public class PayForServiceImpl implements PayForService {
                 count += accountAmountDao.reduceFreezeAmount(userId , withdrawModel.getWithdrawAmount());
 
                 //2、记录冻结资金操作记录
-                count += accountAmountDao.addFreezeAmountBillLog(userId , withdrawModel.getOrderNo() , FreezeAmountType.withdrawSuccess.getCode() , withdrawModel.getWithdrawAmount());
+                count += accountAmountDao.addFreezeAmountBillLog(userId , withdrawModel.getOrderNo() , FreezeAmountType.withdrawFail.getCode() , withdrawModel.getWithdrawAmount());
 
                 //3、修改提现状态
                 count += payForDao.updateWithdrawStatus(id , withdrawStatus);
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;                        //抛出异常,回滚事务
-        } finally {
+        }  finally {
             if (lock != null) {
                 lock.unlock();              //释放分布式锁
             }

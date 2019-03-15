@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.pay.platform.modules.finance.withdraw.model.WithdrawModel;
 import com.pay.platform.modules.finance.withdraw.service.WithdrawService;
 import com.pay.platform.modules.finance.withdraw.dao.WithdrawDao;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 
 /**
@@ -83,9 +84,6 @@ public class WithdrawServiceImpl implements WithdrawService {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;                        //抛出异常,回滚事务
         } finally {
             if (lock != null) {
                 lock.unlock();              //释放分布式锁

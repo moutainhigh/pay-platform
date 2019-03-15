@@ -28,7 +28,7 @@
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">提现金额：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input id="addWithdrawAmount" name="withdrawAmount" type="text" class="form-control" check-type="required" maxlength="10" placeholder="请输入提现金额"/>
+                    <input id="addWithdrawAmount" name="withdrawAmount" type="text" class="form-control" check-type="required number" maxlength="10" placeholder="请输入提现金额"/>
                 </div>
             </div>
 

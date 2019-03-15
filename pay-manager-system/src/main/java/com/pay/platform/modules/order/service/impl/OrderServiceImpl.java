@@ -16,6 +16,7 @@ import com.pay.platform.modules.order.model.OrderModel;
 import com.pay.platform.modules.order.service.OrderService;
 import com.pay.platform.modules.order.dao.OrderDao;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 
 /**
@@ -59,7 +60,6 @@ public class OrderServiceImpl implements OrderService {
      * @throws Exception
      */
     @Override
-    @Transactional
     public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime , String channelActuatAmount) throws Exception {
 
         int count = 0;
@@ -95,9 +95,6 @@ public class OrderServiceImpl implements OrderService {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;                        //抛出异常,回滚事务
         } finally {
             if (lock != null) {
                 lock.unlock();              //释放分布式锁
