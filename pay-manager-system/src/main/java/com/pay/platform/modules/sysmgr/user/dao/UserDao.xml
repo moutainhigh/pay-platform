@@ -91,7 +91,7 @@
 
     <select id="queryUserByAccount" parameterType="java.lang.String" resultType="UserModel">
         select tsu.* , (select torg.name from tb_organization torg where torg.id = tsu.org_id ) as orgName
-        from tb_sys_user tsu where account = #{account}
+        from tb_sys_user tsu where account = #{account} and is_del = 0
     </select>
 
     <select id="queryPermissionListByUserId" parameterType="java.lang.String" resultType="PermissionModel">
