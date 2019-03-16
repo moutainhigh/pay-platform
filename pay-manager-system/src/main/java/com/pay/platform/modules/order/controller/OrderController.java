@@ -116,7 +116,7 @@ public class OrderController extends BaseController {
 
                             //相关业务处理：更新订单状态等
                             orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
-                            orderModel = orderService.queryOrderByOrderNo(orderNo);
+                            orderModel = orderService.queryOrderByOrderNo(orderNo);         //获取数据库最新的订单信息
                         }
 
                     }
