@@ -89,9 +89,9 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
         json.put("merchantOrderNo", orderModel.getMerchantOrderNo());             //商户订单号
         json.put("platformOrderNo", orderModel.getPlatformOrderNo());             //平台订单号
         json.put("orderAmount", String.valueOf(orderModel.getOrderAmount()));               //订单金额(元)
-        json.put("actualAmount", String.valueOf(orderModel.getActualAmount()));             //实际金额
-        json.put("merchantRate", String.valueOf(orderModel.getMerchantRate()));                  //商家费率
-        json.put("handlingFee", String.valueOf(orderModel.getHandlingFee()));                    //手续费(元)
+//        json.put("actualAmount", String.valueOf(orderModel.getActualAmount()));             //实际金额
+//        json.put("merchantRate", String.valueOf(orderModel.getMerchantRate()));                  //商家费率
+//        json.put("handlingFee", String.valueOf(orderModel.getHandlingFee()));                    //手续费(元)
 
         json.put("payStatus", orderModel.getPayStatus());           //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
         json.put("payWay", orderModel.getPayWay());                 //支付方式(1:支付宝 25:微信)
