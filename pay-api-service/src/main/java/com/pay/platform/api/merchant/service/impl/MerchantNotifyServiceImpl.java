@@ -94,7 +94,7 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
         json.put("handlingFee", String.valueOf(orderModel.getHandlingFee()));                    //手续费(元)
 
         json.put("payStatus", orderModel.getPayStatus());           //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
-        json.put("payWay", orderModel.getPayWay());                 //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付)
+        json.put("payWay", orderModel.getPayWay());                 //支付方式(1:支付宝 25:微信)
         json.put("payTime", orderModel.getPayTime());               //支付时间
 
         String notifyUrl = orderModel.getNotifyUrl();                                                            //回调地址
