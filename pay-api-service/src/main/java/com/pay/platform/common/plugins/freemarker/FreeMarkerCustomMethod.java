@@ -7,7 +7,7 @@ import freemarker.template.TemplateModelException;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/1/2 16:56
  *
  * freemarker自定义方法,主要用于字段转换,提供将驼峰命名法 转成 下划线命名

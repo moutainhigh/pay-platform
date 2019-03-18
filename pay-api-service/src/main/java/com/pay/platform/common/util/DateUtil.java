@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/12/10 15:24
  */
 public class DateUtil {

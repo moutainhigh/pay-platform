@@ -1,7 +1,7 @@
 package com.pay.platform.common.enums;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/2/11 14:44
  *
  * 账户余额 - 操作类型

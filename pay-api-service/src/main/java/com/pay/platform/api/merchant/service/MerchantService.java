@@ -5,7 +5,7 @@ import com.pay.platform.api.merchant.model.MerchantModel;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/13 20:53
  */
 public interface MerchantService {

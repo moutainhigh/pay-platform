@@ -4,7 +4,7 @@ package com.pay.platform.api.order.model;
 import com.pay.platform.api.base.model.BaseModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:16
  * <p>
  * 订单实体

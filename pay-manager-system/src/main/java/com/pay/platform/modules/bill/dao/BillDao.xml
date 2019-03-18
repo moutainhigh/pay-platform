@@ -30,16 +30,16 @@
         where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
         ) day_agent_amount
         from (
-        select tca.create_time , (
-        select GROUP_CONCAT(tor.platform_order_no)
-        from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
-        <if test="agentId != null and agentId != '' ">
-            and tor.agent_id = #{agentId}
-        </if>
-        ) orderNos
-        , (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName
-        from tb_calendar tca
-        where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
+            select tca.create_time , (
+                select GROUP_CONCAT(tor.platform_order_no)
+                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+                <if test="agentId != null and agentId != '' ">
+                    and tor.agent_id = #{agentId}
+                </if>
+                ) orderNos
+               , (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName
+            from tb_calendar tca
+            where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
         ) tab
         <where>
             <if test="beginTime != null and beginTime != '' ">

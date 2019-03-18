@@ -20,7 +20,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/11/29 17:36
  */
 public class HttpClientUtil {

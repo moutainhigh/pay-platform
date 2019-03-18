@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/7 10:43
  */
 public class ApiSignUtil {
@@ -17,9 +17,10 @@ public class ApiSignUtil {
      * 生成签名
      * @param params：请求参数
      * @param secret：密钥
+     *
+     * 对所有请求参数和时间戳进行排序  ->  并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成sign签名
      * @return
      */
-//    对所有请求参数和时间戳进行排序  ->  并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成sign签名
     public static String buildSignByMd5(Map<String, String> params , String secret) {
 
         params.remove("sign");           //去除sign参数

@@ -1,7 +1,7 @@
 package com.pay.platform.api.merchant.service;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/14 11:09
  * <p>
  * 商家通知

@@ -8,7 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/22 16:41
  * <p>
  * ip相关工具类

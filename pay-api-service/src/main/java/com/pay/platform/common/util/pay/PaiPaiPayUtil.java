@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.*;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2018/8/16 09:03
  * <p>
  * 派派支付工具类

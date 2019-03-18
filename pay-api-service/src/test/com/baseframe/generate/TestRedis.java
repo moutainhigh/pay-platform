@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/4/9 10:38
  */
 public class TestRedis {

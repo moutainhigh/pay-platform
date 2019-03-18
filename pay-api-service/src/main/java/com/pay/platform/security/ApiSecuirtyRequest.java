@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/27 19:15
  *
  * 由于request.getInputStream()与request.getReader()只能调用一次

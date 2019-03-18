@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/12/31 17:09
  *
  * mybatis - 别名通配符,默认别名为类名大写

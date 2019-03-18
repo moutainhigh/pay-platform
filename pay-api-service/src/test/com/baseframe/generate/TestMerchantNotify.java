@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/14 15:55
  */
 public class TestMerchantNotify {

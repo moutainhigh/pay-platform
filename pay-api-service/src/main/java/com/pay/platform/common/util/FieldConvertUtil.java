@@ -2,7 +2,7 @@ package com.pay.platform.common.util;
 
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/14 22:55
  *
  * 用于类属性 和 数据库字段之间的转换

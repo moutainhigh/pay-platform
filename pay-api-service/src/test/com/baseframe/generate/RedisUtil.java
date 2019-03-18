@@ -5,7 +5,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/4/9 10:48
  */
 public class RedisUtil {

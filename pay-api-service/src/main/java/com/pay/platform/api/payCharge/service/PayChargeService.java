@@ -1,7 +1,7 @@
 package com.pay.platform.api.payCharge.service;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/3/2 21:41
  */
 public interface PayChargeService {

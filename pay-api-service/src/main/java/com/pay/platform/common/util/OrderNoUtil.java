@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2018/8/15 17:06
  *
  * 订单号生成工具

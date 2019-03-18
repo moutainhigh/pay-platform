@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/10/16 10:21
  */
 public class ValidateUtil {

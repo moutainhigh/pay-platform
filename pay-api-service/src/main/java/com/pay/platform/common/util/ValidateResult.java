@@ -1,7 +1,7 @@
 package com.pay.platform.common.util;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/3/12 16:59
  */
 public class ValidateResult {

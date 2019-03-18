@@ -1,7 +1,7 @@
 package com.pay.platform.common.enums;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/3/2 22:22
  */
 public enum  PayChannelEnum {

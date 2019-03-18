@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/12/30 10:18
  * <p>
  * 监听应用启动/销毁 , 用于在程序中执行各种异步任务

@@ -20,7 +20,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/14 11:09
  */
 @EnableRetry
