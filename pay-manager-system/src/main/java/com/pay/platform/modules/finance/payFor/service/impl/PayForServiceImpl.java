@@ -136,10 +136,9 @@ public class PayForServiceImpl implements PayForService {
             //加上分布式锁,避免重复回调执行
             if (lock.lock()) {
 
-
-                if (!CheckStatusEnum.checkSuccess.getCode().equalsIgnoreCase(withdrawModel.getCheckStatus())) {
-                    throw new Exception("请先审核通过后再进行");
-                }
+//                if (!CheckStatusEnum.checkSuccess.getCode().equalsIgnoreCase(withdrawModel.getCheckStatus())) {
+//                    throw new Exception("请先审核通过后再进行");
+//                }
 
                 if (WithdrawStatusEnum.withdrawSuccess.getCode().equalsIgnoreCase(withdrawModel.getWithdrawStatus())) {
                     throw new Exception("此订单已转账成功,请勿重复操作！");
