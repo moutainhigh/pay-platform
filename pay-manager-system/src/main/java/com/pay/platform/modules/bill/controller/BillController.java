@@ -50,9 +50,9 @@ public class BillController extends BaseController {
         }
 
         if ("day".equalsIgnoreCase(statisticsWay)) {
-            return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);
+            return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);                      //按天统计
         } else if ("timeLine".equalsIgnoreCase(statisticsWay)) {
-            return billService.queryBillByDateTime(agentId, null, beginTime, endTime);
+            return billService.queryBillByDateTime(agentId, null, beginTime, endTime);        //按时间段统计
         }
 
         return null;
@@ -82,9 +82,9 @@ public class BillController extends BaseController {
         }
 
         if ("day".equalsIgnoreCase(statisticsWay)) {
-            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, agentId);
+            return billService.queryMerchantEveryDayBill(merchantId, beginTime, endTime, agentId);       //按天统计
         } else if ("timeLine".equalsIgnoreCase(statisticsWay)) {
-            return billService.queryBillByDateTime(agentId, merchantId, beginTime, endTime);
+            return billService.queryBillByDateTime(agentId, merchantId, beginTime, endTime);             //按时间段统计
         }
 
         return null;

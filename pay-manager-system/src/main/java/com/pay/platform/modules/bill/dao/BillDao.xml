@@ -31,11 +31,11 @@
         ) day_agent_amount
         from (
             select tca.create_time , (
-                select GROUP_CONCAT(tor.platform_order_no)
-                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
-                <if test="agentId != null and agentId != '' ">
-                    and tor.agent_id = #{agentId}
-                </if>
+                    select GROUP_CONCAT(tor.platform_order_no)
+                    from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+                    <if test="agentId != null and agentId != '' ">
+                        and tor.agent_id = #{agentId}
+                    </if>
                 ) orderNos
                , (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName
             from tb_calendar tca
@@ -102,7 +102,7 @@
             ) day_all_order_num
             , (
                 select count(1)
-                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
+                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
                 <if test="agentId != null and agentId != '' ">
                     and tor.agent_id = #{agentId}
                 </if>
