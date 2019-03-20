@@ -193,10 +193,10 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      */
     pageScope.updateWithdrawStatusToFail = function (id, checkStatus) {
 
-        if (checkStatus != 'checkSuccess') {
-            $.msg.toast("请先审核通过后再进行！");
-            return;
-        }
+        // if (checkStatus != 'checkSuccess') {
+        //     $.msg.toast("请先审核通过后再进行！");
+        //     return;
+        // }
 
         $.msg.confirm(function () {
 
