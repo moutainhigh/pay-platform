@@ -63,6 +63,14 @@ public class MerchantController extends BaseController {
     @RequestMapping(value = "/queryMerchantList", produces = "application/json")
     public PageInfo<MerchantModel> queryMerchantList(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
         setPageInfo(request);
+
+        UserModel user = AppContext.getCurrentUser();
+
+        //代理管理员只能查询下级商家
+        if (SysUserUtil.isAgentRole(user)) {
+            merchant.setAgentId(user.getAgentId());
+        }
+
         return merchantService.queryMerchantList(merchant);
     }
 
