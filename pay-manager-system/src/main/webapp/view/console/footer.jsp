@@ -12,5 +12,5 @@
     <div class="pull-right hidden-xs">
         <b>Version</b> 1.0
     </div>
-    <strong>Copyright &copy; 2015-2016 </strong> 郑金涛
+    <strong>Copyright &copy; 2015-2016 </strong> 恒立信支付
 </footer>
