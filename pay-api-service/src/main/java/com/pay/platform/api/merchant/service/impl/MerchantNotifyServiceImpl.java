@@ -99,7 +99,7 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
         data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
 
         json.put("status", "1");
-        json.put("msg", "查询成功");
+        json.put("msg", "支付回调");
         json.put("data", data);
 
         String notifyUrl = orderModel.getNotifyUrl();                                                            //回调地址
