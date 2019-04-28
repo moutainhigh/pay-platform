@@ -28,10 +28,10 @@
     <insert id="createOrder" parameterType="com.pay.platform.api.order.model.OrderModel">
       insert into tb_order
       (id	,merchant_order_no	,platform_order_no	,order_amount	,handling_fee	,actual_amount	,cost_rate	,channel_amount	,agent_rate
-      	,platform_amount	,merchant_rate	,agent_amount	,merchant_id	,merchant_no	,agent_id	,channel_id	,pay_way	,create_time)
+      	,platform_amount	,merchant_rate	,agent_amount	,merchant_id	,merchant_no	,agent_id	,channel_id	,pay_way	,create_time , notify_url)
        values
        (uuid(),#{merchantOrderNo},#{platformOrderNo},#{orderAmount},#{handlingFee},#{actualAmount},#{costRate},#{channelAmount},#{agentRate}
-       ,#{platformAmount},#{merchantRate},#{agentAmount},#{merchantId},#{merchantNo},#{agentId},#{channelId},#{payWay}, now())
+       ,#{platformAmount},#{merchantRate},#{agentAmount},#{merchantId},#{merchantNo},#{agentId},#{channelId},#{payWay}, now() , #{notifyUrl} )
     </insert>
 
 
