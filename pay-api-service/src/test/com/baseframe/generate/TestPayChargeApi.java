@@ -26,7 +26,7 @@ public class TestPayChargeApi {
     String merchantSecret = "9ae482f4380b412d8554018f7bf2d023";         //商家密钥：调接口签名用
     String notifySecret = "b7874e246f916b97";                           //回调密钥：接收支付回调,解密数据用
 
-    String serverURL = "http://jintaotest.frpgz1.idcfengye.com";        //请求地址
+    String serverURL = "http://47.244.18.220:20021";        //请求地址
 
     /**
      * 测试充值下单
