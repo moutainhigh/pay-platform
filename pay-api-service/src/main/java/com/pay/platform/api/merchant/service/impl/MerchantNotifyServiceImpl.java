@@ -19,6 +19,9 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * User:
  * DateTime: 2019/1/14 11:09
@@ -85,17 +88,19 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
 
         //2,发送请求回调商家接口
         JSONObject json = new JSONObject();
-        json.put("merchantNo", orderModel.getMerchantNo());              //商家编号
-        json.put("merchantOrderNo", orderModel.getMerchantOrderNo());             //商户订单号
-        json.put("platformOrderNo", orderModel.getPlatformOrderNo());             //平台订单号
-        json.put("orderAmount", String.valueOf(orderModel.getOrderAmount()));               //订单金额(元)
-//        json.put("actualAmount", String.valueOf(orderModel.getActualAmount()));             //实际金额
-//        json.put("merchantRate", String.valueOf(orderModel.getMerchantRate()));                  //商家费率
-//        json.put("handlingFee", String.valueOf(orderModel.getHandlingFee()));                    //手续费(元)
+        Map<String, Object> data = new HashMap();
+        data.put("merchantOrderNo", orderModel.getMerchantOrderNo());           //商户订单号
+        data.put("platformOrderNo", orderModel.getPlatformOrderNo());            //平台订单号
+        data.put("payStatus", orderModel.getPayStatus());                   //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
+        data.put("payWay", orderModel.getPayWay());                         //支付方式(1:支付宝 2:微信)
+        data.put("payTime", orderModel.getPayTime());                               //支付时间
+        data.put("orderAmount", orderModel.getOrderAmount());                        //订单金额(元)
+        data.put("actualAmount", orderModel.getActualAmount());                     //实际金额
+        data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
 
-        json.put("payStatus", orderModel.getPayStatus());           //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
-        json.put("payWay", orderModel.getPayWay());                 //支付方式(1:支付宝 25:微信)
-        json.put("payTime", orderModel.getPayTime());               //支付时间
+        json.put("status", "1");
+        json.put("msg", "查询成功");
+        json.put("data", data);
 
         String notifyUrl = orderModel.getNotifyUrl();                                                            //回调地址
         String notifySecret = MerchantSecretCacheUtil.getNotifySecret(orderModel.getMerchantNo());               //回调密钥
