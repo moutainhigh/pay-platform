@@ -109,4 +109,9 @@ public class CodeTraderServiceImpl implements CodeTraderService {
         return codeTraderDao.deleteMerchantCodeTrader(codeTraderId , merchantId);
     }
 
+    @Override
+    public List<String> queryMerchantIdCodeTraderId(String codeTraderId) {
+        return codeTraderDao.queryMerchantIdCodeTraderId(codeTraderId);
+    }
+
 }

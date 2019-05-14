@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.pay.platform.modules.codeTrader.model.CodeTraderModel;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * User: zjt
@@ -66,5 +67,7 @@ public interface CodeTraderService {
     int addMerchantCodeTrader(String codeTraderId, String merchantId);
 
     int deleteMerchantCodeTrader(String codeTraderId, String merchantId);
+
+    List<String> queryMerchantIdCodeTraderId(String codeTraderId);
 
 }

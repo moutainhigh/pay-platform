@@ -63,4 +63,9 @@
         where code_trader_id = #{codeTraderId} and merchant_id = #{merchantId}
     </delete>
 
+    <select id="queryMerchantIdCodeTraderId" parameterType="java.lang.String" resultType="java.lang.String">
+        select merchant_id from tb_code_trader_merchant_ref
+        where code_trader_id = #{codeTraderId};
+    </select>
+
 </mapper>

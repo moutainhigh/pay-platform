@@ -40,6 +40,12 @@
             <if test="endTime != null and endTime != '' ">
                 and create_time &lt;= #{endTime}
             </if>
+            <if test="merchantIdList != null and merchantIdList != '' ">
+                and merchant_id in
+                <foreach collection="merchantIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
         </where>
     </select>
 

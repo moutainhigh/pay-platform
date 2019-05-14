@@ -2,6 +2,9 @@ package com.pay.platform.modules.order.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
@@ -10,7 +13,9 @@ import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.common.util.payCharge.util.PayUtil;
+import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
+import com.pay.platform.modules.merchant.service.MerchantService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -42,6 +47,9 @@ public class OrderController extends BaseController {
     private OrderService orderService;
 
     @Autowired
+    private CodeTraderService codeTraderService;
+
+    @Autowired
     private MerchantNotifyService merchantNotifyService;
 
     /**
@@ -56,23 +64,32 @@ public class OrderController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/queryOrderList", produces = "application/json")
     public PageInfo<OrderModel> queryOrderList(HttpServletRequest request, HttpServletResponse response, OrderModel order, String beginTime, String endTime) throws Exception {
-        setPageInfo(request);
 
         UserModel userModel = AppContext.getCurrentUser();
 
         //超级管理员：可查看到所有的商家,接收前端传递的商家id
         if (SysUserUtil.isAdminRole(userModel)) {
-            return orderService.queryOrderList(order, beginTime, endTime);
+            setPageInfo(request);
+            return orderService.queryOrderList(order, beginTime, endTime , null);
+        }
+        //超级管理员：可查看到所有的商家,接收前端传递的商家id
+        else if (SysUserUtil.isCodeTraderRole(userModel)) {
+            String codeTraderId = userModel.getCodeTraderId();
+            List<String> merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
+            setPageInfo(request);
+            return orderService.queryOrderList(order, beginTime, endTime , merchantIdList.toArray(new String[merchantIdList.size()]));
         }
         //代理管理员：可查到下级商家的流水,接收前端传递的商家id
         else if (SysUserUtil.isAgentRole(userModel)) {
             order.setAgentId(userModel.getAgentId());
-            return orderService.queryOrderList(order, beginTime, endTime);
+            setPageInfo(request);
+            return orderService.queryOrderList(order, beginTime, endTime , null);
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
             order.setMerchantId(userModel.getMerchantId());
-            return orderService.queryOrderList(order, beginTime, endTime);
+            setPageInfo(request);
+            return orderService.queryOrderList(order, beginTime, endTime , null);
         }
 
         return null;

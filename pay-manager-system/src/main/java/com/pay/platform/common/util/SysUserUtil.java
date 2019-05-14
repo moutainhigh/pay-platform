@@ -87,7 +87,31 @@ public class SysUserUtil {
     }
 
     /**
-     * 判断是否为超级管理员
+     * 判断是否为码商管理员
+     *
+     * @param userModel
+     * @return
+     */
+    public static boolean isCodeTraderRole(UserModel userModel) {
+
+        boolean flag = false;
+
+        if (StringUtil.isNotEmpty(userModel.getCodeTraderId())) {
+
+            for (GrantedAuthority grantedAuthorityList : userModel.getAuthorities()) {
+                if (RoleCodeEnum.ROLE_CODE_TRADER.getCode().equalsIgnoreCase(grantedAuthorityList.getAuthority())) {
+                    flag = true;
+                }
+            }
+
+        }
+
+        return flag;
+
+    }
+
+    /**
+     * 获取角色码
      *
      * @param userModel
      * @return
@@ -106,5 +130,7 @@ public class SysUserUtil {
         return null;
 
     }
+
+
 
 }

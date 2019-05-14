@@ -69,4 +69,5 @@ public interface CodeTraderDao {
 
     int deleteMerchantCodeTrader(@Param("codeTraderId") String codeTraderId, @Param("merchantId") String merchantId);
 
+    List<String> queryMerchantIdCodeTraderId(@Param("codeTraderId") String codeTraderId);
 }
