@@ -11,6 +11,8 @@ public class MerchantRateListModel extends BaseModel {
 
     private BigDecimal rate;                //商家费率
 
+    private String enabled;     //启用状态（0:关闭 1:启用）
+
     private String id;
 
     public String getId() {
@@ -35,5 +37,13 @@ public class MerchantRateListModel extends BaseModel {
 
     public void setRate(BigDecimal rate) {
         this.rate = rate;
+    }
+
+    public String getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
     }
 }

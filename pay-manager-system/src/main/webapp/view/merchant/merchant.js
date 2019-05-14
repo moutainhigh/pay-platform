@@ -43,8 +43,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {title: '身份证号码', field: 'identityCode', align: 'center', sortable: true},
             {
                 title: '状态', field: 'checkStatus', align: 'center', sortable: true, formatter: function (value) {
-                    return value == "waitCheck" ? "待审核" : value == "success" ? "通过" : "失败";
-                }
+                return value == "waitCheck" ? "待审核" : value == "success" ? "通过" : "失败";
+            }
             },
             {
                 title: '开启提现通知', field: 'needNotifyWithdraw', align: 'center', sortable: true, formatter: function (value) {
@@ -235,9 +235,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#editCheckDesc").val(pageScope.currentrow.checkDesc);
                 $("#editIsDel").val(pageScope.currentrow.isDel);
                 $("#editCreateTime").val(pageScope.currentrow.createTime);
-                $("input[name='needNotifyWithdraw'][value='"+pageScope.currentrow.needNotifyWithdraw+"']").attr("checked","checked");
+                $("input[name='needNotifyWithdraw'][value='" + pageScope.currentrow.needNotifyWithdraw + "']").attr("checked", "checked");
 
-                $("#editAgentId").loadAgentIdAndNameList({agentId:pageScope.currentrow.agentId});
+                $("#editAgentId").loadAgentIdAndNameList({agentId: pageScope.currentrow.agentId});
 
             },
             buttonEvents: {
@@ -437,77 +437,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
     };
 
     /**
-     * 读取所有通道
-     * @param channelCode
-     */
-    function queryAllPayChannelListAndAgentRate(agentId) {
-
-        $.ajax({
-            url: baseURL + "/payChannel/queryAllPayChannelListAndAgentRate",
-            type: "post",
-            dataType: "json",
-            data: {"_csrf": token, "agentId": agentId},
-            success: function (response) {
-
-                if (response && response.success == true) {
-                    var data = response.data;
-                    var str = "";
-                    for (var i = 0; i < data.length; i++) {
-
-                        if (data[i].agentCostRate) {
-                            var showCostRate = (data[i].agentCostRate * 100).toFixed(2) + "%";
-                            str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
-                        } else {
-                            var showCostRate = (data[i].costRate * 100).toFixed(2) + "%";
-                            str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
-                        }
-
-                    }
-
-                    $("#channel").html(str);
-                } else {
-                    $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
-                }
-
-            }
-        });
-
-    };
-
-    /**
-     * 读取商家的费率列表
-     */
-    function selectMerchantRate(merchantId) {
-
-        $.ajax({
-            url: baseURL + "/merchant/queryMerchantRateList",
-            type: "post",
-            dataType: "json",
-            data: {"_csrf": token, "merchantId": merchantId},
-            success: function (response) {
-                if (response && response.success == true) {
-                    var data = response.data;
-                    var str = "";
-                    for (var i = 0; i < data.length; i++) {
-                        var showMerchantRate = (data[i].rate * 100).toFixed(2) + "%";
-
-                        str += ' <tr class="active" id="' + data[i].id + '" >';
-                        str += '<td>' + data[i].channelName + '</td>' +
-                            '<td>' + showMerchantRate + '</td>' +
-                            '<td><button   onclick="deleteMerchantRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
-                        str += ' </tr>';
-                    }
-                    $("#rateList").html(str);
-                } else {
-                    $.msg.error('读取费率失败');
-                }
-
-            }
-        });
-    };
-
-
-    /**
      * 设置码商
      * @param id
      */
@@ -524,5 +453,88 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
     };
 
-
 })();
+
+/**
+ * 读取所有通道
+ * @param channelCode
+ */
+function queryAllPayChannelListAndAgentRate(agentId) {
+
+    $.ajax({
+        url: baseURL + "/payChannel/queryAllPayChannelListAndAgentRate",
+        type: "post",
+        dataType: "json",
+        data: {"_csrf": token, "agentId": agentId},
+        success: function (response) {
+
+            if (response && response.success == true) {
+                var data = response.data;
+                var str = "";
+                for (var i = 0; i < data.length; i++) {
+
+                    if (data[i].agentCostRate) {
+                        var showCostRate = (data[i].agentCostRate * 100).toFixed(2) + "%";
+                        str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
+                    } else {
+                        var showCostRate = (data[i].costRate * 100).toFixed(2) + "%";
+                        str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
+                    }
+
+                }
+
+                $("#channel").html(str);
+            } else {
+                $.msg.error('读取费率失败，可能是由网络原因引起的，请稍候再试');
+            }
+
+        }
+    });
+
+};
+
+/**
+ * 读取商家的费率列表
+ */
+function selectMerchantRate(merchantId) {
+
+    $.ajax({
+        url: baseURL + "/merchant/queryMerchantRateList",
+        type: "post",
+        dataType: "json",
+        data: {"_csrf": token, "merchantId": merchantId},
+        success: function (response) {
+            if (response && response.success == true) {
+                var data = response.data;
+                var str = "";
+                for (var i = 0; i < data.length; i++) {
+                    var showMerchantRate = (data[i].rate * 100).toFixed(2) + "%";
+
+                    str += ' <tr class="active" id="' + data[i].id + '" >';
+                    str += '<td>' + data[i].channelName + '</td>';
+                    str += '<td>' + showMerchantRate + '</td>';
+
+                    if (parseInt(data[i].enabled) == 1) {
+                        str += '<td>已启用</td>';
+                    } else {
+                        str += '<td>已关闭</td>';
+                    }
+
+                    if (parseInt(data[i].enabled) == 1) {
+                        str += '<td><button   onclick="updateMerchantChannelEnabledStatus(\'' + data[i].id + '\',0)" type="button" class="btn btn-danger btn-xs" >关 闭</button>';
+                    } else {
+                        str += '<td><button   onclick="updateMerchantChannelEnabledStatus(\'' + data[i].id + '\',1)" type="button" class="btn btn-danger btn-xs" >启 用</button>';
+                    }
+
+                    str += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button   onclick="deleteMerchantRate(\'' + data[i].id + '\')" type="button" class="btn btn-danger btn-xs" >删 除</button></td>';
+                    str += ' </tr>';
+
+                }
+                $("#rateList").html(str);
+            } else {
+                $.msg.error('读取费率失败');
+            }
+
+        }
+    });
+};

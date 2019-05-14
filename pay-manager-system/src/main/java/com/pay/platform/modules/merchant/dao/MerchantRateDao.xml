@@ -14,7 +14,7 @@
     <!-- 查询商家的渠道费率 -->
     <select id="queryMerchantRateList" resultType="com.pay.platform.modules.merchant.model.MerchantRateListModel">
         select
-          t1.rate RATE,t2.channel_name CHANNEL_NAME,t1.ID
+          t1.rate RATE,t2.channel_name CHANNEL_NAME,t1.ID,t1.enabled
         from
           tb_merchant_rate t1 left join tb_pay_channel t2 on t1.channel_id = t2.id
         where
@@ -22,8 +22,12 @@
     </select>
 
     <!-- 删除商家费率 -->
-    <delete id="deleteMerchantRate" >
+    <delete id="deleteMerchantRate">
         delete from tb_merchant_rate where id=#{id}
     </delete>
+
+    <update id="updateMerchantChannelEnabledStatus" parameterType="java.lang.String">
+        update tb_merchant_rate set enabled = #{enabled} where id = #{id}
+    </update>
 
 </mapper>

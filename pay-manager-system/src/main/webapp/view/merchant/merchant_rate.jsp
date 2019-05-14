@@ -18,6 +18,7 @@
                 <tr>
                     <th>渠道</th>
                     <th>费率</th>
+                    <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -107,6 +108,36 @@
     function selectChange(obj) {
         var rate = $("#channel").find("option:selected").attr("rate");
         $("#costRate").val(rate);
+    }
+
+    /**
+     * 修改商家通道启用状态
+     * @param id
+     * @param enabled
+     */
+    function updateMerchantChannelEnabledStatus(id , enabled){
+
+        var merchantId = $("#merchantId").val();
+
+        $.ajax({
+            url: baseURL + "/merchant/updateMerchantChannelEnabledStatus",
+            type: "post",
+            dataType: "json",
+            data: {"id": id,"enabled": enabled, "_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+                    $.msg.success(response.msg);
+
+                    selectMerchantRate(merchantId);               //重新加载商家费率信息
+
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
     }
 
 </script>

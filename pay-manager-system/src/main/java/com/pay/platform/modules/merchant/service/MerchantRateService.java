@@ -27,4 +27,7 @@ public interface MerchantRateService {
      * @return
      */
     Integer deleteMerchantRate(String id);
+
+    Integer updateMerchantChannelEnabledStatus(String id, String enabled);
+
 }

@@ -49,5 +49,10 @@ public class MerchantRateServiceImpl implements MerchantRateService {
         return dao.deleteMerchantRate(id);
     }
 
+    @Override
+    public Integer updateMerchantChannelEnabledStatus(String id, String enabled) {
+        return dao.updateMerchantChannelEnabledStatus(id , enabled);
+    }
+
 
 }

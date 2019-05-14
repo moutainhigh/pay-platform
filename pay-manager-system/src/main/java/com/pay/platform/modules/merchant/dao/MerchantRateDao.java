@@ -33,4 +33,6 @@ public interface MerchantRateDao {
      */
     Integer deleteMerchantRate(@Param("id") String id);
 
+    Integer updateMerchantChannelEnabledStatus(@Param("id") String id , @Param("enabled")  String enabled);
+
 }

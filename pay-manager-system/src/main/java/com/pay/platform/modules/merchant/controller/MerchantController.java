@@ -351,6 +351,25 @@ public class MerchantController extends BaseController {
         writeJson(response, json.toString());
     }
 
+    @RequestMapping(value = "/updateMerchantChannelEnabledStatus", produces = "application/json")
+    @SystemControllerLog(module = "商家費率", operation = "更新通道启用状态")
+    public void updateMerchantChannelEnabledStatus(HttpServletResponse response, String id , String enabled) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer delete = service.updateMerchantChannelEnabledStatus(id , enabled);
+
+        if (delete == 1) {
+            json.put("success", true);
+            json.put("msg", "更新成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "更新失敗");
+        }
+
+        writeJson(response, json.toString());
+    }
+
     /**
      * 查询商家金额,用于提醒商家提现
      *
