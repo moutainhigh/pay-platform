@@ -10,8 +10,8 @@
     </select>
 
     <insert id="addUser" parameterType="UserModel">
-        insert into tb_sys_user(ID,NICKNAME,ACCOUNT,PASSWORD,PHONE,AVATAR,CREATE_TIME,ORG_ID , EXTEND_IMG_URL , agent_id , merchant_id)
-        values( #{id} , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} , #{agentId} , #{merchantId} );
+        insert into tb_sys_user(ID,NICKNAME,ACCOUNT,PASSWORD,PHONE,AVATAR,CREATE_TIME,ORG_ID , EXTEND_IMG_URL , agent_id , merchant_id , code_trader_id)
+        values( #{id} , #{nickname} , #{account}, md5(#{password}) , #{phone} , #{avatar} , now() , #{orgId} , #{extendImgUrl} , #{agentId} , #{merchantId} ,#{codeTraderId});
     </insert>
 
     <delete id="deleteUser">
@@ -116,7 +116,7 @@
         update tb_sys_user set password = md5(#{password}) , need_init_password = 0
         where id = #{userId} and password = md5(#{oldPassword})
     </update>
-    
+
     <select id="queryUserByUserIdAndPassword" resultType="java.lang.Integer" parameterType="java.lang.String">
         select count(1) from tb_sys_user
         where id = #{id} and password = md5(#{oldPassword})
@@ -144,6 +144,13 @@
 
     <update id="deleteUserByMerchantIdOfLogic">
         update tb_sys_user set is_del = 1 , delete_time = now() where merchant_id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="deleteUserByCodeTraderIdOfLogic">
+        update tb_sys_user set is_del = 1 , delete_time = now() where code_trader_id in
         <foreach collection="array" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>

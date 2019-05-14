@@ -161,4 +161,11 @@ public interface UserDao {
      */
     int deleteUserByMerchantIdOfLogic(String[] ids);
 
+    /**
+     * 根据码商id删除用户
+     * @param ids
+     * @return
+     */
+    int deleteUserByCodeTraderIdOfLogic(String[] ids);
+
 }

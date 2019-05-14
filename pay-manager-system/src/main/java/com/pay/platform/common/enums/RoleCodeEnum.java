@@ -7,9 +7,9 @@ package com.pay.platform.common.enums;
 public enum RoleCodeEnum {
 
     ROLE_ADMIN("超级管理员"),
+    ROLE_CODE_TRADER("码商管理员"),
     ROLE_AGENT("代理管理员"),
     ROLE_MERCHANT("商户管理员");
-
     /**
      * 获取编码
      *

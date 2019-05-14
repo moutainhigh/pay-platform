@@ -31,6 +31,7 @@ public class UserModel extends BaseModel implements UserDetails {
 
     private String agentId;                //绑定的代理ID,根据此标识和角色码,确定当前用户是否为商家
     private String merchantId;              //绑定的商户ID,根据此标识和角色码,确定当前用户是否为商家
+    private String codeTraderId;             //绑定的码商ID,根据此标识和角色码,确定当前用户是否为码商
     private int needInitPassword;           //是否需要初始化密码（0:不需要 1:需要）; 代理和商户首次登陆需要修改密码;
 
     private String withdrawPassword;        //提现密码
@@ -45,6 +46,14 @@ public class UserModel extends BaseModel implements UserDetails {
 
     //扩展图片路径参数,仅做多图片上传测试用,无任何业务意义
     private String extendImgUrl;
+
+    public String getCodeTraderId() {
+        return codeTraderId;
+    }
+
+    public void setCodeTraderId(String codeTraderId) {
+        this.codeTraderId = codeTraderId;
+    }
 
     public String getExtendImgUrl() {
         return extendImgUrl;
