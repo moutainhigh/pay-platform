@@ -43,6 +43,23 @@ $.extend({
             });
 
         },
+        /**
+         * 失败 - 提示消息
+         * @param title
+         * @param msg
+         */
+        fail:function(title,msg){
+
+            swal({
+                title: title || "操作失败"
+                ,text: msg || "该提示框将会在一秒后自动关闭。"
+                ,timer: 1200
+                ,showConfirmButton:false
+                ,allowOutsideClick:true
+                ,type:"error"
+            });
+
+        },
 
         /**
          * 仿土司 - 纯文字,不带任何图标

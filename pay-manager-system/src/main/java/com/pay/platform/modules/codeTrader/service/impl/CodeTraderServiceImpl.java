@@ -94,4 +94,19 @@ public class CodeTraderServiceImpl implements CodeTraderService {
         return codeTraderDao.updateCodeTrader(codeTrader);
     }
 
+    @Override
+    public PageInfo<Map> queryAllCodeTraderByMerchantId(String merchantId) {
+        return new PageInfo(codeTraderDao.queryAllCodeTraderByMerchantId(merchantId));
+    }
+
+    @Override
+    public int addMerchantCodeTrader(String codeTraderId, String merchantId) {
+        return codeTraderDao.addMerchantCodeTrader(codeTraderId , merchantId);
+    }
+
+    @Override
+    public int deleteMerchantCodeTrader(String codeTraderId, String merchantId) {
+        return codeTraderDao.deleteMerchantCodeTrader(codeTraderId , merchantId);
+    }
+
 }

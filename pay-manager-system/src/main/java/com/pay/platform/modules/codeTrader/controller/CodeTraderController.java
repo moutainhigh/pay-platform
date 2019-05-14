@@ -3,8 +3,10 @@ package com.pay.platform.modules.codeTrader.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.modules.merchant.model.MerchantModel;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -173,6 +175,80 @@ public class CodeTraderController extends BaseController {
         } else {
             json.put("success", false);
             json.put("msg", "修改失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 查询所有码商
+     *
+     * @param request
+     * @param response
+     * @param merchantId
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryAllCodeTraderByMerchantId", produces = "application/json", method = RequestMethod.POST)
+    @SystemControllerLog(module = "码商管理", operation = "查询所有码商")
+    public PageInfo<Map> queryAllCodeTraderByMerchantId(HttpServletRequest request, HttpServletResponse response, String merchantId) throws Exception {
+        setPageInfo(request);
+        return codeTraderService.queryAllCodeTraderByMerchantId(merchantId);
+    }
+
+    /**
+     * 商家绑定码商
+     *
+     * @param request
+     * @param response
+     * @param merchantId
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/addMerchantCodeTrader", produces = "application/json", method = RequestMethod.POST)
+    @SystemControllerLog(module = "码商管理", operation = "绑定码商")
+    public void addMerchantCodeTrader(HttpServletRequest request, HttpServletResponse response, String codeTraderId , String merchantId) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        int count = codeTraderService.addMerchantCodeTrader(codeTraderId , merchantId);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "绑定成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "绑定失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 商家取消绑定码商
+     *
+     * @param request
+     * @param response
+     * @param merchantId
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/deleteMerchantCodeTrader", produces = "application/json", method = RequestMethod.POST)
+    @SystemControllerLog(module = "码商管理", operation = "商家取消绑定码商")
+    public void deleteMerchantCodeTrader(HttpServletRequest request, HttpServletResponse response, String codeTraderId , String merchantId) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        int count = codeTraderService.deleteMerchantCodeTrader(codeTraderId , merchantId);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "取消绑定成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "取消绑定失败");
         }
 
         writeJson(response, json.toString());

@@ -3,6 +3,7 @@ package com.pay.platform.modules.codeTrader.service;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 import com.pay.platform.modules.codeTrader.model.CodeTraderModel;
 
@@ -59,5 +60,11 @@ public interface CodeTraderService {
      * @return
      */
     Integer updateCodeTrader(CodeTraderModel codeTrader);
+
+    PageInfo<Map>  queryAllCodeTraderByMerchantId(String merchantId);
+
+    int addMerchantCodeTrader(String codeTraderId, String merchantId);
+
+    int deleteMerchantCodeTrader(String codeTraderId, String merchantId);
 
 }

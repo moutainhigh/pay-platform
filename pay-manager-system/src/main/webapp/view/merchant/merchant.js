@@ -58,6 +58,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     var html = "";
                     if (roleCode == "ROLE_ADMIN") {
                         html += "<button type='button' class='btn btn-link' onclick='pageScope.editMerchant()' ><i class='glyphicon glyphicon-pencil'></i></button>";
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.setCodeTrader()' >设置码商</button>";
                     }
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                     if (roleCode == "ROLE_ADMIN") {
@@ -504,5 +505,24 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             }
         });
     };
+
+
+    /**
+     * 设置码商
+     * @param id
+     */
+    pageScope.setCodeTrader = function () {
+
+        $.dialog.show({
+            url: baseURL + "/view/merchant/merchant_code_trader.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+                $("#merchantId").val(pageScope.currentrow.id);
+                //查询所有码商
+                queryAllCodeTraderByMerchantId();
+            }
+        });
+
+    };
+
 
 })();

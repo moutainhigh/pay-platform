@@ -43,4 +43,24 @@
         where id = #{id}
     </update>
 
+    <select id="queryAllCodeTraderByMerchantId" parameterType="java.lang.String" resultType="java.util.Map">
+         select tca.*
+        , (
+            select count(1)
+            from tb_code_trader_merchant_ref tctm
+            where tctm.code_trader_id = tca.id and tctm.merchant_id = #{merchantId}
+        ) as isExists
+        from tb_code_trader tca
+    </select>
+
+    <insert id="addMerchantCodeTrader" parameterType="java.lang.String">
+        replace into tb_code_trader_merchant_ref (id , code_trader_id , merchant_id)
+        values(uuid() , #{codeTraderId} , #{merchantId} )
+    </insert>
+
+    <delete id="deleteMerchantCodeTrader" parameterType="java.lang.String">
+        delete from tb_code_trader_merchant_ref
+        where code_trader_id = #{codeTraderId} and merchant_id = #{merchantId}
+    </delete>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.pay.platform.modules.codeTrader.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -61,5 +62,11 @@ public interface CodeTraderDao {
      * @return
      */
     Integer updateCodeTrader(CodeTraderModel codeTrader);
+
+    List<Map> queryAllCodeTraderByMerchantId(String merchantId);
+
+    int addMerchantCodeTrader(@Param("codeTraderId") String codeTraderId, @Param("merchantId") String merchantId);
+
+    int deleteMerchantCodeTrader(@Param("codeTraderId") String codeTraderId, @Param("merchantId") String merchantId);
 
 }
