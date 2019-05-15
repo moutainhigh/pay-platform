@@ -123,8 +123,8 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId, String agentId) {
-        return merchantDao.queryMerchantIdAndNameList(merchantId , agentId);
+    public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId, String agentId , String[] merchantIds) {
+        return merchantDao.queryMerchantIdAndNameList(merchantId , agentId , merchantIds);
     }
 
     /**

@@ -83,7 +83,7 @@ public interface MerchantService {
      * @param agentId
      * @return
      */
-    List<Map<String,Object>> queryMerchantIdAndNameList(String merchantId , String agentId);
+    List<Map<String,Object>> queryMerchantIdAndNameList(String merchantId , String agentId , String[] merchantIds);
 
 
     /**

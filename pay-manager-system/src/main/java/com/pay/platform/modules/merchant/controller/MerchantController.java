@@ -10,6 +10,7 @@ import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.merchant.model.MerchantRateListModel;
 import com.pay.platform.modules.merchant.model.MerchantRateModel;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
@@ -49,6 +50,9 @@ public class MerchantController extends BaseController {
 
     @Autowired
     private MerchantRateService service;
+
+    @Autowired
+    private CodeTraderService codeTraderService;
 
     /**
      * 分页查询商家列表
@@ -248,15 +252,21 @@ public class MerchantController extends BaseController {
 
         //超级管理员可查询所有商家
         if (SysUserUtil.isAdminRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId);
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId , null);
+        }
+        //码商管理员：默认可查看到绑定的商家
+        else if (SysUserUtil.isCodeTraderRole(user)) {
+            String codeTraderId = user.getCodeTraderId();
+            List<String> list = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId,list.toArray(new String[list.size()]));
         }
         //代理管理员可查询下级商家
         else if (SysUserUtil.isAgentRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null, user.getAgentId());
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, user.getAgentId(), null);
         }
         //商家管理员可以查看当前信息
         else if (SysUserUtil.isMerchantRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(user.getMerchantId(), null);
+            merchantIdList = merchantService.queryMerchantIdAndNameList(user.getMerchantId(), null, null);
         }
 
         json.put("success", true);
@@ -314,8 +324,8 @@ public class MerchantController extends BaseController {
         JSONObject json = new JSONObject();
 
         //去除百分号,再除以100存储
-        String rate = model.getRate().replace("%","");
-        double doubleRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(rate) , 100);
+        String rate = model.getRate().replace("%", "");
+        double doubleRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(rate), 100);
         model.setRate(String.valueOf(doubleRate));
 
         Integer count = service.addMerchantRate(model);
@@ -353,11 +363,11 @@ public class MerchantController extends BaseController {
 
     @RequestMapping(value = "/updateMerchantChannelEnabledStatus", produces = "application/json")
     @SystemControllerLog(module = "商家費率", operation = "更新通道启用状态")
-    public void updateMerchantChannelEnabledStatus(HttpServletResponse response, String id , String enabled) throws Exception {
+    public void updateMerchantChannelEnabledStatus(HttpServletResponse response, String id, String enabled) throws Exception {
 
         JSONObject json = new JSONObject();
 
-        Integer delete = service.updateMerchantChannelEnabledStatus(id , enabled);
+        Integer delete = service.updateMerchantChannelEnabledStatus(id, enabled);
 
         if (delete == 1) {
             json.put("success", true);

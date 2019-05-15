@@ -72,7 +72,7 @@ public class OrderController extends BaseController {
             setPageInfo(request);
             return orderService.queryOrderList(order, beginTime, endTime , null);
         }
-        //超级管理员：可查看到所有的商家,接收前端传递的商家id
+        //码商管理员：默认可查看到绑定的商家,并接收前端传递的商家id
         else if (SysUserUtil.isCodeTraderRole(userModel)) {
             String codeTraderId = userModel.getCodeTraderId();
             List<String> merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);

@@ -78,6 +78,7 @@
                     title: '创建时间',
                     field: 'create_time',
                     align: 'center',
+                    sortOrder:'asc',
                     sortable: true,
                     formatter: function (value) {
                         return $.date.formatToDateTime(value);
@@ -88,8 +89,6 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var html = "";
-
-                        console.log(row.isExists);
 
                         if (parseInt(row.isExists) > 0) {
                             html += "<button type='button' class='btn btn-link' onclick='deleteMerchantCodeTrader(\"" + row.id + "\")' >取消绑定</button>";

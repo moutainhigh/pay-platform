@@ -86,7 +86,7 @@ public interface MerchantDao {
      * @param agentId
      * @return
      */
-    List<Map<String, Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId, @Param("agentId") String agentId);
+    List<Map<String, Object>> queryMerchantIdAndNameList(@Param("merchantId") String merchantId, @Param("agentId") String agentId, @Param("merchantIds") String[] merchantIds);
 
 
     /**

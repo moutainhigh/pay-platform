@@ -41,17 +41,18 @@
                                 <input type="text" name="payCode" id="queryPayCode" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
-                            <td width="80" align="right">所属代理：</td>
-                            <td width="150">
-                                <select name="agentId" id="queryAgentId" class="form-control btn-block">
-                                </select>
-                            </td>
+                            <%--<td width="80" align="right">所属代理：</td>--%>
+                            <%--<td width="150">--%>
+                                <%--<select name="agentId" id="queryAgentId" class="form-control btn-block">--%>
+                                <%--</select>--%>
+                            <%--</td>--%>
 
                             <td width="80" align="right">所属商户：</td>
-                            <td width="150">
+                            <td width="180">
                                 <select name="merchantId" id="queryMerchantId" class="form-control btn-block">
                                 </select>
                             </td>
+
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"
@@ -84,7 +85,7 @@
                             </td>
 
                             <td width="80" align="right">开始时间：</td>
-                            <td width="200">
+                            <td width="180">
                                 <div class='input-group date' id='beginTime_div'>
                                     <input name="beginTime" id="beginTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -92,7 +93,7 @@
                             </td>
 
                             <td width="80" align="right">结束时间：</td>
-                            <td width="200">
+                            <td width="180">
                                 <div class='input-group date' id='endTime_div'>
                                     <input name="endTime" id="endTime" type="text" class="form-control" data-date-format="YYYY-MM-DD HH:mm:ss" aria-describedby="basic-addon1"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -129,13 +130,15 @@
 
     $(function () {
 
-        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
+//        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
 
         //级联操作
-        $("#queryAgentId").change(function(){
-            var value = $(this).val();
-            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
-        });
+//        $("#queryAgentId").change(function(){
+//            var value = $(this).val();
+//            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
+//        });
+
+        $("#queryMerchantId").loadMerchantIdAndNameList();
 
         //加载字典(下拉框)
         $("#queryPayWay").loadDictionaryForSelect({

@@ -96,6 +96,12 @@
             <if test="agentId != null and agentId != '' ">
                 and agent_id = #{agentId}
             </if>
+            <if test="merchantIds != null and merchantIds != '' ">
+                and id in
+                <foreach collection="merchantIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
         </where>
     </select>
 
