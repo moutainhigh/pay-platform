@@ -68,6 +68,10 @@ public class BillController extends BaseController {
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
 
+        if(StringUtil.isEmpty(merchantId)){
+            return null;
+        }
+
         //代理管理员：只能可查看下级商家的流水,接收前端传递的商家id
         if (SysUserUtil.isAgentRole(userModel)) {
             agentId = userModel.getAgentId();

@@ -39,6 +39,7 @@ public class OrderModel extends BaseModel {
     private String merchantId;                //商家ID
 
     private String merchantNo;                //商家编号
+    private String merchantName;                //商家名称
 
     private String channelId;                //通道ID
 
@@ -295,5 +296,13 @@ public class OrderModel extends BaseModel {
 
     public void setNotifyNum(Integer notifyNum) {
         this.notifyNum = notifyNum;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
     }
 }

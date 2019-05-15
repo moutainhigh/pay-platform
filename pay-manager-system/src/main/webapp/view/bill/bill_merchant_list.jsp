@@ -26,11 +26,11 @@
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
-                            <td width="80" align="right">所属代理：</td>
-                            <td width="150">
-                                <select name="agentId" id="queryAgentId" class="form-control btn-block">
-                                </select>
-                            </td>
+                            <%--<td width="80" align="right">所属代理：</td>--%>
+                            <%--<td width="150">--%>
+                                <%--<select name="agentId" id="queryAgentId" class="form-control btn-block">--%>
+                                <%--</select>--%>
+                            <%--</td>--%>
 
                             <td width="80" align="right">所属商户：</td>
                             <td width="150">
@@ -97,29 +97,37 @@
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();
 
-        //加载代理,以供选择
-        $("#queryAgentId").loadAgentIdAndNameList({
+//        //加载代理,以供选择
+//        $("#queryAgentId").loadAgentIdAndNameList({
+//            isDelDefaultOption: true,
+//            onSuccess: function () {
+//
+//                var defaultAgentId = $("#queryAgentId").find("option:selected").val();
+//
+//                //加载对应商家
+//                $("#queryMerchantId").loadMerchantIdAndNameList({
+//                    isDelDefaultOption: true,
+//                    agentId: defaultAgentId,
+//                    onSuccess: function () {
+//                        pageScope.billTable.bootstrapTable('refresh');
+//                    }
+//                });
+//
+//            }
+//        });
+
+//        //级联操作
+//        $("#queryAgentId").change(function () {
+//            var value = $(this).val();
+//            $("#queryMerchantId").loadMerchantIdAndNameList({agentId: value});
+//        });
+
+        //加载对应商家
+        $("#queryMerchantId").loadMerchantIdAndNameList({
             isDelDefaultOption: true,
             onSuccess: function () {
-
-                var defaultAgentId = $("#queryAgentId").find("option:selected").val();
-
-                //加载对应商家
-                $("#queryMerchantId").loadMerchantIdAndNameList({
-                    isDelDefaultOption: true,
-                    agentId: defaultAgentId,
-                    onSuccess: function () {
-                        pageScope.billTable.bootstrapTable('refresh');
-                    }
-                });
-
+                pageScope.billTable.bootstrapTable('refresh');
             }
-        });
-
-        //级联操作
-        $("#queryAgentId").change(function () {
-            var value = $(this).val();
-            $("#queryMerchantId").loadMerchantIdAndNameList({agentId: value});
         });
 
     });

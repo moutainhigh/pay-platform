@@ -122,15 +122,15 @@ public class SysUserUtil {
             return RoleCodeEnum.ROLE_ADMIN.getCode();
         } else if (isAgentRole(userModel)) {
             return RoleCodeEnum.ROLE_AGENT.getCode();
-        }
-        else if (isMerchantRole(userModel)) {
+        } else if (isMerchantRole(userModel)) {
             return RoleCodeEnum.ROLE_MERCHANT.getCode();
+        } else if (isCodeTraderRole(userModel)) {
+            return RoleCodeEnum.ROLE_CODE_TRADER.getCode();
         }
 
         return null;
 
     }
-
 
 
 }

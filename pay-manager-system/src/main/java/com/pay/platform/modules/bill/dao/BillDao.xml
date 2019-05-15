@@ -53,7 +53,7 @@
     </select>
 
     <select id="queryMerchantEveryDayBill" resultType="java.util.Map">
-        select tab.create_time , tab.merchantNo
+        select tab.create_time , tab.merchantNo , tab.merchantName
         ,(
             select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
             where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
@@ -111,6 +111,7 @@
                 </if>
             ) day_payed_order_num
             , (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo
+         , (   select tmer.merchant_name  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantName
             from tb_calendar tca
             where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
         ) tab

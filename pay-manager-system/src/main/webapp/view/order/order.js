@@ -37,6 +37,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 }
             },
             {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
+            {title: '商家名称', field: 'merchantName', align: 'center', sortable: false},
             {title: '商户订单号', field: 'merchantOrderNo', align: 'center', sortable: true},
             {title: '平台订单号', field: 'platformOrderNo', align: 'center', sortable: true},
             // {title: '支付单号', field: 'payCode', align: 'center', sortable: true},
@@ -92,7 +93,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             }
         ], onLoadSuccess: function () {
 
-            if (roleCode == "ROLE_AGENT") {
+            if (roleCode == "ROLE_CODE_TRADER") {
+                pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
+            }
+            else if (roleCode == "ROLE_AGENT") {
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
             }

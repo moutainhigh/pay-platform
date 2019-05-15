@@ -37,6 +37,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 }
             },
             {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
+            {title: '商家名称', field: 'merchantName', align: 'center', sortable: true},
             {
                 title: '日期', field: 'create_time', align: 'center', sortable: true,
                 formatter: function (value) {
