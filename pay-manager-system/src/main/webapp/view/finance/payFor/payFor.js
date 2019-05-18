@@ -36,10 +36,22 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     return arguments[2] + 1;
                 }
             },
+
+            {title: '商家名称', field: 'merchantName', align: 'center', sortable: true},
+            {title: '商家号', field: 'merchantNo', align: 'center', sortable: true},
             {title: '提现单号', field: 'orderNo', align: 'center', sortable: true},
             {title: '提现金额', field: 'withdrawAmount', align: 'center', sortable: true},
             {title: '真实姓名', field: 'realName', align: 'center', sortable: true},
             {title: '银行卡号', field: 'bankCard', align: 'center', sortable: true},
+            {
+                title: '申请时间',
+                field: 'createTime',
+                align: 'center',
+                sortable: true,
+                formatter: function (value, row, index) {
+                    return $.date.formatToDateTime(value);
+                }
+            },
             {
                 title: '审核状态',
                 field: 'checkStatus',
@@ -115,6 +127,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
                 $("#reviewId").val(pageScope.currentrow.id);
                 $("#checkDesc").html(pageScope.currentrow.checkDesc);
+
+                $("#detailMerchantName").val(pageScope.currentrow.merchantName);
+                $("#detailMerchantNo").val(pageScope.currentrow.merchantNo);
+
+
                 $("select[name='checkStatus'] option[value='" + pageScope.currentrow.checkStatus + "']").attr("selected", "selected");
             },
             buttonEvents: {

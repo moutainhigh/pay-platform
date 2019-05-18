@@ -18,6 +18,20 @@
             <input type="hidden" id="reviewId" name="id"/>
 
             <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">商家名称：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input id="detailMerchantName" type="text" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-3 col-sm-3 control-label">商家编号：</label>
+                <div class="col-md-8 col-sm-8">
+                    <input id="detailMerchantNo"  type="text" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">状态：</label>
                 <div class="col-md-8 col-sm-8">
                     <select class="form-control" name="checkStatus" id="checkStatus">

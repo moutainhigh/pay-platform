@@ -53,6 +53,24 @@ public class WithdrawModel extends BaseModel {
 
     private String checkDesc;               //审核状态
 
+    private String merchantName;            //商家名称
+    private String merchantNo;            //商家编号
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
+
+    public String getMerchantNo() {
+        return merchantNo;
+    }
+
+    public void setMerchantNo(String merchantNo) {
+        this.merchantNo = merchantNo;
+    }
 
     public String getCheckDesc() {
         return checkDesc;

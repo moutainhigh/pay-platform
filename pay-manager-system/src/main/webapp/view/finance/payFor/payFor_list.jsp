@@ -27,11 +27,11 @@
 
                         <tr>
 
-                            <td width="80" align="right">所属代理：</td>
-                            <td width="150">
-                                <select name="agentId" id="queryAgentId" class="form-control btn-block">
-                                </select>
-                            </td>
+                            <%--<td width="80" align="right">所属代理：</td>--%>
+                            <%--<td width="150">--%>
+                            <%--<select name="agentId" id="queryAgentId" class="form-control btn-block">--%>
+                            <%--</select>--%>
+                            <%--</td>--%>
 
                             <td width="80" align="right">所属商户：</td>
                             <td width="150">
@@ -49,11 +49,12 @@
                                 <input type="text" name="realName" id="queryRealName" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
-                            <td colspan="2">
-                                <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
-                                <input class="btn btn-default btn-reset" type="button" value="重 置"
-                                       onclick="javascript:document.getElementById('searchPayForForm').reset(); pageScope.search();">
+                            <td width="80" align="right">银行卡号：</td>
+                            <td width="200">
+                                <input type="text" name="bankCard" id="queryBankCard" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
+
+                            <td></td>
 
                         </tr>
 
@@ -85,11 +86,12 @@
                                 </div>
                             </td>
 
-                            <td width="80" align="right">银行卡号：</td>
-                            <td width="150">
-                                <input type="text" name="bankCard" id="queryBankCard" class="form-control btn-block" aria-describedby="basic-addon1">
+                            <td colspan="2">
+                                <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
+                                <input class="btn btn-default btn-reset" type="button" value="重 置"
+                                       onclick="javascript:document.getElementById('searchPayForForm').reset(); pageScope.search();">
                             </td>
-
+                            
                         </tr>
 
                     </table>
@@ -117,13 +119,15 @@
 
     $(function () {
 
-        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
+//        $("#queryAgentId").loadAgentIdAndNameList();            //加载代理
+//
+//        //级联操作,加载对应商家
+//        $("#queryAgentId").change(function(){
+//            var value = $(this).val();
+//            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
+//        });
 
-        //级联操作,加载对应商家
-        $("#queryAgentId").change(function(){
-            var value = $(this).val();
-            $("#queryMerchantId").loadMerchantIdAndNameList({agentId:value});
-        });
+        $("#queryMerchantId").loadMerchantIdAndNameList();
 
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();

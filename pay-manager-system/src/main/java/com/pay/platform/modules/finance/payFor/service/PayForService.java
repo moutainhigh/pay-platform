@@ -3,6 +3,9 @@ package com.pay.platform.modules.finance.payFor.service;
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.modules.finance.withdraw.model.WithdrawModel;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * User: zjt
  * DateTime: 2019/3/12 20:39
@@ -15,7 +18,7 @@ public interface PayForService {
      * @param withdraw
      * @return
      */
-    PageInfo<WithdrawModel> queryPayForList(WithdrawModel withdraw, String agentId, String merchantId, String beginTime, String endTime);
+    PageInfo<WithdrawModel> queryPayForList(WithdrawModel withdraw, String agentId, String merchantId, String beginTime, String endTime , String[] merchantIdList);
 
     /**
      * 代付审核

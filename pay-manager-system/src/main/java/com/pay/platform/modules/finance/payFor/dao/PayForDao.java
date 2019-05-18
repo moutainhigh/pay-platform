@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: zjt
@@ -22,7 +23,7 @@ public interface PayForDao {
      * @return
      */
     List<WithdrawModel> queryPayForList(@Param("withdraw") WithdrawModel withdraw, @Param("agentId") String agentId, @Param("merchantId") String merchantId
-            , @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+            , @Param("beginTime") String beginTime, @Param("endTime") String endTime , @Param("merchantIdList") String[]  merchantIdList);
 
     /**
      * 代付审核

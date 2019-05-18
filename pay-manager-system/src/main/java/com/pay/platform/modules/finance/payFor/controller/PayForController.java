@@ -4,13 +4,16 @@ import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.enums.CheckStatusEnum;
 import com.pay.platform.common.enums.WithdrawStatusEnum;
+import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.base.controller.BaseController;
+import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.finance.payFor.service.PayForService;
 import com.pay.platform.modules.finance.withdraw.controller.WithdrawController;
 import com.pay.platform.modules.finance.withdraw.dao.WithdrawDao;
 import com.pay.platform.modules.finance.withdraw.model.WithdrawModel;
 import com.pay.platform.modules.finance.withdraw.service.WithdrawService;
 import com.pay.platform.modules.merchant.model.MerchantModel;
+import com.pay.platform.modules.merchant.service.MerchantService;
 import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import org.json.JSONObject;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: zjt
@@ -39,6 +44,12 @@ public class PayForController extends BaseController {
     @Autowired
     private WithdrawService withdrawService;
 
+    @Autowired
+    private MerchantService merchantService;
+
+    @Autowired
+    private CodeTraderService codeTraderService;
+
     /**
      * 分页查询提现申请列表
      *
@@ -52,8 +63,18 @@ public class PayForController extends BaseController {
     @RequestMapping(value = "/queryPayForList", produces = "application/json")
     public PageInfo<WithdrawModel> queryPayForList(HttpServletRequest request, HttpServletResponse response, WithdrawModel withdraw
             , String agentId, String merchantId, String beginTime, String endTime) throws Exception {
+
+        UserModel user = AppContext.getCurrentUser();
+
+        List<String> merchantIdList = null;
+        //码商管理员：默认可查看到绑定的商家
+        if (SysUserUtil.isCodeTraderRole(user)) {
+            String codeTraderId = user.getCodeTraderId();
+            merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
+        }
+
         setPageInfo(request);
-        return payForService.queryPayForList(withdraw, agentId, merchantId, beginTime, endTime);
+        return payForService.queryPayForList(withdraw, agentId, merchantId, beginTime, endTime , merchantIdList.toArray(new String[merchantIdList.size()]));
     }
 
     /**

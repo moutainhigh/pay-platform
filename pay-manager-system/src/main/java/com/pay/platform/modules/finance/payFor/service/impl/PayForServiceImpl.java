@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * User: zjt
  * DateTime: 2019/3/12 20:39
@@ -36,8 +39,8 @@ public class PayForServiceImpl implements PayForService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public PageInfo<WithdrawModel> queryPayForList(WithdrawModel withdraw, String agentId, String merchantId, String beginTime, String endTime) {
-        return new PageInfo(payForDao.queryPayForList(withdraw, agentId, merchantId, beginTime, endTime));
+    public PageInfo<WithdrawModel> queryPayForList(WithdrawModel withdraw, String agentId, String merchantId, String beginTime, String endTime ,String[]  merchantIdList) {
+        return new PageInfo(payForDao.queryPayForList(withdraw, agentId, merchantId, beginTime, endTime , merchantIdList));
     }
 
     @Override
