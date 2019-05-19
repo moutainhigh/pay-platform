@@ -1,5 +1,6 @@
 package com.pay.platform.modules.loopMgr.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -62,4 +63,7 @@ public interface LoopMgrDao {
     Integer updateTradeCode(TradeCodeModel tradeCode);
 
     TradeCodeModel queryExistsByCode(TradeCodeModel tradeCode);
+
+    Integer batchAddTradeCode(@Param("tradeCodeList") List<TradeCodeModel> tradeCodeList);
+
 }

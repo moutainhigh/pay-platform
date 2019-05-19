@@ -286,4 +286,56 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
     };
 
+    /**
+     * 导入excel
+     */
+    pageScope.batchImportExcel = function () {
+
+        var merchantId = $("#merchantId").val();
+        var channelCode = $("#channelCode").val();
+
+        $.dialog.show({
+            url: baseURL + "/view/loopMgr/tradeCode/tradeCode_upload_excel.jsp?" + _csrf + "=" + token + "&channelCode=" + channelCode + "&merchantId=" + merchantId,
+            size:"large",
+            onLoad: function () {
+
+            },
+            buttonEvents: {
+                success: function () {
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    var merchantId = $("#merchantId").val();
+                    var channelCode = $("#channelCode").val();
+                    var excelPath = $("#saveFilePath").val();
+
+                    $.ajax({
+                        url:  baseURL + '/loopMgr/tradeCode/batchImportTradeCode?_csrf=' + token,
+                        type: "post",
+                        dataType: "json",
+                        data: {"merchantId": merchantId,"channelCode": channelCode,"excelPath": excelPath, "_csrf": token},
+                        success: function (response) {
+
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success == true) {
+                                $.msg.success(response.msg);
+                                $(".modal-footer .btn-danger").trigger("click");
+                                pageScope.tradeCodeTable.bootstrapTable('refresh');
+                            } else {
+                                $.msg.fail(response.msg);
+                            }
+
+                        }
+                    });
+
+                    return false;
+
+                }
+            }
+        });
+
+    }
+
 })();

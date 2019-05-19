@@ -15,8 +15,8 @@
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <%-- 商家id、通道编码 --%>
-                        <input type="hidden" name="merchantId" id="merchantId" value="${param.merchantId}" />
-                        <input type="hidden" name="channelCode" id="channelCode" value="${param.channelCode}" />
+                        <input type="hidden" name="merchantId" id="merchantId" value="${param.merchantId}"/>
+                        <input type="hidden" name="channelCode" id="channelCode" value="${param.channelCode}"/>
 
                         <tr>
                             <td width="80" align="right">码编号：</td>
@@ -48,7 +48,9 @@
                 <!-- 操作按钮 -->
                 <div class="operation-button columns columns-left bars pull-left">
 
-                    <button id="import" class="btn btn-success" onclick="pageScope.batchImport()">
+                    <a class="btn btn-primary" href="${baseURL}/resources/excel/拉卡拉-支付宝固码-批量导入模板.xls">下载导入模板</a>
+
+                    <button id="import" class="btn btn-success" onclick="pageScope.batchImportExcel();">
                         <i class="glyphicon glyphicon-plus"></i> 批量导入
                     </button>
 

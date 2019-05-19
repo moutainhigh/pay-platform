@@ -189,6 +189,44 @@ $.fn.extend({
 
     } ,
 
+
+    /**
+     * 多个文档上传
+     * 具体例子可参考用户管理模块的头像上传
+     *
+     * @param option
+     *  option.uploadExtraData: 上传扩展参数(可选)
+     *  option.onSuccess: 成功回调
+     */
+    multiDocUpload: function (option) {
+
+        //文件上传相关配置
+        var fileObj = $(this).fileinput({
+            uploadUrl: option.uploadUrl || baseURL + "/common/fileUpload/multiDocUpload?_csrf=" + token,      //上传路径
+            uploadAsync: true,
+            uploadExtraData: option.uploadExtraData || {"module": "default"},                                    //扩展提交参数
+            allowedFileExtensions: option.allowedFileExtensions || ["txt", "pdf", "doc" , "docx" , "xls" , "xlsx" , "ppt" , "pptx"],        //允许的文件格式
+            showCaption: option.showCaption || false,                                     //是否显示文件名称
+            showRemove: true,
+            showUpload: true,
+        });
+
+        //文件选择改变时: 自动上传
+        if($.validate.isNotEmpty(option.selectAutoUpload) && option.selectAutoUpload){
+            fileObj.on("filebatchselected", function (event, files) {
+                $(this).fileinput("upload");
+            });
+        }
+
+        //上传成功回调: 将上传文件路径存储到隐藏域
+        fileObj.on("fileuploaded", function (event, data) {
+            option.onSuccess(data);
+        });
+
+    },
+
+
+
     /**
      * 显示图片
      * @param option

@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 
+import java.util.List;
+
 /**
  * User: zjt
  * DateTime: 2016/10/7 20:15
@@ -60,4 +62,6 @@ public interface LoopMgrService {
 
     TradeCodeModel queryExistsByCode(TradeCodeModel tradeCode);
 
+    Integer batchAddTradeCode(List<TradeCodeModel> tradeCodeList
+    );
 }

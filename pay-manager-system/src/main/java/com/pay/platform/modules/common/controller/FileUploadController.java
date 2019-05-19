@@ -125,6 +125,85 @@ public class FileUploadController extends BaseController {
 
     }
 
+
+    /**
+     * 多文档上传
+     *
+     * @param request
+     * @param response
+     * @param module:  上传文件所属模块 , 按/upload/模块名称/日期分组/文件名的方式存储
+     * @throws Exception
+     */
+    @RequestMapping(value = "/multiDocUpload", produces = "application/json")
+    @SystemControllerLog(module = "文件上传", operation = "多文件上传")
+    public void multiDocUpload(HttpServletRequest request, HttpServletResponse response, String module) throws Exception {
+
+        JSONObject json = new JSONObject();
+        List<String> saveFileNameList = new ArrayList<>();
+
+        //1, 将当前上下文初始化给  CommonsMutipartResolver （多部分解析器）
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+
+        //2, 检查form中是否有enctype=multipart/form-data
+        if (multipartResolver.isMultipart(request)) {
+
+            //3, 获取上传资源 , 遍历上传
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            Iterator iter = multiRequest.getFileNames();
+
+            while (iter.hasNext()) {
+
+                //获取上传文件
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+
+                //获取上传文件名称,后缀名
+                String uploadFileName = file.getOriginalFilename();
+                String suffixName = uploadFileName.substring(uploadFileName.lastIndexOf(".") + 1);
+
+                //验证上传文件格式
+                if (!UPLOAD_DOC_TYPE.toLowerCase().contains(suffixName.toLowerCase())) {
+                    json.put("success", false);
+                    json.put("msg", "上传文件格式必须是以" + UPLOAD_DOC_TYPE + "为结尾的,请重新选择文件!");
+                    return;
+                }
+
+                //验证上传文件大小
+                if (UPLOAD_DOC_MAX_SIZE < file.getSize()) {
+                    json.put("success", false);
+                    json.put("msg", "图片大小不能超过" + (UPLOAD_DOC_MAX_SIZE / 1024 / 1024) + "M,请重新选择文件!");
+                    return;
+                }
+
+                //爆粗目录: 上传基础目录 + 模块 + 按月
+//                String saveDir = REPOSITORY_PATH + "/" + module + "/" + DateUtil.getCurrentYearAndMonth();
+                String saveDir = "/WEB-INF/upload/" + module + "/" + DateUtil.getCurrentYearAndMonth();
+
+                //服务器真实路径
+                String serverRealPath = request.getSession().getServletContext().getRealPath(saveDir);
+
+                //保存文件名称 = 上传目录  + 随机文件名  + 后缀
+                String saveFileName = UUID.randomUUID().toString() + "." + suffixName;
+                File saveFile = new File(serverRealPath , saveFileName);
+                if (!saveFile.getParentFile().exists()) {
+                    saveFile.getParentFile().mkdirs();
+                }
+
+                file.transferTo(saveFile);          //保存
+
+                saveFileNameList.add(saveDir + "/" + saveFileName);
+
+            }
+
+            json.put("success", true);
+            json.put("msg", "上传文件成功!");
+            json.put("data", saveFileNameList);
+
+        }
+
+        writeJson(response, json.toString());
+
+    }
+
     /**
      * 删除文件 (假删 , bootstrap fileinpu删除需要给个可以调用的地址)
      *

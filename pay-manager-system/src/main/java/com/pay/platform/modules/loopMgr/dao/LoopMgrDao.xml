@@ -58,4 +58,12 @@
         limit 0 , 1
     </select>
 
+    <insert id="batchAddTradeCode" parameterType="java.util.List">
+        insert into tb_merchant_trade_code(id , channel_id , channel_code , merchant_id ,  code_num , secret , login_account ,  code_link , create_time)
+        values
+        <foreach collection="tradeCodeList" item="item" index="index" separator=",">
+            (uuid() , #{item.channelId} , #{item.channelCode} , #{item.merchantId} , #{item.codeNum} , #{item.secret} , #{item.loginAccount} , #{item.codeLink} , now())
+        </foreach>
+    </insert>
+
 </mapper>

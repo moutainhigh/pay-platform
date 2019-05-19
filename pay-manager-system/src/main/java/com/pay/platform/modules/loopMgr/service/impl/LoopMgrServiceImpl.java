@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 import com.pay.platform.modules.loopMgr.dao.LoopMgrDao;
 
+import java.util.List;
+
 
 /**
  * User: zjt
@@ -51,6 +53,11 @@ public class LoopMgrServiceImpl implements LoopMgrService {
     @Override
     public TradeCodeModel queryExistsByCode(TradeCodeModel tradeCode) {
         return tradeCodeDao.queryExistsByCode(tradeCode);
+    }
+
+    @Override
+    public Integer batchAddTradeCode(List<TradeCodeModel> tradeCodeList) {
+        return tradeCodeDao.batchAddTradeCode(tradeCodeList);
     }
 
 }
