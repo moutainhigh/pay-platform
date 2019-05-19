@@ -84,6 +84,8 @@ To change this template use File | Settings | File Templates.
             method: 'post',
             dataType: "json",
             toolbar: '#importTradeCodeForm',
+            pageSize: 500,
+            pagination : true,                  //是否分页
             queryParams: function (params) {
                 $.extend(params, $('#importTradeCodeForm').serializeObject());
                 return params;
