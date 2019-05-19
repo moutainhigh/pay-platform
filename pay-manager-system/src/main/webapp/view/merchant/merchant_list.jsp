@@ -26,11 +26,14 @@
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
-                            <td width="80" align="right">所属代理：</td>
-                            <td width="150">
-                                <select name="agentId" id="queryAgentId" class="form-control btn-block" >
-                                </select>
-                            </td>
+
+                            <c:if test="${roleCode != 'ROLE_CODE_TRADER'}">
+                                <td width="80" align="right">所属代理：</td>
+                                <td width="150">
+                                    <select name="agentId" id="queryAgentId" class="form-control btn-block">
+                                    </select>
+                                </td>
+                            </c:if>
 
                             <td width="80" align="right">商家编号：</td>
                             <td width="150">

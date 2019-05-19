@@ -95,9 +95,15 @@
 
         $('#content-main').html("");                    //清空内容区域
 
+        if (url.indexOf("?") == -1) {
+            url = "${baseURL}" + url + "?_csrf=" + token;
+        } else {
+            url = "${baseURL}" + url + "&_csrf=" + token;
+        }
+
         $.ajax({
             type: "get",
-            url: "${baseURL}" + url + "?_csrf=" + token,
+            url: url,
             dataType: "html",
             cache: false,
             success: function (response) {

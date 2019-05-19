@@ -56,16 +56,19 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 align: 'center',
                 formatter: function (value, row, index) {
                     var html = "";
+
                     if (roleCode == "ROLE_ADMIN") {
                         html += "<button type='button' class='btn btn-link' onclick='pageScope.editMerchant()' ><i class='glyphicon glyphicon-pencil'></i></button>";
                         html += "<button type='button' class='btn btn-link' onclick='pageScope.setCodeTrader()' >设置码商</button>";
-                    }
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
-                    if (roleCode == "ROLE_ADMIN") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.showMerchantDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                         html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteMerchantByLogic(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.rate()' >设置费率</button>";
                     }
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.rate()' >设置费率</button>";
+
+                    if (roleCode == "ROLE_CODE_TRADER" || roleCode == "ROLE_ADMIN") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.setTradeCode(\"" + row.id + "\")' >轮询配置</button>";
+                    }
 
                     return html;
                 }
@@ -452,6 +455,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         });
 
     };
+
+    /**
+     * 设置交易码 - 为商户上号
+     */
+    pageScope.setTradeCode = function (merchantId) {
+        loadMenuContent('/view/loopMgr/tradeCode/select_channel.jsp?merchantId=' + merchantId);
+    }
 
 })();
 

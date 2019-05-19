@@ -64,6 +64,7 @@ public class MerchantController extends BaseController {
      * @throws Exception
      */
     @ResponseBody
+    @CommonRequest
     @RequestMapping(value = "/queryMerchantList", produces = "application/json")
     public PageInfo<MerchantModel> queryMerchantList(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
         setPageInfo(request);
