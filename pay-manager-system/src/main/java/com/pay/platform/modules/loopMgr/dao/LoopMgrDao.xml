@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.modules.loopMgr.dao.LoopMgrDao">
+
+    <select id="queryTradeCodeList" parameterType="TradeCodeModel" resultType="TradeCodeModel">
+        select *
+        from tb_merchant_trade_code
+        where channel_code = #{channelCode} and merchant_id = #{merchantId}
+        <if test="codeNum != null and codeNum != '' ">
+            and code_num like CONCAT('%','${codeNum}','%')
+        </if>
+        <if test="loginAccount != null and loginAccount != '' ">
+            and login_Account like CONCAT('%','${loginAccount}','%')
+        </if>
+        <if test="realName != null and realName != '' ">
+            and real_Name like CONCAT('%','${realName}','%')
+        </if>
+    </select>
+
+    <select id="queryTradeCodeById" parameterType="java.lang.String" resultType="TradeCodeModel">
+        select *
+        from tb_merchant_trade_code where id = #{id}
+    </select>
+
+    <insert id="addTradeCode" parameterType="TradeCodeModel">
+        insert into tb_merchant_trade_code(id , channel_id , channel_code , merchant_id ,  code_num , secret , login_account ,  code_link , create_time)
+        values(uuid() , #{channelId} , #{channelCode} , #{merchantId} , #{codeNum} , #{secret} , #{loginAccount} , #{codeLink} , now());
+    </insert>
+
+    <delete id="deleteTradeCode">
+        delete from tb_merchant_trade_code where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTradeCodeByLogic">
+        update tb_merchant_trade_code set is_Del = 1 where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateTradeCode" parameterType="TradeCodeModel">
+        update tb_merchant_trade_code
+        set min_amount = #{minAmount} , max_amount = #{maxAmount} , day_amount_limit = #{dayAmountLimit} , code_num = #{codeNum} , secret = #{secret} , login_account = #{loginAccount} , real_name = #{realName} , code_link = #{codeLink} , zfb_user_id = #{zfbUserId}
+        where id = #{id}
+    </update>
+
+    <select id="queryExistsByCode" parameterType="TradeCodeModel" resultType="TradeCodeModel">
+        select *
+        from tb_merchant_trade_code
+        where ( code_num = #{codeNum} or secret = #{secret} or login_account = #{loginAccount} or code_link = #{codeLink} )
+        <if test="id != null and id != '' ">
+            and ( id != #{id} )
+        </if>
+        limit 0 , 1
+    </select>
+
+</mapper>
