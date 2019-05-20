@@ -74,10 +74,16 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 title: '操作',
                 align: 'center',
                 formatter: function (value, row, index) {
+
                     var html = "";
+
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToSuccess(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账成功</i></button>";
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToFail(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账失败</button>";
+
+                    if(row.withdrawStatus == 'withdrawApply'){
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToSuccess(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账成功</i></button>";
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToFail(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账失败</button>";
+                    }
+
                     return html;
                 }
             }
@@ -210,10 +216,10 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      */
     pageScope.updateWithdrawStatusToFail = function (id, checkStatus) {
 
-        // if (checkStatus != 'checkSuccess') {
-        //     $.msg.toast("请先审核通过后再进行！");
-        //     return;
-        // }
+        if (checkStatus == 'waitCheck') {
+            $.msg.toast("请先审核后再进行！");
+            return;
+        }
 
         $.msg.confirm(function () {
 
