@@ -8,6 +8,7 @@ import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 import com.pay.platform.modules.loopMgr.dao.LoopMgrDao;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -58,6 +59,16 @@ public class LoopMgrServiceImpl implements LoopMgrService {
     @Override
     public Integer batchAddTradeCode(List<TradeCodeModel> tradeCodeList) {
         return tradeCodeDao.batchAddTradeCode(tradeCodeList);
+    }
+
+    @Override
+    public PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(TradeCodeModel tradeCode, String beginTime, String endTime) {
+        return new PageInfo(tradeCodeDao.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime));
+    }
+
+    @Override
+    public Integer updateTradeCodeEnabled(String[] ids, String enabled) {
+        return tradeCodeDao.updateTradeCodeEnabled(ids , enabled);
     }
 
 }

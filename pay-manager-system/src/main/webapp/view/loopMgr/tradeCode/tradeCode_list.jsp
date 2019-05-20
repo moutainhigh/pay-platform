@@ -59,7 +59,7 @@
                     </button>
 
                     <button id="remove" class="btn btn-danger" onclick="pageScope.deleteTradeCode()">
-                        <i class="glyphicon glyphicon-remove"></i> 删除
+                        <i class="glyphicon glyphicon-remove"></i> 批量删除
                     </button>
 
                 </div>

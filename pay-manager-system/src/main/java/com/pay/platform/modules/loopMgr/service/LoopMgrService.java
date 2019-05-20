@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: zjt
@@ -62,6 +63,9 @@ public interface LoopMgrService {
 
     TradeCodeModel queryExistsByCode(TradeCodeModel tradeCode);
 
-    Integer batchAddTradeCode(List<TradeCodeModel> tradeCodeList
-    );
+    Integer batchAddTradeCode(List<TradeCodeModel> tradeCodeList );
+
+    PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(TradeCodeModel tradeCode, String beginTime, String endTime);
+
+    Integer updateTradeCodeEnabled(String[] ids, String enabled);
 }

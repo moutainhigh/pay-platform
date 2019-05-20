@@ -63,6 +63,23 @@ public class LoopMgrController extends BaseController {
     }
 
     /**
+     * 分页查询交易码-成功率
+     *
+     * @param request
+     * @param response
+     * @param tradeCode
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/queryTradeCodeSuccessRateList", produces = "application/json")
+    public PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode , String beginTime , String endTime) throws Exception {
+        setPageInfo(request);
+        return tradeCodeService.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime);
+    }
+
+
+    /**
      * 根据id查询
      *
      * @param response
@@ -518,5 +535,32 @@ public class LoopMgrController extends BaseController {
 
     }
 
+
+    /**
+     * 更新启用状态
+     *
+     * @param response
+     * @param ids
+     * @throws Exception
+     */
+    @RequestMapping(value = "/updateTradeCodeEnabled", produces = "application/json")
+    @SystemControllerLog(module = "交易码管理", operation = "更新启用状态")
+    public void updateTradeCodeEnabled(HttpServletResponse response, String ids , String enabled) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Integer count = tradeCodeService.updateTradeCodeEnabled(ids.split(",") , enabled);
+
+        if (count > 0) {
+            json.put("success", true);
+            json.put("msg", "保存成功");
+        } else {
+            json.put("success", false);
+            json.put("msg", "保存失败");
+        }
+
+        writeJson(response, json.toString());
+
+    }
 
 }
