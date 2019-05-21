@@ -1,13 +1,12 @@
-package com.pay.platform.api.payCharge.controller;
+package com.pay.platform.api.pay.payCharge.controller;
 
-import com.google.gson.JsonObject;
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
-import com.pay.platform.api.payCharge.service.PayChargeService;
-import com.pay.platform.api.payCharge.util.AESOperator;
-import com.pay.platform.api.payCharge.util.PayUtil;
+import com.pay.platform.api.pay.payCharge.service.PayChargeService;
+import com.pay.platform.api.pay.payCharge.util.AESOperator;
+import com.pay.platform.api.pay.payCharge.util.PayUtil;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.*;
 import org.apache.commons.io.IOUtils;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

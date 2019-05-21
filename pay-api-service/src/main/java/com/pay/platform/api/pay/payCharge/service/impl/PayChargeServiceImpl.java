@@ -1,18 +1,16 @@
-package com.pay.platform.api.payCharge.service.impl;
+package com.pay.platform.api.pay.payCharge.service.impl;
 
+import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
-import com.pay.platform.api.payCharge.dao.PayChargeDao;
-import com.pay.platform.api.payCharge.service.PayChargeService;
-import com.pay.platform.api.payCharge.util.PayUtil;
+import com.pay.platform.api.pay.payCharge.service.PayChargeService;
+import com.pay.platform.api.pay.payCharge.util.PayUtil;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.util.DecimalCalculateUtil;
-import com.pay.platform.common.util.IpUtil;
 import com.pay.platform.common.util.OrderNoUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -23,23 +21,23 @@ import java.util.Map;
 public class PayChargeServiceImpl implements PayChargeService {
 
     @Autowired
-    private PayChargeDao payChargeDao;
+    private OrderDao orderDao;
 
     @Override
     public String createOrderByCharge(String merchantNo, String merchantOrderNo, String orderAmount
             , String payWay, String notifyUrl, String clientIp, String baseUrl) throws Exception {
 
         //1,计算商家手续费
-        Map<String, Object> payChannelInfo = payChargeDao.queryPayChannelByCode(PayChannelEnum.JU_FU_BAO_CHARGE.getCode());
+        Map<String, Object> payChannelInfo = orderDao.queryPayChannelByCode(PayChannelEnum.JU_FU_BAO_CHARGE.getCode());
         String payChannelId = payChannelInfo.get("id").toString();
-        Map<String, Object> merchantInfo = payChargeDao.queryMerchantRateByMerchantNo(merchantNo, payChannelId);
+        Map<String, Object> merchantInfo = orderDao.queryMerchantRateByMerchantNo(merchantNo, payChannelId);
         String merchantId = merchantInfo.get("id").toString();
         double merchantRate = Double.parseDouble(merchantInfo.get("merchantRate").toString());                 //商家费率
         double handlingFee = DecimalCalculateUtil.mul(Double.parseDouble(orderAmount), merchantRate);          //商家手续费
         double actualAmount = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), handlingFee);          //商家实收款
 
         //2,计算代理费率及其收入
-        Map<String, Object> agentInfo = payChargeDao.queryAgentRateByMerchantNo(merchantNo, payChannelId);
+        Map<String, Object> agentInfo = orderDao.queryAgentRateByMerchantNo(merchantNo, payChannelId);
         String agentId = agentInfo.get("id").toString();
         double agentRate = Double.parseDouble(agentInfo.get("agentRate").toString());                  //代理费率
         double agentProfitRate = DecimalCalculateUtil.sub(merchantRate, agentRate);                    //代理利润费率（例如商家2.0，代理为1.6,则利润空间为0.4）
@@ -73,7 +71,7 @@ public class PayChargeServiceImpl implements PayChargeService {
         orderModel.setAgentId(agentId);
         orderModel.setChannelId(payChannelId);
         orderModel.setPayWay(payWay);
-        int count = payChargeDao.createOrder(orderModel);
+        int count = orderDao.createOrder(orderModel);
 
         //6,调用第四方话冲接口
         if (count > 0) {

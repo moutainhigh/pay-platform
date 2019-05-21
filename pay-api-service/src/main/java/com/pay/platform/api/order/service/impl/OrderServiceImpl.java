@@ -39,11 +39,20 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
+    /**
+     * 根据订单号查询订单：商家单号、平台单号
+     * @param orderNo
+     * @return
+     */
     @Override
     public OrderModel queryOrderByOrderNo(String orderNo) {
         return orderDao.queryOrderByOrderNo(orderNo);
     }
 
+    /**
+     * 查询待推送商家的订单
+     * @return
+     */
     @Override
     public List<OrderModel> queryWaitPushMerchantOrder() {
         return orderDao.queryWaitPushMerchantOrder();

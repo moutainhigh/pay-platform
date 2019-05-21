@@ -50,4 +50,37 @@ public interface OrderDao {
     int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
             , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
 
+    /**
+     * 查询支付通道信息
+     *
+     * @param code
+     * @return
+     */
+    Map<String, Object> queryPayChannelByCode(@Param("code") String code);
+
+    /**
+     * 根据商家编号查询代理信息
+     *
+     * @param merchantNo
+     * @return
+     */
+    Map<String, Object> queryAgentRateByMerchantNo(@Param("merchantNo") String merchantNo, @Param("payChannelId") String payChannelId);
+
+    /**
+     * 根据商家编号查询商家信息及费率
+     *
+     * @param merchantNo
+     * @param payChannelId
+     * @return
+     */
+    Map<String, Object> queryMerchantRateByMerchantNo(@Param("merchantNo") String merchantNo, @Param("payChannelId") String payChannelId);
+
+    /**
+     * 创建订单
+     *
+     * @param orderModel
+     * @return
+     */
+    int createOrder(OrderModel orderModel);
+
 }

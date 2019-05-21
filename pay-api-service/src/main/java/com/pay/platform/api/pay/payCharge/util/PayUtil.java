@@ -1,13 +1,11 @@
-package com.pay.platform.api.payCharge.util;
+package com.pay.platform.api.pay.payCharge.util;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pay.platform.common.listener.AppContextListener;
 import com.pay.platform.common.util.JsonUtil;
 import org.json.JSONObject;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

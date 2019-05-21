@@ -1,4 +1,4 @@
-package com.pay.platform.api.payCharge.util;
+package com.pay.platform.api.pay.payCharge.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

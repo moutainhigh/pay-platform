@@ -4,7 +4,7 @@ package com.pay.platform.api.merchant.service;
  * User:
  * DateTime: 2019/1/14 11:09
  * <p>
- * 商家通知
+ * 商家通知回调
  */
 public interface MerchantNotifyService {
 
