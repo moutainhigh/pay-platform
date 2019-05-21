@@ -72,44 +72,44 @@
         tmrc.code_num as codeNum , tmrc.secret , tmrc.login_account as loginAccount , tmrc.real_name as realName ,
         tmrc.code_link as codeLink , tmrc.zfb_user_id as zfbUserId , tmrc.create_time as createTime , tmrc.enabled ,
         (
-            select count(1) from tb_order tor
-            where tor.trade_code_id = tmrc.id
-            <if test="beginTime != null and beginTime != '' ">
-                and tor.create_time &gt;= #{beginTime}
-            </if>
-            <if test="endTime != null and endTime != '' ">
-                and tor.create_time &lt;= #{endTime}
-            </if>
+        select count(1) from tb_order tor
+        where tor.trade_code_id = tmrc.id
+        <if test="beginTime != null and beginTime != '' ">
+            and tor.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and tor.create_time &lt;= #{endTime}
+        </if>
         ) as totalOrderCount,
         (
-            select count(1) from tb_order tor
-            where tor.trade_code_id = tmrc.id and tor.pay_status = 'payed'
-            <if test="beginTime != null and beginTime != '' ">
-                and tor.create_time &gt;= #{beginTime}
-            </if>
-            <if test="endTime != null and endTime != '' ">
-                and tor.create_time &lt;= #{endTime}
-            </if>
+        select count(1) from tb_order tor
+        where tor.trade_code_id = tmrc.id and tor.pay_status = 'payed'
+        <if test="beginTime != null and beginTime != '' ">
+            and tor.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and tor.create_time &lt;= #{endTime}
+        </if>
         ) as scuccessCount ,
         (
-            select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
-            where tor.trade_code_id = tmrc.id
-            <if test="beginTime != null and beginTime != '' ">
-                and tor.create_time &gt;= #{beginTime}
-            </if>
-            <if test="endTime != null and endTime != '' ">
-                and tor.create_time &lt;= #{endTime}
-            </if>
+        select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+        where tor.trade_code_id = tmrc.id
+        <if test="beginTime != null and beginTime != '' ">
+            and tor.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and tor.create_time &lt;= #{endTime}
+        </if>
         ) as totalOrderAmount,
         (
-            select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
-            where tor.trade_code_id = tmrc.id and tor.pay_status = 'payed'
-            <if test="beginTime != null and beginTime != '' ">
-                and tor.create_time &gt;= #{beginTime}
-            </if>
-            <if test="endTime != null and endTime != '' ">
-                and tor.create_time &lt;= #{endTime}
-            </if>
+        select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+        where tor.trade_code_id = tmrc.id and tor.pay_status = 'payed'
+        <if test="beginTime != null and beginTime != '' ">
+            and tor.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and tor.create_time &lt;= #{endTime}
+        </if>
         ) as successAmount
         from tb_merchant_trade_code tmrc
         where 1 = 1
@@ -133,5 +133,75 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="queryTradeSuccessRate" parameterType="java.lang.String" resultType="java.util.Map">
+        select
+            (
+            select count(1) from tb_order tor
+            where 1 = 1
+            <if test="merchantId!= null and merchantId != '' ">
+                and tor.merchant_id = #{merchantId}
+            </if>
+            <if test="channelId!= null and channelId != '' ">
+                and tor.channel_Id = #{channelId}
+            </if>
+            <if test="beginTime != null and beginTime != '' ">
+                and tor.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and tor.create_time &lt;= #{endTime}
+            </if>
+            ) as totalOrderCount,
+            (
+            select count(1) from tb_order tor
+            where 1 = 1 and tor.pay_status = 'payed'
+            <if test="merchantId!= null and merchantId != '' ">
+                and tor.merchant_id = #{merchantId}
+            </if>
+            <if test="channelId!= null and channelId != '' ">
+                and tor.channel_Id = #{channelId}
+            </if>
+            <if test="beginTime != null and beginTime != '' ">
+                and tor.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and tor.create_time &lt;= #{endTime}
+            </if>
+            ) as scuccessCount ,
+            (
+            select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+            where 1 = 1
+            <if test="merchantId!= null and merchantId != '' ">
+                and tor.merchant_id = #{merchantId}
+            </if>
+            <if test="channelId!= null and channelId != '' ">
+                and tor.channel_Id = #{channelId}
+            </if>
+            <if test="beginTime != null and beginTime != '' ">
+                and tor.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and tor.create_time &lt;= #{endTime}
+            </if>
+            ) as totalOrderAmount,
+            (
+            select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+            where 1 = 1 and tor.pay_status = 'payed'
+            <if test="merchantId!= null and merchantId != '' ">
+                and tor.merchant_id = #{merchantId}
+            </if>
+            <if test="channelId!= null and channelId != '' ">
+                and tor.channel_Id = #{channelId}
+            </if>
+            <if test="beginTime != null and beginTime != '' ">
+                and tor.create_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and tor.create_time &lt;= #{endTime}
+            </if>
+            ) as successAmount
+       from dual
+
+    </select>
 
 </mapper>

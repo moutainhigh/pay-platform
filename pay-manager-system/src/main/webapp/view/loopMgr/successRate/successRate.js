@@ -20,8 +20,22 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         responseHandler: function (response) {
             var griddata = {};
             try {
-                griddata.rows = response.list || [];
-                griddata.total = response.total || 0;
+                griddata.rows = response.data.pageInfo.list || [];
+                griddata.total = response.data.pageInfo.total || 0;
+
+                var successRate = response.data.successRate;
+                $("#totalOrderAmount").html(successRate.totalOrderAmount);
+                $("#totalOrderCount").html(successRate.totalOrderCount);
+                $("#successAmount").html(successRate.successAmount);
+                $("#scuccessCount").html(successRate.scuccessCount);
+
+                if (parseInt(successRate.scuccessCount) != 0) {
+                    var result = (parseInt(successRate.scuccessCount) / parseInt(successRate.totalOrderCount)) * 100;
+                    $("#successRate").html(result.toFixed(2) + "%");
+                } else {
+                    $("#successRate").html("100%");
+                }
+
             } catch (e) {
             }
             return griddata;

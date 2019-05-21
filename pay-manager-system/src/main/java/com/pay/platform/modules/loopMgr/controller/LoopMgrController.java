@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,11 +72,27 @@ public class LoopMgrController extends BaseController {
      * @return
      * @throws Exception
      */
-    @ResponseBody
     @RequestMapping(value = "/queryTradeCodeSuccessRateList", produces = "application/json")
-    public PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode , String beginTime , String endTime) throws Exception {
+    public void queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode , String beginTime , String endTime) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        //查询总成功率(根据商编、通道、时间)
+        Map<String,Object> successRate = tradeCodeService.queryTradeSuccessRate(tradeCode.getMerchantId() , tradeCode.getChannelId() , beginTime , endTime);
+
+        //查询每个号的成功率
         setPageInfo(request);
-        return tradeCodeService.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime);
+        PageInfo<Map<String,Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime);
+
+
+        Map<String,Object> data = new HashMap<>();
+        data.put("pageInfo" , pageInfo);
+        data.put("successRate" , successRate);
+
+        json.put("success", true);
+        json.put("data", data);
+        writeJson(response, json.toString());
+
     }
 
 
@@ -562,5 +579,6 @@ public class LoopMgrController extends BaseController {
         writeJson(response, json.toString());
 
     }
+
 
 }

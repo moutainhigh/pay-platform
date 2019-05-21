@@ -71,4 +71,5 @@ public interface LoopMgrDao {
 
     Integer updateTradeCodeEnabled(@Param("ids") String[] ids, @Param("enabled") String enabled);
 
+    Map<String, Object> queryTradeSuccessRate(@Param("merchantId") String merchantId, @Param("channelId") String channelId, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 }

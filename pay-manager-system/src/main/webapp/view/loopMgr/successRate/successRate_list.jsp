@@ -93,6 +93,14 @@
 
                 </div>
 
+                <div style="margin-top: 70px;margin-bottom: -50px;font-size: 14px;">
+                    交易金额合计：<span id="totalOrderAmount" style="color: green;"></span>&nbsp;&nbsp;&nbsp;
+                    交易笔数：<span id="totalOrderCount" style="color: green;"></span>&nbsp;&nbsp;&nbsp;
+                    成功金额合计：<span id="successAmount" style="color: green;"></span>&nbsp;&nbsp;&nbsp;
+                    成功笔数：<span id="scuccessCount" style="color: green;"></span>&nbsp;&nbsp;&nbsp;
+                    成功率：<span id="successRate" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
+                </div>
+
                 <!-- 数据表格 -->
                 <div class="data-table-wrapper">
                     <table id="tradeCodeTable"></table>
