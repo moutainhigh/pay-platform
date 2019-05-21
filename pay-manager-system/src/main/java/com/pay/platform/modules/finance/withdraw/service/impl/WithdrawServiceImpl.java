@@ -55,7 +55,7 @@ public class WithdrawServiceImpl implements WithdrawService {
 
         try {
 
-            //加上分布式锁,避免重复发起提现,造成资金不一致的情况
+            //根据用户ID加上分布式锁,避免重复发起提现,造成资金不一致的情况
             lock = new RedisLock(redisTemplate, "applyWithdrawLock::" + userId);
             if (lock.lock()) {
 
