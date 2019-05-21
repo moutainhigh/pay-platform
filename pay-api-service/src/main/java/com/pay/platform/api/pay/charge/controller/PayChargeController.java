@@ -1,18 +1,18 @@
-package com.pay.platform.api.pay.payCharge.controller;
+package com.pay.platform.api.pay.charge.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
-import com.pay.platform.api.pay.payCharge.service.PayChargeService;
-import com.pay.platform.api.pay.payCharge.util.AESOperator;
-import com.pay.platform.api.pay.payCharge.util.PayUtil;
+import com.pay.platform.api.pay.charge.service.PayChargeService;
+import com.pay.platform.api.pay.charge.util.AESOperator;
+import com.pay.platform.api.pay.charge.util.PayUtil;
 import com.pay.platform.common.enums.PayStatusEnum;
-import com.pay.platform.common.util.*;
+import com.pay.platform.common.util.IpUtil;
+import com.pay.platform.common.util.StringUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,9 +40,6 @@ public class PayChargeController extends BaseController {
 
     @Autowired
     private OrderService orderServicel;
-
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     /**
      * 充值下单接口

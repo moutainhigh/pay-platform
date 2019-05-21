@@ -9,21 +9,6 @@
         where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
     </select>
 
-    <select id="queryWaitPushMerchantOrder" resultType="OrderModel">
-        select * from tb_order
-        where pay_status = 'payed' and notify_status != 'success' and notify_num &lt;  6
-    </select>
-
-    <update id="updateOrderNotifyStatus" parameterType="java.lang.String">
-        update tb_order set notify_status = #{notifyStatus} , notify_num = notify_num + 1
-        where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
-    </update>
-
-    <update id="updateOrderPayInfo" parameterType="java.lang.String">
-        update tb_order set pay_code = #{payNo} , pay_status = #{payStatus} , pay_time = #{payTime} , channel_actual_amount = #{channelActuatAmount}
-        where platform_order_no = #{platformOrderNo}
-    </update>
-
     <select id="queryPayChannelByCode" parameterType="java.lang.String" resultType="java.util.Map">
         select * from tb_pay_channel
         where channel_code = #{code}
@@ -54,5 +39,15 @@
         (uuid(),#{merchantOrderNo},#{platformOrderNo},#{orderAmount},#{handlingFee},#{actualAmount},#{costRate},#{channelAmount},#{agentRate}
         ,#{platformAmount},#{merchantRate},#{agentAmount},#{merchantId},#{merchantNo},#{agentId},#{channelId},#{payWay}, now() , #{notifyUrl} )
     </insert>
+
+    <update id="updateOrderPayInfo" parameterType="java.lang.String">
+        update tb_order set pay_code = #{payNo} , pay_status = #{payStatus} , pay_time = #{payTime} , channel_actual_amount = #{channelActuatAmount}
+        where platform_order_no = #{platformOrderNo}
+    </update>
+
+    <update id="updateOrderNotifyStatus" parameterType="java.lang.String">
+        update tb_order set notify_status = #{notifyStatus} , notify_num = notify_num + 1
+        where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
+    </update>
 
 </mapper>

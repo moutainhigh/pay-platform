@@ -1,4 +1,4 @@
-package com.pay.platform.api.pay.payCharge.service;
+package com.pay.platform.api.pay.charge.service;
 
 /**
  * User:

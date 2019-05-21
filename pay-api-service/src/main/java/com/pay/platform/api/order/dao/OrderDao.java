@@ -23,34 +23,6 @@ public interface OrderDao {
     OrderModel queryOrderByOrderNo(String orderNo);
 
     /**
-     * 查询待推送商家的订单
-     *
-     * @return
-     */
-    List<OrderModel> queryWaitPushMerchantOrder();
-
-    /**
-     * 更新回调商户状态
-     *
-     * @param orderNo
-     * @param notifyStatus
-     * @return
-     */
-    int updateOrderNotifyStatus(@Param("orderNo") String orderNo, @Param("notifyStatus") String notifyStatus);
-
-    /**
-     * 更新支付信息
-     *
-     * @param platformOrderNo
-     * @param payNo
-     * @param payStatus
-     * @param payTime
-     * @return
-     */
-    int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
-            , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
-
-    /**
      * 查询支付通道信息
      *
      * @param code
@@ -82,5 +54,26 @@ public interface OrderDao {
      * @return
      */
     int createOrder(OrderModel orderModel);
+
+    /**
+     * 更新支付信息
+     *
+     * @param platformOrderNo
+     * @param payNo
+     * @param payStatus
+     * @param payTime
+     * @return
+     */
+    int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
+            , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
+
+    /**
+     * 更新回调商户状态
+     *
+     * @param orderNo
+     * @param notifyStatus
+     * @return
+     */
+    int updateOrderNotifyStatus(@Param("orderNo") String orderNo, @Param("notifyStatus") String notifyStatus);
 
 }
