@@ -77,11 +77,19 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
                     var html = "";
 
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
+                    //待审核状态才能审核
+                    if (row.checkStatus == 'waitCheck') {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
+                    }
+                    //审核通过后,才能进行修改转账成功、转账失败状态
+                    else {
 
-                    if(row.withdrawStatus == 'withdrawApply'){
-                        html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToSuccess(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账成功</i></button>";
-                        html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToFail(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账失败</button>";
+                        //避免重复修改状态：转账成功、转账失败
+                        if (row.withdrawStatus == 'withdrawApply') {
+                            html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToSuccess(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账成功</i></button>";
+                            html += "<button type='button' class='btn btn-link' onclick='pageScope.updateWithdrawStatusToFail(\"" + row.id + "\" , \"" + row.checkStatus + "\")' >转账失败</button>";
+                        }
+
                     }
 
                     return html;

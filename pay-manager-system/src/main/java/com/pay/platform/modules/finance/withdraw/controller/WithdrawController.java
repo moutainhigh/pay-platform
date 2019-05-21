@@ -123,59 +123,59 @@ public class WithdrawController extends BaseController {
 
     }
 
-    /**
-     * 删除提现申请
-     *
-     * @param response
-     * @param ids
-     * @throws Exception
-     */
-    @RequestMapping(value = "/deleteWithdraw", produces = "application/json")
-    @SystemControllerLog(module = "提现申请管理", operation = "删除提现申请")
-    public void deleteWithdraw(HttpServletResponse response, String ids) throws Exception {
-
-        JSONObject json = new JSONObject();
-
-        Integer count = withdrawService.deleteWithdraw(ids.split(","));
-
-        if (count > 0) {
-            json.put("success", true);
-            json.put("msg", "删除成功");
-        } else {
-            json.put("success", false);
-            json.put("msg", "删除失败");
-        }
-
-        writeJson(response, json.toString());
-
-    }
-
-    /**
-     * 逻辑删除提现申请 - 字段为isDel
-     *
-     * @param response
-     * @param ids
-     * @throws Exception
-     */
-    @RequestMapping(value = "/deleteWithdrawByLogic", produces = "application/json")
-    @SystemControllerLog(module = "提现申请管理", operation = "删除提现申请")
-    public void deleteWithdrawByLogic(HttpServletResponse response, String ids) throws Exception {
-
-        JSONObject json = new JSONObject();
-
-        Integer count = withdrawService.deleteWithdrawByLogic(ids.split(","));
-
-        if (count > 0) {
-            json.put("success", true);
-            json.put("msg", "删除成功");
-        } else {
-            json.put("success", false);
-            json.put("msg", "删除失败");
-        }
-
-        writeJson(response, json.toString());
-
-    }
+//    /**
+//     * 删除提现申请
+//     *
+//     * @param response
+//     * @param ids
+//     * @throws Exception
+//     */
+//    @RequestMapping(value = "/deleteWithdraw", produces = "application/json")
+//    @SystemControllerLog(module = "提现申请管理", operation = "删除提现申请")
+//    public void deleteWithdraw(HttpServletResponse response, String ids) throws Exception {
+//
+//        JSONObject json = new JSONObject();
+//
+//        Integer count = withdrawService.deleteWithdraw(ids.split(","));
+//
+//        if (count > 0) {
+//            json.put("success", true);
+//            json.put("msg", "删除成功");
+//        } else {
+//            json.put("success", false);
+//            json.put("msg", "删除失败");
+//        }
+//
+//        writeJson(response, json.toString());
+//
+//    }
+//
+//    /**
+//     * 逻辑删除提现申请 - 字段为isDel
+//     *
+//     * @param response
+//     * @param ids
+//     * @throws Exception
+//     */
+//    @RequestMapping(value = "/deleteWithdrawByLogic", produces = "application/json")
+//    @SystemControllerLog(module = "提现申请管理", operation = "删除提现申请")
+//    public void deleteWithdrawByLogic(HttpServletResponse response, String ids) throws Exception {
+//
+//        JSONObject json = new JSONObject();
+//
+//        Integer count = withdrawService.deleteWithdrawByLogic(ids.split(","));
+//
+//        if (count > 0) {
+//            json.put("success", true);
+//            json.put("msg", "删除成功");
+//        } else {
+//            json.put("success", false);
+//            json.put("msg", "删除失败");
+//        }
+//
+//        writeJson(response, json.toString());
+//
+//    }
 
     /**
      * 修改提现申请信息

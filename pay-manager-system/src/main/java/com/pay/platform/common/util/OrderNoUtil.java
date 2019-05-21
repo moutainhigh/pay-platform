@@ -14,7 +14,7 @@ import java.util.UUID;
 public class OrderNoUtil {
 
     /**
-     * 生成唯一单号
+     * 根据hashCode 生成唯一单号
      */
     public static String getOrderNoByUUId() {
 
