@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.DecimalCalculateUtil;
@@ -250,6 +251,9 @@ public class MerchantController extends BaseController {
         UserModel user = AppContext.getCurrentUser();
 
         List<Map<String, Object>> merchantIdList = null;
+
+        //mybatis分页排序此处有bug,会导致数据库没有该排序字段,拼接sql语句出错; 此处直接去除排序字段
+        PageHelper.offsetPage(0 , Integer.MAX_VALUE);
 
         //超级管理员可查询所有商家
         if (SysUserUtil.isAdminRole(user)) {

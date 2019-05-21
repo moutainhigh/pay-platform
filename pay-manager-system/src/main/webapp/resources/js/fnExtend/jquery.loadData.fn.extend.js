@@ -312,7 +312,6 @@ $.fn.extend({
                     }
 
                 } else {
-                    btn.removeAttr("disabled");
                     $.msg.fail(response.msg);
                     return false;
                 }
