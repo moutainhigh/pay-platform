@@ -45,9 +45,4 @@
         where platform_order_no = #{platformOrderNo}
     </update>
 
-    <update id="updateOrderNotifyStatus" parameterType="java.lang.String">
-        update tb_order set notify_status = #{notifyStatus} , notify_num = notify_num + 1
-        where  merchant_order_no = #{orderNo} or platform_order_no = #{orderNo}
-    </update>
-
 </mapper>

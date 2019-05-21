@@ -113,10 +113,10 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
 
             //3,回调成功,收到商家反馈,更新推送次数、推送状态
             if ("SUCCESS".equalsIgnoreCase(notifyResult)) {
-                orderDao.updateOrderNotifyStatus(orderNo, "success");           //已回调: 并收到商家响应
+                merchantNotifyDao.updateOrderNotifyStatus(orderNo, "success");           //已回调: 并收到商家响应
                 return true;
             } else {
-                orderDao.updateOrderNotifyStatus(orderNo, "notifyed");          //已回调: 但未收到商家响应
+                merchantNotifyDao.updateOrderNotifyStatus(orderNo, "notifyed");          //已回调: 但未收到商家响应
                 throw new RemoteAccessException("回调商户失败,开启重试模式。");
             }
 
