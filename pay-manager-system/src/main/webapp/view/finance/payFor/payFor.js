@@ -77,6 +77,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
                     var html = "";
 
+                    html += "<button type='button' class='btn btn-link' onclick='pageScope.showWithdrawDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
+
                     //待审核状态才能审核
                     if (row.checkStatus == 'waitCheck') {
                         html += "<button type='button' class='btn btn-link' onclick='pageScope.review()' >审核</button>";
@@ -249,6 +251,43 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             });
 
         }, "确定设为转账失败？");
+
+    };
+
+
+
+    /**
+     * 查看提现申请详情
+     * @param id
+     */
+    pageScope.showWithdrawDetail = function () {
+
+        $.dialog.show({
+            url: baseURL + "/view/finance/payFor/payFor_detail.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+
+                $("#detailId").val(pageScope.currentrow.id);
+                $("#detailMerchantId").val(pageScope.currentrow.merchantId);
+                $("#detailOrderNo").val(pageScope.currentrow.orderNo);
+                $("#detailWithdrawAmount").val(pageScope.currentrow.withdrawAmount);
+                $("#detailActualAmount").val(pageScope.currentrow.actualAmount);
+                $("#detailRealName").val(pageScope.currentrow.realName);
+                $("#detailBankName").val(pageScope.currentrow.bankName);
+                $("#detailBankCard").val(pageScope.currentrow.bankCard);
+                $("#detailProvinceName").val(pageScope.currentrow.provinceName);
+                $("#detailCityName").val(pageScope.currentrow.cityName);
+                $("#detailCheckStatus").val(pageScope.currentrow.checkStatusDictDesc);
+                $("#detailRemark").val(pageScope.currentrow.remark);
+                $("#detailWithdrawStatus").val(pageScope.currentrow.withdrawStatusDictDesc);
+                $("#detailBillNo").val(pageScope.currentrow.billNo);
+                $("#detailNotifyResponse").val(pageScope.currentrow.notifyResponse);
+                $("#detailRate").val(pageScope.currentrow.rate);
+                $("#detailHandlingFee").val(pageScope.currentrow.handlingFee);
+                $("#detailCreateTime").val(pageScope.currentrow.createTime);
+                $("#checkDesc").html(pageScope.currentrow.checkDesc);
+
+            }
+        });
 
     };
 
