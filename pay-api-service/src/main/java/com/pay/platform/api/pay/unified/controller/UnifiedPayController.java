@@ -37,7 +37,7 @@ public class UnifiedPayController extends BaseController {
             String payWay = reqJson.getString("payWay");
 
             //话冲
-            if (PayChannelEnum.JU_FU_BAO_CHARGE.getCode().equalsIgnoreCase(payWay)) {
+            if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(payWay)) {
                 request.getRequestDispatcher("api/createOrderByCharge").forward(request, response);
             }
             //拉卡拉固码

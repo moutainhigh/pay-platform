@@ -6,7 +6,8 @@ package com.pay.platform.common.enums;
  */
 public enum  PayChannelEnum {
 
-    JU_FU_BAO_CHARGE("聚福宝话冲"),
+    hcZfb("话冲支付宝"),
+    hcWechat("话冲微信"),
     lklZfbFixed("lkl支付宝"),
     lklWeChatFixed("lkl微信");
 

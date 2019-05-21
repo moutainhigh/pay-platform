@@ -28,7 +28,7 @@ public class PayChargeServiceImpl implements PayChargeService {
             , String payWay, String notifyUrl, String clientIp, String baseUrl) throws Exception {
 
         //1,计算商家手续费
-        Map<String, Object> payChannelInfo = orderDao.queryPayChannelByCode(PayChannelEnum.JU_FU_BAO_CHARGE.getCode());
+        Map<String, Object> payChannelInfo = orderDao.queryPayChannelByCode(payWay);
         String payChannelId = payChannelInfo.get("id").toString();
         Map<String, Object> merchantInfo = orderDao.queryMerchantRateByMerchantNo(merchantNo, payChannelId);
         String merchantId = merchantInfo.get("id").toString();
@@ -76,7 +76,16 @@ public class PayChargeServiceImpl implements PayChargeService {
         //6,调用第四方话冲接口
         if (count > 0) {
             String platformNotifyUrl = baseUrl + "/openApi/payNotifyOfCharge";
-            String result = PayUtil.charge(platformOrderNo, orderAmount, payWay, platformNotifyUrl, clientIp);
+
+            //将支付方式转换成第三方接口所需的
+            String payType = null;
+            if (PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(payWay)) {
+                payType = "1";
+            } else if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(payWay)) {
+                payType = "2";
+            }
+
+            String result = PayUtil.charge(platformOrderNo, orderAmount, payType, platformNotifyUrl, clientIp);
             JSONObject resultJson = new JSONObject(result);
             if (200 != resultJson.getInt("resultCode")) {
                 throw new Exception(resultJson.getString("message"));
