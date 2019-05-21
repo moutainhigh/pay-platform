@@ -1,5 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="row">
     <div class="col-md-12">
@@ -48,7 +48,14 @@
                 <!-- 操作按钮 -->
                 <div class="operation-button columns columns-left bars pull-left">
 
-                    <a class="btn btn-primary" href="${baseURL}/resources/excel/拉卡拉-支付宝固码-批量导入模板.xls">下载导入模板</a>
+                    <%-- 导入模板 --%>
+                    <c:if test="${param.channelCode == 'lklZfbFixed'}">
+                        <a class="btn btn-primary" href="${baseURL}/resources/excel/拉卡拉-支付宝固码-批量导入模板.xls">下载导入模板</a>
+                    </c:if>
+
+                    <c:if test="${param.channelCode == 'lklWeChatFixed'}">
+                        <a class="btn btn-primary" href="${baseURL}/resources/excel/拉卡拉-微信固码-批量导入模板.xls">下载导入模板</a>
+                    </c:if>
 
                     <button id="import" class="btn btn-success" onclick="pageScope.batchImportExcel();">
                         <i class="glyphicon glyphicon-plus"></i> 批量导入

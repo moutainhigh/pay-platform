@@ -76,7 +76,7 @@ To change this template use File | Settings | File Templates.
         });
 
         /**
-         * 表格初始化-显示上传后的内容
+         * 显示上传excel后的表格内容
          * @type {*}
          */
         pageScope.importTradeCodeTable = $('#importTradeCodeTable').initBootstrapTable({
