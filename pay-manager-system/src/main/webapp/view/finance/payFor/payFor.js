@@ -67,7 +67,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 align: 'center',
                 sortable: true,
                 formatter: function (value, row, index) {
-                    return row.withdrawStatusDictDesc;
+                    if (row.withdrawStatus == "withdrawSuccess") {
+                        return "转账成功";
+                    } else if (row.withdrawStatus == "withdrawFail") {
+                        return "转账失败";
+                    } else {
+                        return "代付处理中";
+                    }
                 }
             },
             {
@@ -135,7 +141,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailCityName").val(pageScope.currentrow.cityName);
                 $("#detailCheckStatus").val(pageScope.currentrow.checkStatusDictDesc);
                 $("#detailRemark").val(pageScope.currentrow.remark);
-                $("#detailWithdrawStatus").val(pageScope.currentrow.withdrawStatusDictDesc);
+                if (pageScope.currentrow.withdrawStatus == "withdrawSuccess") {
+                    $("#detailWithdrawStatus").val("转账成功");
+                } else if (pageScope.currentrow.withdrawStatus == "withdrawFail") {
+                    $("#detailWithdrawStatus").val("转账失败");
+                } else {
+                    $("#detailWithdrawStatus").val("代付处理中");
+                }
                 $("#detailBillNo").val(pageScope.currentrow.billNo);
                 $("#detailNotifyResponse").val(pageScope.currentrow.notifyResponse);
                 $("#detailRate").val(pageScope.currentrow.rate);
@@ -255,7 +267,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
     };
 
 
-
     /**
      * 查看提现申请详情
      * @param id
@@ -278,7 +289,15 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailCityName").val(pageScope.currentrow.cityName);
                 $("#detailCheckStatus").val(pageScope.currentrow.checkStatusDictDesc);
                 $("#detailRemark").val(pageScope.currentrow.remark);
-                $("#detailWithdrawStatus").val(pageScope.currentrow.withdrawStatusDictDesc);
+
+                if (pageScope.currentrow.withdrawStatus == "withdrawSuccess") {
+                    $("#detailWithdrawStatus").val("转账成功");
+                } else if (pageScope.currentrow.withdrawStatus == "withdrawFail") {
+                    $("#detailWithdrawStatus").val("转账失败");
+                } else {
+                    $("#detailWithdrawStatus").val("代付处理中");
+                }
+
                 $("#detailBillNo").val(pageScope.currentrow.billNo);
                 $("#detailNotifyResponse").val(pageScope.currentrow.notifyResponse);
                 $("#detailRate").val(pageScope.currentrow.rate);
