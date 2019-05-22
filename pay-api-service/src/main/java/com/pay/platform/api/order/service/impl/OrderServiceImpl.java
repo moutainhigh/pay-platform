@@ -5,9 +5,14 @@ import com.pay.platform.api.order.dao.AccountAmountDao;
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
+import com.pay.platform.api.pay.charge.util.PayUtil;
 import com.pay.platform.common.enums.AccountAmountType;
+import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.plugins.redis.RedisLock;
+import com.pay.platform.common.util.DecimalCalculateUtil;
+import com.pay.platform.common.util.OrderNoUtil;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * User:
@@ -50,10 +56,63 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.queryOrderByOrderNo(orderNo);
     }
 
+    /**
+     * 查询需要推送支付回调给商家的订单
+     *
+     * @return
+     */
     @Override
     public List<OrderModel> queryWaitPushMerchantOrder() {
         return orderDao.queryWaitPushMerchantOrder();
     }
+
+    /**
+     * 费率计算
+     * @param orderModel
+     * @throws Exception
+     */
+    @Override
+    public void rateHandle(OrderModel orderModel) throws Exception {
+
+        //1,计算商家手续费
+        Map<String, Object> payChannelInfo = orderDao.queryPayChannelByCode(orderModel.getPayWay());
+        String payChannelId = payChannelInfo.get("id").toString();
+        Map<String, Object> merchantInfo = orderDao.queryMerchantRateByMerchantNo(orderModel.getMerchantNo(), payChannelId);
+        String merchantId = merchantInfo.get("id").toString();
+        double merchantRate = Double.parseDouble(merchantInfo.get("merchantRate").toString());             //商家费率
+        double handlingFee = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), merchantRate);          //商家手续费 = 订单金额 * 商家费率
+        double actualAmount = DecimalCalculateUtil.sub(orderModel.getOrderAmount(), handlingFee);          //商家实收款 = 订单金额 - 商家手续费
+
+        //2,计算代理费率及其收入
+        Map<String, Object> agentInfo = orderDao.queryAgentRateByMerchantNo(orderModel.getMerchantNo(), payChannelId);
+        String agentId = agentInfo.get("id").toString();
+        double agentRate = Double.parseDouble(agentInfo.get("agentRate").toString());                    //代理费率
+        double agentProfitRate = DecimalCalculateUtil.sub(merchantRate, agentRate);                      //代理利润费率（例如代理为1.6,下级商家为2.0,则利润空间为0.4）
+        double agentAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), agentProfitRate);     //代理收入 = 订单金额 * 代理利润空间
+
+        //3,计算平台收入
+        double costRate = Double.parseDouble(payChannelInfo.get("cost_rate").toString());       //通道成本费率
+        double platformProfitRate = DecimalCalculateUtil.sub(agentRate, costRate);              //平台利润费率（例如成本为1.3，放给代理为1.6，则利润空间为0.3）
+        double platformAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), platformProfitRate);     //平台收入
+
+        //4,计算码商或上游通道收入
+        double channelAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), costRate);     //订单金额 * 成本费率
+
+        //5、将参数设置到订单实体
+        orderModel.setChannelId(payChannelId);
+        orderModel.setMerchantId(merchantId);
+        orderModel.setMerchantRate(merchantRate);
+        orderModel.setHandlingFee(handlingFee);
+        orderModel.setActualAmount(actualAmount);
+        orderModel.setAgentId(agentId);
+        orderModel.setAgentRate(agentRate);
+        orderModel.setAgentAmount(agentAmount);
+        orderModel.setCostRate(costRate);
+        orderModel.setPlatformAmount(platformAmount);
+        orderModel.setChannelAmount(channelAmount);
+
+    }
+
 
     /**
      * 支付成功后 - 业务处理
