@@ -23,6 +23,13 @@ public interface OrderDao {
     OrderModel queryOrderByOrderNo(String orderNo);
 
     /**
+     * 查询待推送商家的订单
+     *
+     * @return
+     */
+    List<OrderModel> queryWaitPushMerchantOrder();
+
+    /**
      * 查询支付通道信息
      *
      * @param code

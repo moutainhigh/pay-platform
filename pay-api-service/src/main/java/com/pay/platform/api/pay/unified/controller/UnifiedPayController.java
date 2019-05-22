@@ -7,6 +7,8 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,9 +27,7 @@ public class UnifiedPayController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/api/unifiedCreateOrder", method = RequestMethod.POST)
-    public void unifiedCreateOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        JSONObject json = new JSONObject();
+    public ModelAndView unifiedCreateOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
 
@@ -38,20 +38,24 @@ public class UnifiedPayController extends BaseController {
 
             //话冲
             if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(payWay)) {
-                request.getRequestDispatcher("api/createOrderByCharge").forward(request, response);
+                return new ModelAndView("forward:/api/createOrderByCharge");
             }
             //拉卡拉固码
             else if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lklWeChatFixed.getCode().equalsIgnoreCase(payWay)) {
-                request.getRequestDispatcher("api/createOrderByLklFixed").forward(request, response);
+                return new ModelAndView("forward:/api/createOrderByLklFixed");
             }
+
+            ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+            modelAndView.addObject("status", "0");
+            modelAndView.addObject("msg", "无效的支付方式！");
+            return modelAndView;
 
         } catch (Exception e) {
             e.printStackTrace();
-            json.put("status", "0");
-            json.put("msg", "服务器内部错误：" + e.getMessage());
-            writeJson(response, json.toString());
-        } finally {
-            getCurrentLogger().info("响应报文：{}", json.toString());
+            ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+            modelAndView.addObject("status", "0");
+            modelAndView.addObject("msg", "服务器内部错误：" + e.getMessage());
+            return modelAndView;
         }
 
     }

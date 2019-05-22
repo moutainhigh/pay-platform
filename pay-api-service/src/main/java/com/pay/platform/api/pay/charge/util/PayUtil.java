@@ -18,7 +18,11 @@ public class PayUtil {
 
     public static final String MERCHANT_ID = "155153962946401";                        //商家号
     public static final String AES_SECRET = "9b2692335f958a94";                        //密钥
-    public static final String CHARGE_BASE_URL = "http://www.muLanqing.com.cn:8080";          //服务器地址
+
+    public static final String CHARGE_BASE_URL = "http://www.muzLain2cgg3.com.cn:8080";          //服务器地址
+//    public static final String CHARGE_BASE_URL = "http://petp.se98q.cn:8080";          //服务器地址（最新可用）
+
+
 
     /**
      * 充值接口

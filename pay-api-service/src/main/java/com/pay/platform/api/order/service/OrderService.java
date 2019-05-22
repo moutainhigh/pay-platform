@@ -20,6 +20,12 @@ public interface OrderService {
     OrderModel queryOrderByOrderNo(String orderNo);
 
     /**
+     * 查询待推送商家的订单
+     * @return
+     */
+    List<OrderModel> queryWaitPushMerchantOrder();
+
+    /**
      * 支付成功回调 - 业务处理
      * @param platformOrderNo
      * @param payNo

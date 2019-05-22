@@ -50,6 +50,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.queryOrderByOrderNo(orderNo);
     }
 
+    @Override
+    public List<OrderModel> queryWaitPushMerchantOrder() {
+        return orderDao.queryWaitPushMerchantOrder();
+    }
+
     /**
      * 支付成功后 - 业务处理
      * <p>
