@@ -7,6 +7,7 @@ import com.pay.platform.api.merchant.service.MerchantService;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lakala.service.LakalaPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
+import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.IpUtil;
 import com.pay.platform.common.util.StringUtil;
 import org.apache.commons.io.IOUtils;
@@ -74,6 +75,14 @@ public class LakalaPayController extends BaseController {
             if(merchantChannelInfo == null || 0 == Integer.parseInt(merchantChannelInfo.get("enabled").toString())){
                 json.put("status", "0");
                 json.put("msg", "通道已关闭!");
+                writeJson(response, json.toString());
+                return;
+            }
+
+            //判断订单金额是否为数字
+            if(!DecimalCalculateUtil.isNumeric(orderAmount) || orderAmount.contains(".")){
+                json.put("status", "0");
+                json.put("msg", "订单金额不可包含小数！");
                 writeJson(response, json.toString());
                 return;
             }

@@ -64,6 +64,16 @@ public class OrderModel extends BaseModel {
 
     private String returnUrl;           //支付成功后-页面返回地址
 
+    private String payFloatAmount;      //实际支付金额：向下浮动（固码通道没办法传递单号,只能根据此进行回调判断,避免出现金额重复）
+
+    public String getPayFloatAmount() {
+        return payFloatAmount;
+    }
+
+    public void setPayFloatAmount(String payFloatAmount) {
+        this.payFloatAmount = payFloatAmount;
+    }
+
     public String getReturnUrl() {
         return returnUrl;
     }

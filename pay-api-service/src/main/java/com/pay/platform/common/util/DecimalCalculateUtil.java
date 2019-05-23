@@ -1,6 +1,8 @@
 package com.pay.platform.common.util;
 
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User:
@@ -87,7 +89,7 @@ public class DecimalCalculateUtil {
     /**
      * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到Sacle小数后, 不进行四舍五入。
      * 当除不尽时 , 永远不会增加计算值的大小
-     *
+     * <p>
      * 例如退款手续费时 , 例如0.3333,则最多只退0.33 , 舍弃小数部位 , 平台利益最大化
      *
      * @param v1 被除数
@@ -187,6 +189,18 @@ public class DecimalCalculateUtil {
         BigDecimal b1 = new BigDecimal(v1);
         BigDecimal b2 = new BigDecimal(v2);
         return b1.compareTo(b2);
+    }
+
+    /**
+     * 利用正则表达式判断字符串是否是数字
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        return isNum.matches();
     }
 
 }

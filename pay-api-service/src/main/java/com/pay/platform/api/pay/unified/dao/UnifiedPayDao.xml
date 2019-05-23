@@ -66,4 +66,11 @@
         ) and tmtc.id = #{tradeCodeId}  and tmtc.enabled = 1
     </select>
 
+    <!-- 查询当天：同一个码,同一个整数金额,最后一笔的浮动金额 -->
+    <select id="queryTradeCodeLastPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
+        select ifnull(min(pay_float_amount)  , 0) as lastAmount
+        from tb_order
+        where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and TO_DAYS(create_time) = TO_DAYS(now())
+    </select>
+
 </mapper>

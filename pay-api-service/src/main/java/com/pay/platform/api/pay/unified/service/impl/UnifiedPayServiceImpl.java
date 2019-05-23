@@ -42,7 +42,8 @@ public class UnifiedPayServiceImpl implements UnifiedPayService {
             return null;
         }
 
-        //2、去除已达到单日收款限制的号；并根据单日重复金额笔数、单日收款笔数、单日收款金额进行排序
+        //2、去除已达到单日收款限制的号；
+        //3、并根据单日重复金额笔数、单日收款笔数、单日收款金额进行排序；返回最少使用的那个
         String[] tradeCodeIds = new String[tradeCodeList.size()];
         for (int i = 0; i < tradeCodeList.size(); i++) {
             tradeCodeIds[i] = tradeCodeList.get(i).get("id").toString();

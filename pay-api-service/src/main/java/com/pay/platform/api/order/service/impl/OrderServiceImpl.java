@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
      * @throws Exception
      */
     @Override
-    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime, String channelActuatAmount) throws Exception {
+    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime, String payFloatAmount) throws Exception {
 
         int count = 0;
 
@@ -143,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
 
                 if (!(PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus()))) {
                     //1、修改支付状态、支付单号
-                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime, channelActuatAmount);
+                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime, payFloatAmount);
 
                     //2、增加代理的账户余额,并记录流水
                     String agentId = orderModel.getAgentId();
