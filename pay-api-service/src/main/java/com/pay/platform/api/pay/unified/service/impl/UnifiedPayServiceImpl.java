@@ -52,4 +52,9 @@ public class UnifiedPayServiceImpl implements UnifiedPayService {
         return unifiedPayDao.queryAvaiabledTradeCodeByIds(tradeCodeIds , orderAmount);
     }
 
+    @Override
+    public Map<String, Object> queryPayPageData(String tradeId) {
+        return unifiedPayDao.queryPayPageData(tradeId);
+    }
+
 }

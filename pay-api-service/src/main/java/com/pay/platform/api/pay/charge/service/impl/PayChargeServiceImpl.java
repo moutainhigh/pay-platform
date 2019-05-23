@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * User:
@@ -40,6 +41,7 @@ public class PayChargeServiceImpl implements PayChargeService {
         orderModel.setOrderAmount(Double.parseDouble(orderAmount));
         orderModel.setNotifyUrl(notifyUrl);
         orderModel.setPayWay(payWay);
+        orderModel.setId(UUID.randomUUID().toString());
         orderService.rateHandle(orderModel);
 
         //2、创建订单

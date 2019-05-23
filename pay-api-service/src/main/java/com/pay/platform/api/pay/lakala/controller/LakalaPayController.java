@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * User: zjt
  * DateTime: 2019/5/22 16:01
- *
+ * <p>
  * 拉卡拉支付接口
  */
 @Controller
@@ -71,8 +72,8 @@ public class LakalaPayController extends BaseController {
             String clientIp = reqJson.has("clientIp") ? reqJson.getString("clientIp") : "";
 
             //校验通道是否开启
-            Map<String,Object> merchantChannelInfo = unifiedPayService.queryChannelEnabledStatus(merchantNo , payWay);
-            if(merchantChannelInfo == null || 0 == Integer.parseInt(merchantChannelInfo.get("enabled").toString())){
+            Map<String, Object> merchantChannelInfo = unifiedPayService.queryChannelEnabledStatus(merchantNo, payWay);
+            if (merchantChannelInfo == null || 0 == Integer.parseInt(merchantChannelInfo.get("enabled").toString())) {
                 json.put("status", "0");
                 json.put("msg", "通道已关闭!");
                 writeJson(response, json.toString());
@@ -80,7 +81,7 @@ public class LakalaPayController extends BaseController {
             }
 
             //判断订单金额是否为数字
-            if(!DecimalCalculateUtil.isNumeric(orderAmount) || orderAmount.contains(".")){
+            if (!DecimalCalculateUtil.isNumeric(orderAmount) || orderAmount.contains(".")) {
                 json.put("status", "0");
                 json.put("msg", "订单金额不可包含小数！");
                 writeJson(response, json.toString());
@@ -92,8 +93,8 @@ public class LakalaPayController extends BaseController {
             Map<String, Object> payChannelInfo = orderService.queryPayChannelByCode(payWay);
             String merchantId = merchantModel.getId();
             String payChannelId = payChannelInfo.get("id").toString();
-            Map<String,Object> tradeCode = unifiedPayService.queryAvaiabledTradeCode(merchantId , payChannelId , orderAmount);
-            if(tradeCode == null){
+            Map<String, Object> tradeCode = unifiedPayService.queryAvaiabledTradeCode(merchantId, payChannelId, orderAmount);
+            if (tradeCode == null) {
                 json.put("status", "0");
                 json.put("msg", "暂无可用收款通道,请联系客服！");
                 writeJson(response, json.toString());
@@ -103,7 +104,7 @@ public class LakalaPayController extends BaseController {
             //校验最小金额、最大金额
             double minAmount = Double.parseDouble(tradeCode.get("min_amount").toString());
             double maxAmount = Double.parseDouble(tradeCode.get("max_amount").toString());
-            if(Double.parseDouble(orderAmount) < minAmount || Double.parseDouble(orderAmount) > maxAmount){
+            if (Double.parseDouble(orderAmount) < minAmount || Double.parseDouble(orderAmount) > maxAmount) {
                 json.put("status", "0");
                 json.put("msg", "无效的订单金额,请联系客服！");
                 writeJson(response, json.toString());
@@ -112,8 +113,8 @@ public class LakalaPayController extends BaseController {
 
             //完成创建订单
             String tradeCodeId = tradeCode.get("id").toString();
-            String platformOrderNo = lakalaPayService.createOrderByLklFixed(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl , tradeCodeId);
-            if (StringUtil.isEmpty(platformOrderNo)) {
+            String id = lakalaPayService.createOrderByLklFixed(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId);
+            if (StringUtil.isEmpty(id)) {
                 json.put("status", "0");
                 json.put("msg", "下单失败,当前支付人数过多,请稍后再试！");
                 writeJson(response, json.toString());
@@ -122,7 +123,7 @@ public class LakalaPayController extends BaseController {
 
             json.put("status", "1");
             json.put("msg", "下单成功");
-//                json.put("data", resultJson.getString("data"));       //此处返回支付链接; 后台接口转发到H5页面
+            json.put("data", IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + id);
             writeJson(response, json.toString());
 
         } catch (Exception e) {

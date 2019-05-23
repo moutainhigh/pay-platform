@@ -55,4 +55,11 @@ public interface UnifiedPayDao {
      */
     double queryTradeCodeLastPayFloatAmount(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
 
+    /**
+     * 查询支付页面所需数据
+     * @param tradeId
+     * @return
+     */
+    Map<String,Object> queryPayPageData(@Param("tradeId") String tradeId);
+
 }

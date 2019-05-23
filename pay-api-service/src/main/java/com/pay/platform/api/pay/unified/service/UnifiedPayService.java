@@ -18,4 +18,11 @@ public interface UnifiedPayService {
      */
     Map<String,Object> queryAvaiabledTradeCode(String merchantId, String payChannelId , String orderAmount);
 
+    /**
+     * 查询支付页面所需数据
+     * @param tradeId
+     * @return
+     */
+    Map<String,Object> queryPayPageData(String tradeId);
+
 }

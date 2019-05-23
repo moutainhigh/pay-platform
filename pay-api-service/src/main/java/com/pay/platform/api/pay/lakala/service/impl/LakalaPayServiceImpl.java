@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * User: zjt
@@ -50,6 +51,7 @@ public class LakalaPayServiceImpl implements LakalaPayService {
         orderModel.setNotifyUrl(notifyUrl);
         orderModel.setReturnUrl(returnUrl);
         orderModel.setPayWay(payWay);
+        orderModel.setId(UUID.randomUUID().toString());
         orderService.rateHandle(orderModel);
 
         RedisLock lock = null;
@@ -89,7 +91,7 @@ public class LakalaPayServiceImpl implements LakalaPayService {
                 //3、创建订单
                 int count = orderDao.createOrder(orderModel);
                 if (count > 0) {
-                    return platformOrderNo;
+                    return orderModel.getId();
                 } else {
                     return null;
                 }
