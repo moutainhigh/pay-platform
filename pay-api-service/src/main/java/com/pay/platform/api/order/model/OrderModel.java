@@ -59,6 +59,34 @@ public class OrderModel extends BaseModel {
 
     private String createTime;                //创建时间
 
+    private String tradeCodeId;         //使用的交易码Id
+    private String tradeCodeNum;        //使用的交易码编号
+
+    private String returnUrl;           //支付成功后-页面返回地址
+
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
+    }
+
+    public String getTradeCodeNum() {
+        return tradeCodeNum;
+    }
+
+    public void setTradeCodeNum(String tradeCodeNum) {
+        this.tradeCodeNum = tradeCodeNum;
+    }
+
+    public String getTradeCodeId() {
+        return tradeCodeId;
+    }
+
+    public void setTradeCodeId(String tradeCodeId) {
+        this.tradeCodeId = tradeCodeId;
+    }
 
     public String getId() {
         return this.id;

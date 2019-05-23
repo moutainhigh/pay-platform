@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.api.pay.unified.dao.UnifiedPayDao">
+
+    <select id="queryChannelEnabledStatus" parameterType="java.lang.String" resultType="java.util.Map">
+        select tmr.* from tb_merchant_rate tmr
+        inner join tb_merchant tm on tm.id = tmr.merchant_id
+        inner join tb_pay_channel tpc on tpc.id = tmr.channel_id
+        where tm.merchant_no = #{merchantNo} and tpc.channel_code = #{payWay};
+    </select>
+
+    <!-- 1、查询5分钟内,未被使用过的码; -->
+    <select id="queryTradeCodeBy5MinuteNotUse" parameterType="java.lang.String" resultType="java.util.Map">
+        select tmtc.*
+        from tb_merchant_trade_code tmtc
+        where tmtc.id not in (
+            select distinct tor.trade_code_id from tb_order tor
+            where tor.merchant_id = #{merchantId} and tor.channel_id = #{payChannelId} and tor.pay_status = 'waitPay' and create_time BETWEEN date_add(now(), interval - 5 minute) and now()
+        )
+        and tmtc.merchant_id = #{merchantId} and tmtc.channel_id = #{payChannelId} and tmtc.enabled = 1
+    </select>
+
+    <!-- 查询列表中,可用的一个码
+         1、去除已达到单日收款限制的号；
+         2、并根据30分钟内重复金额笔数、单日收款笔数、单日收款金额进行排序；返回最少使用的一个 -->
+    <select id="queryAvaiabledTradeCodeByIds" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from (
+
+        select tmtc.* ,
+
+        ( select IFNULL(count(1) ,0)
+        from tb_order tor1
+        where tor1.trade_code_id = tmtc.id and ( create_time BETWEEN date_add(now(), interval - 30 minute) and now() )
+        and FORMAT(tor1.order_amount,2) = FORMAT(${orderAmount},2) and tor1.pay_status = 'waitPay'
+        ) as repeatAmountNum,
+
+        ( select IFNULL(count(1) ,0)
+        from tb_order tor1
+        where tor1.trade_code_id = tmtc.id and TO_DAYS(tor1.create_time) = TO_DAYS(now())
+        ) as dayReceiveNum ,
+
+        ( select IFNULL(sum(tor1.order_amount) ,0)
+        from tb_order tor1
+        where tor1.pay_status = 'payed' and tor1.trade_code_id = tmtc.id and TO_DAYS(tor1.create_time) = TO_DAYS(now())
+        ) as dayReceiveAmount
+
+        from tb_merchant_trade_code tmtc
+        where tmtc.id in
+        <foreach collection="tradeCodeIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+        ) tab
+        where (dayReceiveAmount + ${orderAmount}) &lt;= tab.day_amount_limit
+        order by dayReceiveNum asc , repeatAmountNum asc , dayReceiveAmount asc
+        limit 0 , 1
+    </select>
+
+    <!-- 查询指定号在5分钟内是否下过单; 已经存在则返回null; 未被使用则返回该码 -->
+    <select id="queryTradeCode5MinuteNotUseById" parameterType="java.lang.String" resultType="java.util.Map">
+        select tmtc.* from tb_merchant_trade_code tmtc
+        where tmtc.id not in (
+            select distinct tor.trade_code_id from tb_order tor
+            where tor.trade_code_id = #{tradeCodeId} and tor.pay_status = 'waitPay' and create_time BETWEEN date_add(now(), interval - 5 minute) and now()
+        ) and tmtc.id = #{tradeCodeId}  and tmtc.enabled = 1
+    </select>
+
+</mapper>

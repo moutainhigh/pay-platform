@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
 
         try {
 
-            lock = new RedisLock(redisTemplate, "patSuccessNotifyLock::" + platformOrderNo);
+            lock = new RedisLock(redisTemplate, "paySuccessNotifyLock::" + platformOrderNo);
 
             //加上分布式锁,避免重复回调执行
             if (lock.lock()) {
@@ -173,6 +173,11 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("订单:" + platformOrderNo + "支付回调业务处理失败,回滚事务!");
         }
 
+    }
+
+    @Override
+    public Map<String, Object> queryPayChannelByCode(String payWay) {
+        return orderDao.queryPayChannelByCode(payWay);
     }
 
 }

@@ -45,4 +45,11 @@ public interface OrderService {
      */
     boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime, String channelActuatAmount) throws Exception;
 
+    /**
+     * 根据支付方式查询通道信息
+     * @param payWay
+     * @return
+     */
+    Map<String,Object> queryPayChannelByCode(String payWay);
+
 }
