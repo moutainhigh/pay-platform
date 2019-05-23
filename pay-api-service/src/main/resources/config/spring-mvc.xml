@@ -33,14 +33,26 @@
 
     <!-- 实现静态资源访问, 避免被spring mvc直接/, 过滤-->
     <mvc:resources location="/resources/" mapping="/resources/**" />
-    <mvc:resources location="/static/" mapping="/static/**" />
+    <mvc:resources location="/view/" mapping="/view/**" />
 
     <!-- 支持jstl、配置前缀、后缀  return hello; 则解析后视图为/view/hello.jsp -->
+    <!-- 以为pay*开头的页面,转发到WEB-INF/下面,禁止被外界直接访问 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="prefix" value="/WEB-INF/"/>
         <property name="suffix" value=".jsp"/>
+        <property name="viewNames" value="pay*" />
+        <property name="order" value="1" />
     </bean>
+
+    <!-- 支持jstl、配置前缀、后缀  return hello; 则解析后视图为/view/hello.jsp -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"  >
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/view/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="2" />
+    </bean>
+
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
 

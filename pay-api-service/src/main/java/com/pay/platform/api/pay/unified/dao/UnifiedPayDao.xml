@@ -76,7 +76,7 @@
     <select id="queryPayPageData" parameterType="java.lang.String" resultType="java.util.Map">
         select tor.id , tor.merchant_order_no merchantOrderNo , tor.platform_order_no platformOrderNo , tor.pay_way payWay
         , tor.order_amount orderAmount , tor.pay_float_amount payFloatAmount , tor.return_url returnUrl , tor.create_time createTime
-        , tmtc.real_name realName , tmtc.code_link codeLink
+        , tmtc.real_name realName , tmtc.code_link codeLink , tor.pay_status payStatus
         from tb_order tor
         inner join tb_merchant_trade_code tmtc on tmtc.id = tor.trade_code_id
         where tor.id = #{tradeId};

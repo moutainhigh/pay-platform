@@ -20,16 +20,22 @@
     <bean id="apiSecurityFilter" class="com.pay.platform.security.ApiSecurityFilter"/>
 
     <!-- 开放接口,不进行安全过滤,例如各类回调接口 -->
-    <security:http pattern="/openApi/**" create-session="never" auto-config="true" once-per-request="true" >
-        <security:csrf disabled="true" />
-        <security:custom-filter ref="springUtf8Encoding" position="FIRST" />
+    <security:http pattern="/openApi/**" create-session="never" auto-config="true" once-per-request="true">
+        <security:csrf disabled="true"/>
+        <security:custom-filter ref="springUtf8Encoding" position="FIRST"/>
+    </security:http>
+
+    <!-- view下面页面允许直接访问 -->
+    <security:http pattern="/view/**" create-session="never" auto-config="true" once-per-request="true">
+        <security:csrf disabled="true"/>
+        <security:custom-filter ref="springUtf8Encoding" position="FIRST"/>
     </security:http>
 
     <!-- 拦截剩余所有接口请求,进行安全过滤 -->
-    <security:http pattern="/**" create-session="never" auto-config="true" once-per-request="true" >
-        <security:csrf disabled="true" />
-        <security:custom-filter ref="springUtf8Encoding" position="FIRST" />
-        <security:custom-filter ref="apiSecurityFilter" after="FIRST" />
+    <security:http pattern="/**" create-session="never" auto-config="true" once-per-request="true">
+        <security:csrf disabled="true"/>
+        <security:custom-filter ref="springUtf8Encoding" position="FIRST"/>
+        <security:custom-filter ref="apiSecurityFilter" after="FIRST"/>
     </security:http>
 
     <!-- 配置认证管理器,后台管理系统才有用,接口暂时用 -->

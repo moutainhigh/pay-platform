@@ -3,7 +3,9 @@ package com.pay.platform.api.pay.unified.controller;
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.enums.PayChannelEnum;
+import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.DateUtil;
+import com.pay.platform.common.util.IpUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,8 @@ public class UnifiedPayController extends BaseController {
 
     /**
      * 跳转到h5支付页面
+     * <p>
+     * openApi：开放接口,可通过浏览器直接打开,无需签名
      *
      * @param request
      * @param response
@@ -92,10 +96,18 @@ public class UnifiedPayController extends BaseController {
                 return modelAndView;
             }
 
+            String payStatus = payPageData.get("payStatus").toString();
+            if(PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)){
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("msg", "订单已支付成功！");
+                modelAndView.setViewName("error");
+                return modelAndView;
+            }
+
             String createTime = payPageData.get("createTime").toString();
             long orderTimeStamp = DateUtil.getTimeStamp(createTime);
             long nowTimeStamp = DateUtil.getTimeStamp(new Date());
-            if (Math.abs(nowTimeStamp - orderTimeStamp) > (5 * 60)){      //有效期5分钟,单位秒
+            if (Math.abs(nowTimeStamp - orderTimeStamp) > (5 * 60)) {      //有效期5分钟,单位秒
                 ModelAndView modelAndView = new ModelAndView();
                 modelAndView.addObject("msg", "订单已超时！");
                 modelAndView.setViewName("error");
@@ -106,8 +118,9 @@ public class UnifiedPayController extends BaseController {
             //拉卡拉固码界面
             if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay)) {
                 ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("baseURL" , IpUtil.getBaseURL(request));
                 modelAndView.addObject("payPageData", payPageData);
-                modelAndView.setViewName("lakala/lkl_zfb_fixed");
+                modelAndView.setViewName("pay/lakala/lkl_zfb_fixed");
                 return modelAndView;
             } else {
                 ModelAndView modelAndView = new ModelAndView();
@@ -125,5 +138,63 @@ public class UnifiedPayController extends BaseController {
         }
 
     }
+
+
+    /**
+     * 跳转到h5支付页面
+     * <p>
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/openApi/queryOrderStatus", method = RequestMethod.POST)
+    public void queryOrderStatus(HttpServletRequest request, HttpServletResponse response, String orderId) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        try {
+
+            Map<String,Object> payPageData = unifiedPayService.queryPayPageData(orderId);
+            if(payPageData == null){
+                json.put("status", "0");
+                json.put("msg", "订单不存在！");
+                writeJson(response, json.toString());
+                return;
+            }
+
+            String payStatus = payPageData.get("payStatus").toString();
+            if(PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)){
+                json.put("status", "1");
+                json.put("msg", "支付成功！");
+                writeJson(response, json.toString());
+                return;
+            }
+
+            String createTime = payPageData.get("createTime").toString();
+            long orderTimeStamp = DateUtil.getTimeStamp(createTime);
+            long nowTimeStamp = DateUtil.getTimeStamp(new Date());
+            if (Math.abs(nowTimeStamp - orderTimeStamp) > (5 * 60)) {      //有效期5分钟,单位秒
+                json.put("status", "0");
+                json.put("msg", "订单已超时！");
+                writeJson(response, json.toString());
+            }
+
+            json.put("status", "2");
+            json.put("msg", "支付等待中！");
+            writeJson(response, json.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            json.put("status", "0");
+            json.put("msg", "服务器内部错误：" + e.getMessage());
+            writeJson(response, json.toString());
+        } finally {
+            getCurrentLogger().info("响应报文：{}", json.toString());
+        }
+
+
+    }
+
 
 }
