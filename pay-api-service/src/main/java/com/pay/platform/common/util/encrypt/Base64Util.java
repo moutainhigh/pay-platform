@@ -1,5 +1,7 @@
 package com.pay.platform.common.util.encrypt;
 
+import sun.misc.BASE64Decoder;
+
 /**
  * base64编码/解码工具类
  */
@@ -268,4 +270,20 @@ public final class Base64Util {
 		}
 		return newSize;
 	}
+
+	public static String parseBase64(String s) {
+		byte[] b = null;
+		String result = null;
+		if (s != null) {
+			BASE64Decoder decoder = new BASE64Decoder();
+			try {
+				b = decoder.decodeBuffer(s);
+				result = new String(b, "utf-8");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
+
 }

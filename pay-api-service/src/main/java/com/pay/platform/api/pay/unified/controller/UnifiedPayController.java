@@ -6,6 +6,9 @@ import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.DateUtil;
 import com.pay.platform.common.util.IpUtil;
+import com.pay.platform.common.util.QrcodeUtil;
+import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.encrypt.Base64Util;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 
@@ -114,6 +118,10 @@ public class UnifiedPayController extends BaseController {
                 return modelAndView;
             }
 
+            //计算支付倒计时（单位秒）5分钟支付时效 - 已过去的时间
+            long payCountDownTime = (5 * 60) - (nowTimeStamp - orderTimeStamp);
+            payPageData.put("payCountDownTime" , payCountDownTime);
+
             String payWay = payPageData.get("payWay").toString();
             //拉卡拉固码界面
             if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay)) {
@@ -194,6 +202,21 @@ public class UnifiedPayController extends BaseController {
         }
 
 
+    }
+
+    @RequestMapping({"/openApi/getPayQrcode"})
+    public void getPayQrcode(HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        String url = request.getParameter("payUrl");
+
+        //如果前端传递的是base64; 则进行解码
+        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))){
+            url = Base64Util.parseBase64(url);
+        }
+
+        QrcodeUtil.drawQrcodeImg(url, response);
+        response.setContentType("text/html");
+        response.setCharacterEncoding("utf-8");
     }
 
 
