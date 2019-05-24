@@ -137,4 +137,39 @@ public class LakalaPayController extends BaseController {
 
     }
 
+
+    /**
+     * 拉卡拉固码 - 支付回调
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/app/payNotifyByLklFixed", method = RequestMethod.POST)
+    public void payNotifyByLklFixed(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        try {
+
+            //获取请求提交数据
+            String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            JSONObject reqJson = new JSONObject(text);
+            String orderNo = reqJson.getString("orderNo");
+            String codeNum = reqJson.getString("codeNum");
+            String amount = reqJson.getString("amount");
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            json.put("status", "0");
+            json.put("msg", "服务器内部错误：" + e.getMessage());
+            writeJson(response, json.toString());
+        } finally {
+            getCurrentLogger().info("响应报文：{}", json.toString());
+        }
+
+    }
+
 }

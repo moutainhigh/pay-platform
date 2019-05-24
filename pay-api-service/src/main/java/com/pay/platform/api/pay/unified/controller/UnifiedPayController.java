@@ -149,7 +149,7 @@ public class UnifiedPayController extends BaseController {
 
 
     /**
-     * 跳转到h5支付页面
+     * 查询订单状态
      * <p>
      *
      * @param request
@@ -205,7 +205,7 @@ public class UnifiedPayController extends BaseController {
     }
 
     /**
-     * 获取付款码
+     * 获取付款二维码
      *
      * @param response
      * @param request

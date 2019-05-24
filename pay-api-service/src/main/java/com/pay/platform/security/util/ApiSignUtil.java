@@ -1,4 +1,4 @@
-package com.pay.platform.security;
+package com.pay.platform.security.util;
 
 import com.pay.platform.common.util.encrypt.Md5Util;
 

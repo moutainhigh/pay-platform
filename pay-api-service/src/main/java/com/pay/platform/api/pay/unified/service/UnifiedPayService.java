@@ -25,4 +25,11 @@ public interface UnifiedPayService {
      */
     Map<String,Object> queryPayPageData(String tradeId);
 
+    /**
+     * 根据编号查询交易码
+     * @param codeNum
+     * @return
+     */
+    Map<String,Object> queryTradeCodeByCudeNum(String codeNum);
+
 }

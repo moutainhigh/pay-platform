@@ -1,4 +1,4 @@
-package com.pay.platform.security;
+package com.pay.platform.security.util;
 
 import com.pay.platform.api.merchant.model.MerchantModel;
 import com.pay.platform.api.merchant.service.MerchantService;

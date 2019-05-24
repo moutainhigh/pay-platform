@@ -1,9 +1,11 @@
-package com.pay.platform.security;
+package com.pay.platform.security.filter;
 
-import com.pay.platform.api.merchant.model.MerchantModel;
-import com.pay.platform.api.merchant.service.MerchantService;
+import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.security.ApiSecuirtyRequest;
+import com.pay.platform.security.util.ApiSignUtil;
+import com.pay.platform.security.util.AppSignUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -16,18 +18,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * User:
  * DateTime: 2019/1/6 19:47
  * <p>
- * 接口安全过滤器
+ * app接口安全过滤器
  */
-public class ApiSecurityFilter extends OncePerRequestFilter {
+public class AppSecurityFilter extends OncePerRequestFilter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ApiSecurityFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppSecurityFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -48,10 +49,10 @@ public class ApiSecurityFilter extends OncePerRequestFilter {
                 return;
             }
             JSONObject reqJson = new JSONObject(text);
-            logger.info("请求报文：" + text);
+            logger.info("app请求报文：" + text);
 
             //1,判断是否包含timestamp,sign参数
-            if (!reqJson.has("timestamp") || !reqJson.has("sign") || !reqJson.has("merchantNo") ) {
+            if (!reqJson.has("timestamp") || !reqJson.has("sign") || !reqJson.has("codeNum") ) {
                 respJson.put("code", "0");
                 respJson.put("msg", "参数错误!");
                 writeJson(response, respJson.toString());
@@ -69,23 +70,25 @@ public class ApiSecurityFilter extends OncePerRequestFilter {
             }
 
             //3,对所有请求参数和时间戳进行排序  ->  并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成sign签名
-            String merchantNo = reqJson.getString("merchantNo");
-            String merchantSecret = MerchantSecretCacheUtil.getMerchantSecret(merchantNo);
-            if(StringUtil.isEmpty(merchantSecret)){
+            String codeNum = reqJson.getString("codeNum");
+            UnifiedPayService unifiedPayService = AppContext.getApplicationContext().getBean(UnifiedPayService.class);
+            Map<String,Object> tradeCodeInfo = unifiedPayService.queryTradeCodeByCudeNum(codeNum);
+            if(tradeCodeInfo == null){
                 respJson.put("code", "0");
-                respJson.put("msg", "无效的商户编号!");
+                respJson.put("msg", "无效的商家编号!");
                 writeJson(response, respJson.toString());
                 return;
             }
+            String secret = tradeCodeInfo.get("secret").toString();
 
+            //后台生成签名跟app传递签名进行比较
             Map<String, String> params = new HashMap<String, String>();
             String[] names = JSONObject.getNames(reqJson);
             for (String key : names) {
                 params.put(key, reqJson.getString(key));
             }
-
             String sign = reqJson.getString("sign").trim();
-            String currentSign = ApiSignUtil.buildSignByMd5(params, merchantSecret).trim();
+            String currentSign = AppSignUtil.buildAppSignByMd5(params, secret).trim();
 
             if (!sign.equalsIgnoreCase(currentSign)) {
                 respJson.put("code", "0");

@@ -57,4 +57,9 @@ public class UnifiedPayServiceImpl implements UnifiedPayService {
         return unifiedPayDao.queryPayPageData(tradeId);
     }
 
+    @Override
+    public Map<String, Object> queryTradeCodeByCudeNum(String codeNum) {
+        return unifiedPayDao.queryTradeCodeByCudeNum(codeNum);
+    }
+
 }
