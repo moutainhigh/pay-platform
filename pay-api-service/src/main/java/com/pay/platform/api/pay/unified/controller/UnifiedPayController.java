@@ -204,6 +204,13 @@ public class UnifiedPayController extends BaseController {
 
     }
 
+    /**
+     * 获取付款码
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
     @RequestMapping({"/openApi/getPayQrcode"})
     public void getPayQrcode(HttpServletResponse response, HttpServletRequest request) throws Exception {
 
