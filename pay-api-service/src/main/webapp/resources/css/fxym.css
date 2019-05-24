@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+
+.header{position: absolute;left:5%; top:35px;width:90%; height:auto; border:1px solid #cdcdcd;padding:10px 0px 10px 0px;border-radius:5px;background: #f6f6f6;background-repeat:repeat-x;text-align: center;font-size: 18px;color: #919191;}
+.bt{ position: absolute; width:30%;top:140px;left:2%;}
+.bt p{font-size:16px; color:#434343; text-align:right; padding:10px 10px 10px 0px;}
+
+.tianxie{position: absolute; width:68%; top:130px; left:32%;}
+.tianxie p{font-size:16px; color:#434343; text-align:left; padding:20px 10px 25px 0px;}
+.tianxie input{position: absolute; text-align:left; width:82%;height:28px;background: #f6f6f6; padding-left:8px;font-size:14px;border:1px solid #cdcdcd;border-radius:5px;}
+.tianxie select{position: absolute; text-align:left; width:85%;height:28px;background: #f6f6f6; padding-left:8px;font-size:14px;color:#848383;border:1px solid #cdcdcd;border-radius:5px;}
+.tianxie span{position: absolute; left:88%;color:#ff2121;margin-top: 5px; }
+
+.tianxie i input{position:absolute;text-align:left;width:40.4%;height:28px;background: #f6f6f6; font-size:14px;color:#848383;border:1px solid #cdcdcd;border-radius:5px; margin-right: 10px;}
+
+.tianxie em input{ position:absolute; left:47%;width:36%;background: #f6f6f6;font-size:14px;color:#848383;border:1px solid #cdcdcd;border-radius:5px;text-align: center; padding:5px 0px 6px 0px;}
+.jianju{position:absolute;height:100px; width:100%;}
+.btn {position:fixed;left:5%;bottom:3%;width:90%; height:auto; padding:10px 0px 10px 0px;border-radius:5px;background: #42b036;background-repeat:repeat-x;text-align: center;font-size: 18px;color: #fff;}
+
+.btn1 {position:fixed;left:5%;top: 90%;width:90%; height:auto; padding:10px 0px 10px 0px;border-radius:5px;background: #42b036;background-repeat:repeat-x;text-align: center;font-size: 18px;color: #fff;}
+@media (device-width:320px) and (-webkit-min-device-pixel-ratio:2){/* 兼容iphone4/4s */
+.bt{ position: absolute; width:33.5%;top:140px;left:2%;}
+
+.btn {left:5%;top: 90%;width:90%; height:auto; padding:10px 0px 10px 0px;border-radius:5px;background: #42b036;background-repeat:repeat-x;text-align: center;font-size: 18px;color: #fff;}
+
+@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){/* 兼容iphone5 */
+.bt{ position: absolute; width:33.5%;top:140px;left:2%;}
+.btn {position:fixed;left:5%;top: 90%;width:90%; height:auto; padding:10px 0px 10px 0px;border-radius:5px;background: #42b036;background-repeat:repeat-x;text-align: center;font-size: 18px;color: #fff;}
+ 

@@ -15,7 +15,7 @@
 <body>
 
 <center>
-    <h1 style="margin-top:100px;">${msg}</h1>
+    <h1 style="margin-top:100px;color:red;">${param.msg}${msg}</h1>
 </center>
 
 </body>

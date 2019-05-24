@@ -1,0 +1,52 @@
+
+		@charset "utf-8";
+/* CSS Document */
+
+.wrap{ width: 100%; margin: 0 auto;}
+body{background:#f6f5fa;}
+@media (max-width: 319px){
+    html{
+        font-size: 10px;  
+    }
+}
+@media (max-width:374px) and (min-width:320px){
+    html{
+        font-size: 11px; 
+    }
+}
+@media (max-width:481px) and (min-width:375px){
+    html{
+        font-size: 13px; 
+    }
+}
+@media (max-width:569px) and (min-width:482px){
+    html{
+        font-size: 18px; 
+    }
+}
+@media (max-width:749px) and (min-width:570px){
+    html{
+        font-size:20px; 
+    }
+}
+
+@media (min-width:750px){
+    .wrap{ width:750px;}
+    html {
+        font-size:24px; 
+    }
+}
+.shouru{ background:#f6f5fa; height:6rem;padding:1rem 1.3rem 1rem 1.3rem; border-bottom:1px solid #e8e7ec; }
+
+.shouru ul li:nth-of-type(1){ float:left;font-size:1.8rem; color:#06cb2b;}
+.shouru ul li:nth-of-type(1) p{ font-size:1.6rem; color:#393838;}
+.shouru ul li:nth-of-type(2){ float:right;font-size:1.6rem; color:#9b9b9b;}
+.shouru ul li:nth-of-type(2) p{ text-align:right; font-size:1.6rem;color:#06cb2b;}
+
+.zhichu{ background:#f6f5fa; height:6rem;padding:1rem 1.3rem 1rem 1.3rem; border-bottom:1px solid #e8e7ec; }	
+
+.zhichu ul li:nth-of-type(1){ float:left;font-size:1.8rem; color:#fc5a5a;}
+.zhichu ul li:nth-of-type(1) p{ font-size:1.6rem; color:#393838;}
+.zhichu ul li:nth-of-type(2){ float:right;font-size:1.6rem; color:#9b9b9b;}
+.zhichu ul li:nth-of-type(2) p{ text-align:right; font-size:1.6rem; color:#fc5a5a;}
+.kongbai{ height:6.5rem;}

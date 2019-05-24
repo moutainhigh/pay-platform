@@ -1,0 +1,60 @@
+body{font:14px "Microsoft YaHei","Microsoft JhengHei"; margin:0; padding:0; position:relative;}
+html,body,div,span,h1,h2,h3,h4,p,a,img,ul,li,form,table,tbody,tr,th,td,b,i{border:0; list-style:none; margin:0; padding:0;}
+input,select,textarea{font-size:14px; padding:0; margin:0; border:0; outline:none; outline:none;}
+a,img{border:none;}
+a{text-decoration:none; color:#999; cursor:pointer;}
+img{vertical-align:middle;}
+table{border-collapse:collapse; border-spacing:0;}
+td{word-break:break-all; word-wrap:break-word;}
+h1,h2,h3,h4{font-weight:400;}
+
+/*float*/
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+.clearfix{display:inline-block;}
+.clearfix{display:block;}
+.fl{float:left;}
+.fr{float:right;}
+
+html{width:100%; height:100%;}
+body{width:100%; min-height:100%; position:relative; color:#999;background:url(../images/1.jpg) no-repeat;background-size:100% auto;}
+.body_bg{ background-size:100% 100%;}
+.title{ background-size:154px 17px; height:18px; margin-top:4px;}
+
+.header{height:40px; line-height:40px; background:#0e97e6; position:relative; padding:5px 0;}
+/*.header .logo_box{position:absolute; left:25px; background:url(../images/header_logo.png) no-repeat left center; background-size:30px 30px; padding-left:20px; color:#fff;}*/
+.header h3{text-align:center; color:#fff; font-size:20px; text-indent:20px; line-height:40px;}
+.header .back{ height:20px; width:18px; position:absolute; left:8px; top:14px; background-size:18px 20px;}
+.header .home_box{position:absolute; top:13px; right:60px; height:25px; width:25px;  background-size:25px 25px;}
+.header .home_one{position:absolute; top:10px; right:10px;  height:30px; width:30px; background-size:30px 30px;}
+
+
+/*--äºŒç»´ç --*/
+.caewm{
+    width:100%;
+    text-align:center;
+}
+.caewm .ewm img{
+    background-color:#fff;
+    width:150px;
+    height:150px;
+    padding:10px;
+    margin:10px auto;
+}
+.caewm img{
+
+}
+.caewm p{
+    line-height:35px;
+    height:35px;
+    font-size:16px;
+    color:#fff;
+}
+.caewm .col{
+    color:#fff;
+}
+.caewm  .ca p{
+    color:#fff;
+    font-size:20px;
+    font-weight:bold;
+    padding-top:20px;
+}

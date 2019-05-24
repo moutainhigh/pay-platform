@@ -1,0 +1,19 @@
+*{ padding:0; margin:0;}
+body{ color:$txtcolor; font:12px/1.5 "Microsoft YaHei","宋体",Arial, Helvetica, sans-serif; background: $bgcolor;}
+ul, li{ list-style:none;}
+img{ border:none}
+.clearfix:after{ content:""; height:0; visibility:hidden; display:block; clear:both;}
+.clearfix{ zoom:1;}
+.clear { clear:both }
+
+.left{float: left;} .right{float: right;}
+.t_hide{text-indent: -999em; overflow: hidden;}
+.t_left{text-align: left!important;}
+.t_center{text-align: center;}
+.t_right{text-align: right!important;}
+.ellipsis{overflow: hidden;white-space: nowrap;text-overflow:ellipsis;}
+input,textarea{ font-family: "Microsoft YaHei","宋体",Arial, Helvetica, sans-serif; outline: none;}
+a{ color:#333; text-decoration:none;}
+a:hover{ text-decoration:none; color: $linkcolor;}
+a:hover img{opacity:0.8;filter: Alpha(opacity=80);-ms-filter:"Alpha(opacity=80)";}
+.hide { clip: rect(1px, 1px, 1px, 1px);  height: 0;  opacity: 0;  position: absolute;  visibility: hidden;  width: 0;}
