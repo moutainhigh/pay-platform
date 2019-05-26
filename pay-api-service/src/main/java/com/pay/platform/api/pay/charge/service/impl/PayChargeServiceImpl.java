@@ -61,14 +61,14 @@ public class PayChargeServiceImpl implements PayChargeService {
 
             String result = PayUtil.charge(platformOrderNo, orderAmount, payType, platformNotifyUrl, clientIp);
             JSONObject resultJson = new JSONObject(result);
-            if (200 != resultJson.getInt("resultCode")) {
-                throw new Exception(resultJson.getString("message"));
-            } else {
-                //更新支付链接
+            if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
+                //更新支付链接,返回订单id
                 orderService.updateOrderPayQrCodeLink(orderModel.getId() , resultJson.getString("data"));
+                return orderModel.getId();
+            }else{
+                throw new Exception(resultJson.getString("message"));
             }
 
-            return result;
         }
 
         return null;

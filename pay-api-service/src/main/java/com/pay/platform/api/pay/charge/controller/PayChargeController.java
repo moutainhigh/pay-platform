@@ -67,21 +67,18 @@ public class PayChargeController extends BaseController {
 
             //创建订单
             String baseUrl = IpUtil.getBaseURL(request);
-            String result = payChargeService.createOrderByCharge(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, clientIp, baseUrl);
-            if (StringUtil.isEmpty(result)) {
+            String orderId = payChargeService.createOrderByCharge(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, clientIp, baseUrl);
+            if (StringUtil.isEmpty(orderId)) {
                 json.put("status", "0");
                 json.put("msg", "下单失败");
                 writeJson(response, json.toString());
                 return;
             }
 
-            JSONObject resultJson = new JSONObject(result);
-            if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
-                json.put("status", "1");
-                json.put("msg", "下单成功");
-                json.put("data", resultJson.getString("data"));
-                writeJson(response, json.toString());
-            }
+            json.put("status", "1");
+            json.put("msg", "下单成功");
+            json.put("data", orderId);
+            writeJson(response, json.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
