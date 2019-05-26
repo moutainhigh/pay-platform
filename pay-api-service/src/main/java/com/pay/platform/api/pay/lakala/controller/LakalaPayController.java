@@ -144,6 +144,8 @@ public class LakalaPayController extends BaseController {
     /**
      * 拉卡拉固码 - 支付回调
      *
+     * app回调接口,需经过AppSecurityFilter; 进行签名认证,防止恶意回调
+     *
      * @param request
      * @param response
      * @throws Exception
