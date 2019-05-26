@@ -59,4 +59,8 @@
         and (create_time between date_add(now(), interval - 5 minute) and now())
     </select>
 
+    <update id="updateOrderPayQrCodeLink" parameterType="java.lang.String">
+        update tb_order set pay_qr_code_link = #{qrCodeLink} where id = #{id}
+    </update>
+
 </mapper>

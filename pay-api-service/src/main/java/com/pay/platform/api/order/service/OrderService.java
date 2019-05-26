@@ -61,4 +61,6 @@ public interface OrderService {
      */
     Map<String,Object> queryOrderInfoPyAppNotifyAmount(String codeNum, String amount, String orderNo);
 
+    int updateOrderPayQrCodeLink(String id, String qrCodeLink);
+
 }

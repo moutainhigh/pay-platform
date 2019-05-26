@@ -76,11 +76,20 @@ public interface OrderDao {
 
     /**
      * 根据回调金额查询匹配的订单
+     *
      * @param codeNum
      * @param amount
      * @param orderNo
      * @return
      */
     Map<String, Object> queryOrderInfoPyAppNotifyAmount(@Param("codeNum") String codeNum, @Param("amount") String amount, @Param("orderNo") String orderNo);
+
+    /**
+     * 更新支付链接
+     * @param id
+     * @param qrCodeLink
+     * @return
+     */
+    int updateOrderPayQrCodeLink(@Param("id") String id, @Param("qrCodeLink") String qrCodeLink);
 
 }

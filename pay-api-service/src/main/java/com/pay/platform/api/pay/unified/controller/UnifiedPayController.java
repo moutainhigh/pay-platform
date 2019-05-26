@@ -78,7 +78,8 @@ public class UnifiedPayController extends BaseController {
     }
 
     /**
-     * 跳转到h5支付页面
+     * 根据不同通道,跳转到不同的h5支付页面
+     *
      * <p>
      * openApi：开放接口,可通过浏览器直接打开,无需签名
      *

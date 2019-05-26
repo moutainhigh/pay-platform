@@ -185,4 +185,9 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.queryOrderInfoPyAppNotifyAmount(codeNum , amount , orderNo);
     }
 
+    @Override
+    public int updateOrderPayQrCodeLink(String id, String qrCodeLink) {
+        return orderDao.updateOrderPayQrCodeLink(id , qrCodeLink);
+    }
+
 }

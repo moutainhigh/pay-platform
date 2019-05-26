@@ -63,7 +63,11 @@ public class PayChargeServiceImpl implements PayChargeService {
             JSONObject resultJson = new JSONObject(result);
             if (200 != resultJson.getInt("resultCode")) {
                 throw new Exception(resultJson.getString("message"));
+            } else {
+                //更新支付链接
+                orderService.updateOrderPayQrCodeLink(orderModel.getId() , resultJson.getString("data"));
             }
+
             return result;
         }
 
