@@ -27,7 +27,7 @@ public class AppSignUtil {
      *
      * @return
      */
-    public static String buildAppSignByMd5(Map<String, String> params , String secret) throws Exception {
+    public static String buildAppSign(Map<String, String> params , String secret) throws Exception {
 
         params.remove("sign");           //去除sign参数
 

@@ -52,4 +52,11 @@
         where platform_order_no = #{platformOrderNo}
     </update>
 
+    <!-- 根据设备号、订单浮动金额：匹配5分钟内的订单 -->
+    <select id="queryOrderInfoPyAppNotifyAmount" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from tb_order
+        where trade_code_num = #{codeNum} and format(pay_float_amount , 2) = format(${amount},2)
+        and (create_time between date_add(now(), interval - 5 minute) and now())
+    </select>
+
 </mapper>

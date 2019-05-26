@@ -180,4 +180,9 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.queryPayChannelByCode(payWay);
     }
 
+    @Override
+    public Map<String, Object> queryOrderInfoPyAppNotifyAmount(String codeNum, String amount, String orderNo) {
+        return orderDao.queryOrderInfoPyAppNotifyAmount(codeNum , amount , orderNo);
+    }
+
 }

@@ -88,7 +88,7 @@ public class AppSecurityFilter extends OncePerRequestFilter {
                 params.put(key, reqJson.getString(key));
             }
             String sign = reqJson.getString("sign").trim();
-            String currentSign = AppSignUtil.buildAppSignByMd5(params, secret).trim();
+            String currentSign = AppSignUtil.buildAppSign(params, secret).trim();
 
             if (!sign.equalsIgnoreCase(currentSign)) {
                 respJson.put("code", "0");

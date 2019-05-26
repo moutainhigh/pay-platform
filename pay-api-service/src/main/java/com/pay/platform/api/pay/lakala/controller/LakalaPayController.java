@@ -5,8 +5,11 @@ import com.pay.platform.api.merchant.model.MerchantModel;
 import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.merchant.service.MerchantService;
 import com.pay.platform.api.order.service.OrderService;
+import com.pay.platform.api.pay.charge.util.AESOperator;
+import com.pay.platform.api.pay.charge.util.PayUtil;
 import com.pay.platform.api.pay.lakala.service.LakalaPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
+import com.pay.platform.common.util.DateUtil;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.IpUtil;
 import com.pay.platform.common.util.StringUtil;
@@ -155,11 +158,30 @@ public class LakalaPayController extends BaseController {
             //获取请求提交数据
             String text = IOUtils.toString(request.getInputStream(), "utf-8");
             JSONObject reqJson = new JSONObject(text);
-            String orderNo = reqJson.getString("orderNo");
+            String orderNo = null;      //reqJson.getString("orderNo");     //暂时无法传递单号,只能根据设备、金额、时间匹配订单
             String codeNum = reqJson.getString("codeNum");
             String amount = reqJson.getString("amount");
 
+            //查询数据库5分钟内的一笔订单,是否与app回调匹配
+            Map<String,Object> orderInfo = orderService.queryOrderInfoPyAppNotifyAmount(codeNum , amount , orderNo);
+            if(orderInfo != null){
 
+                String platformOrderNo = orderInfo.get("platform_order_no").toString();
+                String payTime = DateUtil.getCurrentDateTime();
+
+                //支付成功业务处理：更新订单状态，增加代理、商家账户余额等.
+                boolean flag = orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime, null);
+
+                //推送支付回调给商家
+                if (flag) {
+                    merchantNotifyService.pushPaySuccessInfoByRetry(platformOrderNo);
+                }
+
+            }
+
+            json.put("status", "1");
+            json.put("msg", "回调成功！");
+            writeJson(response, json.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
