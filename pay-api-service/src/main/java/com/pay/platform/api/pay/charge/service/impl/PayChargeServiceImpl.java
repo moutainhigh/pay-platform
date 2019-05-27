@@ -63,9 +63,9 @@ public class PayChargeServiceImpl implements PayChargeService {
             JSONObject resultJson = new JSONObject(result);
             if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
                 //更新支付链接,返回订单id
-                orderService.updateOrderPayQrCodeLink(orderModel.getId() , resultJson.getString("data"));
+                orderService.updateOrderPayQrCodeLink(orderModel.getId(), resultJson.getString("data"));
                 return orderModel.getId();
-            }else{
+            } else {
                 throw new Exception(resultJson.getString("message"));
             }
 
