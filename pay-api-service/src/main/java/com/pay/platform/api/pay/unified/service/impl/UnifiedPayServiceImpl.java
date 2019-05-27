@@ -62,4 +62,9 @@ public class UnifiedPayServiceImpl implements UnifiedPayService {
         return unifiedPayDao.queryTradeCodeByCudeNum(codeNum);
     }
 
+    @Override
+    public Map<String, Object> queryFxiedCodeLinkByOrderId(String tradeId) {
+        return unifiedPayDao.queryFxiedCodeLinkByOrderId(tradeId);
+    }
+
 }

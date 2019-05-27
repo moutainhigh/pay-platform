@@ -87,4 +87,10 @@
         where code_num = #{codeNum}
     </select>
 
+    <select id="queryFxiedCodeLinkByOrderId" parameterType="java.lang.String" resultType="java.util.Map">
+        select tmtc.* from tb_order tor
+        inner join tb_merchant_trade_code tmtc on tmtc.id = tor.trade_code_id
+        where tor.id = #{tradeId}
+    </select>
+
 </mapper>

@@ -144,7 +144,6 @@ public class LakalaPayController extends BaseController {
 
     }
 
-
     /**
      * 获取lkl支付链接
      *
@@ -172,10 +171,22 @@ public class LakalaPayController extends BaseController {
                 return;
             }
 
-            json.put("status", "1");
-            json.put("msg", "下单成功");
-            json.put("data",IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId);
-            writeJson(response, json.toString());
+            //TODO 暂时只用固码
+            Map<String, Object> tradeCodeInfo = unifiedPayService.queryFxiedCodeLinkByOrderId(tradeId);
+            String codeLink = tradeCodeInfo.get("code_link").toString();
+
+            //更新支付链接
+            int count = orderService.updateOrderPayQrCodeLink(tradeId, codeLink);
+            if (count > 0) {
+                json.put("status", "1");
+                json.put("msg", "获取支付链接成功");
+                json.put("data", IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId);
+                writeJson(response, json.toString());
+            } else {
+                json.put("status", "0");
+                json.put("msg", "获取支付链接失败");
+                writeJson(response, json.toString());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -190,7 +201,7 @@ public class LakalaPayController extends BaseController {
 
     /**
      * 拉卡拉固码 - 支付回调
-     *
+     * <p>
      * app回调接口,需经过AppSecurityFilter; 进行签名认证,防止恶意回调
      *
      * @param request
@@ -212,8 +223,8 @@ public class LakalaPayController extends BaseController {
             String amount = reqJson.getString("amount");
 
             //查询数据库5分钟内的一笔订单,是否与app回调匹配
-            Map<String,Object> orderInfo = orderService.queryOrderInfoPyAppNotifyAmount(codeNum , amount , orderNo);
-            if(orderInfo != null){
+            Map<String, Object> orderInfo = orderService.queryOrderInfoPyAppNotifyAmount(codeNum, amount, orderNo);
+            if (orderInfo != null) {
 
                 String platformOrderNo = orderInfo.get("platform_order_no").toString();
                 String payTime = DateUtil.getCurrentDateTime();

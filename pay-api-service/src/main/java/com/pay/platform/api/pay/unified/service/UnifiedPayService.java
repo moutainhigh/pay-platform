@@ -32,4 +32,11 @@ public interface UnifiedPayService {
      */
     Map<String,Object> queryTradeCodeByCudeNum(String codeNum);
 
+    /**
+     * 获取固码链接
+     * @param tradeId
+     * @return
+     */
+    Map<String,Object> queryFxiedCodeLinkByOrderId(String tradeId);
+
 }

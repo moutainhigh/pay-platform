@@ -69,4 +69,11 @@ public interface UnifiedPayDao {
      */
     Map<String,Object> queryTradeCodeByCudeNum(@Param("codeNum") String codeNum);
 
+    /**
+     * 获取固码链接
+     * @param tradeId
+     * @return
+     */
+    Map<String,Object> queryFxiedCodeLinkByOrderId(@Param("tradeId") String tradeId);
+
 }
