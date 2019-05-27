@@ -1,7 +1,7 @@
 package com.baseframe.generate;
 
 import com.pay.platform.common.util.JsonUtil;
-import com.pay.platform.security.ApiSignUtil;
+import com.pay.platform.security.util.ApiSignUtil;
 import org.junit.Test;
 
 import java.util.HashMap;

@@ -1,5 +1,6 @@
 package com.baseframe.generate;
 
+import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.util.AESUtil;
 import com.pay.platform.common.util.HttpClientUtil;
 import com.pay.platform.common.util.JsonUtil;
@@ -18,7 +19,7 @@ import java.util.Map;
  * User:
  * DateTime: 2019/3/3 11:33
  */
-public class TestPayChargeApi {
+public class TestPayLakalaApi {
 
     String merchantNo = "17818991616";                                  //商家编号
     String merchantSecret = "9ae482f4380b412d8554018f7bf2d023";         //商家密钥：调接口签名用
@@ -27,28 +28,32 @@ public class TestPayChargeApi {
     String serverURL = "http://localhost:8080";        //系统请求地址
 
     /**
-     *
      * 测试充值下单
      *
      * @throws Exception
      */
     @Test
-    public void testCreateOrderByCharge() throws Exception {
+    public void createOrderByLklFixed() throws Exception {
 
-        Map<String, String> params = new HashMap();
-        params.put("merchantNo", merchantNo);
-        params.put("merchantOrderNo", System.currentTimeMillis() + "");
-        params.put("orderAmount", "10");
-        params.put("payWay", "hcZfb");
-        params.put("notifyUrl", serverURL + "/openApi/testMerchantNotify");
-        params.put("clientIp", "58.249.126.142");
-        params.put("timestamp", System.currentTimeMillis() + "");
-        params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
+//        for (int i = 0; i < 20; i++) {
 
-        String jsonStr = JsonUtil.parseToJsonStr(params);
-        String result = HttpClientUtil.doPost(serverURL + "/api/unifiedCreateOrder", jsonStr);
+            Map<String, String> params = new HashMap();
+            params.put("merchantNo", merchantNo);
+            params.put("merchantOrderNo", System.currentTimeMillis() + "");
+            params.put("orderAmount", "100");
+            params.put("payWay", PayChannelEnum.lklZfbFixed.getCode());
+            params.put("notifyUrl", serverURL + "/openApi/testMerchantNotify");
+            params.put("returnUrl", "www.qq.com");
+            params.put("clientIp", "58.249.126.142");
+            params.put("timestamp", System.currentTimeMillis() + "");
+            params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
 
-        System.out.println(" ---> " + result);
+            String jsonStr = JsonUtil.parseToJsonStr(params);
+            String result = HttpClientUtil.doPost(serverURL + "/api/unifiedCreateOrder", jsonStr);
+
+            System.out.println(" ---> " + result);
+
+//        }
 
     }
 
@@ -61,7 +66,7 @@ public class TestPayChargeApi {
     @Test
     public void testGetPayLink() throws Exception {
 
-        String tradeId = "";
+        String tradeId = "656ee932-3f63-4178-ab2f-8a64a882e76b";
 
         Map<String, String> params = new HashMap();
         params.put("tradeId", tradeId);
@@ -75,6 +80,7 @@ public class TestPayChargeApi {
         System.out.println(" ---> " + result);
 
     }
+
 
     /**
      * 测试支付回调
@@ -98,28 +104,5 @@ public class TestPayChargeApi {
         response.getWriter().flush();
 
     }
-
-    /**
-     * 测试查询订单
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testFindOrder() throws Exception {
-
-        Map<String, String> params = new HashMap();
-        params.put("merchantNo", merchantNo);
-        params.put("merchantOrderNo", "2019030313003200421978260");
-        params.put("timestamp", System.currentTimeMillis() + "");
-        params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
-
-        String jsonStr = JsonUtil.parseToJsonStr(params);
-        String result = HttpClientUtil.doPost(serverURL + "/api/findOrder", jsonStr);
-
-        System.out.println(" ---> " + result);
-
-
-    }
-
 
 }
