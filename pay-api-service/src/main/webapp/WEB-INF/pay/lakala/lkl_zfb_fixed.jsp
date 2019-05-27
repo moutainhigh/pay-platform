@@ -69,9 +69,9 @@
         var time = parseInt("${payPageData.payCountDownTime}");         //支付倒计时,剩余秒数
         var orderId = "${payPageData.id}";
         var returnUrl = "${payPageData.returnUrl}";
-        var codeLink = "${payPageData.codeLink}";
+        var payQrCodeLink = "${payPageData.payQrCodeLink}";
 
-        $("#toZfb").attr("href", "alipays://platformapi/startapp?appId=20000067&url=" + encodeURIComponent(codeLink));
+        $("#toZfb").attr("href", "alipays://platformapi/startapp?appId=20000067&url=" + encodeURIComponent(payQrCodeLink));
 
         //启动支付宝：通过触发a标签的href完成
         $("#start").click(function () {
@@ -85,7 +85,7 @@
         //展示二维码
         var repay_url = window.location.href;
         //识别二维码跳转到zfb
-        var base64Url = "alipays://platformapi/startapp?appId=10000007&qrcode=" + encodeURIComponent(codeLink);
+        var base64Url = "alipays://platformapi/startapp?appId=10000007&qrcode=" + encodeURIComponent(payQrCodeLink);
 //        base64Url = "https://render.alipay.com/p/s/i?scheme=" + encodeURIComponent(base64Url);
         base64Url = new Base64().encode(base64Url);
         $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + base64Url + "&isBase64=true";
