@@ -1,5 +1,11 @@
+<%@ page import="com.pay.platform.modules.sysmgr.user.model.UserModel" %>
+<%@ page import="com.pay.platform.common.context.AppContext" %>
+<%@ page import="com.pay.platform.common.util.SysUserUtil" %>
 <%@page language="java" contentType="text/html; charset=UTF-8" %>
-
+<%
+    UserModel userModel = AppContext.getCurrentUser();
+    session.putValue("roleCode", SysUserUtil.getRoleCode(userModel));
+%>
 
 <div class="row">
     <div class="col-md-12">

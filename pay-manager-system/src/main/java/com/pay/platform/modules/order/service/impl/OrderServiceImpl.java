@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
 
         try {
 
-            lock = new RedisLock(redisTemplate, "patSuccessNotifyLock::" + platformOrderNo);
+            lock = new RedisLock(redisTemplate, "paySuccessNotifyLock::" + platformOrderNo);
 
             //加上分布式锁,避免重复回调执行
             if (lock.lock()) {

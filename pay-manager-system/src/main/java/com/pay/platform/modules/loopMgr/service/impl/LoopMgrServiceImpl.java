@@ -76,4 +76,9 @@ public class LoopMgrServiceImpl implements LoopMgrService {
         return tradeCodeDao.queryTradeSuccessRate(merchantId , channelId , beginTime , endTime);
     }
 
+    @Override
+    public Map<String, Object> queryMerchantInfoByTradeCode(String codeNum) {
+        return tradeCodeDao.queryMerchantInfoByTradeCode(codeNum);
+    }
+
 }

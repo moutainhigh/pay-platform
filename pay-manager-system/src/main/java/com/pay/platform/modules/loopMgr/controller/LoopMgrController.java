@@ -580,5 +580,39 @@ public class LoopMgrController extends BaseController {
 
     }
 
+    /**
+     * 测试支付
+     *
+     * @param response
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value = "/testPay", produces = "application/json")
+    @SystemControllerLog(module = "交易码管理", operation = "测试支付")
+    public void testPay(HttpServletResponse response, String codeNum , String channelCode) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        Map<String,Object> merchantInfo = tradeCodeService.queryMerchantInfoByTradeCode(codeNum);
+
+//        String merchantNo = "17818991616";                                  //商家编号
+//        String merchantSecret = "9ae482f4380b412d8554018f7bf2d023";         //商家密钥：调接口签名用
+//
+//        String serverURL = "http://localhost:8080";        //系统请求地址
+
+//        Integer count = tradeCodeService.testPay(ids.split(",") , enabled);
+//
+//        if (count > 0) {
+//            json.put("success", true);
+//            json.put("msg", "保存成功");
+//        } else {
+//            json.put("success", false);
+//            json.put("msg", "保存失败");
+//        }
+
+        writeJson(response, json.toString());
+
+    }
+
 
 }

@@ -60,12 +60,12 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {title: '成功金额', field: 'successAmount', align: 'center', sortable: true},
             {
                 title: '启用状态', field: 'enabled', align: 'center', sortable: true, formatter: function (value, row, index) {
-                    if (parseInt(value) == 1) {
-                        return "已启用";
-                    } else {
-                        return "已关闭";
-                    }
+                if (parseInt(value) == 1) {
+                    return "已启用";
+                } else {
+                    return "已关闭";
                 }
+            }
             },
             {
                 title: '成功率',
@@ -100,6 +100,15 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.editTradeCode()' ><i class='glyphicon glyphicon-pencil'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showTradeCodeDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.deleteTradeCode(\"" + row.id + "\")' ><i class='glyphicon glyphicon-remove'></i></button>";
+
+
+                    if (roleCode == "ROLE_ADMIN" || roleCode == "ROLE_CODE_TRADER") {
+                        var codeNum = row.codeNum;
+                        var channelCode = row.channelCode;
+
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.testPay(\"" + codeNum + "\", \"" + channelCode + "\",)' >测试支付</button>";
+                    }
+
                     return html;
                 }
             }
@@ -278,8 +287,15 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             });
 
 
-        } , "确定操作？");
+        }, "确定操作？");
 
     };
+
+    /**
+     * 测试支付
+     */
+    pageScope.testPay = function (codeNum, channelCode) {
+        window.open(baseURL + "/view/loopMgr/successRate/successRate_test_pay.jsp?codeNum=" + codeNum + "&channelCode=" + channelCode);
+    }
 
 })();

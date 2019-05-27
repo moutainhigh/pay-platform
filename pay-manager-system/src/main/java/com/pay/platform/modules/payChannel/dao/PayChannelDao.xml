@@ -77,10 +77,10 @@
     </select>
 
     <select id="queryAllPayChannelListAndAgentRate" resultType="java.util.Map">
-         select id , channel_code  as channelCode , channel_name as channelName , cost_rate costRate , is_del as isDel , create_time  createTime
-        ,( select tar.rate from tb_agent_rate tar where tar.agent_id = #{agentId}) as agentCostRate
-        from tb_pay_channel
-        where is_del = 0
+         select tpc.id , tpc.channel_code  as channelCode , tpc.channel_name as channelName , tpc.cost_rate costRate , tpc.is_del as isDel , tpc.create_time  createTime
+        ,( select tar.rate from tb_agent_rate tar where tar.agent_id = #{agentId} and tpc.id = tar.channel_id ) as agentCostRate
+        from tb_pay_channel tpc
+        where tpc.is_del = 0
     </select>
 
 </mapper>

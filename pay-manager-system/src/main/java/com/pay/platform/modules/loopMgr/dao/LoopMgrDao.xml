@@ -204,4 +204,8 @@
 
     </select>
 
+    <select id="queryMerchantInfoByTradeCode" parameterType="java.lang.String" resultType="java.util.Map">
+        
+    </select>
+
 </mapper>

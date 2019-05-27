@@ -70,5 +70,7 @@ public interface LoopMgrService {
     Integer updateTradeCodeEnabled(String[] ids, String enabled);
 
     Map<String,Object> queryTradeSuccessRate(String merchantId, String channelId, String beginTime, String endTime);
-    
+
+    Map<String,Object> queryMerchantInfoByTradeCode(String codeNum);
+
 }
