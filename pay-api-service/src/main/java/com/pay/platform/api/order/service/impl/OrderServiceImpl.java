@@ -190,4 +190,9 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.updateOrderPayQrCodeLink(id , qrCodeLink);
     }
 
+    @Override
+    public Map<String, Object> queryOrderById(String tradeId) {
+        return orderDao.queryOrderById(tradeId);
+    }
+
 }

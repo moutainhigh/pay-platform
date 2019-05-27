@@ -1,6 +1,7 @@
 package com.pay.platform.api.pay.unified.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
+import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
@@ -27,7 +28,7 @@ import java.util.Map;
 /**
  * 统一支付接口：
  * <p>
- * 1、所有的支付接口经过这里进行转发
+ * 1、所有的支付接口,根据payWay转发到对应的支付通道接口
  * 2、公共接口也在此处调用
  */
 @Controller
@@ -35,6 +36,9 @@ public class UnifiedPayController extends BaseController {
 
     @Autowired
     private UnifiedPayService unifiedPayService;
+
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 统一下单接口
@@ -78,8 +82,59 @@ public class UnifiedPayController extends BaseController {
     }
 
     /**
-     * 根据不同通道,跳转到不同的h5支付页面
+     * 统一获取支付链接
      *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/api/getPayLink", method = RequestMethod.POST)
+    public ModelAndView getPayLink(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        try {
+
+            //根据支付方式,转发到对应的支付接口
+            String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            JSONObject reqJson = new JSONObject(text);
+            String tradeId = reqJson.getString("tradeId");
+
+            Map<String, Object> orderInfo = orderService.queryOrderById(tradeId);
+            if (orderInfo == null) {
+                ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+                modelAndView.addObject("status", "0");
+                modelAndView.addObject("msg", "订单不存在！");
+                return modelAndView;
+            }
+            String payWay = orderInfo.get("pay_way").toString();
+
+            //话冲：直接返回支付链接
+            if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(payWay)) {
+                ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+                modelAndView.addObject("status", "0");
+                modelAndView.addObject("msg", "获取支付链接成功！");
+                modelAndView.addObject("data", orderInfo.get("pay_qr_code_link").toString());
+                return modelAndView;
+            }
+            //拉卡拉：需要调用接口,hook app生成付款码
+            else if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lklWeChatFixed.getCode().equalsIgnoreCase(payWay)) {
+                return new ModelAndView("forward:/api/getPayLinkByLklFixed");
+            }
+
+            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+            modelAndView.addObject("status", "0");
+            modelAndView.addObject("msg", "服务器内部错误：" + e.getMessage());
+            return modelAndView;
+        }
+
+    }
+
+    /**
+     * 根据不同通道,跳转到不同的h5支付页面
+     * <p>
      * <p>
      * openApi：开放接口,可通过浏览器直接打开,无需签名
      *
@@ -102,7 +157,7 @@ public class UnifiedPayController extends BaseController {
             }
 
             String payStatus = payPageData.get("payStatus").toString();
-            if(PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)){
+            if (PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)) {
                 ModelAndView modelAndView = new ModelAndView();
                 modelAndView.addObject("msg", "订单已支付成功！");
                 modelAndView.setViewName("error");
@@ -121,13 +176,13 @@ public class UnifiedPayController extends BaseController {
 
             //计算支付倒计时（单位秒）5分钟支付时效 - 已过去的时间
             long payCountDownTime = (5 * 60) - (nowTimeStamp - orderTimeStamp);
-            payPageData.put("payCountDownTime" , payCountDownTime);
+            payPageData.put("payCountDownTime", payCountDownTime);
 
             String payWay = payPageData.get("payWay").toString();
             //拉卡拉固码界面
             if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay)) {
                 ModelAndView modelAndView = new ModelAndView();
-                modelAndView.addObject("baseURL" , IpUtil.getBaseURL(request));
+                modelAndView.addObject("baseURL", IpUtil.getBaseURL(request));
                 modelAndView.addObject("payPageData", payPageData);
                 modelAndView.setViewName("pay/lakala/lkl_zfb_fixed");
                 return modelAndView;
@@ -164,8 +219,8 @@ public class UnifiedPayController extends BaseController {
 
         try {
 
-            Map<String,Object> payPageData = unifiedPayService.queryPayPageData(orderId);
-            if(payPageData == null){
+            Map<String, Object> payPageData = unifiedPayService.queryPayPageData(orderId);
+            if (payPageData == null) {
                 json.put("status", "0");
                 json.put("msg", "订单不存在！");
                 writeJson(response, json.toString());
@@ -173,7 +228,7 @@ public class UnifiedPayController extends BaseController {
             }
 
             String payStatus = payPageData.get("payStatus").toString();
-            if(PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)){
+            if (PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)) {
                 json.put("status", "1");
                 json.put("msg", "支付成功！");
                 writeJson(response, json.toString());
@@ -218,7 +273,7 @@ public class UnifiedPayController extends BaseController {
         String url = request.getParameter("payUrl");
 
         //如果前端传递的是base64; 则进行解码
-        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))){
+        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))) {
             url = Base64Util.parseBase64(url);
         }
 

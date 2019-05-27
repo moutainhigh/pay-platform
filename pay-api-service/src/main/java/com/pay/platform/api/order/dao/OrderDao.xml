@@ -63,4 +63,9 @@
         update tb_order set pay_qr_code_link = #{qrCodeLink} where id = #{id}
     </update>
 
+    <select id="queryOrderById" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from tb_order
+        where id = #{tradeId}
+    </select>
+
 </mapper>

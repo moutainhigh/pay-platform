@@ -92,4 +92,6 @@ public interface OrderDao {
      */
     int updateOrderPayQrCodeLink(@Param("id") String id, @Param("qrCodeLink") String qrCodeLink);
 
+    Map<String,Object> queryOrderById(@Param("tradeId") String tradeId);
+
 }

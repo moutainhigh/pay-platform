@@ -63,4 +63,5 @@ public interface OrderService {
 
     int updateOrderPayQrCodeLink(String id, String qrCodeLink);
 
+    Map<String,Object> queryOrderById(String tradeId);
 }
