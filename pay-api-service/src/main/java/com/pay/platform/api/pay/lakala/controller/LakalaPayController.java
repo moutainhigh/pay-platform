@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -142,6 +144,49 @@ public class LakalaPayController extends BaseController {
 
     }
 
+
+    /**
+     * 获取lkl支付链接
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/api/getPayLinkByLklFixed", method = RequestMethod.POST)
+    public void getPayLinkByLklFixed(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        try {
+
+            //获取请求提交数据
+            String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            JSONObject reqJson = new JSONObject(text);
+            String tradeId = reqJson.getString("tradeId");
+
+            Map<String, Object> orderInfo = orderService.queryOrderById(tradeId);
+            if (orderInfo == null) {
+                json.put("status", "0");
+                json.put("msg", "订单不存在！");
+                writeJson(response, json.toString());
+                return;
+            }
+
+            json.put("status", "1");
+            json.put("msg", "下单成功");
+            json.put("data",IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId);
+            writeJson(response, json.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            json.put("status", "0");
+            json.put("msg", "服务器内部错误：" + e.getMessage());
+            writeJson(response, json.toString());
+        } finally {
+            getCurrentLogger().info("响应报文：{}", json.toString());
+        }
+
+    }
 
     /**
      * 拉卡拉固码 - 支付回调
