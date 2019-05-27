@@ -126,7 +126,9 @@ public class LakalaPayController extends BaseController {
 
             json.put("status", "1");
             json.put("msg", "下单成功");
-            json.put("data", IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + id);
+            json.put("data", id);
+
+//            json.put("data", IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + id);
             writeJson(response, json.toString());
 
         } catch (Exception e) {
