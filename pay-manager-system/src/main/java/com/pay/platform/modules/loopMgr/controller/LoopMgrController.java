@@ -154,12 +154,12 @@ public class LoopMgrController extends BaseController {
                 return;
             }
         }
-        if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
-            json.put("success", false);
-            json.put("msg", "新增失败: 收款码链接不可重复");
-            writeJson(response, json.toString());
-            return;
-        }
+//        if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
+//            json.put("success", false);
+//            json.put("msg", "新增失败: 收款码链接不可重复");
+//            writeJson(response, json.toString());
+//            return;
+//        }
 
         Integer count = tradeCodeService.addTradeCode(tradeCode);
 
@@ -265,12 +265,12 @@ public class LoopMgrController extends BaseController {
                 return;
             }
         }
-        if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
-            json.put("success", false);
-            json.put("msg", "新增失败: 收款码链接不可重复");
-            writeJson(response, json.toString());
-            return;
-        }
+//        if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
+//            json.put("success", false);
+//            json.put("msg", "新增失败: 收款码链接不可重复");
+//            writeJson(response, json.toString());
+//            return;
+//        }
 
         Integer count = tradeCodeService.updateTradeCode(tradeCode);
 
@@ -356,10 +356,10 @@ public class LoopMgrController extends BaseController {
                 }
             }
 
-            if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
-                map.put("exists", "true");
-                map.put("msg", "收款码链接已存在数据库,请更换！");
-            }
+//            if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
+//                map.put("exists", "true");
+//                map.put("msg", "收款码链接已存在数据库,请更换！");
+//            }
 
         }
 
@@ -386,10 +386,10 @@ public class LoopMgrController extends BaseController {
                         map.put("exists", "true");
                         map.put("msg", "登录账号重复,请检查excel表格！");
                     }
-                    if (map.get("收款链接").equalsIgnoreCase(compareMap.get("收款链接"))) {
-                        map.put("exists", "true");
-                        map.put("msg", "收款链接重复,请检查excel表格！");
-                    }
+//                    if (map.get("收款链接").equalsIgnoreCase(compareMap.get("收款链接"))) {
+//                        map.put("exists", "true");
+//                        map.put("msg", "收款链接重复,请检查excel表格！");
+//                    }
 
                 }
 
@@ -487,12 +487,12 @@ public class LoopMgrController extends BaseController {
                 }
             }
 
-            if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
-                json.put("success", false);
-                json.put("msg", "收款码链接已存在数据库,请更换！");
-                writeJson(response, json.toString());
-                return;
-            }
+//            if (existsModel != null && existsModel.getCodeLink().equalsIgnoreCase(tradeCode.getCodeLink())) {
+//                json.put("success", false);
+//                json.put("msg", "收款码链接已存在数据库,请更换！");
+//                writeJson(response, json.toString());
+//                return;
+//            }
 
         }
 
@@ -525,12 +525,12 @@ public class LoopMgrController extends BaseController {
                         writeJson(response, json.toString());
                         return;
                     }
-                    if (tradeCode.getCodeLink().equalsIgnoreCase(compareTradeCode.getCodeLink())) {
-                        json.put("success", false);
-                        json.put("msg", "收款链接重复,请检查excel表格！");
-                        writeJson(response, json.toString());
-                        return;
-                    }
+//                    if (tradeCode.getCodeLink().equalsIgnoreCase(compareTradeCode.getCodeLink())) {
+//                        json.put("success", false);
+//                        json.put("msg", "收款链接重复,请检查excel表格！");
+//                        writeJson(response, json.toString());
+//                        return;
+//                    }
 
                 }
 

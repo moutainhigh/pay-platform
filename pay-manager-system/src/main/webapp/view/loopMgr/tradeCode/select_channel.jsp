@@ -44,8 +44,8 @@
                 <input id="merchantId" type="hidden" value="${param.merchantId}" />
 
                 <div class="divChannelRow">
-                    <div class="divChannelBlock" onclick="toAddTroadeCodePage('lklZfbFixed' , '拉卡拉-支付宝固码');" >拉卡拉-支付宝固码</div>
-                    <div class="divChannelBlock" onclick="toAddTroadeCodePage('lklWeChatFixed' , '拉卡拉-微信固码');" >拉卡拉-微信固码</div>
+                    <div class="divChannelBlock" onclick="toAddTroadeCodePage('lzyhZfb' , '柳行-支付宝');" >柳行-支付宝</div>
+                    <div class="divChannelBlock" onclick="toAddTroadeCodePage('lzyhWechat' , '柳行-微信');" >柳行-微信</div>
                 </div>
 
             </div>

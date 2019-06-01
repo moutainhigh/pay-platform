@@ -49,12 +49,12 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">收款码链接：</label>
-                <div class="col-md-8 col-sm-8">
-                    <input id="addCodeLink" name="codeLink" type="text" class="form-control" check-type="required" maxlength="65535" placeholder="请输入收款码链接"/>
-                </div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">收款码链接：</label>--%>
+                <%--<div class="col-md-8 col-sm-8">--%>
+                    <%--<input id="addCodeLink" name="codeLink" type="text" class="form-control" check-type="required" maxlength="65535" placeholder="请输入收款码链接"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
             <%--<div class="form-group">--%>
                 <%--<label class="col-md-3 col-sm-3 control-label">号主姓名：</label>--%>

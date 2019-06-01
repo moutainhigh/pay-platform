@@ -51,13 +51,13 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">收款码链接：</label>
-                <div class="col-md-8 col-sm-8">
-                    <input id="editCodeLink" name="codeLink" check-type="required"
-                           type="text" class="form-control" maxlength="65535" placeholder="请输入收款码链接"/>
-                </div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">收款码链接：</label>--%>
+                <%--<div class="col-md-8 col-sm-8">--%>
+                    <%--<input id="editCodeLink" name="codeLink" check-type="required"--%>
+                           <%--type="text" class="form-control" maxlength="65535" placeholder="请输入收款码链接"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">最小金额：</label>

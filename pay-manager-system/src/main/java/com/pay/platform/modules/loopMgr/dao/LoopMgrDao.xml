@@ -51,7 +51,7 @@
     <select id="queryExistsByCode" parameterType="TradeCodeModel" resultType="TradeCodeModel">
         select *
         from tb_merchant_trade_code
-        where ( code_num = #{codeNum} or secret = #{secret} or login_account = #{loginAccount} or code_link = #{codeLink} )
+        where ( code_num = #{codeNum} or secret = #{secret} or login_account = #{loginAccount} )
         <if test="id != null and id != '' ">
             and ( id != #{id} )
         </if>

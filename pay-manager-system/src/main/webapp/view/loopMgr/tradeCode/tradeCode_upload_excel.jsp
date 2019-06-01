@@ -115,7 +115,7 @@ To change this template use File | Settings | File Templates.
                 {title: '编号', field: '编号', align: 'center', sortable: true},
                 {title: '回调密钥', field: '回调密钥', align: 'center', sortable: true},
                 {title: '登录账号', field: '登录账号', align: 'center', sortable: true},
-                {title: '收款码链接', field: '收款链接', align: 'center', sortable: true},
+//                {title: '收款码链接', field: '收款链接', align: 'center', sortable: true},
                 {
                     title: '备注',
                     field: 'exists',

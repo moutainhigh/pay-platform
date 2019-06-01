@@ -53,12 +53,12 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">收款码链接：</label>
-                <div class="col-md-8 col-sm-8">
-                    <input id="detailCodeLink" name="codeLink" type="text" class="form-control" readonly="readonly"/>
-                </div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">收款码链接：</label>--%>
+                <%--<div class="col-md-8 col-sm-8">--%>
+                    <%--<input id="detailCodeLink" name="codeLink" type="text" class="form-control" readonly="readonly"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">最小金额：</label>
@@ -84,12 +84,12 @@ To change this template use File | Settings | File Templates.
             </div>
 
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">支付宝PID：</label>
-                <div class="col-md-8 col-sm-8">
-                    <input id="detailZfbUserId" name="zfbUserId" type="text" class="form-control" readonly="readonly"/>
-                </div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">支付宝PID：</label>--%>
+                <%--<div class="col-md-8 col-sm-8">--%>
+                    <%--<input id="detailZfbUserId" name="zfbUserId" type="text" class="form-control" readonly="readonly"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
 
         </form>
