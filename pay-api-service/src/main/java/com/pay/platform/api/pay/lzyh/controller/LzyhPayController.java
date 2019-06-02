@@ -215,15 +215,15 @@ public class LzyhPayController extends BaseController {
     }
 
     /**
-     * 拉卡拉固码 - 支付回调
-     * <p>
+     * 柳州银行 - 支付回调
+     *
      * app回调接口,需经过AppSecurityFilter; 进行签名认证,防止恶意回调
      *
      * @param request
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/app/payNotifyByLklFixed", method = RequestMethod.POST)
+    @RequestMapping(value = "/app/payNotifyByLzyh", method = RequestMethod.POST)
     public void payNotifyByLklFixed(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();

@@ -25,7 +25,10 @@
 <body ontouchstart>
 <header class="m-head" style="display: none"><h1>支付订单</h1></header>
 <section class="m-zfb">
-    <div class="logo" style="line-height: 50px;font-size: 20px; padding:0;">支付宝安全支付</div>
+    <div style="background: #FFFFFF;vertical-align:middle; ">
+        <img src="${baseURL}/resources/images/zfb_logo.png" style="width: 36px;height: 36px;vertical-align:middle; "/>
+        <div class="logo" style="line-height: 56px;font-size: 20px; padding:0;display: inline;vertical-align:middle; ">&nbsp;支付宝安全支付</div>
+    </div>
     <dl style="padding: 0; margin: 0;">
         <h1>￥${payPageData.payFloatAmount}</h1>
         <div>
