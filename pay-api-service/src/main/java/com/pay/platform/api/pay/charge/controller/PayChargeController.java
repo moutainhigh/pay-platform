@@ -99,13 +99,13 @@ public class PayChargeController extends BaseController {
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/openApi/payNotifyOfCharge", method = {RequestMethod.POST , RequestMethod.GET})
+    @RequestMapping(value = "/openApi/payNotifyOfCharge", method = {RequestMethod.POST, RequestMethod.GET})
     public void payNotifyOfCharge(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         try {
 
             String secretData = IOUtils.toString(request.getInputStream(), "utf-8");
-            String sign = URLDecoder.decode(new JSONObject(secretData).getString("sign"),"UTF-8");
+            String sign = URLDecoder.decode(new JSONObject(secretData).getString("sign"), "UTF-8");
 
             //解密获取报文
             AESOperator aes = new AESOperator(PayUtil.AES_SECRET);
@@ -123,7 +123,7 @@ public class PayChargeController extends BaseController {
                     String channelActuatAmount = data.getString("amount");
 
                     //相关业务处理：更新订单状态等
-                    boolean flag = orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
+                    boolean flag = orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime);
 
                     //推送支付回调给商家
                     if (flag) {

@@ -72,17 +72,7 @@ public interface OrderDao {
      * @return
      */
     int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
-            , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("payFloatAmount") String payFloatAmount);
-
-    /**
-     * 根据回调金额查询匹配的订单
-     *
-     * @param codeNum
-     * @param amount
-     * @param orderNo
-     * @return
-     */
-    Map<String, Object> queryOrderInfoPyAppNotifyAmount(@Param("codeNum") String codeNum, @Param("amount") String amount, @Param("orderNo") String orderNo);
+            , @Param("payStatus") String payStatus, @Param("payTime") String payTime);
 
     /**
      * 更新支付链接

@@ -5,21 +5,15 @@ import com.pay.platform.api.order.dao.AccountAmountDao;
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
-import com.pay.platform.api.pay.charge.util.PayUtil;
 import com.pay.platform.common.enums.AccountAmountType;
-import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.DecimalCalculateUtil;
-import com.pay.platform.common.util.OrderNoUtil;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 import java.util.Map;
@@ -68,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 费率计算
+     *
      * @param orderModel
      * @throws Exception
      */
@@ -126,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
      * @throws Exception
      */
     @Override
-    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime, String payFloatAmount) throws Exception {
+    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime) throws Exception {
 
         int count = 0;
 
@@ -143,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
 
                 if (!(PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus()))) {
                     //1、修改支付状态、支付单号
-                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime, payFloatAmount);
+                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime);
 
                     //2、增加代理的账户余额,并记录流水
                     String agentId = orderModel.getAgentId();
@@ -181,13 +176,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<String, Object> queryOrderInfoPyAppNotifyAmount(String codeNum, String amount, String orderNo) {
-        return orderDao.queryOrderInfoPyAppNotifyAmount(codeNum , amount , orderNo);
-    }
-
-    @Override
     public int updateOrderPayQrCodeLink(String id, String qrCodeLink) {
-        return orderDao.updateOrderPayQrCodeLink(id , qrCodeLink);
+        return orderDao.updateOrderPayQrCodeLink(id, qrCodeLink);
     }
 
     @Override

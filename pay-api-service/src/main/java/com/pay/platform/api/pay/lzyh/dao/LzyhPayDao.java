@@ -31,4 +31,14 @@ public interface LzyhPayDao {
      */
     double queryTradeCodeLastPayFloatAmount(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
 
+    /**
+     * 根据回调金额查询匹配的订单
+     *
+     * @param codeNum
+     * @param amount
+     * @param payCode
+     * @return
+     */
+    Map<String, Object> queryOrderInfoPyLzyhAppNotify(@Param("codeNum") String codeNum, @Param("amount") String amount, @Param("payCode") String payCode);
+
 }

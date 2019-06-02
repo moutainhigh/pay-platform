@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -216,7 +217,7 @@ public class LzyhPayController extends BaseController {
 
     /**
      * 柳州银行 - 支付回调
-     *
+     * <p>
      * app回调接口,需经过AppSecurityFilter; 进行签名认证,防止恶意回调
      *
      * @param request
@@ -224,7 +225,7 @@ public class LzyhPayController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/app/payNotifyByLzyh", method = RequestMethod.POST)
-    public void payNotifyByLklFixed(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void payNotifyByLzyh(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -233,19 +234,36 @@ public class LzyhPayController extends BaseController {
             //获取请求提交数据
             String text = IOUtils.toString(request.getInputStream(), "utf-8");
             JSONObject reqJson = new JSONObject(text);
-            String orderNo = null;      //reqJson.getString("orderNo");     //暂时无法传递单号,只能根据设备、金额、时间匹配订单
-            String codeNum = reqJson.getString("codeNum");
-            String amount = reqJson.getString("amount");
+            String codeNum = reqJson.getString("codeNum");          //设备编号
+            String amount = reqJson.getString("amount");            //支付金额
+            String payTime = reqJson.getString("payTime");          //支付时间
+            String payCode = reqJson.getString("payCode");          //三方单号
 
-            //查询数据库5分钟内的一笔订单,是否与app回调匹配
-            Map<String, Object> orderInfo = orderService.queryOrderInfoPyAppNotifyAmount(codeNum, amount, orderNo);
+            //支付时间与当前时间间隔超过5分钟; 不进行处理; 按人工掉单流程处理
+            long payTimeStamp = DateUtil.getTimeStamp(payTime);
+            long nowTimeStamp = DateUtil.getTimeStamp(new Date());
+            if (payTimeStamp > nowTimeStamp) {
+                json.put("status", "0");
+                json.put("msg", "参数错误,支付时间不可能大于当前时间！");
+                writeJson(response, json.toString());
+                return;
+            }
+            if (nowTimeStamp - payTimeStamp > (5 * 60)) {
+                json.put("status", "0");
+                json.put("msg", "支付时间超过5分钟,请联系客服进行掉单处理！");
+                writeJson(response, json.toString());
+                return;
+            }
+
+            //查询数据库相匹配的订单（5分钟内 + 未支付 + 浮动金额）;
+            //因为订单金额向下浮动，短期内不会出现重复金额的订单;
+            Map<String, Object> orderInfo = lzyhPayService.queryOrderInfoPyLzyhAppNotify(codeNum, amount, payCode);
             if (orderInfo != null) {
 
                 String platformOrderNo = orderInfo.get("platform_order_no").toString();
-                String payTime = DateUtil.getCurrentDateTime();
 
                 //支付成功业务处理：更新订单状态，增加代理、商家账户余额等.
-                boolean flag = orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime, null);
+                boolean flag = orderService.paySuccessBusinessHandle(platformOrderNo, payCode, payTime);
 
                 //推送支付回调给商家
                 if (flag) {

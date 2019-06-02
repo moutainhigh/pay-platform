@@ -43,7 +43,7 @@ public interface OrderService {
      * @param payTime
      * @return
      */
-    boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime, String payFloatAmount) throws Exception;
+    boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime) throws Exception;
 
     /**
      * 根据支付方式查询通道信息
@@ -51,15 +51,6 @@ public interface OrderService {
      * @return
      */
     Map<String,Object> queryPayChannelByCode(String payWay);
-
-    /**
-     * 根据回调金额信息 - 查询匹配的订单
-     * @param codeNum
-     * @param amount
-     * @param orderNo
-     * @return
-     */
-    Map<String,Object> queryOrderInfoPyAppNotifyAmount(String codeNum, String amount, String orderNo);
 
     int updateOrderPayQrCodeLink(String id, String qrCodeLink);
 

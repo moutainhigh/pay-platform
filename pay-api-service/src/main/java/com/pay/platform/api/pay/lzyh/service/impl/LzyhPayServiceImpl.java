@@ -131,4 +131,9 @@ public class LzyhPayServiceImpl implements LzyhPayService {
         return null;
     }
 
+    @Override
+    public Map<String, Object> queryOrderInfoPyLzyhAppNotify(String codeNum, String amount, String payCode) {
+        return lzyhPayDao.queryOrderInfoPyLzyhAppNotify(codeNum , amount , payCode);
+    }
+
 }
