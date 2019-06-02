@@ -1,13 +1,11 @@
-package com.pay.platform.api.pay.lakala.controller;
+package com.pay.platform.api.pay.lzyh.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.merchant.model.MerchantModel;
 import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.merchant.service.MerchantService;
 import com.pay.platform.api.order.service.OrderService;
-import com.pay.platform.api.pay.charge.util.AESOperator;
-import com.pay.platform.api.pay.charge.util.PayUtil;
-import com.pay.platform.api.pay.lakala.service.LakalaPayService;
+import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.util.DateUtil;
 import com.pay.platform.common.util.DecimalCalculateUtil;
@@ -19,22 +17,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * User: zjt
  * DateTime: 2019/5/22 16:01
  * <p>
- * 拉卡拉支付接口
+ * 柳行-支付接口
  */
 @Controller
-public class LakalaPayController extends BaseController {
+public class LzyhPayController extends BaseController {
 
     @Autowired
     private MerchantNotifyService merchantNotifyService;
@@ -43,7 +38,7 @@ public class LakalaPayController extends BaseController {
     private MerchantService merchantService;
 
     @Autowired
-    private LakalaPayService lakalaPayService;
+    private LzyhPayService lzyhPayService;
 
     @Autowired
     private UnifiedPayService unifiedPayService;
@@ -52,14 +47,14 @@ public class LakalaPayController extends BaseController {
     private OrderService orderService;
 
     /**
-     * 拉卡拉固码（支付宝、微信）
+     * 创建订单
      *
      * @param request
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/api/createOrderByLklFixed", method = RequestMethod.POST)
-    public void createOrderByLklFixed(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/api/createOrderByLzyh", method = RequestMethod.POST)
+    public void createOrderByLzyh(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -98,7 +93,7 @@ public class LakalaPayController extends BaseController {
             Map<String, Object> payChannelInfo = orderService.queryPayChannelByCode(payWay);
             String merchantId = merchantModel.getId();
             String payChannelId = payChannelInfo.get("id").toString();
-            Map<String, Object> tradeCode = unifiedPayService.queryAvaiabledTradeCode(merchantId, payChannelId, orderAmount);
+            Map<String, Object> tradeCode = lzyhPayService.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
             if (tradeCode == null) {
                 json.put("status", "0");
                 json.put("msg", "暂无可用收款通道,请联系客服！");
@@ -118,7 +113,8 @@ public class LakalaPayController extends BaseController {
 
             //完成创建订单
             String tradeCodeId = tradeCode.get("id").toString();
-            String id = lakalaPayService.createOrderByLklFixed(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId);
+            String tradeCodeNum = tradeCode.get("code_num").toString();
+            String id = lzyhPayService.createOrderByLzyh(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId, tradeCodeNum);
             if (StringUtil.isEmpty(id)) {
                 json.put("status", "0");
                 json.put("msg", "下单失败,当前支付人数过多,请稍后再试！");
@@ -129,8 +125,6 @@ public class LakalaPayController extends BaseController {
             json.put("status", "1");
             json.put("msg", "下单成功");
             json.put("data", id);
-
-//            json.put("data", IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + id);
             writeJson(response, json.toString());
 
         } catch (Exception e) {
@@ -145,14 +139,14 @@ public class LakalaPayController extends BaseController {
     }
 
     /**
-     * 获取lkl支付链接
+     * 获取支付链接
      *
      * @param request
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/api/getPayLinkByLklFixed", method = RequestMethod.POST)
-    public void getPayLinkByLklFixed(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/api/getPayLinkByLzyh", method = RequestMethod.POST)
+    public void getPayLinkByLzyh(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -171,16 +165,37 @@ public class LakalaPayController extends BaseController {
                 return;
             }
 
-            //TODO 暂时只用固码
-            Map<String, Object> tradeCodeInfo = unifiedPayService.queryFxiedCodeLinkByOrderId(tradeId);
-            String codeLink = tradeCodeInfo.get("code_link").toString();
+            String payQrCodeLink = null;
 
-            //更新支付链接
-            int count = orderService.updateOrderPayQrCodeLink(tradeId, codeLink);
-            if (count > 0) {
+            if (orderInfo.get("pay_qr_code_link") != null || StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
+                payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
+            } else {
+
+                //与app进行socket通信,生成二维码可能需要等待时间;此处休眠一会再进行查询;
+                //每隔2秒查询一次,最多3次
+                for (int i = 0; i < 3; i++) {
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+
+                    //再次查询
+                    orderInfo = orderService.queryOrderById(tradeId);
+                    if (orderInfo.get("pay_qr_code_link") != null || StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
+                        payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
+                        break;
+                    }
+
+                }
+
+            }
+
+            if (StringUtil.isNotEmpty(payQrCodeLink)) {
                 json.put("status", "1");
                 json.put("msg", "获取支付链接成功");
-                json.put("data", IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId);
+                json.put("data", payQrCodeLink);
                 writeJson(response, json.toString());
             } else {
                 json.put("status", "0");

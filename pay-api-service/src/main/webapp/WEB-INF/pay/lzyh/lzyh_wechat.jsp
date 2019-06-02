@@ -17,36 +17,24 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
-    <title>支付宝安全支付</title>
-    <link href="${baseURL}/resources/css/lkl_zfb_fixed.css" rel="stylesheet" media="screen">
+    <title>微信安全支付</title>
+    <link href="${baseURL}/resources/css/wechat_phone.css" rel="stylesheet" media="screen">
     <script src="${baseURL}/resources/js/jquery.min.js"></script>
     <script src="${baseURL}/resources/js/cashier/base64.js"></script>
 </head>
 <body ontouchstart>
 <header class="m-head" style="display: none"><h1>支付订单</h1></header>
 <section class="m-zfb">
-    <div class="logo" style="line-height: 50px;font-size: 20px; padding:0;">支付宝安全支付</div>
+    <div class="logo" style="line-height: 50px;font-size: 20px; padding:0;">微信安全支付</div>
     <dl style="padding: 0; margin: 0;">
         <h1>￥${payPageData.payFloatAmount}</h1>
         <div>
             <img id="code" src="" style="width: 150px; height: 150px;margin-top: -10px;"/>
-            <p>
-                <%-- 启动支付宝；通过触发a标签的href完成； --%>
-                <button id="start" style="background:rgba(76,155,247,1.00); color:#FFFFFF; line-height:3; padding: 0 15px; text-align: center;  margin:-5px 0 10px; border-radius:5px; font-size:120%">
-                    启动支付宝
-                </button>
-            </p>
-            <div style="font-size: 15px;line-height: 30px;">
-                <p style="color: red; font-weight: 800">【温馨提示】</p>
-                <p style="color: red; font-weight: 800">1、请输入实际金额${payPageData.payFloatAmount}付款</p>
-                <p style="color: red; font-weight: 800">2、不要输入整数金额,否则无法自动完成充值上分</p>
-            </div>
         </div>
-        <div class="tip" style="text-align: center; margin-top: 30px;">
-            <span style="color: black; font-weight: 800" id="tipsRed">若启动支付宝无法支付，请使用以下步骤：<br/><br/></span>
+        <div class="tip" style="text-align: center;margin-top: 30px;">
+            <span style="color: red; font-weight: 800" id="tipsRed">若启动微信无法支付，请使用以下步骤：<br/><br/></span>
             1、请截屏保存到相册<br/>
-            2、手动打开支付宝>选择[扫一扫]
-            <img src="${baseURL}/resources/images/pay/sao.jpg"/><br/>
+            2、点击“一键启动微信扫一扫”<br/>
             3、选择相册>选择二维码图片>完成支付
             <img src="${baseURL}/resources/images/pay/xiangce.jpg"/>
         </div>
@@ -57,11 +45,6 @@
     </dl>
 </section>
 
-<%-- 跳转到支付宝 --%>
-<a id="toZfb" style="display: none">
-    <img id="skip" src="${baseURL}/resources/images/pay/alipay_back.png"/>
-</a>
-
 <script type="text/javascript">
 
     $(function () {
@@ -71,24 +54,9 @@
         var returnUrl = "${payPageData.returnUrl}";
         var payQrCodeLink = "${payPageData.payQrCodeLink}";
 
-        $("#toZfb").attr("href", "alipays://platformapi/startapp?appId=20000067&url=" + encodeURIComponent(payQrCodeLink));
 
-        //启动支付宝：通过触发a标签的href完成
-        $("#start").click(function () {
-            if (time >= 0) {
-                $("#skip").click();
-            } else {
-                alert("订单已超时，请重新下单。");
-            }
-        });
-
-        //展示二维码
-        var repay_url = window.location.href;
-        //识别二维码跳转到zfb
-        var base64Url = "alipays://platformapi/startapp?appId=10000007&qrcode=" + encodeURIComponent(payQrCodeLink);
-//        base64Url = "https://render.alipay.com/p/s/i?scheme=" + encodeURIComponent(base64Url);
-        base64Url = new Base64().encode(base64Url);
-        $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + base64Url + "&isBase64=true";
+        //识别二维码
+        $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + encodeURIComponent(payQrCodeLink) + "&isBase64=true";
 
         /**
          * 支付倒计时

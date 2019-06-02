@@ -61,9 +61,9 @@ public class UnifiedPayController extends BaseController {
             if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(payWay)) {
                 return new ModelAndView("forward:/api/createOrderByCharge");
             }
-            //拉卡拉固码
-            else if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lklWeChatFixed.getCode().equalsIgnoreCase(payWay)) {
-                return new ModelAndView("forward:/api/createOrderByLklFixed");
+            //柳行聚合码（支付宝与微信）
+            else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(payWay)) {
+                return new ModelAndView("forward:/api/createOrderByLzyh");
             }
 
             ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
@@ -115,9 +115,9 @@ public class UnifiedPayController extends BaseController {
                 modelAndView.addObject("data", orderInfo.get("pay_qr_code_link").toString());
                 return modelAndView;
             }
-            //拉卡拉：需要调用接口,hook app生成付款码
-            else if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lklWeChatFixed.getCode().equalsIgnoreCase(payWay)) {
-                return new ModelAndView("forward:/api/getPayLinkByLklFixed");
+            //柳行聚合码：转发到对应接口
+            else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(payWay)) {
+                return new ModelAndView("forward:/api/getPayLinkByLzyh");
             }
 
             return null;
@@ -179,12 +179,21 @@ public class UnifiedPayController extends BaseController {
             payPageData.put("payCountDownTime", payCountDownTime);
 
             String payWay = payPageData.get("payWay").toString();
-            //拉卡拉固码界面
-            if (PayChannelEnum.lklZfbFixed.getCode().equalsIgnoreCase(payWay)) {
+
+            //柳行-zfb
+            if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(payWay)) {
                 ModelAndView modelAndView = new ModelAndView();
                 modelAndView.addObject("baseURL", IpUtil.getBaseURL(request));
                 modelAndView.addObject("payPageData", payPageData);
-                modelAndView.setViewName("pay/lakala/lkl_zfb_fixed");
+                modelAndView.setViewName("pay/lzyh/lzyh_zfb");
+                return modelAndView;
+            }
+            //柳行-微信
+            if (PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(payWay)) {
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("baseURL", IpUtil.getBaseURL(request));
+                modelAndView.addObject("payPageData", payPageData);
+                modelAndView.setViewName("pay/lzyh/lzyh_wechat");
                 return modelAndView;
             } else {
                 ModelAndView modelAndView = new ModelAndView();

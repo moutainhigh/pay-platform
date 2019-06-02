@@ -4,15 +4,16 @@ package com.pay.platform.common.enums;
  * User:
  * DateTime: 2019/3/2 22:22
  */
-public enum  PayChannelEnum {
+public enum PayChannelEnum {
 
     hcZfb("话冲支付宝"),
     hcWechat("话冲微信"),
-    lklZfbFixed("lkl支付宝"),
-    lklWeChatFixed("lkl微信");
+    lzyhZfb("柳行-支付宝"),
+    lzyhWechat("柳行-微信");
 
     /**
      * 获取编码
+     *
      * @return
      */
     public String getCode() {
@@ -21,6 +22,7 @@ public enum  PayChannelEnum {
 
     /**
      * 获取备注
+     *
      * @return
      */
     public String getMsg() {
@@ -31,6 +33,7 @@ public enum  PayChannelEnum {
      * 构造函数
      */
     private String msg;
+
     PayChannelEnum(String msg) {
         this.msg = msg;
     }

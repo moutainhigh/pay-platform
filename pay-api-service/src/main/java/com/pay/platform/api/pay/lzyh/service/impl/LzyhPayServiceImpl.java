@@ -1,10 +1,12 @@
-package com.pay.platform.api.pay.lakala.service.impl;
+package com.pay.platform.api.pay.lzyh.service.impl;
 
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lakala.dao.LakalaPayDao;
 import com.pay.platform.api.pay.lakala.service.LakalaPayService;
+import com.pay.platform.api.pay.lzyh.dao.LzyhPayDao;
+import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.dao.UnifiedPayDao;
 import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.DecimalCalculateUtil;
@@ -21,7 +23,7 @@ import java.util.UUID;
  * DateTime: 2019/5/22 16:02
  */
 @Service
-public class LakalaPayServiceImpl implements LakalaPayService {
+public class LzyhPayServiceImpl implements LzyhPayService {
 
     @Autowired
     private OrderService orderService;
@@ -33,13 +35,41 @@ public class LakalaPayServiceImpl implements LakalaPayService {
     private UnifiedPayDao unifiedPayDao;
 
     @Autowired
-    private LakalaPayDao lakalaPayDao;
+    private LzyhPayDao lzyhPayDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
+    /**
+     * 轮询查询可用的交易码
+     *
+     * @param merchantId
+     * @param payChannelId
+     * @param orderAmount
+     * @return
+     */
     @Override
-    public String createOrderByLklFixed(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId) throws Exception {
+    public Map<String, Object> queryLooperTradeCodeByLzyh(String merchantId, String payChannelId, String orderAmount) {
+        //1、去除已达到单日收款限制的号
+        //2、根据单日收款笔数、单日收款金额排序；返回最少的哪一个
+        return lzyhPayDao.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
+    }
+
+    /**
+     * 柳行下单接口
+     *
+     * @param merchantNo
+     * @param merchantOrderNo
+     * @param orderAmount
+     * @param payWay
+     * @param notifyUrl
+     * @param returnUrl
+     * @param tradeCodeId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String createOrderByLzyh(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId , String tradeCodeNum) throws Exception {
 
         //1、订单手续费计算
         String platformOrderNo = OrderNoUtil.getOrderNoByUUId();
@@ -58,27 +88,23 @@ public class LakalaPayServiceImpl implements LakalaPayService {
 
         try {
 
-            //根据交易码id,加上锁,避免同一个号在5分钟内同时下单
+            //根据收款码ID,加上锁,避免同一个号同时下单,造成金额重复
             lock = new RedisLock(redisTemplate, "createOrderTradeCodeLock::" + tradeCodeId);
             if (lock.lock()) {
 
-                Map<String, Object> tradeCode = unifiedPayDao.queryTradeCode5MinuteNotUseById(tradeCodeId);
-                if (tradeCode == null) {
-                    return null;
-                }
-
-                //2、获取向下浮动金额,避免重复
-                double lastAmount = unifiedPayDao.queryTradeCodeLastPayFloatAmount(tradeCodeId, orderAmount);
+                //2、获取向下浮动金额,避免重复（同一个整数金额,最后一笔浮动金额,1小时重新开始浮动）;
+                double lastAmount = lzyhPayDao.queryTradeCodeLastPayFloatAmount(tradeCodeId, orderAmount);
                 double payFloatAmount;
                 if (lastAmount > 0) {
                     //用上次的金额减去0.01
                     payFloatAmount = DecimalCalculateUtil.sub(lastAmount, 0.01);
                 } else {
-                    //第一次则用订单金额减去0.01即可
-                    payFloatAmount = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), 0.01);
+                    //第一次则直接用订单整数金额即可；
+                    payFloatAmount = Double.parseDouble(orderAmount);
                 }
 
                 //为避免出错,造成损失,当浮动的金额超过5毛钱时,拒绝下单；
+                //代表同一个号,同一个金额下了50单；向下浮动了50次
                 double div = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), payFloatAmount);
                 if (div > 0.5) {
                     return null;
@@ -86,7 +112,7 @@ public class LakalaPayServiceImpl implements LakalaPayService {
 
                 orderModel.setPayFloatAmount(String.valueOf(payFloatAmount));
                 orderModel.setTradeCodeId(tradeCodeId);
-                orderModel.setTradeCodeNum(tradeCode.get("code_num").toString());
+                orderModel.setTradeCodeNum(tradeCodeNum);
 
                 //3、创建订单
                 int count = orderDao.createOrder(orderModel);

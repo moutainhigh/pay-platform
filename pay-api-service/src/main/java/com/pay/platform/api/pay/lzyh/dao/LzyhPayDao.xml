@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pay.platform.api.pay.lzyh.dao.LzyhPayDao">
+
+    <!-- 查询列表中,可用的一个码
+     1、去除已达到单日收款限制的号；
+     2、根据单日收款笔数、单日收款金额排序；返回最少的哪一个 -->
+    <select id="queryLooperTradeCodeByLzyh" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from (
+
+        select tmtc.* ,
+
+        ( select IFNULL(count(1) ,0)
+        from tb_order tor1
+        where tor1.trade_code_id = tmtc.id and TO_DAYS(tor1.create_time) = TO_DAYS(now())
+        ) as dayReceiveNum ,
+
+        ( select IFNULL(sum(tor1.order_amount) ,0)
+        from tb_order tor1
+        where tor1.pay_status = 'payed' and tor1.trade_code_id = tmtc.id and TO_DAYS(tor1.create_time) = TO_DAYS(now())
+        ) as dayReceiveAmount
+
+        from tb_merchant_trade_code tmtc
+        where tmtc.merchant_id = #{merchantId} and tmtc.channel_id = #{payChannelId} and tmtc.enabled = 1
+
+        ) tab
+        where (dayReceiveAmount + ${orderAmount}) &lt;= tab.day_amount_limit
+        order by dayReceiveNum asc , dayReceiveAmount asc
+        limit 0 , 1
+    </select>
+
+    <!-- 查询1小时内：同一个码,同一个整数金额,最后一笔的浮动金额；避免重复回调错误; -->
+    <select id="queryTradeCodeLastPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
+        select ifnull(min(pay_float_amount)  , 0) as lastAmount
+        from tb_order
+        where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
+    </select>
+
+</mapper>
