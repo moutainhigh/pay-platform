@@ -165,9 +165,7 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
-//            String payQrCodeLink = null;
-
-            String payQrCodeLink = "https://qr.95516.com/00010002/62012322567838171340783535630163";
+            String payQrCodeLink = null;
 
             if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
                 payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
