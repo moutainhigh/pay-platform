@@ -36,11 +36,11 @@
                     启动支付宝
                 </button>
             </p>
-            <div style="font-size: 15px;line-height: 30px;">
-                <p style="color: red; font-weight: 800">【温馨提示】</p>
-                <p style="color: red; font-weight: 800">1、请输入实际金额${payPageData.payFloatAmount}付款</p>
-                <p style="color: red; font-weight: 800">2、不要输入整数金额,否则无法自动完成充值上分</p>
-            </div>
+                <%--<div style="font-size: 15px;line-height: 30px;">--%>
+                    <%--<p style="color: red; font-weight: 800">【温馨提示】</p>--%>
+                    <%--<p style="color: red; font-weight: 800">1、请输入实际金额${payPageData.payFloatAmount}付款</p>--%>
+                    <%--<p style="color: red; font-weight: 800">2、不要输入整数金额,否则无法自动完成充值上分</p>--%>
+                <%--</div>--%>
         </div>
         <div class="tip" style="text-align: center; margin-top: 30px;">
             <span style="color: black; font-weight: 800" id="tipsRed">若启动支付宝无法支付，请使用以下步骤：<br/><br/></span>
