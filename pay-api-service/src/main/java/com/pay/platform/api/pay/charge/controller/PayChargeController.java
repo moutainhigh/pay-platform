@@ -170,35 +170,6 @@ public class PayChargeController extends BaseController {
                 return;
             }
 
-            //待支付状态: 则主动查询通道接口，获取最新状态
-            if (PayStatusEnum.waitPay.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
-
-                try {
-                    String platformOrderNo = orderModel.getPlatformOrderNo();
-                    String result = PayUtil.findOrder(platformOrderNo);
-                    if (StringUtil.isNotEmpty(result)) {
-                        JSONObject resultJson = new JSONObject(result);
-                        if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
-                            JSONObject data = resultJson.getJSONObject("data");
-                            //支付成功
-                            if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {
-                                String payTime = data.getString("finishedDate");
-                                String channelActuatAmount = data.getString("actualPayment");
-
-                                //相关业务处理：更新订单状态等
-                                orderServicel.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
-                                orderModel = orderServicel.queryOrderByOrderNo(platformOrderNo);
-
-                            }
-
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
             Map<String, Object> data = new HashMap();
             data.put("merchantOrderNo", orderModel.getMerchantOrderNo());
             data.put("platformOrderNo", orderModel.getPlatformOrderNo());
