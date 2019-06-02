@@ -29,6 +29,6 @@ public interface LzyhPayDao {
      * @param orderAmount
      * @return
      */
-    double queryTradeCodeLastPayFloatAmount(String tradeCodeId, String orderAmount);
+    double queryTradeCodeLastPayFloatAmount(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
 
 }

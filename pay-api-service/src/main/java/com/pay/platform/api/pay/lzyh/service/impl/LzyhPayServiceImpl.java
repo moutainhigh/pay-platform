@@ -3,8 +3,6 @@ package com.pay.platform.api.pay.lzyh.service.impl;
 import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
-import com.pay.platform.api.pay.lakala.dao.LakalaPayDao;
-import com.pay.platform.api.pay.lakala.service.LakalaPayService;
 import com.pay.platform.api.pay.lzyh.dao.LzyhPayDao;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.dao.UnifiedPayDao;
