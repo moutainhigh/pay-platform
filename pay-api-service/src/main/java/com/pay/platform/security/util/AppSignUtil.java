@@ -14,20 +14,18 @@ import java.util.Map;
  */
 public class AppSignUtil {
 
-    private static final String APP_AES_SECRET = "kx824vgx";        //aes密钥
+    private static final String APP_SECRET = "kx824vgx";        //aes密钥
 
     /**
      * 生成签名
+     *
      * @param params：请求参数
-     * @param secret：密钥
-     *
-     * 1、对所有请求参数和时间戳进行排序
-     * 2、并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成第一遍sign签名
-     * 3、再通过aes加密，生成第二遍签名（防止app界面输入的签名泄漏; 因此进行二次加密签名）
-     *
+     * @param secret：密钥   1、对所有请求参数和时间戳进行排序
+     *                    2、并“参数=参数值”的模式用“&”字符拼接成字符串 + 加上商家密钥 -> MD5生成第一遍sign签名
+     *                    3、再通过aes加密，生成第二遍签名（防止app界面输入的签名泄漏; 因此进行二次加密签名）
      * @return
      */
-    public static String buildAppSign(Map<String, String> params , String secret) throws Exception {
+    public static String buildAppSign(Map<String, String> params, String secret) throws Exception {
 
         params.remove("sign");           //去除sign参数
 
@@ -54,13 +52,13 @@ public class AppSignUtil {
         }
 
         //3、请求参数拼接的字符串 + 商家密钥 -> MD5生成sign签名
-        String firstSign =  Md5Util.md5_32(formatParams.toString() + secret);
+        String firstSign = Md5Util.md5_32(formatParams.toString() + secret);
 
-        //4、再通过aes加密，生成第二遍签名（防止app界面输入的签名泄漏; 因此进行二次加密签名）
-        return AESUtil.encrypt(firstSign , APP_AES_SECRET);
+        //4、再进行二次签名，加上服务器指定的密钥；（第一次是每个app指定的回调密钥；第二次是服务器指定密钥）
+        //防止app界面输入的签名泄漏; 因此进行二次加密签名）
+        return firstSign + Md5Util.md5_32(APP_SECRET);
 
     }
-
 
 
 }

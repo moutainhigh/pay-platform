@@ -270,11 +270,15 @@ public class LzyhPayController extends BaseController {
                     merchantNotifyService.pushPaySuccessInfoByRetry(platformOrderNo);
                 }
 
-            }
+                json.put("status", "1");
+                json.put("msg", "回调成功！");
+                writeJson(response, json.toString());
 
-            json.put("status", "1");
-            json.put("msg", "回调成功！");
-            writeJson(response, json.toString());
+            } else {
+                json.put("status", "0");
+                json.put("msg", "回调失败,无匹配的订单,可能是已超时！");
+                writeJson(response, json.toString());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
