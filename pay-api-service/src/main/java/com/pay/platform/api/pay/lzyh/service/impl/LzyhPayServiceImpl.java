@@ -136,4 +136,9 @@ public class LzyhPayServiceImpl implements LzyhPayService {
         return lzyhPayDao.queryOrderInfoPyLzyhAppNotify(codeNum , amount , payCode);
     }
 
+    @Override
+    public int queryPayCodeExists(String payCode) {
+        return lzyhPayDao.queryPayCodeExists(payCode);
+    }
+
 }

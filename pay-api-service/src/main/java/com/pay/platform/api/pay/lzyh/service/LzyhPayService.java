@@ -43,4 +43,11 @@ public interface LzyhPayService {
      */
     Map<String,Object> queryOrderInfoPyLzyhAppNotify(String codeNum, String amount, String payCode);
 
+    /**
+     * 查询支付单号是否存在
+     * @param payCode
+     * @return
+     */
+    int queryPayCodeExists(String payCode);
+
 }

@@ -257,6 +257,14 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
+            int existsPayCode = lzyhPayService.queryPayCodeExists(payCode);
+            if(existsPayCode > 0){
+                json.put("status", "2");
+                json.put("msg", "该订单已成功回调过,请勿重复发起回调！");
+                writeJson(response, json.toString());
+                return;
+            }
+
             //查询数据库相匹配的订单（5分钟内 + 未支付 + 浮动金额）;
             //因为订单金额向下浮动，短期内不会出现重复金额的订单;
             Map<String, Object> orderInfo = lzyhPayService.queryOrderInfoPyLzyhAppNotify(codeNum, amount, payCode);
