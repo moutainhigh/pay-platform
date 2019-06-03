@@ -37,14 +37,15 @@
         where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
     </select>
 
-    <!-- 根据柳行回调信息匹配订单：5分钟内 + 未支付 + 浮动金额 -->
+    <!-- 根据柳行回调信息匹配订单：5分钟内 + 未支付 + 浮动金额;
+        并限制通道为柳行；避免不同通道,APP回调错误；-->
     <select id="queryOrderInfoPyLzyhAppNotify" parameterType="java.lang.String" resultType="java.util.Map">
         select * from tb_order
         where trade_code_num = #{codeNum}
         and (create_time between date_add(now(), interval - 5 minute) and now())
         and pay_status = 'waitPay'
         and format(pay_float_amount , 2) = format(${amount},2)
+        and pay_way in ('lzyhZfb' , 'lzyhWechat')
     </select>
-
 
 </mapper>
