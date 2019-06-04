@@ -9,10 +9,7 @@ import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
-import com.pay.platform.common.util.DateUtil;
-import com.pay.platform.common.util.DecimalCalculateUtil;
-import com.pay.platform.common.util.IpUtil;
-import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.*;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,6 +253,7 @@ public class LzyhPayController extends BaseController {
                 writeJson(response, json.toString());
                 return;
             }
+            OrderNoUtil.getOrderNoByUUId();
 
             int existsPayCode = lzyhPayService.queryPayCodeExists(payCode);
             if(existsPayCode > 0){
