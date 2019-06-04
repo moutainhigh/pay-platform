@@ -7,12 +7,14 @@ import com.pay.platform.api.pay.lzyh.dao.LzyhPayDao;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.dao.UnifiedPayDao;
 import com.pay.platform.common.plugins.redis.RedisLock;
+import com.pay.platform.common.socket.service.AppWebSocketService;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.OrderNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,6 +38,9 @@ public class LzyhPayServiceImpl implements LzyhPayService {
     private LzyhPayDao lzyhPayDao;
 
     @Autowired
+    private AppWebSocketService appWebSocketService;
+
+    @Autowired
     private RedisTemplate redisTemplate;
 
     /**
@@ -49,8 +54,15 @@ public class LzyhPayServiceImpl implements LzyhPayService {
     @Override
     public Map<String, Object> queryLooperTradeCodeByLzyh(String merchantId, String payChannelId, String orderAmount) {
         //1、去除已达到单日收款限制的号
-        //2、根据单日收款笔数、单日收款金额排序；返回最少的哪一个
-        return lzyhPayDao.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
+        //2、根据单日收款笔数、单日收款金额排序；从小到大排序；
+        List<Map<String, Object>> list = lzyhPayDao.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
+
+        //3、获取已经连接socket,在线的号
+        if (list != null && list.size() > 0) {
+            return appWebSocketService.getOnLineSocket(list);
+        }
+
+        return null;
     }
 
     /**
@@ -67,7 +79,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
      * @throws Exception
      */
     @Override
-    public String createOrderByLzyh(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId , String tradeCodeNum) throws Exception {
+    public OrderModel createOrderByLzyh(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId, String tradeCodeNum) throws Exception {
 
         //1、订单手续费计算
         String platformOrderNo = OrderNoUtil.getOrderNoByUUId();
@@ -115,7 +127,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
                 //3、创建订单
                 int count = orderDao.createOrder(orderModel);
                 if (count > 0) {
-                    return orderModel.getId();
+                    return orderModel;
                 } else {
                     return null;
                 }
@@ -133,7 +145,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
 
     @Override
     public Map<String, Object> queryOrderInfoPyLzyhAppNotify(String codeNum, String amount, String payCode) {
-        return lzyhPayDao.queryOrderInfoPyLzyhAppNotify(codeNum , amount , payCode);
+        return lzyhPayDao.queryOrderInfoPyLzyhAppNotify(codeNum, amount, payCode);
     }
 
     @Override

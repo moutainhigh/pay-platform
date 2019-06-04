@@ -27,7 +27,6 @@
         ) tab
         where (dayReceiveAmount + ${orderAmount}) &lt;= tab.day_amount_limit
         order by dayReceiveNum asc , dayReceiveAmount asc
-        limit 0 , 1
     </select>
 
     <!-- 查询1小时内：同一个码,同一个整数金额,最后一笔的浮动金额；避免重复回调错误; -->

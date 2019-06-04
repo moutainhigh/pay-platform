@@ -4,11 +4,13 @@ import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.merchant.model.MerchantModel;
 import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.merchant.service.MerchantService;
+import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
+import com.pay.platform.common.socket.service.AppWebSocketService;
 import com.pay.platform.common.util.*;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
@@ -45,6 +47,9 @@ public class LzyhPayController extends BaseController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private AppWebSocketService appWebSocketService;
 
     /**
      * 创建订单
@@ -114,17 +119,25 @@ public class LzyhPayController extends BaseController {
             //完成创建订单
             String tradeCodeId = tradeCode.get("id").toString();
             String tradeCodeNum = tradeCode.get("code_num").toString();
-            String id = lzyhPayService.createOrderByLzyh(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId, tradeCodeNum);
-            if (StringUtil.isEmpty(id)) {
+            OrderModel orderModel = lzyhPayService.createOrderByLzyh(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId, tradeCodeNum);
+            if (orderModel == null) {
                 json.put("status", "0");
                 json.put("msg", "下单失败,当前支付人数过多,请稍后再试！");
                 writeJson(response, json.toString());
                 return;
             }
 
+            //发送socket消息;获取收款码;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    appWebSocketService.sendGetQrCodeSocket(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+                }
+            }).start();
+
             json.put("status", "1");
             json.put("msg", "下单成功");
-            json.put("data", id);
+            json.put("data", orderModel.getId());
             writeJson(response, json.toString());
 
         } catch (Exception e) {

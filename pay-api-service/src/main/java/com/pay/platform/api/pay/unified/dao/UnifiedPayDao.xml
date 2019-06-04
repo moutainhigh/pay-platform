@@ -93,4 +93,14 @@
         where tor.id = #{tradeId}
     </select>
 
+    <!-- 根据收款码查询匹配订单（5分钟内 + 未支付状态 + 金额匹配） -->
+    <select id="queryOrderByQrCodeInfo" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from tb_order
+        where trade_code_num = #{codeNum}
+        and (create_time between date_add(now(), interval - 5 minute) and now())
+        and pay_status = 'waitPay'
+        and format(pay_float_amount , 2) = format(${amount},2)
+        and pay_qr_code_link is null
+    </select>
+
 </mapper>

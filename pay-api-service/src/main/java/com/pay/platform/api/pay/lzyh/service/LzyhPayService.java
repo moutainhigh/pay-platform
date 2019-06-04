@@ -1,5 +1,7 @@
 package com.pay.platform.api.pay.lzyh.service;
 
+import com.pay.platform.api.order.model.OrderModel;
+
 import java.util.Map;
 
 /**
@@ -30,7 +32,7 @@ public interface LzyhPayService {
      * @param tradeCodeId
      * @return
      */
-    String createOrderByLzyh(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId, String tradeCodeNum) throws Exception;
+    OrderModel createOrderByLzyh(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId, String tradeCodeNum) throws Exception;
 
     /**
      * 根据柳行回调信息 - 查询匹配的订单

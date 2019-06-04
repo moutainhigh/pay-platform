@@ -39,4 +39,12 @@ public interface UnifiedPayService {
      */
     Map<String,Object> queryFxiedCodeLinkByOrderId(String tradeId);
 
+    /**
+     * 根据收款码查询匹配订单
+     * @param codeNum
+     * @param amount
+     * @param codeUrl
+     */
+    Map<String,Object>  queryOrderByQrCodeInfo(String codeNum, String amount, String codeUrl);
+
 }

@@ -57,23 +57,36 @@ public interface UnifiedPayDao {
 
     /**
      * 查询支付页面所需数据
+     *
      * @param tradeId
      * @return
      */
-    Map<String,Object> queryPayPageData(@Param("tradeId") String tradeId);
+    Map<String, Object> queryPayPageData(@Param("tradeId") String tradeId);
 
     /**
      * 根据编号查询交易码
+     *
      * @param codeNum
      * @return
      */
-    Map<String,Object> queryTradeCodeByCudeNum(@Param("codeNum") String codeNum);
+    Map<String, Object> queryTradeCodeByCudeNum(@Param("codeNum") String codeNum);
 
     /**
      * 获取固码链接
+     *
      * @param tradeId
      * @return
      */
-    Map<String,Object> queryFxiedCodeLinkByOrderId(@Param("tradeId") String tradeId);
+    Map<String, Object> queryFxiedCodeLinkByOrderId(@Param("tradeId") String tradeId);
+
+    /**
+     * 根据收款码查询匹配订单
+     *
+     * @param codeNum
+     * @param amount
+     * @param codeUrl
+     * @return
+     */
+    Map<String, Object> queryOrderByQrCodeInfo(@Param("codeNum") String codeNum, @Param("amount") String amount, @Param("codeUrl") String codeUrl);
 
 }
