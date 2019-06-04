@@ -61,6 +61,7 @@ public class AppWebSocketServiceImpl implements AppWebSocketService{
         try {
 
             JSONObject reqJson = new JSONObject();
+            reqJson.put("messageType", AppWebSocketHandler.MESSAGE_GET_QR_CODE);
             reqJson.put("amount", amount);
             reqJson.put("remarks", "");
 

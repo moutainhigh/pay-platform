@@ -36,7 +36,6 @@ public class SpringWebSocketConfig extends WebMvcConfigurerAdapter implements We
         registry.addHandler(webSocketHandler() ,"/websocket/app/server.do");
     }
 
-    @Bean
     public TextWebSocketHandler webSocketHandler() {
         return new AppWebSocketHandler();
     }

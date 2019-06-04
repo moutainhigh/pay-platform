@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,6 +23,7 @@ import java.util.Map;
 /**
  * app socket处理器
  */
+@Component
 public class AppWebSocketHandler extends TextWebSocketHandler {
 
     /**
@@ -36,9 +38,9 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
     /**
      * 消息类型配置
      */
-    private static final String MESSAGE_LOGIN = "MESSAG_LOGIN";                           //登录
-    private static final String MESSAGE_UPLOAD_QR_CODE = "MESSAG_UPLOAD_QR_CODE";         //上传收款码
-    private static final String MESSAGE_GET_QR_CODE = "MESSAG_GET_QR_CODE";               //获取收款码
+    public static final String MESSAGE_LOGIN = "MESSAG_LOGIN";                           //登录
+    public static final String MESSAGE_UPLOAD_QR_CODE = "MESSAG_UPLOAD_QR_CODE";         //上传收款码
+    public static final String MESSAGE_GET_QR_CODE = "MESSAG_GET_QR_CODE";               //获取收款码
 
     static {
         users = new ArrayList<WebSocketSession>();
@@ -111,23 +113,23 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
             String reqJsonStr = message.getPayload().toString();
             logger.debug("接收到客户端消息：" + reqJsonStr);
 
-            //校验签名
-            JSONObject reqJson = new JSONObject(reqJsonStr);
-            String codeNum = reqJson.getString("codeNum");
-            Map<String, Object> tradeCodeInfo = unifiedPayService.queryTradeCodeByCudeNum(codeNum);
-            if (tradeCodeInfo == null) {
-                logger.info("无效的设备编码：" + codeNum);
-                return;
-            }
+                //校验签名
+                JSONObject reqJson = new JSONObject(reqJsonStr);
+                String codeNum = reqJson.getString("codeNum");
+                Map<String, Object> tradeCodeInfo = unifiedPayService.queryTradeCodeByCudeNum(codeNum);
+                if (tradeCodeInfo == null) {
+                    logger.info("无效的设备编码：" + codeNum);
+                    return;
+                }
 
-            String secret = tradeCodeInfo.get("secret").toString();
-            String sign = reqJson.getString("sign").trim();
-            String currentSign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJsonStr), secret);
+                String secret = tradeCodeInfo.get("secret").toString();
+                String sign = reqJson.getString("sign").trim();
+                String currentSign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJsonStr), secret);
 
-            if (!sign.equalsIgnoreCase(currentSign)) {
-                logger.info("签名错误：" + codeNum);
-                return;
-            }
+                if (!sign.equalsIgnoreCase(currentSign)) {
+                    logger.info("签名错误：" + codeNum);
+                    return;
+                }
 
             String messageType = reqJson.getString("messageType");
 
