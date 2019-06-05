@@ -35,9 +35,9 @@
             <img id="code" src="" style="width: 150px; height: 150px;margin-top: -10px;"/>
         </div>
         <div class="tip" style="text-align: center;margin-top: 30px;">
-            <span style="color: red; font-weight: 800" id="tipsRed">若启动微信无法支付，请使用以下步骤：<br/><br/></span>
+            <%--<span style="color: red; font-weight: 800" id="tipsRed">若启动微信无法支付，请使用以下步骤：<br/><br/></span>--%>
             1、请截屏保存到相册<br/>
-            2、点击“一键启动微信扫一扫”<br/>
+            2、打开微信扫一扫<br/>
             3、选择相册>选择二维码图片>完成支付
             <img src="${baseURL}/resources/images/pay/xiangce.jpg"/>
         </div>

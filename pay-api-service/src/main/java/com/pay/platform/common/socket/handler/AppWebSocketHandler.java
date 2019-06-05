@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -17,7 +18,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,10 +46,8 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
         users = new ArrayList<WebSocketSession>();
     }
 
-    @Autowired
     private UnifiedPayService unifiedPayService;
 
-    @Autowired
     private OrderService orderService;
 
     public AppWebSocketHandler() {
@@ -113,23 +111,23 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
             String reqJsonStr = message.getPayload().toString();
             logger.debug("接收到客户端消息：" + reqJsonStr);
 
-                //校验签名
-                JSONObject reqJson = new JSONObject(reqJsonStr);
-                String codeNum = reqJson.getString("codeNum");
-                Map<String, Object> tradeCodeInfo = unifiedPayService.queryTradeCodeByCudeNum(codeNum);
-                if (tradeCodeInfo == null) {
-                    logger.info("无效的设备编码：" + codeNum);
-                    return;
-                }
+            //校验签名
+            JSONObject reqJson = new JSONObject(reqJsonStr);
+            String codeNum = reqJson.getString("codeNum");
+            Map<String, Object> tradeCodeInfo = getUnifiedPayService().queryTradeCodeByCudeNum(codeNum);
+            if (tradeCodeInfo == null) {
+                logger.info("无效的设备编码：" + codeNum);
+                return;
+            }
 
-                String secret = tradeCodeInfo.get("secret").toString();
-                String sign = reqJson.getString("sign").trim();
-                String currentSign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJsonStr), secret);
+            String secret = tradeCodeInfo.get("secret").toString();
+            String sign = reqJson.getString("sign").trim();
+            String currentSign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJsonStr), secret);
 
-                if (!sign.equalsIgnoreCase(currentSign)) {
-                    logger.info("签名错误：" + codeNum);
-                    return;
-                }
+            if (!sign.equalsIgnoreCase(currentSign)) {
+                logger.info("签名错误：" + codeNum);
+                return;
+            }
 
             String messageType = reqJson.getString("messageType");
 
@@ -144,10 +142,10 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
                 String codeUrl = reqJson.getString("codeUrl");
 
                 //查询匹配的订单,并更新收款链接
-                Map<String, Object> orderInfo = unifiedPayService.queryOrderByQrCodeInfo(codeNum, amount, codeUrl);
+                Map<String, Object> orderInfo = getUnifiedPayService().queryOrderByQrCodeInfo(codeNum, amount, codeUrl);
                 if (orderInfo != null) {
                     String id = orderInfo.get("id").toString();
-                    orderService.updateOrderPayQrCodeLink(id, codeUrl);
+                    getOrderService().updateOrderPayQrCodeLink(id, codeUrl);
                 }
 
             }
@@ -174,6 +172,20 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
 
     public boolean supportsPartialMessages() {
         return false;
+    }
+
+    public UnifiedPayService getUnifiedPayService() {
+        if(unifiedPayService == null){
+            unifiedPayService = AppContext.getApplicationContext().getBean(UnifiedPayService.class);
+        }
+        return unifiedPayService;
+    }
+
+    public OrderService getOrderService() {
+        if(orderService == null){
+            orderService = AppContext.getApplicationContext().getBean(OrderService.class);
+        }
+        return orderService;
     }
 
 }

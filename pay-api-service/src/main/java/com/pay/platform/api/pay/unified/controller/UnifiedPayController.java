@@ -281,10 +281,10 @@ public class UnifiedPayController extends BaseController {
 
         String url = request.getParameter("payUrl");
 
-        //如果前端传递的是base64; 则进行解码
-        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))) {
-            url = Base64Util.parseBase64(url);
-        }
+//        //如果前端传递的是base64; 则进行解码
+//        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))) {
+//            url = Base64Util.parseBase64(url);
+//        }
 
         QrcodeUtil.drawQrcodeImg(url, response);
         response.setContentType("text/html");

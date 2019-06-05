@@ -34,6 +34,12 @@
         <security:custom-filter ref="springUtf8Encoding" position="FIRST"/>
     </security:http>
 
+    <!-- websocket接口,不进行安全过滤 -->
+    <security:http pattern="/websocket/**" create-session="never" auto-config="true" once-per-request="true">
+        <security:csrf disabled="true"/>
+        <security:custom-filter ref="springUtf8Encoding" position="FIRST"/>
+    </security:http>
+
     <!-- app接口,需拦截,进行签名认证 -->
     <security:http pattern="/app/**" create-session="never" auto-config="true" once-per-request="true">
         <security:csrf disabled="true"/>
