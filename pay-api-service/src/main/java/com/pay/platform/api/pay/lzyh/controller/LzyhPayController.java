@@ -12,6 +12,7 @@ import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.socket.service.AppWebSocketService;
 import com.pay.platform.common.util.*;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -286,14 +287,14 @@ public class LzyhPayController extends BaseController {
                 //支付成功业务处理：更新订单状态，增加代理、商家账户余额等.
                 boolean flag = orderService.paySuccessBusinessHandle(platformOrderNo, payCode, payTime);
 
-                json.put("status", "1");
-                json.put("msg", "回调后台成功！");
-                writeJson(response, json.toString());
-
                 //推送支付回调给商家
                 if (flag) {
                     merchantNotifyService.pushPaySuccessInfoByRetry(platformOrderNo);
                 }
+
+                json.put("status", "1");
+                json.put("msg", "回调后台成功！");
+                writeJson(response, json.toString());
 
             } else {
                 json.put("status", "0");
