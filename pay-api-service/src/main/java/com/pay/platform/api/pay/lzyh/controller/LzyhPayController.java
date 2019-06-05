@@ -286,14 +286,14 @@ public class LzyhPayController extends BaseController {
                 //支付成功业务处理：更新订单状态，增加代理、商家账户余额等.
                 boolean flag = orderService.paySuccessBusinessHandle(platformOrderNo, payCode, payTime);
 
+                json.put("status", "1");
+                json.put("msg", "回调后台成功！");
+                writeJson(response, json.toString());
+
                 //推送支付回调给商家
                 if (flag) {
                     merchantNotifyService.pushPaySuccessInfoByRetry(platformOrderNo);
                 }
-
-                json.put("status", "1");
-                json.put("msg", "回调成功！");
-                writeJson(response, json.toString());
 
             } else {
                 json.put("status", "0");
