@@ -205,7 +205,10 @@
     </select>
 
     <select id="queryMerchantInfoByTradeCode" parameterType="java.lang.String" resultType="java.util.Map">
-        
+        select tm.merchant_no merchantNo , tm.merchant_secret merchantSecret , tmtc.code_num codeNum
+        from tb_merchant_trade_code tmtc
+        inner join tb_merchant tm on tm.id = tmtc.merchant_id
+        where tmtc.code_num = #{codeNum};
     </select>
 
 </mapper>

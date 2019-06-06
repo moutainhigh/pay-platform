@@ -1,9 +1,7 @@
 package com.pay.platform.modules.loopMgr.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.pay.platform.common.util.ExcelUtil;
-import com.pay.platform.common.util.JsonUtil;
-import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.*;
 import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 import com.pay.platform.modules.loopMgr.service.LoopMgrService;
@@ -14,6 +12,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +46,10 @@ public class LoopMgrController extends BaseController {
     @Autowired
     private PayChannelService payChannelService;
 
+    //接口服务地址
+    @Value("${api.server.url}")
+    private String apiServerUrl;
+
     /**
      * 分页查询交易码列表
      *
@@ -73,21 +76,21 @@ public class LoopMgrController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/queryTradeCodeSuccessRateList", produces = "application/json")
-    public void queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode , String beginTime , String endTime) throws Exception {
+    public void queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode, String beginTime, String endTime) throws Exception {
 
         JSONObject json = new JSONObject();
 
         //查询总成功率(根据商编、通道、时间)
-        Map<String,Object> successRate = tradeCodeService.queryTradeSuccessRate(tradeCode.getMerchantId() , tradeCode.getChannelId() , beginTime , endTime);
+        Map<String, Object> successRate = tradeCodeService.queryTradeSuccessRate(tradeCode.getMerchantId(), tradeCode.getChannelId(), beginTime, endTime);
 
         //查询每个号的成功率
         setPageInfo(request);
-        PageInfo<Map<String,Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime);
+        PageInfo<Map<String, Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime);
 
 
-        Map<String,Object> data = new HashMap<>();
-        data.put("pageInfo" , pageInfo);
-        data.put("successRate" , successRate);
+        Map<String, Object> data = new HashMap<>();
+        data.put("pageInfo", pageInfo);
+        data.put("successRate", successRate);
 
         json.put("success", true);
         json.put("data", data);
@@ -562,11 +565,11 @@ public class LoopMgrController extends BaseController {
      */
     @RequestMapping(value = "/updateTradeCodeEnabled", produces = "application/json")
     @SystemControllerLog(module = "交易码管理", operation = "更新启用状态")
-    public void updateTradeCodeEnabled(HttpServletResponse response, String ids , String enabled) throws Exception {
+    public void updateTradeCodeEnabled(HttpServletResponse response, String ids, String enabled) throws Exception {
 
         JSONObject json = new JSONObject();
 
-        Integer count = tradeCodeService.updateTradeCodeEnabled(ids.split(",") , enabled);
+        Integer count = tradeCodeService.updateTradeCodeEnabled(ids.split(","), enabled);
 
         if (count > 0) {
             json.put("success", true);
@@ -589,30 +592,70 @@ public class LoopMgrController extends BaseController {
      */
     @RequestMapping(value = "/testPay", produces = "application/json")
     @SystemControllerLog(module = "交易码管理", operation = "测试支付")
-    public void testPay(HttpServletResponse response, String codeNum , String channelCode) throws Exception {
+    public void testPay(HttpServletResponse response, String codeNum, String channelCode, String amount) throws Exception {
 
         JSONObject json = new JSONObject();
 
-        Map<String,Object> merchantInfo = tradeCodeService.queryMerchantInfoByTradeCode(codeNum);
+        Map<String, Object> merchantInfo = tradeCodeService.queryMerchantInfoByTradeCode(codeNum);
+        String merchantNo = merchantInfo.get("merchantNo").toString();
+        String merchantSecret = merchantInfo.get("merchantSecret").toString();
 
-//        String merchantNo = "17818991616";                                  //商家编号
-//        String merchantSecret = "9ae482f4380b412d8554018f7bf2d023";         //商家密钥：调接口签名用
-//
-//        String serverURL = "http://localhost:8080";        //系统请求地址
+        //1、完成下单请求
+        Map<String, String> params = new HashMap();
+        params.put("merchantNo", merchantNo);
+        params.put("merchantOrderNo", "test" + OrderNoUtil.getOrderNoByUUId());
+        params.put("orderAmount", amount);                      //支付金额
+        params.put("payWay", channelCode);                      //支付类型
+        params.put("notifyUrl", apiServerUrl + "/openApi/testMerchantNotify");
+        params.put("returnUrl", "");
+        params.put("clientIp", "");
+        params.put("timestamp", System.currentTimeMillis() + "");
+        params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
+        String jsonStr = JsonUtil.parseToJsonStr(params);
+        String result = HttpClientUtil.doPost(apiServerUrl + "/api/unifiedCreateOrder", jsonStr);
+        if (StringUtil.isEmpty(result)) {
+            json.put("success", false);
+            json.put("msg", "下单失败");
+            writeJson(response, json.toString());
+            return;
+        }
+        JSONObject respJson = new JSONObject(result);
+        if (!"1".equalsIgnoreCase(respJson.getString("status"))) {
+            json.put("success", false);
+            json.put("msg", respJson.getString("msg"));
+            writeJson(response, json.toString());
+            return;
+        }
 
-//        Integer count = tradeCodeService.testPay(ids.split(",") , enabled);
-//
-//        if (count > 0) {
-//            json.put("success", true);
-//            json.put("msg", "保存成功");
-//        } else {
-//            json.put("success", false);
-//            json.put("msg", "保存失败");
-//        }
+        //2、获取支付链接
+        String tradeId = respJson.getString("data");
+        params = new HashMap<>();
+        params.put("tradeId", tradeId);
+        params.put("merchantNo", merchantNo);
+        params.put("timestamp", System.currentTimeMillis() + "");
+        params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
+        jsonStr = JsonUtil.parseToJsonStr(params);
+        result = HttpClientUtil.doPost(apiServerUrl + "/api/getPayLink", jsonStr);
+        if (StringUtil.isEmpty(result)) {
+            json.put("success", false);
+            json.put("msg", "下单失败");
+            writeJson(response, json.toString());
+            return;
+        }
 
+        respJson = new JSONObject(result);
+        if (!"1".equalsIgnoreCase(respJson.getString("status"))) {
+            json.put("success", false);
+            json.put("msg", respJson.getString("msg"));
+            writeJson(response, json.toString());
+            return;
+        }
+
+        json.put("success", true);
+        json.put("msg", "下单成功");
+        json.put("data", respJson.getString("data"));
         writeJson(response, json.toString());
 
     }
-
 
 }

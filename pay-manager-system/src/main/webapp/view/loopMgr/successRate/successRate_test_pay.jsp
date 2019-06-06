@@ -173,8 +173,8 @@
                                 <select name="channelCode" id="channelCode" class="form-control">
                                     <%--<option value="hcZfb">话冲支付宝</option>--%>
                                     <%--<option value="hcWechat">话冲微信</option>--%>
-                                    <option value="lklZfbFixed">拉卡拉-支付宝固码</option>
-                                    <option value="lklWeChatFixed">拉卡拉-微信固码</option>
+                                    <option value="lzyhZfb">柳行-支付宝</option>
+                                    <option value="lzyhWechat">柳行-微信</option>
                                 </select>
                             </div>
                         </div>
@@ -231,8 +231,11 @@
 
                 if (response && response.success == true) {
                     $.msg.success(response.msg);
-                    $(".modal-footer .btn-danger").trigger("click");
                     pageScope.tradeCodeTable.bootstrapTable('refresh');
+
+                    var payLink = response.data;
+                    window.open(payLink);               //跳转到支付链接页面
+
                 } else {
                     $.msg.fail(response.msg);
                 }
