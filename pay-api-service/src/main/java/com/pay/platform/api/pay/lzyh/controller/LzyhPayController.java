@@ -8,6 +8,7 @@ import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
+import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.socket.service.AppWebSocketService;
@@ -289,7 +290,13 @@ public class LzyhPayController extends BaseController {
 
                 //推送支付回调给商家
                 if (flag) {
-                    merchantNotifyService.pushPaySuccessInfoByRetry(platformOrderNo);
+                    //开启异步线程回调商家;避免响应给app的请求阻塞;
+                    AppContext.getExecutorService().submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            merchantNotifyService.pushPaySuccessInfoByRetry(platformOrderNo);
+                        }
+                    });
                 }
 
                 json.put("status", "1");
