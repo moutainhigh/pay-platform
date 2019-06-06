@@ -58,8 +58,8 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
      * 连接成功时候触发
      */
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        logger.info("websocket连接成功......当前数量:" + users.size());
         users.add(session);
+        logger.info("websocket连接成功......当前数量:" + users.size());
     }
 
     /**

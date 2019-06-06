@@ -292,4 +292,23 @@ public class UnifiedPayController extends BaseController {
     }
 
 
+    /**
+     * 测试接口是否可用
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping({"/openApi/ping"})
+    public void ping(HttpServletResponse response, HttpServletRequest request) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        json.put("status", "1");
+        json.put("msg", "请求成功");
+        writeJson(response, json.toString());
+
+    }
+
+
 }
