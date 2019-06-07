@@ -28,6 +28,10 @@ public class JdbcConfig {
     @Value("${jdbc.initialSize}")
     private int initialSize;
 
+    //接口服务地址
+    @Value("${api.server.url}")
+    private String apiServerUrl;
+
     public String getDriver() {
         return driver;
     }
@@ -76,4 +80,11 @@ public class JdbcConfig {
         this.initialSize = initialSize;
     }
 
+    public String getApiServerUrl() {
+        return apiServerUrl;
+    }
+
+    public void setApiServerUrl(String apiServerUrl) {
+        this.apiServerUrl = apiServerUrl;
+    }
 }

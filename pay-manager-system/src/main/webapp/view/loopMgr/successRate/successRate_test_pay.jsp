@@ -186,7 +186,7 @@
                             </div>
                         </div>
 
-                        <button data-bb-handler="success" type="button" class="btn btn-success" onclick="testPay()">测试支付</button>
+                        <button data-bb-handler="success" id="btnTestPay" type="button" class="btn btn-success" onclick="testPay()">测试支付</button>
 
                     </form>
                 </div>
@@ -194,6 +194,7 @@
 
         </div>
     </div>
+
 </center>
 </body>
 
@@ -218,20 +219,25 @@
         }
 
         var codeNum = $("#codeNum").val();
+        var amount = $("#amount").val();
         var channelCode = $("#channelCode").find("option:selected").val();
+
+        //禁用按钮,防止重复提交
+        var btn = $("#btnTestPay");
+        btn.attr("disabled", "disabled");
+
+        $.msg.toast("下单中,请等待。");
 
         $.ajax({
             url: baseURL + '/loopMgr/tradeCode/testPay?_csrf=' + token,
             type: "post",
             dataType: "json",
-            data: {"codeNum": codeNum, "channelCode": channelCode, "_csrf": token},
+            data: {"codeNum": codeNum, "amount": amount, "channelCode": channelCode, "_csrf": token},
             success: function (response) {
-
-                btn.removeAttr("disabled");
 
                 if (response && response.success == true) {
                     $.msg.success(response.msg);
-                    pageScope.tradeCodeTable.bootstrapTable('refresh');
+                    btn.removeAttr("disabled");
 
                     var payLink = response.data;
                     window.open(payLink);               //跳转到支付链接页面
@@ -240,6 +246,8 @@
                     $.msg.fail(response.msg);
                 }
 
+            }, error: function (e) {
+                btn.removeAttr("disabled");
             }
         });
 

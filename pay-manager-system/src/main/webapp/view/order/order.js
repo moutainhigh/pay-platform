@@ -86,7 +86,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     html += "<button type='button' class='btn btn-link' onclick='pageScope.showOrderDetail()' ><i class='glyphicon glyphicon-file'></i></button>";
 
                     var platformOrderNo = row.platformOrderNo;
-                    html += "<button type='button' class='btn btn-link' onclick='pageScope.pushPaySuccessInfo(\"" + row.platformOrderNo + "\")' >补单回调</button>";
+
+                    //make
+                    if (roleCode == "ROLE_ADMIN" || roleCode == "ROLE_CODE_TRADER") {
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.makeOrderPaySuccess(\"" + row.platformOrderNo + "\")' >补单回调</button>";
+                    }
 
                     return html;
                 }
@@ -171,9 +175,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
     /**
      * 手动补单-回调商家
      */
-    pageScope.pushPaySuccessInfo = function (orderNo) {
+    pageScope.makeOrderPaySuccess = function (orderNo) {
         $.ajax({
-            url: baseURL + "/order/pushPaySuccessInfo",
+            url: baseURL + "/order/makeOrderPaySuccess",
             type: "post",
             dataType: "json",
             data: {"orderNo": orderNo, "_csrf": token},

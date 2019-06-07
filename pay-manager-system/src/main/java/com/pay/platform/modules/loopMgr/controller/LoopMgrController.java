@@ -1,6 +1,7 @@
 package com.pay.platform.modules.loopMgr.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.pay.platform.common.config.JdbcConfig;
 import com.pay.platform.common.util.*;
 import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
@@ -46,9 +47,8 @@ public class LoopMgrController extends BaseController {
     @Autowired
     private PayChannelService payChannelService;
 
-    //接口服务地址
-    @Value("${api.server.url}")
-    private String apiServerUrl;
+    @Autowired
+    private JdbcConfig jdbcConfig;
 
     /**
      * 分页查询交易码列表
@@ -606,13 +606,13 @@ public class LoopMgrController extends BaseController {
         params.put("merchantOrderNo", "test" + OrderNoUtil.getOrderNoByUUId());
         params.put("orderAmount", amount);                      //支付金额
         params.put("payWay", channelCode);                      //支付类型
-        params.put("notifyUrl", apiServerUrl + "/openApi/testMerchantNotify");
+        params.put("notifyUrl", jdbcConfig.getApiServerUrl() + "/openApi/testMerchantNotify");
         params.put("returnUrl", "");
         params.put("clientIp", "");
         params.put("timestamp", System.currentTimeMillis() + "");
         params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
         String jsonStr = JsonUtil.parseToJsonStr(params);
-        String result = HttpClientUtil.doPost(apiServerUrl + "/api/unifiedCreateOrder", jsonStr);
+        String result = HttpClientUtil.doPost(jdbcConfig.getApiServerUrl() + "/api/unifiedCreateOrder", jsonStr);
         if (StringUtil.isEmpty(result)) {
             json.put("success", false);
             json.put("msg", "下单失败");
@@ -635,7 +635,7 @@ public class LoopMgrController extends BaseController {
         params.put("timestamp", System.currentTimeMillis() + "");
         params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
         jsonStr = JsonUtil.parseToJsonStr(params);
-        result = HttpClientUtil.doPost(apiServerUrl + "/api/getPayLink", jsonStr);
+        result = HttpClientUtil.doPost(jdbcConfig.getApiServerUrl() + "/api/getPayLink", jsonStr);
         if (StringUtil.isEmpty(result)) {
             json.put("success", false);
             json.put("msg", "下单失败");

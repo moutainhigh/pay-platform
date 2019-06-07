@@ -96,15 +96,15 @@ public class OrderController extends BaseController {
     }
 
     /**
-     * 手动补单-回调商家
+     * 手动补单回调
      *
      * @param response
      * @param orderNo
      * @throws Exception
      */
-    @RequestMapping(value = "/pushPaySuccessInfo", produces = "application/json")
-    @SystemControllerLog(module = "商家管理", operation = "手动补单-回调商家")
-    public void pushPaySuccessInfo(HttpServletResponse response, String orderNo) throws Exception {
+    @RequestMapping(value = "/makeOrderPaySuccess", produces = "application/json")
+    @SystemControllerLog(module = "商家管理", operation = "手动补单回调")
+    public void makeOrderPaySuccess(HttpServletResponse response, String orderNo) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -115,6 +115,10 @@ public class OrderController extends BaseController {
             writeJson(response, json.toString());
             return;
         }
+
+        //话冲通道：查询第三方接口
+
+        //lzyh通道：
 
         //待支付状态: 则主动查询通道接口，获取最新状态，再进行回调
         if (PayStatusEnum.waitPay.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
