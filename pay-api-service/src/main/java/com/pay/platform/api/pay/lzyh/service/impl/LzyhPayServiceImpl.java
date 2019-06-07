@@ -59,8 +59,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
 
         //3、获取已经连接socket,在线的号
         if (list != null && list.size() > 0) {
-            appWebSocketService.getOnLineSocket(list);
-//      return appWebSocketService.getOnLineSocket(list);
+            return appWebSocketService.getOnLineSocket(list);
         }
 
         return null;

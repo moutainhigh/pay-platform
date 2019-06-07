@@ -5,13 +5,11 @@ import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
-import com.pay.platform.common.util.DateUtil;
-import com.pay.platform.common.util.IpUtil;
-import com.pay.platform.common.util.QrcodeUtil;
-import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.*;
 import com.pay.platform.common.util.encrypt.Base64Util;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 统一支付接口：
@@ -310,5 +309,11 @@ public class UnifiedPayController extends BaseController {
 
     }
 
+
+    @RequestMapping({"/openApi/testMerchantNotify"})
+    public void testMerchantNotify(HttpServletResponse response, HttpServletRequest request)  throws Exception {
+        response.getWriter().write("SUCCESS");
+        response.getWriter().flush();
+    }
 
 }

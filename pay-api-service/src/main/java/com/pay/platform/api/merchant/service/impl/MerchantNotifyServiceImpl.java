@@ -8,6 +8,7 @@ import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.AESUtil;
 import com.pay.platform.common.util.HttpClientUtil;
+import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.security.util.MerchantSecretCacheUtil;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -104,6 +105,11 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
 
         String notifyUrl = orderModel.getNotifyUrl();                                                            //回调地址
         String notifySecret = MerchantSecretCacheUtil.getNotifySecret(orderModel.getMerchantNo());               //回调密钥
+
+        //测试支付情况下,可能为空
+        if(StringUtil.isEmpty(notifyUrl)){
+            return false;
+        }
 
         //数据进行AES加密后,再回调给商家
         try {
