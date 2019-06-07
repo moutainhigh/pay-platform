@@ -41,12 +41,19 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             {title: '商户订单号', field: 'merchantOrderNo', align: 'center', sortable: true},
             {title: '平台订单号', field: 'platformOrderNo', align: 'center', sortable: true},
             // {title: '支付单号', field: 'payCode', align: 'center', sortable: true},
+            {title: '码编号', field: 'tradeCodeNum', align: 'center', sortable: true},
             {title: '订单金额(元)', field: 'orderAmount', align: 'center', sortable: true},
-            {title: '实际金额(元)', field: 'actualAmount', align: 'center', sortable: true},
-            {title: '手续费(元)', field: 'handlingFee', align: 'center', sortable: true},
-            {title: '通道收入', field: 'channelAmount', align: 'center', sortable: true},
-            {title: '平台收入', field: 'platformAmount', align: 'center', sortable: true},
-            {title: '代理收入', field: 'agentAmount', align: 'center', sortable: true},
+            {
+                title: '支付浮动金额(元)', field: 'payFloatAmount', align: 'center', sortable: true,
+                formatter: function (value, row, index) {
+                    return Number(value).toFixed(2);
+                }
+            },
+            // {title: '商家实收(元)', field: 'actualAmount', align: 'center', sortable: true},
+            // {title: '手续费(元)', field: 'handlingFee', align: 'center', sortable: true},
+            // {title: '通道收入', field: 'channelAmount', align: 'center', sortable: true},
+            // {title: '平台收入', field: 'platformAmount', align: 'center', sortable: true},
+            // {title: '代理收入', field: 'agentAmount', align: 'center', sortable: true},
             {
                 title: '支付方式 ',
                 field: 'payWay',
@@ -142,7 +149,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailPlatformOrderNo").val(pageScope.currentrow.platformOrderNo);
                 $("#detailPayCode").val(pageScope.currentrow.payCode);
                 $("#detailGoodsName").val(pageScope.currentrow.goodsName);
-                $("#detailOrderAmount").val(pageScope.currentrow.orderAmount);
+                $("#detailOrderAmount").val(pageScope.currentrow.orderAmount.toFixed(2));
 
                 $("#detailCostRate").val((pageScope.currentrow.costRate * 100).toFixed(2) + "%");
                 $("#detailAgentRate").val((pageScope.currentrow.agentRate * 100).toFixed(2) + "%");
@@ -176,20 +183,44 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      * 手动补单-回调商家
      */
     pageScope.makeOrderPaySuccess = function (orderNo) {
-        $.ajax({
-            url: baseURL + "/order/makeOrderPaySuccess",
-            type: "post",
-            dataType: "json",
-            data: {"orderNo": orderNo, "_csrf": token},
-            success: function (response) {
 
-                if (response && response.success == true) {
-                    $.msg.success(response.msg);
-                    pageScope.orderTable.bootstrapTable('refresh');
-                } else {
-                    $.msg.error(response.msg);
+        var dialog = $.dialog.show({
+            url: baseURL + "/view/order/order_bu_dan_confirm.jsp?" + _csrf + "=" + token,
+            onLoad: function () {
+                $("#budan_orderNo").val(pageScope.currentrow.platformOrderNo);
+            },
+            buttonEvents: {
+                success: function () {
+
+                    if (!$("#budanForm").valid()) {                   //表单验证
+                        return;
+                    }
+
+                    var btn = $(".modal-footer .btn-success");        //防止重复提交
+                    btn.attr("disabled", "disabled");
+
+                    $('#budanForm').ajaxSubmit({
+                        dataType: 'json',
+                        type: "post",
+                        success: function (response) {
+                            btn.removeAttr("disabled");
+
+                            if (response && response.success) {
+                                $.msg.success(response.msg);
+                                pageScope.orderTable.bootstrapTable('refresh');
+                                $(".modal-footer .btn-danger").trigger("click");
+                            }
+                            else {
+                                $.msg.error(response.msg);
+                            }
+
+                        }, error: function (e) {
+                            btn.removeAttr("disabled");
+                        }
+
+                    });
+
                 }
-
             }
         });
 

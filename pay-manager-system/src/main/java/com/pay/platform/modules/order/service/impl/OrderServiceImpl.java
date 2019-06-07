@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
      * @throws Exception
      */
     @Override
-    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime , String channelActuatAmount) throws Exception {
+    public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime) throws Exception {
 
         int count = 0;
 
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
 
                 if (!(PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus()))) {
                     //1、修改支付状态、支付单号
-                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime , channelActuatAmount);
+                    count += orderDao.updateOrderPayInfo(platformOrderNo, payNo, PayStatusEnum.payed.getCode(), payTime);
 
                     //2、增加代理的账户余额,并记录流水
                     String agentId = orderModel.getAgentId();
@@ -107,6 +107,11 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("订单:" + platformOrderNo + "支付回调业务处理失败,回滚事务!");
         }
 
+    }
+
+    @Override
+    public int queryOrderExistsByBuDanInfo(String orderNo, String merchantOrderNo, String payAmount) {
+        return orderDao.queryOrderExistsByBuDanInfo(orderNo , merchantOrderNo , payAmount);
     }
 
 }

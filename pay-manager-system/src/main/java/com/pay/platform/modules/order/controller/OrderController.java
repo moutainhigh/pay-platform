@@ -10,6 +10,8 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.enums.PayStatusEnum;
+import com.pay.platform.common.util.DateUtil;
+import com.pay.platform.common.util.PayChannelEnum;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.common.util.payCharge.util.PayUtil;
@@ -17,6 +19,7 @@ import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
 import com.pay.platform.modules.merchant.service.MerchantService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import javafx.scene.AmbientLight;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,26 +73,26 @@ public class OrderController extends BaseController {
         //超级管理员：可查看到所有的商家,接收前端传递的商家id
         if (SysUserUtil.isAdminRole(userModel)) {
             setPageInfo(request);
-            return orderService.queryOrderList(order, beginTime, endTime , null);
+            return orderService.queryOrderList(order, beginTime, endTime, null);
         }
         //码商管理员：默认可查看到绑定的商家,并接收前端传递的商家id
         else if (SysUserUtil.isCodeTraderRole(userModel)) {
             String codeTraderId = userModel.getCodeTraderId();
             List<String> merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
             setPageInfo(request);
-            return orderService.queryOrderList(order, beginTime, endTime , merchantIdList.toArray(new String[merchantIdList.size()]));
+            return orderService.queryOrderList(order, beginTime, endTime, merchantIdList.toArray(new String[merchantIdList.size()]));
         }
         //代理管理员：可查到下级商家的流水,接收前端传递的商家id
         else if (SysUserUtil.isAgentRole(userModel)) {
             order.setAgentId(userModel.getAgentId());
             setPageInfo(request);
-            return orderService.queryOrderList(order, beginTime, endTime , null);
+            return orderService.queryOrderList(order, beginTime, endTime, null);
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {
             order.setMerchantId(userModel.getMerchantId());
             setPageInfo(request);
-            return orderService.queryOrderList(order, beginTime, endTime , null);
+            return orderService.queryOrderList(order, beginTime, endTime, null);
         }
 
         return null;
@@ -104,7 +107,7 @@ public class OrderController extends BaseController {
      */
     @RequestMapping(value = "/makeOrderPaySuccess", produces = "application/json")
     @SystemControllerLog(module = "商家管理", operation = "手动补单回调")
-    public void makeOrderPaySuccess(HttpServletResponse response, String orderNo) throws Exception {
+    public void makeOrderPaySuccess(HttpServletResponse response, String orderNo, String merchantOrderNo, String payAmount) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -116,39 +119,52 @@ public class OrderController extends BaseController {
             return;
         }
 
-        //话冲通道：查询第三方接口
-
-        //lzyh通道：
-
-        //待支付状态: 则主动查询通道接口，获取最新状态，再进行回调
+        //待支付状态:
         if (PayStatusEnum.waitPay.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
 
-            try {
-                String platformOrderNo = orderModel.getPlatformOrderNo();
-                String result = PayUtil.findOrder(platformOrderNo);
-                if (StringUtil.isNotEmpty(result)) {
-                    JSONObject resultJson = new JSONObject(result);
-                    if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
-                        JSONObject data = resultJson.getJSONObject("data");
-                        //支付成功
-                        if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {
-                            String payTime = data.getString("finishedDate");
-                            String channelActuatAmount = data.getString("actualPayment");
+            //话冲通道：查询第三方接口
+            if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(orderModel.getPayWay()) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(orderModel.getPayWay())) {
 
-                            //相关业务处理：更新订单状态等
-                            orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime, channelActuatAmount);
-                            orderModel = orderService.queryOrderByOrderNo(orderNo);         //获取数据库最新的订单信息
+                try {
+                    String platformOrderNo = orderModel.getPlatformOrderNo();
+                    String result = PayUtil.findOrder(platformOrderNo);
+                    if (StringUtil.isNotEmpty(result)) {
+                        JSONObject resultJson = new JSONObject(result);
+                        if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
+                            JSONObject data = resultJson.getJSONObject("data");
+                            if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {                      //支付成功
+                                String payTime = data.getString("finishedDate");
+                                //相关业务处理：更新订单状态等
+                                orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime);
+                            }
+
                         }
-
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            }
+            //柳行通道：
+            else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(orderModel.getPayWay()) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(orderModel.getPayWay())) {
+
+                //避免人工回调错误,需要前端手动输入商家单号、支付金额; 后台查询后进行确认
+                int isInputRight = orderService.queryOrderExistsByBuDanInfo(orderNo, merchantOrderNo, payAmount);
+                if (isInputRight > 0) {
+                    orderService.paySuccessBusinessHandle(orderModel.getPlatformOrderNo(), null, DateUtil.getCurrentDateTime());
+                } else {
+                    json.put("status", "0");
+                    json.put("msg", "商家单号或实际支付金额错误,请检查输入！");
+                    writeJson(response, json.toString());
+                    return;
+                }
+
             }
 
         }
 
-        //已支付状态：直接回调
+        //已支付状态：直接回调给商家
+        orderModel = orderService.queryOrderByOrderNo(orderNo);         //获取数据库最新的订单信息
         if (PayStatusEnum.payed.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
             boolean flag = merchantNotifyService.pushPaySuccessInfo(orderNo);
 
@@ -157,12 +173,9 @@ public class OrderController extends BaseController {
                 json.put("msg", "回调成功");
             } else {
                 json.put("success", false);
-                json.put("msg", "回调失败,未收到商家响应");
+                json.put("msg", "订单已支付,但未收到商家响应回调成功！");
             }
 
-        } else {
-            json.put("success", false);
-            json.put("msg", "回调失败,可能是订单未支付或是回调延迟,请稍后再试。");
         }
 
         writeJson(response, json.toString());

@@ -71,4 +71,10 @@
         where platform_order_no = #{platformOrderNo}
     </update>
 
+    <!-- 根据补单提供信息,查询订单是否存在 -->
+    <select id="queryOrderExistsByBuDanInfo" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from tb_order
+        where platform_order_no = #{orderNo} and merchant_order_no = #{merchantOrderNo} and format(pay_float_amount , 2) = format(${payAmount},2)
+    </select>
+
 </mapper>

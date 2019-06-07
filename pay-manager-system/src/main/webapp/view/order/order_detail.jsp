@@ -56,7 +56,7 @@ To change this template use File | Settings | File Templates.
                     <input id="detailOrderAmount" name="orderAmount" type="text" class="form-control" readonly="readonly"/>
                 </div>
 
-                <label class="col-md-2 col-sm-2 control-label">实际金额(元)：</label>
+                <label class="col-md-2 col-sm-2 control-label">商家实收(元)：</label>
                 <div class="col-md-4 col-sm-4">
                     <input id="detailActualAmount" name="actualAmount" type="text" class="form-control" readonly="readonly"/>
                 </div>

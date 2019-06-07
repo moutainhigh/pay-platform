@@ -59,6 +59,15 @@ public interface OrderDao {
      * @return
      */
     int updateOrderPayInfo(@Param("platformOrderNo") String platformOrderNo, @Param("payNo") String payNo
-            , @Param("payStatus") String payStatus, @Param("payTime") String payTime, @Param("channelActuatAmount") String channelActuatAmount);
+            , @Param("payStatus") String payStatus, @Param("payTime") String payTime);
+
+    /**
+     * 根据补单提供信息,查询订单是否存在
+     * @param orderNo
+     * @param merchantOrderNo
+     * @param payAmount
+     * @return
+     */
+    int queryOrderExistsByBuDanInfo(@Param("orderNo") String orderNo,@Param("merchantOrderNo")  String merchantOrderNo, @Param("payAmount") String payAmount);
 
 }

@@ -62,6 +62,24 @@ public class OrderModel extends BaseModel {
 
     private String createTime;                //创建时间
 
+    private String tradeCodeNum;
+    private String payFloatAmount;      //浮动金额
+
+    public String getPayFloatAmount() {
+        return payFloatAmount;
+    }
+
+    public void setPayFloatAmount(String payFloatAmount) {
+        this.payFloatAmount = payFloatAmount;
+    }
+
+    public String getTradeCodeNum() {
+        return tradeCodeNum;
+    }
+
+    public void setTradeCodeNum(String tradeCodeNum) {
+        this.tradeCodeNum = tradeCodeNum;
+    }
 
     public String getId() {
         return this.id;
