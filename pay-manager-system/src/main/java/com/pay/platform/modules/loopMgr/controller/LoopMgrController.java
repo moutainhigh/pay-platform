@@ -2,13 +2,16 @@ package com.pay.platform.modules.loopMgr.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.config.JdbcConfig;
+import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.*;
 import com.pay.platform.modules.base.controller.BaseController;
+import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 import com.pay.platform.modules.loopMgr.service.LoopMgrService;
 import com.pay.platform.modules.payChannel.model.PayChannelModel;
 import com.pay.platform.modules.payChannel.service.PayChannelService;
 import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
+import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +53,9 @@ public class LoopMgrController extends BaseController {
     @Autowired
     private JdbcConfig jdbcConfig;
 
+    @Autowired
+    private CodeTraderService codeTraderService;
+
     /**
      * 分页查询交易码列表
      *
@@ -78,15 +84,27 @@ public class LoopMgrController extends BaseController {
     @RequestMapping(value = "/queryTradeCodeSuccessRateList", produces = "application/json")
     public void queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode, String beginTime, String endTime) throws Exception {
 
+        UserModel user = AppContext.getCurrentUser();
+
         JSONObject json = new JSONObject();
 
+        //码商管理员：只能查询下面绑定的商家
+        List<String> merchantIdList = null;
+        if (SysUserUtil.isCodeTraderRole(user)) {
+            String codeTraderId = user.getCodeTraderId();
+            merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
+        }
+        String[] merchantIds = null;
+        if (merchantIdList != null && merchantIdList.size() > 0) {
+            merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+        }
+
         //查询总成功率(根据商编、通道、时间)
-        Map<String, Object> successRate = tradeCodeService.queryTradeSuccessRate(tradeCode.getMerchantId(), tradeCode.getChannelId(), beginTime, endTime);
+        Map<String, Object> successRate = tradeCodeService.queryTotalSuccessRate(tradeCode.getMerchantId(), tradeCode.getChannelId(), beginTime, endTime , merchantIds);
 
         //查询每个号的成功率
         setPageInfo(request);
-        PageInfo<Map<String, Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime);
-
+        PageInfo<Map<String, Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime , merchantIds);
 
         Map<String, Object> data = new HashMap<>();
         data.put("pageInfo", pageInfo);

@@ -67,11 +67,11 @@ public interface LoopMgrDao {
 
     Integer batchAddTradeCode(@Param("tradeCodeList") List<TradeCodeModel> tradeCodeList);
 
-    List<Map<String, Object>> queryTradeCodeSuccessRateList(@Param("tradeCode") TradeCodeModel tradeCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> queryTradeCodeSuccessRateList(@Param("tradeCode") TradeCodeModel tradeCode, @Param("beginTime") String beginTime, @Param("endTime") String endTime , @Param("merchantIdList") String[] merchantIdList);
 
     Integer updateTradeCodeEnabled(@Param("ids") String[] ids, @Param("enabled") String enabled);
 
-    Map<String, Object> queryTradeSuccessRate(@Param("merchantId") String merchantId, @Param("channelId") String channelId, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    Map<String, Object> queryTotalSuccessRate(@Param("merchantId") String merchantId, @Param("channelId") String channelId, @Param("beginTime") String beginTime, @Param("endTime") String endTime ,@Param("merchantIdList") String[] merchantIdList);
 
     Map<String,Object> queryMerchantInfoByTradeCode(@Param("codeNum") String codeNum);
 }

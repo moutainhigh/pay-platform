@@ -65,11 +65,11 @@ public interface LoopMgrService {
 
     Integer batchAddTradeCode(List<TradeCodeModel> tradeCodeList );
 
-    PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(TradeCodeModel tradeCode, String beginTime, String endTime);
+    PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(TradeCodeModel tradeCode, String beginTime, String endTime , String[] merchantIdList );
 
     Integer updateTradeCodeEnabled(String[] ids, String enabled);
 
-    Map<String,Object> queryTradeSuccessRate(String merchantId, String channelId, String beginTime, String endTime);
+    Map<String,Object> queryTotalSuccessRate(String merchantId, String channelId, String beginTime, String endTime , String[] merchantIdList);
 
     Map<String,Object> queryMerchantInfoByTradeCode(String codeNum);
 

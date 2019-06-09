@@ -3,28 +3,34 @@
 
 <mapper namespace="com.pay.platform.modules.merchant.dao.MerchantDao">
 
-    <select id="queryMerchantList" parameterType="MerchantModel" resultType="MerchantModel">
+    <select id="queryMerchantList" resultType="MerchantModel">
         select id, merchant_no, merchant_name, phone,real_name,check_status, identity_code, create_time,check_desc, agent_id , need_notify_withdraw
         from tb_merchant
         <where>
             and is_del = 0
-            <if test="agentId != null and agentId != '' ">
-                and agent_Id = #{agentId}
+            <if test="merchant.agentId != null and merchant.agentId != '' ">
+                and agent_Id = #{merchant.agentId}
             </if>
-            <if test="merchantNo != null and merchantNo != '' ">
-                and merchant_no like CONCAT('%','${merchantNo}','%')
+            <if test="merchant.merchantNo != null and merchant.merchantNo != '' ">
+                and merchant_no like CONCAT('%','${merchant.merchantNo}','%')
             </if>
-            <if test="merchantName != null and merchantName != '' ">
-                and merchant_name like CONCAT('%','${merchantName}','%')
+            <if test="merchant.merchantName != null and merchant.merchantName != '' ">
+                and merchant_name like CONCAT('%','${merchant.merchantName}','%')
             </if>
-            <if test="phone != null and phone != '' ">
-                and phone like CONCAT('%','${phone}','%')
+            <if test="merchant.phone != null and merchant.phone != '' ">
+                and phone like CONCAT('%','${merchant.phone}','%')
             </if>
-            <if test="realName != null and realName != '' ">
-                and real_name like CONCAT('%','${realName}','%')
+            <if test="merchant.realName != null and merchant.realName != '' ">
+                and real_name like CONCAT('%','${merchant.realName}','%')
             </if>
-            <if test="identityCode != null and identityCode != '' ">
-                and identity_code like CONCAT('%','${identityCode}','%')
+            <if test="merchant.identityCode != null and merchant.identityCode != '' ">
+                and identity_code like CONCAT('%','${merchant.identityCode}','%')
+            </if>
+            <if test="merchantIdList != null and merchantIdList != '' ">
+                and id in
+                <foreach collection="merchantIdList" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
             </if>
         </where>
     </select>

@@ -43,8 +43,8 @@ public class MerchantServiceImpl implements MerchantService {
     private UserService userService;
 
     @Override
-    public PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant) {
-        return new PageInfo(merchantDao.queryMerchantList(merchant));
+    public PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant , String[] merchantIdList) {
+        return new PageInfo(merchantDao.queryMerchantList(merchant , merchantIdList));
     }
 
     @Override

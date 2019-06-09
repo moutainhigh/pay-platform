@@ -21,7 +21,7 @@ public interface MerchantDao {
      * @param merchant
      * @return
      */
-    List<MerchantModel> queryMerchantList(MerchantModel merchant);
+    List<MerchantModel> queryMerchantList(@Param("merchant") MerchantModel merchant , @Param("merchantIdList") String[] merchantIdList);
 
     /**
      * 根据id查询商家信息

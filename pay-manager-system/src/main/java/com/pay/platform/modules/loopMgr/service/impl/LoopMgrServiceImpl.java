@@ -62,8 +62,8 @@ public class LoopMgrServiceImpl implements LoopMgrService {
     }
 
     @Override
-    public PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(TradeCodeModel tradeCode, String beginTime, String endTime) {
-        return new PageInfo(tradeCodeDao.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime));
+    public PageInfo<Map<String,Object>> queryTradeCodeSuccessRateList(TradeCodeModel tradeCode, String beginTime, String endTime , String[] merchantIdList) {
+        return new PageInfo(tradeCodeDao.queryTradeCodeSuccessRateList(tradeCode , beginTime , endTime , merchantIdList));
     }
 
     @Override
@@ -72,8 +72,8 @@ public class LoopMgrServiceImpl implements LoopMgrService {
     }
 
     @Override
-    public Map<String, Object> queryTradeSuccessRate(String merchantId, String channelId, String beginTime, String endTime) {
-        return tradeCodeDao.queryTradeSuccessRate(merchantId , channelId , beginTime , endTime);
+    public Map<String, Object> queryTotalSuccessRate(String merchantId, String channelId, String beginTime, String endTime , String[] merchantIdList) {
+        return tradeCodeDao.queryTotalSuccessRate(merchantId , channelId , beginTime , endTime , merchantIdList);
     }
 
     @Override

@@ -74,7 +74,11 @@ public class PayForController extends BaseController {
         }
 
         setPageInfo(request);
-        return payForService.queryPayForList(withdraw, agentId, merchantId, beginTime, endTime , merchantIdList.toArray(new String[merchantIdList.size()]));
+        String[] merchantIds = null;
+        if (merchantIdList != null && merchantIdList.size() > 0) {
+            merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+        }
+        return payForService.queryPayForList(withdraw, agentId, merchantId, beginTime, endTime, merchantIds);
     }
 
     /**

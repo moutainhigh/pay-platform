@@ -20,7 +20,7 @@ public interface MerchantService {
      * @param merchant
      * @return
      */
-    PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant);
+    PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant , String[] merchantIdList);
 
     /**
      * 根据id查询商家

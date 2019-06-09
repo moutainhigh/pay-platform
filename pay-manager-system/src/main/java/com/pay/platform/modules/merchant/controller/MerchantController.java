@@ -68,7 +68,6 @@ public class MerchantController extends BaseController {
     @CommonRequest
     @RequestMapping(value = "/queryMerchantList", produces = "application/json")
     public PageInfo<MerchantModel> queryMerchantList(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
-        setPageInfo(request);
 
         UserModel user = AppContext.getCurrentUser();
 
@@ -77,7 +76,22 @@ public class MerchantController extends BaseController {
             merchant.setAgentId(user.getAgentId());
         }
 
-        return merchantService.queryMerchantList(merchant);
+//        //mybatis分页排序此处有bug,会导致数据库没有该排序字段,拼接sql语句出错; 此处直接去除排序字段
+//        PageHelper.offsetPage(0 , Integer.MAX_VALUE);
+
+        //码商管理员：默认可查看到绑定的商家
+        List<String> merchantIdList = null;
+        if (SysUserUtil.isCodeTraderRole(user)) {
+            String codeTraderId = user.getCodeTraderId();
+            merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
+        }
+        String[] merchantIds = null;
+        if (merchantIdList != null && merchantIdList.size() > 0) {
+            merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+        }
+
+        setPageInfo(request);
+        return merchantService.queryMerchantList(merchant , merchantIds);
     }
 
     /**
