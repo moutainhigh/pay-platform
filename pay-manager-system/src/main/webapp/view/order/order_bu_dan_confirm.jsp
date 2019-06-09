@@ -26,6 +26,7 @@
 
             <input type="hidden" name="orderNo" id="budan_orderNo" />
 
+            <%--  避免误操作：需要手动输入商家订单号、实际支付金额进行确认  --%>
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">商户订单号：</label>
                 <div class="col-md-8 col-sm-8">

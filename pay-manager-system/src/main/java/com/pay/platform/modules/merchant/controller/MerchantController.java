@@ -76,9 +76,6 @@ public class MerchantController extends BaseController {
             merchant.setAgentId(user.getAgentId());
         }
 
-//        //mybatis分页排序此处有bug,会导致数据库没有该排序字段,拼接sql语句出错; 此处直接去除排序字段
-//        PageHelper.offsetPage(0 , Integer.MAX_VALUE);
-
         //码商管理员：默认可查看到绑定的商家
         List<String> merchantIdList = null;
         if (SysUserUtil.isCodeTraderRole(user)) {

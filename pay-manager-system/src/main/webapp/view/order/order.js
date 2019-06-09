@@ -214,7 +214,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                                 $(".modal-footer .btn-danger").trigger("click");
                             }
                             else {
-                                $.msg.error(response.msg);
+                                pageScope.orderTable.bootstrapTable('refresh');
+                                $.msg.alert(response.msg);
                             }
 
                         }, error: function (e) {

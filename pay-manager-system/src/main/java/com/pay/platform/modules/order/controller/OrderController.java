@@ -119,44 +119,50 @@ public class OrderController extends BaseController {
             return;
         }
 
-        //待支付状态:
-        if (PayStatusEnum.waitPay.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
+        //避免恶意攻击，绕过权限过滤器；此处加多一层判断；
+        //只有管理员和码商才有权限进行补单回调；
+        UserModel userModel = AppContext.getCurrentUser();
+        if (SysUserUtil.isAdminRole(userModel) || SysUserUtil.isCodeTraderRole(userModel)) {
 
-            //话冲通道：查询第三方接口
-            if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(orderModel.getPayWay()) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(orderModel.getPayWay())) {
+            //待支付状态:
+            if (PayStatusEnum.waitPay.getCode().equalsIgnoreCase(orderModel.getPayStatus())) {
 
-                try {
-                    String platformOrderNo = orderModel.getPlatformOrderNo();
-                    String result = PayUtil.findOrder(platformOrderNo);
-                    if (StringUtil.isNotEmpty(result)) {
-                        JSONObject resultJson = new JSONObject(result);
-                        if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
-                            JSONObject data = resultJson.getJSONObject("data");
-                            if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {                      //支付成功
-                                String payTime = data.getString("finishedDate");
-                                //相关业务处理：更新订单状态等
-                                orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime);
+                //话冲通道：查询第三方接口
+                if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(orderModel.getPayWay()) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(orderModel.getPayWay())) {
+
+                    try {
+                        String platformOrderNo = orderModel.getPlatformOrderNo();
+                        String result = PayUtil.findOrder(platformOrderNo);
+                        if (StringUtil.isNotEmpty(result)) {
+                            JSONObject resultJson = new JSONObject(result);
+                            if (resultJson.has("resultCode") && 200 == resultJson.getInt("resultCode")) {
+                                JSONObject data = resultJson.getJSONObject("data");
+                                if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {                      //支付成功
+                                    String payTime = data.getString("finishedDate");
+                                    //相关业务处理：更新订单状态等
+                                    orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime);
+                                }
                             }
-
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
+                //柳行通道：
+                else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(orderModel.getPayWay()) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(orderModel.getPayWay())) {
 
-            }
-            //柳行通道：
-            else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(orderModel.getPayWay()) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(orderModel.getPayWay())) {
+                    //避免人工回调错误,需要前端手动输入商家单号、支付金额; 后台查询后进行确认
+                    int isInputRight = orderService.queryOrderExistsByBuDanInfo(orderNo, merchantOrderNo, payAmount);
+                    if (isInputRight > 0) {
+                        orderService.paySuccessBusinessHandle(orderModel.getPlatformOrderNo(), null, DateUtil.getCurrentDateTime());
+                    } else {
+                        json.put("status", "0");
+                        json.put("msg", "商家单号或实际支付金额错误,请检查输入！");
+                        writeJson(response, json.toString());
+                        return;
+                    }
 
-                //避免人工回调错误,需要前端手动输入商家单号、支付金额; 后台查询后进行确认
-                int isInputRight = orderService.queryOrderExistsByBuDanInfo(orderNo, merchantOrderNo, payAmount);
-                if (isInputRight > 0) {
-                    orderService.paySuccessBusinessHandle(orderModel.getPlatformOrderNo(), null, DateUtil.getCurrentDateTime());
-                } else {
-                    json.put("status", "0");
-                    json.put("msg", "商家单号或实际支付金额错误,请检查输入！");
-                    writeJson(response, json.toString());
-                    return;
                 }
 
             }
