@@ -162,7 +162,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailAgentAmount").val(pageScope.currentrow.agentAmount);
 
                 $("#detailHandlingFee").val(pageScope.currentrow.handlingFee);
-                $("#detailActualAmount").val(pageScope.currentrow.actualAmount);
+                $("#detailActualAmount").val(Number(pageScope.currentrow.actualAmount).toFixed(2));
                 $("#detailMerchantId").val(pageScope.currentrow.merchantId);
                 $("#detailMerchantNo").val(pageScope.currentrow.merchantNo);
                 $("#detailChannelId").val(pageScope.currentrow.channelId);
@@ -173,6 +173,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailNotifyStatus").val(pageScope.currentrow.notifyStatusDictDesc);
                 $("#detailnotifyNum").val(pageScope.currentrow.notifyNum);
                 $("#detailCreateTime").val(pageScope.currentrow.createTime);
+                $("#detailPayFloatAmount").val(Number(pageScope.currentrow.payFloatAmount).toFixed(2));
+                $("#detailMerchantName").val(pageScope.currentrow.merchantName);
+                $("#detailActualAmount2").val(Number(pageScope.currentrow.actualAmount).toFixed(2));
 
             }
         });

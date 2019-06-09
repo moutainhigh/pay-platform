@@ -88,7 +88,7 @@
 
     <!-- session过期时间  -->
     <session-config>
-        <session-timeout>120</session-timeout>
+        <session-timeout>300</session-timeout>
     </session-config>
 
     <!-- 错误界面配置 -->

@@ -56,9 +56,9 @@ To change this template use File | Settings | File Templates.
                     <input id="detailOrderAmount" name="orderAmount" type="text" class="form-control" readonly="readonly"/>
                 </div>
 
-                <label class="col-md-2 col-sm-2 control-label">商家实收(元)：</label>
+                <label class="col-md-2 col-sm-2 control-label">支付浮动金额(元)：</label>
                 <div class="col-md-4 col-sm-4">
-                    <input id="detailActualAmount" name="actualAmount" type="text" class="form-control" readonly="readonly"/>
+                    <input id="detailPayFloatAmount" name="payFloatAmount" type="text" class="form-control" readonly="readonly"/>
                 </div>
 
             </div>
@@ -75,25 +75,17 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
-            <c:if test="${roleCode == 'ROLE_ADMIN'}">
-                <div class="form-group">
-                    <label class="col-md-2 col-sm-2 control-label">成本费率：</label>
-                    <div class="col-md-4 col-sm-4">
-                        <input id="detailCostRate" type="text" class="form-control" readonly="readonly"/>
-                    </div>
+            <div class="form-group">
+                <label class="col-md-2 col-sm-2 control-label">商家名称：</label>
+                <div class="col-md-4 col-sm-4">
+                    <input id="detailMerchantName" name="merchantName" type="text" class="form-control" readonly="readonly"/>
+                </div>
 
-                    <label class="col-md-2 col-sm-2 control-label">通道收入：</label>
-                    <div class="col-md-4 col-sm-4">
-                        <input id="detailChannelAmount" type="text" class="form-control" readonly="readonly"/>
-                    </div>
+                <label class="col-md-2 col-sm-2 control-label">商家实收(元)：</label>
+                <div class="col-md-4 col-sm-4">
+                    <input id="detailActualAmount2" name="actualAmount2" type="text" class="form-control" readonly="readonly"/>
                 </div>
-                <div class="form-group">
-                    <label class="col-md-2 col-sm-2 control-label">平台收入：</label>
-                    <div class="col-md-4 col-sm-4">
-                        <input id="detailPlatformAmount" type="text" class="form-control" readonly="readonly"/>
-                    </div>
-                </div>
-            </c:if>
+            </div>
 
             <c:if test="${roleCode == 'ROLE_AGENT' || roleCode == 'ROLE_ADMIN'}">
                 <div class="form-group">
@@ -110,17 +102,33 @@ To change this template use File | Settings | File Templates.
                 </div>
             </c:if>
 
-            <div class="form-group">
-                <label class="col-md-2 col-sm-2 control-label">通道名称：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailChannelId" name="channelId" type="text" class="form-control" readonly="readonly"/>
+            <c:if test="${roleCode == 'ROLE_ADMIN'}">
+                <div class="form-group">
+                    <label class="col-md-2 col-sm-2 control-label">成本费率：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailCostRate" type="text" class="form-control" readonly="readonly"/>
+                    </div>
+
+                    <label class="col-md-2 col-sm-2 control-label">通道收入：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailChannelAmount" type="text" class="form-control" readonly="readonly"/>
+                    </div>
                 </div>
 
-                <label class="col-md-2 col-sm-2 control-label">支付方式 ：</label>
-                <div class="col-md-4 col-sm-4">
-                    <input id="detailPayWay" name="payWay" type="text" class="form-control" readonly="readonly"/>
+                <div class="form-group">
+
+                    <label class="col-md-2 col-sm-2 control-label">支付方式 ：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailPayWay" name="payWay" type="text" class="form-control" readonly="readonly"/>
+                    </div>
+
+                    <label class="col-md-2 col-sm-2 control-label">平台收入：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailPlatformAmount" type="text" class="form-control" readonly="readonly"/>
+                    </div>
+
                 </div>
-            </div>
+            </c:if>
 
             <div class="form-group">
                 <label class="col-md-2 col-sm-2 control-label">支付状态：</label>
