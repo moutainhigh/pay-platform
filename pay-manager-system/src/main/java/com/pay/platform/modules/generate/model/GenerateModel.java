@@ -5,7 +5,7 @@ import com.pay.platform.modules.base.model.BaseModel;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/1/8 20:44
  *
  * 生成代码所需数据 - 实体

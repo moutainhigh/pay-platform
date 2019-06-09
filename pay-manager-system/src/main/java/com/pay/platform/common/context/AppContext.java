@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/16 14:07
  *
  * 应用上下文, 在运行期间为其它组件提供通用的一些服务

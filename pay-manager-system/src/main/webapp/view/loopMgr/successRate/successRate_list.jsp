@@ -32,8 +32,8 @@
                             <td width="180">
                                 <select name="channelCode" id="queryChannelCode" class="form-control btn-block">
                                     <option value="">请选择</option>
-                                    <option value="lklZfbFixed">拉卡拉-支付宝固码</option>
-                                    <option value="lklWeChatFixed">拉卡拉-支付宝微信</option>
+                                    <option value="lzyhZfb">柳行-支付宝</option>
+                                    <option value="lzyhWechat">柳行-微信</option>
                                 </select>
                             </td>
 
@@ -128,6 +128,8 @@
 
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();
+
+
 
     });
 

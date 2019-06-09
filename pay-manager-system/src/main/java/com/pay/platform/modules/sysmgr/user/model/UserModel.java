@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 
 /**
- * UserModel: zjt
+ * UserModel:
  * DateTime: 16/9/25 15:11
  * <p>
  * 用户实体 , 需实现UserDetails接口, 返回spring security所需信息

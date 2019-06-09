@@ -5,7 +5,7 @@ import com.pay.platform.modules.base.model.BaseModel;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/1/2 10:37
  *
  * 表信息

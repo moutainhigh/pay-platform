@@ -1,5 +1,5 @@
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/13 19:41
  *
  * 扩展juqery对象方法 , 与字符串相关

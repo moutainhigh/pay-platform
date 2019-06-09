@@ -6,7 +6,7 @@ import com.pay.platform.modules.base.model.BaseModel;
 import java.util.Date;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 26//22 6:2
  *
  * 操作日志实体

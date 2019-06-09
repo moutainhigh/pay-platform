@@ -5,6 +5,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
  */
 (function () {
 
+    $("#beginTime").val($.date.getToDayBeginTime());
+    $("#endTime").val($.date.getToDayEndTime());
+
     pageScope.tradeCodeTable = $('#tradeCodeTable').initBootstrapTable({
         url: baseURL + '/loopMgr/tradeCode/queryTradeCodeSuccessRateList?_csrf=' + token,
         method: 'post',

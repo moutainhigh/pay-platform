@@ -12,7 +12,7 @@ import ${packageName}.dao.${classPrefix}Dao;
 
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:15
  */
 @Service

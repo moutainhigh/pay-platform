@@ -1,7 +1,7 @@
 package com.pay.platform.common.enums;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/3/9 15:41
  */
 public enum WithdrawStatusEnum {

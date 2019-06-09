@@ -1,5 +1,5 @@
 /**
- * User: zjt
+ * User:
  * DateTime: 2018/2/28 15:18
  */
 var pageScope = {};         //页面作用域,每次进入列表页面置为{},避免全局变量都挂载在window下,无法释放或冲突

@@ -3,7 +3,7 @@ package com.pay.platform.modules.loopMgr.model;
 import com.pay.platform.modules.base.model.BaseModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:16
  * <p>
  * 交易码实体

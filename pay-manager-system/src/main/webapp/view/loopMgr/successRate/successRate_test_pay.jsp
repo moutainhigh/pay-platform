@@ -244,6 +244,7 @@
 
                 } else {
                     $.msg.fail(response.msg);
+                    btn.removeAttr("disabled");
                 }
 
             }, error: function (e) {

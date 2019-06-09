@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 16/10/5 14:13
  *
  * 权限实体

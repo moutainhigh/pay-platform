@@ -9,7 +9,7 @@ import com.pay.platform.modules.codeTrader.model.CodeTraderModel;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:15
  */
 public interface CodeTraderService {

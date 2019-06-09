@@ -1,5 +1,5 @@
 /**
- * User: zjt
+ * User:
  * DateTime: 16/10/3 17:05
  *
  * 扩展jquery,对常见树操作的封装,调用方式$.tree

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/5 20:30
  * <p>
  * 控制器基类,命名方式

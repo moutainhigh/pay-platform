@@ -9,7 +9,7 @@ import java.util.Map;
 import com.pay.platform.modules.codeTrader.model.CodeTraderModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:16
  */
 @MapperScan

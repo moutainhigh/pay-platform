@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/19 20:07
  *
  * 组织机构实体

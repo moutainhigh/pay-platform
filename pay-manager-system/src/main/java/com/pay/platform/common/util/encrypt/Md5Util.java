@@ -3,7 +3,7 @@ package com.pay.platform.common.util.encrypt;
 import java.security.MessageDigest;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/29 23:24
  */
 public class Md5Util {

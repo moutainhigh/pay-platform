@@ -1,5 +1,5 @@
 /**
- * User: zjt
+ * User:
  * DateTime: 16/10/3 17:06
  *
  * 模态化窗体操作,调用方式$.dialog

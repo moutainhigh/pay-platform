@@ -1,7 +1,7 @@
 package com.pay.platform.common.enums;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/3/9 15:48
  */
 public enum CheckStatusEnum {

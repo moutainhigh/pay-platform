@@ -2,7 +2,7 @@ package com.pay.platform.modules.generate.model;
 import com.pay.platform.modules.base.model.BaseModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/1/2 10:37
  *
  * 字段信息

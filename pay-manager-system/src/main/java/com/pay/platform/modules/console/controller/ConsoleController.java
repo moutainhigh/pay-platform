@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
 
 /**
- * UserModel: zjt
+ * UserModel:
  * DateTime: 16/10/4 10:23
  *
  * 后台管理系统 - 控制台,主要是登录页,首页相关操作

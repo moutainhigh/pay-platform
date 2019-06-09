@@ -6,7 +6,7 @@ import org.apache.ibatis.type.Alias;
 import java.util.Date;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:16
  * <p>
  * 商家实体

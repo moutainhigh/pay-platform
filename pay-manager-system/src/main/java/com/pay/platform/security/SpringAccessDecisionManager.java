@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/16 11:05
  *
  * 3、验证器,负责验证用户是否拥有当前请求资源的权限

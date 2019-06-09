@@ -1,7 +1,7 @@
 package com.pay.platform.common.util;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/20 23:46
  */
 public class StringUtil {

@@ -3,7 +3,7 @@ package com.pay.platform.common.util;
 import java.math.BigDecimal;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 16/9/10 15:33
  */
 public class DecimalCalculateUtil {

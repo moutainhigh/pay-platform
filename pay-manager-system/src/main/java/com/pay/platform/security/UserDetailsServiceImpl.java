@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/16 10:43
  *
  * 2、授权管理：spring security所需组件, 用于实现用户认证, 获取用户所拥有角色

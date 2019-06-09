@@ -6,7 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import java.util.Map;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/3/10 11:06
  *
  * 账户资金相关

@@ -5,7 +5,7 @@ import com.pay.platform.modules.sysmgr.permission.model.PermissionModel;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 16/10/5 14:07
  */
 public interface PermissionService {

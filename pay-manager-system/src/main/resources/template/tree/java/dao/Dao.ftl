@@ -6,7 +6,7 @@ import java.util.Map;
 import ${packageName}.model.${classPrefix}Model;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/19 20:28
  */
 @MapperScan

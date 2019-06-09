@@ -6,7 +6,7 @@ import com.pay.platform.modules.generate.model.TableModel;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2018/1/5 15:52
  * <p>
  * 数据库元数据获取

@@ -3,7 +3,7 @@ package com.pay.platform.modules.sysmgr.log.annotation;
 import java.lang.annotation.*;
 
 /**
- * Created by zjt on 2016/10/22.
+ * Created by  on 2016/10/22.
  *
  * 自定义注解,在运行期间拦截Controller,写入日志
  */

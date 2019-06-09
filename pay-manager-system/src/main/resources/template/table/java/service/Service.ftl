@@ -5,7 +5,7 @@ import java.util.List;
 import ${packageName}.model.${classPrefix}Model;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:15
  */
 public interface ${classPrefix}Service {

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/22 16:20
  *
  * 通过aop进行拦截, 定义切点 (即指定要拦截的类,方法,以及拦截操作)

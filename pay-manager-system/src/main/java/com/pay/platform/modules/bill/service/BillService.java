@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import java.util.Map;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/18 21:00
  */
 public interface BillService {

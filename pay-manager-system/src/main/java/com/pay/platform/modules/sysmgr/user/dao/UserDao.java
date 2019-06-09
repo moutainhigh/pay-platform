@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.List;
 
 /**
- * UserModel: zjt
+ * UserModel:
  * DateTime: 16/9/25 15:11
  * <p>
  * 1, @MapperScan标识为spring动态为其创建代理类

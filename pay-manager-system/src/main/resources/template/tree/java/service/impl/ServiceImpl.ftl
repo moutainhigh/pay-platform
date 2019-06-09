@@ -11,7 +11,7 @@ import ${packageName}.service.${classPrefix}Service;
 import ${packageName}.dao.${classPrefix}Dao;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/19 20:28
  */
 @Service

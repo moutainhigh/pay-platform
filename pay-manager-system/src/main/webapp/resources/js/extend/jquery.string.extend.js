@@ -1,5 +1,5 @@
 /**
- * User: zjt
+ * User:
  * DateTime: 16/10/3 17:04
  *
  * 扩展jquery对象,提供字符串相关操作,调用方式$.string

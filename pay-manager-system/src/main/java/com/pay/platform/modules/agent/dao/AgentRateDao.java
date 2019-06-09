@@ -8,7 +8,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/2/5 14:16
  */
 @MapperScan

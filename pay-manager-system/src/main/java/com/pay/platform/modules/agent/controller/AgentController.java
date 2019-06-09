@@ -34,7 +34,7 @@ import com.pay.platform.modules.agent.service.AgentService;
 
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/03/20 12:14
  */
 @Controller

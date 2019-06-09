@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/22 16:41
  * <p>
  * ip相关工具类

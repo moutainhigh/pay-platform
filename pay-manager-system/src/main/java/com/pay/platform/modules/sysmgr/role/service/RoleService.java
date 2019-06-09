@@ -7,7 +7,7 @@ import com.github.pagehelper.PageInfo;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:15
  */
 public interface RoleService {

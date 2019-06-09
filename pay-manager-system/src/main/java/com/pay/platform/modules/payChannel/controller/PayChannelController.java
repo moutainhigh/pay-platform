@@ -25,7 +25,7 @@ import com.pay.platform.modules.payChannel.service.PayChannelService;
 
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/03/20 12:14
  */
 @Controller

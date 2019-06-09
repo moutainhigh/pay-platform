@@ -5,7 +5,7 @@ import com.pay.platform.modules.sysmgr.dictionary.model.DictionaryModel;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/19 20:28
  */
 public interface DictionaryService {

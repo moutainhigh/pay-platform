@@ -3,7 +3,7 @@ package com.pay.platform.modules.generate.util;
 import com.pay.platform.modules.generate.model.GenerateModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/1/2 10:28
  * <p>
  * 用于生成表格模块的CRUD代码

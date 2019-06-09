@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2018/1/5 15:39
  */
 @Component

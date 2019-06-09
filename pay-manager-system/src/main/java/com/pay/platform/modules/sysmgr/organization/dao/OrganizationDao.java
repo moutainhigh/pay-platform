@@ -6,7 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/19 20:15
  */
 @MapperScan

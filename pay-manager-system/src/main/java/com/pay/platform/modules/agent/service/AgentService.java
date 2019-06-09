@@ -8,7 +8,7 @@ import java.util.Map;
 import com.pay.platform.modules.agent.model.AgentModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:15
  */
 public interface AgentService {

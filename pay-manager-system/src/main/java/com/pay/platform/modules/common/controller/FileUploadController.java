@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/12/10 14:10
  * <p>
  * 通用模块 - 文件上传

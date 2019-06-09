@@ -3,7 +3,7 @@ import com.pay.platform.modules.sysmgr.log.model.OperationLogModel;
 import com.github.pagehelper.PageInfo;
 
 /**
- * UserModel: zjt
+ * UserModel:
  * DateTime: 16/9/25 15:53
  */
 public interface OperationLogService {

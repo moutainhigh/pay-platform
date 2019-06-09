@@ -32,7 +32,7 @@ import com.pay.platform.modules.finance.withdraw.service.WithdrawService;
 
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/03/20 12:14
  */
 @Controller

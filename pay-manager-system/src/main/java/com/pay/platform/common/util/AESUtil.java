@@ -5,7 +5,7 @@ import com.pay.platform.common.util.encrypt.Base64Util;
 import org.springframework.security.crypto.codec.Base64;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/14 14:58
  */
 public class AESUtil {

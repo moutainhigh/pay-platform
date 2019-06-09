@@ -8,7 +8,7 @@ import java.util.Map;
 import com.pay.platform.modules.finance.withdraw.model.WithdrawModel;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:15
  */
 public interface WithdrawService {

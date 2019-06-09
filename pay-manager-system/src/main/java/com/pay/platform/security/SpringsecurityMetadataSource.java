@@ -14,7 +14,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import java.util.*;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/16 10:05
  *
  * 1、数据源 : 从数据库读取系统权限信息,返回格式为权限和角色的对应关系

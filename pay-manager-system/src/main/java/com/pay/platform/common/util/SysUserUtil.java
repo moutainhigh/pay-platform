@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2019/1/18 21:47
  * <p>
  * 系统用户相关工具操作

@@ -5,7 +5,7 @@ import com.pay.platform.modules.base.model.BaseModel;
 import java.util.Date;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2016/10/7 20:16
  *
  * 角色实体

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * UserModel: zjt
+ * UserModel:
  * DateTime: 16/9/25 15:53
  */
 public interface UserService {
