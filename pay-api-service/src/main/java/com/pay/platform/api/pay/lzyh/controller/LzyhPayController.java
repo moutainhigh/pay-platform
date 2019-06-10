@@ -130,12 +130,12 @@ public class LzyhPayController extends BaseController {
             }
 
             //发送socket消息;获取收款码;
-            new Thread(new Runnable() {
+            AppContext.getExecutorService().submit(new Runnable() {
                 @Override
                 public void run() {
                     appWebSocketService.sendGetQrCodeSocket(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
                 }
-            }).start();
+            });
 
             json.put("status", "1");
             json.put("msg", "下单成功");
