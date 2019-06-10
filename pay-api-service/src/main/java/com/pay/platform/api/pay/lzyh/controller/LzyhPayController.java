@@ -253,7 +253,6 @@ public class LzyhPayController extends BaseController {
             String payTime = reqJson.getString("payTime");          //支付时间
             String payCode = reqJson.getString("payCode");          //三方单号
 
-            //支付时间与当前时间间隔超过5分钟; 不进行处理; 按人工掉单流程处理
             long payTimeStamp = DateUtil.getTimeStamp(payTime);
             long nowTimeStamp = DateUtil.getTimeStamp(new Date());
             if (payTimeStamp > nowTimeStamp) {
@@ -262,13 +261,14 @@ public class LzyhPayController extends BaseController {
                 writeJson(response, json.toString());
                 return;
             }
+
+            //支付时间与当前时间间隔超过5分钟; 不进行处理; 按人工掉单流程处理
             if (nowTimeStamp - payTimeStamp > (5 * 60)) {
                 json.put("status", "0");
                 json.put("msg", "支付时间超过5分钟,请联系客服进行掉单处理！");
                 writeJson(response, json.toString());
                 return;
             }
-            OrderNoUtil.getOrderNoByUUId();
 
             int existsPayCode = lzyhPayService.queryPayCodeExists(payCode);
             if(existsPayCode > 0){
@@ -290,7 +290,7 @@ public class LzyhPayController extends BaseController {
 
                 //推送支付回调给商家
                 if (flag) {
-                    //开启异步线程回调商家;避免响应给app的请求阻塞;
+                    //开启异步线程回调商家;避s免响应给app的请求阻塞;
                     AppContext.getExecutorService().submit(new Runnable() {
                         @Override
                         public void run() {
