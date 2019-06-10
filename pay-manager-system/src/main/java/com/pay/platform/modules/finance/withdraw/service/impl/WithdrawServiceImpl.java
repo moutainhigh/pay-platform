@@ -63,10 +63,10 @@ public class WithdrawServiceImpl implements WithdrawService {
                 Map<String, Object> accountAmountInfo = accountAmountDao.queryAccountAmountInfo(userId);
                 double accountAmount = Double.parseDouble(accountAmountInfo.get("account_amount").toString());
                 double freezeAmount = Double.parseDouble(accountAmountInfo.get("freeze_amount").toString());
-                double withdrawableAmount = DecimalCalculateUtil.sub(accountAmount, freezeAmount);
+                double avaiabledWithdrawAmount = DecimalCalculateUtil.sub(accountAmount, freezeAmount);
 
                 double withdrawAmount = withdraw.getWithdrawAmount();
-                if (withdrawAmount > withdrawableAmount) {
+                if (withdrawAmount > avaiabledWithdrawAmount) {
                     throw new Exception("申请提现失败,可提现余额不足！");
                 }
 

@@ -11,6 +11,7 @@ import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.common.util.encrypt.Md5Util;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import com.pay.platform.security.CommonRequest;
@@ -100,6 +101,13 @@ public class WithdrawController extends BaseController {
         UserModel userModel = AppContext.getCurrentUser();
         String userId = userModel.getId();
         String merchantId = userModel.getMerchantId();
+
+        if(!SysUserUtil.isMerchantRole(userModel)){
+            json.put("success", false);
+            json.put("msg", "申请提现失败,只有商家才可发起提现！");
+            writeJson(response , json.toString());
+            return;
+        }
 
         try {
 
