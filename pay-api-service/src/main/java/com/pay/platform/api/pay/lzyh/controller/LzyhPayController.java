@@ -187,8 +187,8 @@ public class LzyhPayController extends BaseController {
             } else {
 
                 //与app进行socket通信,生成二维码可能需要等待时间;此处休眠一会再进行查询;
-                //每隔2秒查询一次,最多3次
-                for (int i = 0; i < 3; i++) {
+                //每隔2秒查询一次,最多4次
+                for (int i = 0; i < 4; i++) {
 
                     try {
                         Thread.sleep(2000);
