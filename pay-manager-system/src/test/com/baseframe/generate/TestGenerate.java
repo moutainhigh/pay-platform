@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 /**
- * User: zjt
+ * User:
  * DateTime: 2017/1/22 14:27
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,7 +35,7 @@ public class TestGenerate {
         generateModel.setTableName("tb_goods");
         generateModel.setModuleName("城市");
         generateModel.setRequestUrl("/test/goods");
-        generateModel.setRootPath("/Users/zjt/project/github/javaweb/baseframe");
+        generateModel.setRootPath("/Users//project/github/javaweb/baseframe");
         generateModel.setPackageName("com.pay.platform.modules.test.goods");
         generateModel.setClassPrefix("Goods");
 

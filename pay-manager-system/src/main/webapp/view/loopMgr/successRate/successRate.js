@@ -110,6 +110,9 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         var channelCode = row.channelCode;
 
                         html += "<button type='button' class='btn btn-link' onclick='pageScope.testPay(\"" + codeNum + "\", \"" + channelCode + "\",)' >测试支付</button>";
+
+                        html += "<button type='button' class='btn btn-link' onclick='pageScope.checkSocketStatus(\"" + codeNum + "\")' >检测socket连接</button>";
+
                     }
 
                     return html;
@@ -300,5 +303,53 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
     pageScope.testPay = function (codeNum, channelCode) {
         window.open(baseURL + "/view/loopMgr/successRate/successRate_test_pay.jsp?codeNum=" + codeNum + "&channelCode=" + channelCode);
     }
+
+    /**
+     * 获取连接设备
+     */
+    pageScope.getOnLineDevice = function () {
+
+        $.ajax({
+            url: baseURL + "/loopMgr/tradeCode/getOnLineDevice",
+            type: "post",
+            dataType: "json",
+            data: {"_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+                    $.msg.alert("获取成功", response.data);
+                    pageScope.tradeCodeTable.bootstrapTable('refresh');
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
+    };
+
+    /**
+     * 检测socket连接
+     */
+    pageScope.checkSocketStatus = function (codeNum) {
+
+        $.ajax({
+            url: baseURL + "/loopMgr/tradeCode/checkSocketStatus",
+            type: "post",
+            dataType: "json",
+            data: {"codeNum": codeNum, "_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+                    $.msg.success(response.msg);
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
+    };
+
 
 })();

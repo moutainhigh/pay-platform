@@ -12,6 +12,7 @@ import com.pay.platform.modules.payChannel.model.PayChannelModel;
 import com.pay.platform.modules.payChannel.service.PayChannelService;
 import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,11 +101,11 @@ public class LoopMgrController extends BaseController {
         }
 
         //查询总成功率(根据商编、通道、时间)
-        Map<String, Object> successRate = tradeCodeService.queryTotalSuccessRate(tradeCode.getMerchantId(), tradeCode.getChannelId(), beginTime, endTime , merchantIds);
+        Map<String, Object> successRate = tradeCodeService.queryTotalSuccessRate(tradeCode.getMerchantId(), tradeCode.getChannelId(), beginTime, endTime, merchantIds);
 
         //查询每个号的成功率
         setPageInfo(request);
-        PageInfo<Map<String, Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime , merchantIds);
+        PageInfo<Map<String, Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime, merchantIds);
 
         Map<String, Object> data = new HashMap<>();
         data.put("pageInfo", pageInfo);
@@ -672,6 +673,83 @@ public class LoopMgrController extends BaseController {
         json.put("success", true);
         json.put("msg", "下单成功");
         json.put("data", respJson.getString("data"));
+        writeJson(response, json.toString());
+
+    }
+
+
+    /**
+     * 获取在线的设备：成功建立socket连接的
+     *
+     * @param response
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getOnLineDevice", produces = "application/json")
+    @SystemControllerLog(module = "获取在线的设备", operation = "获取在线的设备")
+    public void getOnLineDevice(HttpServletResponse response, String codeNum, String channelCode, String amount) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        String result = HttpClientUtil.doGet(jdbcConfig.getApiServerUrl() + "/openApi/getOnLineDevice");
+        if (StringUtil.isEmpty(result)) {
+            json.put("success", false);
+            json.put("msg", "获取失败");
+            writeJson(response, json.toString());
+            return;
+        }
+
+        JSONObject respJson = new JSONObject(result);
+        if (!"1".equalsIgnoreCase(respJson.getString("status"))) {
+            json.put("success", false);
+            json.put("msg", respJson.getString("msg"));
+            writeJson(response, json.toString());
+            return;
+        }
+
+        json.put("success", true);
+        json.put("msg", "获取成功");
+        json.put("data", respJson.getJSONArray("data"));
+        writeJson(response, json.toString());
+
+    }
+
+
+    /**
+     * 检测socket连接状态
+     *
+     * @param response
+     * @param
+     * @throws Exception
+     */
+    @RequestMapping(value = "/checkSocketStatus", produces = "application/json")
+    @SystemControllerLog(module = "获取在线的设备", operation = "检测socket连接状态")
+    public void checkSocketStatus(HttpServletResponse response, String codeNum) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        String result = HttpClientUtil.doGet(jdbcConfig.getApiServerUrl() + "/openApi/getOnLineDevice");
+        if (StringUtil.isEmpty(result)) {
+            json.put("success", false);
+            json.put("msg", "获取失败");
+            writeJson(response, json.toString());
+            return;
+        }
+
+        JSONObject respJson = new JSONObject(result);
+        JSONArray jsonArray = respJson.getJSONArray("data");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String connectedCodeNum = jsonArray.get(i).toString();
+            if(connectedCodeNum.equalsIgnoreCase(codeNum)){
+                json.put("success", true);
+                json.put("msg", "连接成功");
+                writeJson(response, json.toString());
+                return;
+            }
+        }
+
+        json.put("success", false);
+        json.put("msg", "暂未连接");
         writeJson(response, json.toString());
 
     }

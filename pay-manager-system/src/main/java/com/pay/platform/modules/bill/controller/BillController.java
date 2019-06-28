@@ -95,4 +95,30 @@ public class BillController extends BaseController {
 
     }
 
+    /**
+     * 查询代理分润流水
+     * @param request
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param statisticsWay
+     * @return
+     */
+    @RequestMapping(value = "/queryAgentProfit")
+    @ResponseBody
+    @SystemControllerLog(module = "查询代理分润流水", operation = "查询代理分润流水")
+    public PageInfo<Map<String, Object>> queryAgentProfit(HttpServletRequest request, String agentId, String beginTime, String endTime, String statisticsWay) {
+
+        setPageInfo(request);
+        UserModel userModel = AppContext.getCurrentUser();
+
+        //代理管理员：可查到自身流水
+        if (SysUserUtil.isAgentRole(userModel)) {
+            agentId = userModel.getAgentId();
+        }
+
+        return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);                      //按天统计
+
+    }
+
 }

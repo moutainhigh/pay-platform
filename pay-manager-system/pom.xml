@@ -532,6 +532,13 @@
             <version>1.4.01</version>
         </dependency>
 
+        <!-- druid连接池;替换dbcp -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -97,6 +97,10 @@
                         <i class="glyphicon glyphicon-remove"></i> 批量删除
                     </button>
 
+                    <button id="getOnLineDevice" class="btn btn-primary" onclick="pageScope.getOnLineDevice()">
+                        <i class="glyphicon glyphicon-plus"></i> 获取连接设备
+                    </button>
+
                 </div>
 
                 <div style="margin-top: 70px;margin-bottom: -50px;font-size: 14px;">
