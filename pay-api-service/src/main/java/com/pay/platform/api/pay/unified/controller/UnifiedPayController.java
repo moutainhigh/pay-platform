@@ -5,6 +5,7 @@ import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
+import com.pay.platform.common.socket.service.AppWebSocketService;
 import com.pay.platform.common.util.*;
 import com.pay.platform.common.util.encrypt.Base64Util;
 import org.apache.commons.io.IOUtils;
@@ -38,6 +39,9 @@ public class UnifiedPayController extends BaseController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private AppWebSocketService appWebSocketService;
 
     /**
      * 统一下单接口
@@ -280,10 +284,10 @@ public class UnifiedPayController extends BaseController {
 
         String url = request.getParameter("payUrl");
 
-//        //如果前端传递的是base64; 则进行解码
-//        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))) {
-//            url = Base64Util.parseBase64(url);
-//        }
+        //如果前端传递的是base64; 则进行解码
+        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))) {
+            url = Base64Util.parseBase64(url);
+        }
 
         QrcodeUtil.drawQrcodeImg(url, response);
         response.setContentType("text/html");
@@ -309,11 +313,33 @@ public class UnifiedPayController extends BaseController {
 
     }
 
-
+    /**
+     * 模拟测试商家回调
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
     @RequestMapping({"/openApi/testMerchantNotify"})
-    public void testMerchantNotify(HttpServletResponse response, HttpServletRequest request)  throws Exception {
+    public void testMerchantNotify(HttpServletResponse response, HttpServletRequest request) throws Exception {
         response.getWriter().write("SUCCESS");
         response.getWriter().flush();
+    }
+
+    /**
+     * 获取在线的设备：成功建立socket连接的
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping({"/openApi/getOnLineDevice"})
+    public void getOnLineDevice(HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject json = new JSONObject();
+        json.put("status", "1");
+        json.put("msg", "请求成功");
+        json.put("data", appWebSocketService.getOnLineSocketDevice());
+        writeJson(response, json.toString());
     }
 
 }

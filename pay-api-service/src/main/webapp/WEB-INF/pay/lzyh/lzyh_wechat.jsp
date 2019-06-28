@@ -59,7 +59,7 @@
 
 
         //识别二维码
-        $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + encodeURIComponent(payQrCodeLink) + "&isBase64=true";
+        $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + encodeURIComponent(payQrCodeLink);
 
         /**
          * 支付倒计时

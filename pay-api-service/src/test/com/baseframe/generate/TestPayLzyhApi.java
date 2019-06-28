@@ -1,33 +1,23 @@
 package com.baseframe.generate;
 
-import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.util.*;
 import com.pay.platform.security.util.ApiSignUtil;
 import com.pay.platform.security.util.AppSignUtil;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import static com.baseframe.generate.TestByLzyhApi.getJsonStrFromHttpResponse;
 
 /**
  * User:
@@ -35,27 +25,27 @@ import static com.baseframe.generate.TestByLzyhApi.getJsonStrFromHttpResponse;
  */
 public class TestPayLzyhApi {
 
-    String merchantNo = "17818991616";                                  //商家编号
-    String merchantSecret = "9ae482f4380b412d8554018f7bf2d023";         //商家密钥：调接口签名用
-    String notifySecret = "b7874e246f916b97";                           //回调密钥：接收支付回调,解密数据用
+    String merchantNo = "10931018752";                                  //商家编号
+    String merchantSecret = "617641b2e9b146dc80ad8c1fcbb758ac";         //商家密钥：调接口签名用
+    String notifySecret = "b42d2abaad7cdb72";                           //回调密钥：接收支付回调,解密数据用
+
+//    String serverURL = "http://www.b9y37.cn:20021";                      //请求地址
 
     String serverURL = "http://localhost:8080";        //系统请求地址
 
     /**
-     * 测试下单
+     * 测试统一下单
      *
      * @throws Exception
      */
     @Test
-    public void createOrderByLzyh() throws Exception {
-
-//        for (int i = 0; i < 20; i++) {
+    public void unifiedCreateOrder() throws Exception {
 
         Map<String, String> params = new HashMap();
         params.put("merchantNo", merchantNo);
         params.put("merchantOrderNo", System.currentTimeMillis() + "");
         params.put("orderAmount", "1");
-        params.put("payWay", PayChannelEnum.lzyhWechat.getCode());
+        params.put("payWay", "lzyhWechat");
         params.put("notifyUrl", serverURL + "/openApi/testMerchantNotify");
         params.put("returnUrl", "");
         params.put("clientIp", "58.249.126.142");
@@ -67,8 +57,6 @@ public class TestPayLzyhApi {
 
         System.out.println(" ---> " + result);
 
-//        }
-
     }
 
     /**
@@ -79,7 +67,7 @@ public class TestPayLzyhApi {
     @Test
     public void testGetPayLink() throws Exception {
 
-        String tradeId = "7be6d47f-05fa-4dd4-8bad-46cfd0a80576";
+        String tradeId = "6daa865f-b8e6-4504-a66c-ebf6277bb8a9";
 
         Map<String, String> params = new HashMap();
         params.put("tradeId", tradeId);
@@ -95,6 +83,28 @@ public class TestPayLzyhApi {
     }
 
     /**
+     * 测试查询订单
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testFindOrder() throws Exception {
+
+        Map<String, String> params = new HashMap();
+        params.put("merchantNo", merchantNo);
+        params.put("merchantOrderNo", "test2019061021574201685191136");
+        params.put("timestamp", System.currentTimeMillis() + "");
+        params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
+
+        String jsonStr = JsonUtil.parseToJsonStr(params);
+        String result = HttpClientUtil.doPost(serverURL + "/api/findOrder", jsonStr);
+
+        System.out.println(" ---> " + result);
+
+
+    }
+
+    /**
      * 测试柳行app回调
      *
      * @throws Exception
@@ -102,15 +112,16 @@ public class TestPayLzyhApi {
     @Test
     public void testPayNotifyByLzyh() throws Exception {
 
-        String codeNum = "LZYH00004";
-        String appSecret = "aaxx0004";
-        String amount = "199.99";
+        String codeNum = "lzyhtest01";
+        String appSecret = "test0001";
+        String amount = "100";
 
         Map<String, String> params = new HashMap();
         params.put("codeNum", codeNum);
         params.put("amount", amount);
         params.put("payTime", DateUtil.getCurrentDateTime());
         params.put("payCode", "LZYH" + OrderNoUtil.getOrderNoByUUId());
+        params.put("platformOrderNo", "2019060517555401701470077");
 
         params.put("timestamp", System.currentTimeMillis() + "");
         params.put("sign", AppSignUtil.buildAppSign(params, appSecret).trim());
@@ -208,6 +219,26 @@ public class TestPayLzyhApi {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
+
+    }
+
+    /**
+     * 将httpResponse解析成json字符串
+     *
+     * @param response
+     * @return
+     */
+    public static String getJsonStrFromHttpResponse(HttpResponse response) throws Exception {
+
+        InputStream in = response.getEntity().getContent();
+
+        StringBuilder resultJson = new StringBuilder();
+        byte[] buf = new byte[1024];
+        int len = 0;
+        while ((len = in.read(buf)) != -1) {
+            resultJson.append(new String(buf, 0, len));
+        }
+        return resultJson.toString();
 
     }
 

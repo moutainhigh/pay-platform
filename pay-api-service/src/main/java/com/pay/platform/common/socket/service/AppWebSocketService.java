@@ -24,4 +24,9 @@ public interface AppWebSocketService {
      */
     void sendGetQrCodeSocket(String codeNum, String secret, String amount);
 
+    /**
+     * 获取登录在线的设备
+     * @return
+     */
+    List<String> getOnLineSocketDevice();
 }
