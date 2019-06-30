@@ -65,4 +65,7 @@ public interface AgentDao {
 
     List<Map<String,Object>> queryAgentIdAndNameList(@Param("agentId") String agentId);
 
+    List<Map<String,Object>> queryOneLevelAgent();
+
+    List<Map<String,Object>> queryAgentIdAndNameByParentId(@Param("parentId") String parentId);
 }

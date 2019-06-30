@@ -23,4 +23,11 @@
         delete from tb_agent_rate where id=#{id}
     </delete>
 
+
+    <select id="queryParentAgentRate" parameterType="java.lang.String" resultType="java.lang.Double">
+        select rate from tb_agent_rate
+        where agent_id = #{agentId} and channel_id = #{channelId}
+    </select>
+
+
 </mapper>

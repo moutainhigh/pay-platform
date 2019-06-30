@@ -12,9 +12,10 @@
 
                 <!-- 搜索条件 -->
                 <form id="searchAgentForm" method="post">
-                    <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <table class="search" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
+
                             <td width="80" align="right">代理编号：</td>
                             <td width="150">
                                 <input type="text" name="agentNo" id="queryAgentNo" class="form-control btn-block" aria-describedby="basic-addon1">
@@ -30,16 +31,34 @@
                                 <input type="text" name="phone" id="queryPhone" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
-                            <td width="80" align="right">真实姓名：</td>
-                            <td width="150">
-                                <input type="text" name="realName" id="queryRealName" class="form-control btn-block" aria-describedby="basic-addon1">
-                            </td>
-
-
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"
                                        onclick="javascript:document.getElementById('searchAgentForm').reset(); pageScope.search();">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td width="80" align="right">代理级别：</td>
+                            <td width="150">
+                                <select class="form-control" id="queryLevel" name="level">
+                                    <option value=''>请选择</option>
+                                    <option value="1">一级代理</option>
+                                    <option value="2">二级代理</option>
+                                </select>
+                            </td>
+
+                            <td width="80" align="right">上级代理：</td>
+                            <td width="150">
+                                <select class="form-control" id="queryParentId" name="parentId">
+                                </select>
+                            </td>
+
+
+                            <td width="80" align="right">真实姓名：</td>
+                            <td width="150">
+                                <input type="text" name="realName" id="queryRealName" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
                         </tr>
@@ -77,7 +96,35 @@
 
     $(function () {
 
+        queryOneLevelAgent();
 
     });
+
+    /**
+     * 查询一级代理
+     */
+    function queryOneLevelAgent(){
+
+        $.ajax({
+            type: "post",
+            url: baseURL + "/agent/queryOneLevelAgent?_csrf=" + token,
+            dataType: "json",
+            success: function (response) {
+                if (response && response.success == true) {
+                    var str = "<option value=''>请选择</option>";
+                    for (var i = 0; i < response.data.length; i++) {
+                        str += "  <option  value='" + response.data[i].id + "'>" + response.data[i].agentName + " </option> ";
+                    }
+                    $("#queryParentId").html(str);
+                } else {
+                    return false;
+                }
+            },
+            error: function () {
+                return false;
+            }
+        });
+
+    }
 
 </script>

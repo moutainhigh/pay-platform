@@ -134,4 +134,12 @@
         (uuid() , #{merchantId} , #{totalAmount} , now());
     </insert>
 
+    <select id="queryMerchantIdByAgentId" parameterType="java.lang.String" resultType="java.lang.String">
+        select tm.id from tb_merchant tm
+        where tm.agent_id in (
+            select ta.id from tb_agent ta
+            where ta.id = #{agentId} or ta.parent_id = #{parentId}
+        )
+    </select>
+
 </mapper>

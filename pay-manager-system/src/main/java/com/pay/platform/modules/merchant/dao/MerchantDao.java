@@ -101,4 +101,6 @@ public interface MerchantDao {
 
     int saveMerchantNotifyWithdrawAmount(@Param("merchantId") String merchantId, @Param("totalAmount") double totalAmount);
 
+    List<String> queryMerchantIdByAgentId(@Param("agentId") String agentId, @Param("parentId") String parentId);
+
 }

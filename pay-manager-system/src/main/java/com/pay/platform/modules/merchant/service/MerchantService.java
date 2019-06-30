@@ -108,4 +108,5 @@ public interface MerchantService {
      */
     int saveMerchantNotifyWithdrawAmount(String merchantId, double totalAmount);
 
+    List<String> queryMerchantIdByAgentId(String agentId, String parentId);
 }

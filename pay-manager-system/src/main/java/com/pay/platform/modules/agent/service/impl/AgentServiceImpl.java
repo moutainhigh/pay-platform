@@ -107,4 +107,14 @@ public class AgentServiceImpl implements AgentService {
         return agentDao.queryAgentIdAndNameList(agentId);
     }
 
+    @Override
+    public List<Map<String, Object>> queryOneLevelAgent() {
+        return agentDao.queryOneLevelAgent();
+    }
+
+    @Override
+    public List<Map<String, Object>> queryAgentIdAndNameByParentId(String parentId) {
+        return agentDao.queryAgentIdAndNameByParentId(parentId);
+    }
+
 }

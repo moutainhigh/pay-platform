@@ -16,6 +16,7 @@ public interface AgentRateDao {
 
     /**
      * 查询代理的费率列表
+     *
      * @param AgentId
      * @return
      */
@@ -23,6 +24,7 @@ public interface AgentRateDao {
 
     /**
      * 新增代理费率
+     *
      * @param model
      * @return
      */
@@ -31,9 +33,11 @@ public interface AgentRateDao {
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
     Integer deletAgentRate(String id);
 
+    double queryParentAgentRate(@Param("agentId") String agentId, @Param("channelId") String channelId);
 }

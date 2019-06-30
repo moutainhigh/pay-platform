@@ -35,6 +35,25 @@ public class AgentModel extends BaseModel {
 
     private String createTime;                //创建时间
 
+    private String level;                   //级别：1代表1级代理; 2代表二级代理；
+
+    private String parentId;                //上级代理ID
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
     public String getId() {
         return this.id;

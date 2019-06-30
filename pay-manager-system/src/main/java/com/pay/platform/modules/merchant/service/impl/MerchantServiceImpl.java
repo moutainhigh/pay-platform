@@ -147,4 +147,9 @@ public class MerchantServiceImpl implements MerchantService {
         return merchantDao.saveMerchantNotifyWithdrawAmount(merchantId , totalAmount);
     }
 
+    @Override
+    public List<String> queryMerchantIdByAgentId(String agentId, String parentId) {
+        return merchantDao.queryMerchantIdByAgentId(agentId , parentId);
+    }
+
 }

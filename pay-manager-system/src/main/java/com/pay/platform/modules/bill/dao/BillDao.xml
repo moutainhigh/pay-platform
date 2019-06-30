@@ -133,6 +133,7 @@
             IFNULL(sum(tor.platform_amount) ,0)  as day_platform_amount , IFNULL(sum(tor.agent_amount) ,0) as day_agent_amount ,
             count(1) as day_payed_order_num ,
             (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo ,
+         (   select tmer.merchant_name  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantName,
             (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName ,
            (
               select count(1) from tb_order tor2

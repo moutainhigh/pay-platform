@@ -68,21 +68,13 @@ public class BillController extends BaseController {
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
 
-        if(StringUtil.isEmpty(merchantId)){
-            return null;
-        }
-
-        //代理管理员：只能可查看下级商家的流水,接收前端传递的商家id
-        if (SysUserUtil.isAgentRole(userModel)) {
-            agentId = userModel.getAgentId();
-        }
-        //商家管理员：只能查看自身,不接受前端传递参数
-        else if (SysUserUtil.isMerchantRole(userModel)) {
-            merchantId = userModel.getMerchantId();
-        }
-
         if (StringUtil.isEmpty(merchantId)) {
             return null;
+        }
+
+        //商家管理员：只能查看自身,不接受前端传递参数
+        if (SysUserUtil.isMerchantRole(userModel)) {
+            merchantId = userModel.getMerchantId();
         }
 
         if ("day".equalsIgnoreCase(statisticsWay)) {
@@ -97,6 +89,7 @@ public class BillController extends BaseController {
 
     /**
      * 查询代理分润流水
+     *
      * @param request
      * @param agentId
      * @param beginTime

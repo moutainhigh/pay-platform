@@ -1,36 +1,33 @@
 package com.pay.platform.modules.agent.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Map;
-
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.agent.model.AgentModel;
 import com.pay.platform.modules.agent.model.AgentRateListModel;
 import com.pay.platform.modules.agent.model.AgentRateModel;
 import com.pay.platform.modules.agent.service.AgentRateService;
+import com.pay.platform.modules.agent.service.AgentService;
+import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.merchant.model.MerchantModel;
 import com.pay.platform.modules.merchant.service.MerchantService;
+import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
-import com.pay.platform.modules.sysmgr.user.service.UserService;
 import com.pay.platform.security.CommonRequest;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.pay.platform.modules.base.controller.BaseController;
-import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 
-import com.pay.platform.modules.agent.model.AgentModel;
-import com.pay.platform.modules.agent.service.AgentService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -221,9 +218,18 @@ public class AgentController extends BaseController {
         if (SysUserUtil.isAdminRole(user)) {
             agentIdList = agentService.queryAgentIdAndNameList(null);
         }
-        //代理管理员：只能查询自身
+        //代理管理员
         else if (SysUserUtil.isAgentRole(user)) {
+
             agentIdList = agentService.queryAgentIdAndNameList(user.getAgentId());
+
+            //一级代理可查询自身；以及下级；
+            AgentModel agentModel = agentService.queryAgentById(user.getAgentId());
+            if ("1".equalsIgnoreCase(agentModel.getLevel())) {
+                List<Map<String,Object>> childAgentList = agentService.queryAgentIdAndNameByParentId(user.getAgentId());
+                agentIdList.addAll(childAgentList);
+            }
+
         }
         //商家管理员：只能查询上级的代理
         else if (SysUserUtil.isMerchantRole(user)) {
@@ -271,9 +277,21 @@ public class AgentController extends BaseController {
         JSONObject json = new JSONObject();
 
         //去除百分号,再除以100存储
-        String rate = model.getRate().replace("%","");
-        double doubleRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(rate) , 100);
+        String rate = model.getRate().replace("%", "");
+        double doubleRate = DecimalCalculateUtil.divForNotRounding(Double.parseDouble(rate), 100);
         model.setRate(String.valueOf(doubleRate));
+
+        //二级代理费率校验
+        AgentModel agentModel = agentService.queryAgentById(model.getAgentId());
+        if ("2".equalsIgnoreCase(agentModel.getLevel())) {
+            double parentAgentRate = agentRateService.queryParentAgentRate(agentModel.getParentId(), model.getChannelId());
+            if (doubleRate < parentAgentRate) {
+                json.put("success", false);
+                json.put("msg", "不得低于上级费率：" + DecimalCalculateUtil.mul(parentAgentRate, 100) + "%");
+                writeJson(response, json.toString());
+                return;
+            }
+        }
 
         Integer count = agentRateService.addAgentRate(model);
 
@@ -312,6 +330,31 @@ public class AgentController extends BaseController {
         }
 
         writeJson(response, json.toString());
+    }
+
+
+    /**
+     * 查询一级代理信息
+     *
+     * @param request
+     * @param response
+     * @param
+     * @return
+     * @throws Exception CommonRequest 标识为通用请求,任何用户可访问,不进行权限过滤
+     */
+    @ResponseBody
+    @CommonRequest
+    @RequestMapping(value = "/queryOneLevelAgent", produces = "application/json")
+    public void queryOneLevelAgent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        List<Map<String, Object>> agentIdList = agentService.queryOneLevelAgent();
+        json.put("success", true);
+        json.put("msg", "查询成功");
+        json.put("data", agentIdList);
+        writeJson(response, json.toString());
+
     }
 
 }

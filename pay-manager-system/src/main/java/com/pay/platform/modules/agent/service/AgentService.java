@@ -63,4 +63,8 @@ public interface AgentService {
 
     List<Map<String,Object>> queryAgentIdAndNameList(String agentId);
 
+    List<Map<String,Object>> queryOneLevelAgent();
+
+    List<Map<String,Object>> queryAgentIdAndNameByParentId(String parentId);
+
 }

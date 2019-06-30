@@ -38,6 +38,16 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             },
             {title: '代理编号', field: 'agentNo', align: 'center', sortable: true},
             {title: '代理名称', field: 'agentName', align: 'center', sortable: true},
+            {
+                title: '代理级别', field: 'level', align: 'center', sortable: true,
+                formatter: function (value) {
+                    if (parseInt(value) == 1) {
+                        return "一级代理";
+                    } else {
+                        return "二级代理";
+                    }
+                }
+            },
             {title: '手机号', field: 'phone', align: 'center', sortable: true},
             {title: '真实姓名', field: 'realName', align: 'center', sortable: true},
             {title: '身份证号码', field: 'identityCode', align: 'center', sortable: true},
@@ -282,6 +292,13 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailPhone").val(pageScope.currentrow.phone);
                 $("#detailRealName").val(pageScope.currentrow.realName);
                 $("#detailIdentityCode").val(pageScope.currentrow.identityCode);
+
+                if (parseInt(pageScope.currentrow.level) == 1) {
+                    $("#detailLevel").val("一级代理");
+                } else {
+                    $("#detailLevel").val("二级代理");
+                }
+
                 //图片显示 - 身份证-正面
                 $("#fileIdCardImg1").showImage({
                     imgUrl: pageScope.currentrow.idCardImg1
@@ -320,7 +337,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             buttonEvents: {
                 success: function () {
 
-
                     var costRate = $("#channel").find(":selected").attr("costRate").replace("%", "");
                     var nowRate = $("#rate").val().replace("%", "");
                     if (!$.validate.isNumber(nowRate)) {
@@ -328,8 +344,10 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         return;
                     }
 
+                    //一级代理检验; 二级代理在后台检验;
+                    var level = pageScope.currentrow.level;
                     if (parseFloat(costRate) > parseFloat(nowRate)) {
-                        $.msg.error('不得低于成本费率!');
+                        $.msg.error('不得低于成本费率：' + costRate + "%");
                         return;
                     }
 

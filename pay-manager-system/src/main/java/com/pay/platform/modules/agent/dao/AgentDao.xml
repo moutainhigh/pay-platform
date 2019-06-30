@@ -20,6 +20,12 @@
             <if test="realName != null and realName != '' ">
                 and real_name like CONCAT('%','${realName}','%')
             </if>
+            <if test="level != null and level != '' ">
+                and level = #{level}
+            </if>
+            <if test="parentId != null and parentId != '' ">
+                and parent_id = #{parentId}
+            </if>
         </where>
     </select>
 
@@ -29,8 +35,8 @@
     </select>
 
     <insert id="addAgent" parameterType="AgentModel">
-        insert into tb_agent(id , agent_no , agent_name , phone , real_name , identity_code , id_card_img1 , id_card_img2 , icp_img , create_time)
-        values( #{id} , #{agentNo} , #{agentName} , #{phone} , #{realName} , #{identityCode} , #{idCardImg1} , #{idCardImg2} , #{icpImg} , now());
+        insert into tb_agent(id , agent_no , agent_name , phone , real_name , identity_code , id_card_img1 , id_card_img2 , icp_img , create_time , level , parent_id)
+        values( #{id} , #{agentNo} , #{agentName} , #{phone} , #{realName} , #{identityCode} , #{idCardImg1} , #{idCardImg2} , #{icpImg} , now() , #{level} , #{parentId} );
     </insert>
 
     <delete id="deleteAgent">
@@ -62,6 +68,20 @@
                 and id = #{agentId}
             </if>
         </where>
+        order by create_time asc
+    </select>
+
+    <select id="queryAgentIdAndNameByParentId" parameterType="java.lang.String" resultType="AgentModel">
+        select id , agent_name
+        from tb_agent
+        where is_del = 0 and parent_id = #{parentId}
+        order by create_time asc
+    </select>
+
+    <select id="queryOneLevelAgent" resultType="AgentModel">
+        select id , agent_name as agentName
+        from tb_agent
+        where is_del = 0 and level = 1
         order by create_time asc
     </select>
 

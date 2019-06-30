@@ -27,4 +27,7 @@ public interface AgentRateService {
      * @return
      */
     Integer deletAgentRate(String id);
+
+    double queryParentAgentRate(String agentId, String channelId);
+
 }

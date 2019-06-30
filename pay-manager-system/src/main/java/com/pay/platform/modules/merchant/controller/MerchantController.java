@@ -11,6 +11,8 @@ import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.modules.agent.model.AgentModel;
+import com.pay.platform.modules.agent.service.AgentService;
 import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.merchant.model.MerchantRateListModel;
 import com.pay.platform.modules.merchant.model.MerchantRateModel;
@@ -55,6 +57,9 @@ public class MerchantController extends BaseController {
     @Autowired
     private CodeTraderService codeTraderService;
 
+    @Autowired
+    private AgentService agentService;
+
     /**
      * 分页查询商家列表
      *
@@ -70,25 +75,32 @@ public class MerchantController extends BaseController {
     public PageInfo<MerchantModel> queryMerchantList(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
 
         UserModel user = AppContext.getCurrentUser();
+        String[] merchantIds = null;
 
-        //代理管理员只能查询下级商家
+        //代理管理员
         if (SysUserUtil.isAgentRole(user)) {
-            merchant.setAgentId(user.getAgentId());
+            AgentModel agentModel = agentService.queryAgentById(user.getAgentId());
+            //一级代理,查询自身的商家以及下级代理的商家
+            if ("1".equalsIgnoreCase(agentModel.getLevel())) {
+                List<String> merchantIdList = merchantService.queryMerchantIdByAgentId(user.getAgentId(), user.getAgentId());
+                if (merchantIdList != null && merchantIdList.size() > 0) {
+                    merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+                }
+            } else {
+                merchant.setAgentId(user.getAgentId());                 //二级代理,只查询自身
+            }
         }
 
         //码商管理员：默认可查看到绑定的商家
-        List<String> merchantIdList = null;
         if (SysUserUtil.isCodeTraderRole(user)) {
-            String codeTraderId = user.getCodeTraderId();
-            merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
-        }
-        String[] merchantIds = null;
-        if (merchantIdList != null && merchantIdList.size() > 0) {
-            merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+            List<String> merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(user.getCodeTraderId());
+            if (merchantIdList != null && merchantIdList.size() > 0) {
+                merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+            }
         }
 
         setPageInfo(request);
-        return merchantService.queryMerchantList(merchant , merchantIds);
+        return merchantService.queryMerchantList(merchant, merchantIds);
     }
 
     /**
@@ -264,21 +276,37 @@ public class MerchantController extends BaseController {
         List<Map<String, Object>> merchantIdList = null;
 
         //mybatis分页排序此处有bug,会导致数据库没有该排序字段,拼接sql语句出错; 此处直接去除排序字段
-        PageHelper.offsetPage(0 , Integer.MAX_VALUE);
+        PageHelper.offsetPage(0, Integer.MAX_VALUE);
 
         //超级管理员可查询所有商家
         if (SysUserUtil.isAdminRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId , null);
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId, null);
         }
         //码商管理员：默认可查看到绑定的商家
         else if (SysUserUtil.isCodeTraderRole(user)) {
             String codeTraderId = user.getCodeTraderId();
             List<String> list = codeTraderService.queryMerchantIdCodeTraderId(codeTraderId);
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId,list.toArray(new String[list.size()]));
+            merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId, list.toArray(new String[list.size()]));
         }
         //代理管理员可查询下级商家
         else if (SysUserUtil.isAgentRole(user)) {
-            merchantIdList = merchantService.queryMerchantIdAndNameList(null, user.getAgentId(), null);
+
+            AgentModel agentModel = agentService.queryAgentById(user.getAgentId());
+
+            //一级代理,查询自身的商家以及下级代理的商家
+            if ("1".equalsIgnoreCase(agentModel.getLevel())) {
+                String[] merchantIds = null;
+                List<String> list = merchantService.queryMerchantIdByAgentId(user.getAgentId(), user.getAgentId());
+                if (list != null && list.size() > 0) {
+                    merchantIds = list.toArray(new String[list.size()]);
+                }
+                merchantIdList = merchantService.queryMerchantIdAndNameList(null, agentId, merchantIds);
+            }
+            //二级代理,只查询自身的商家
+            else {
+                merchantIdList = merchantService.queryMerchantIdAndNameList(null, user.getAgentId(), null);
+            }
+
         }
         //商家管理员可以查看当前信息
         else if (SysUserUtil.isMerchantRole(user)) {

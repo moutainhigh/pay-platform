@@ -15,8 +15,11 @@ import com.pay.platform.common.util.PayChannelEnum;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.common.util.payCharge.util.PayUtil;
+import com.pay.platform.modules.agent.model.AgentModel;
+import com.pay.platform.modules.agent.service.AgentService;
 import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
+import com.pay.platform.modules.merchant.service.MerchantRateService;
 import com.pay.platform.modules.merchant.service.MerchantService;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import javafx.scene.AmbientLight;
@@ -55,6 +58,12 @@ public class OrderController extends BaseController {
     @Autowired
     private MerchantNotifyService merchantNotifyService;
 
+    @Autowired
+    private MerchantService merchantService;
+
+    @Autowired
+    private AgentService agentService;
+
     /**
      * 分页查询订单列表
      *
@@ -84,9 +93,24 @@ public class OrderController extends BaseController {
         }
         //代理管理员：可查到下级商家的流水,接收前端传递的商家id
         else if (SysUserUtil.isAgentRole(userModel)) {
-            order.setAgentId(userModel.getAgentId());
-            setPageInfo(request);
-            return orderService.queryOrderList(order, beginTime, endTime, null);
+
+            //一级代理,查询自身的商家以及下级代理的商家
+            AgentModel agentModel = agentService.queryAgentById(userModel.getAgentId());
+            if ("1".equalsIgnoreCase(agentModel.getLevel())) {
+                List<String> merchantIdList = merchantService.queryMerchantIdByAgentId(userModel.getAgentId(), userModel.getAgentId());
+                if (merchantIdList != null && merchantIdList.size() > 0) {
+                    String[] merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+                    setPageInfo(request);
+                    return orderService.queryOrderList(order, beginTime, endTime, merchantIds);
+                }
+            }
+            //二级代理：只查询自身的商家
+            else {
+                order.setAgentId(userModel.getAgentId());
+                setPageInfo(request);
+                return orderService.queryOrderList(order, beginTime, endTime, null);
+            }
+
         }
         //商家管理员：只能查看自身,不接受前端传递参数
         else if (SysUserUtil.isMerchantRole(userModel)) {

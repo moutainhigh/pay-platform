@@ -34,4 +34,9 @@ public class AgentRateServiceImpl implements AgentRateService{
         return agentRateDao.deletAgentRate(id);
     }
 
+    @Override
+    public double queryParentAgentRate(String agentId, String channelId) {
+        return agentRateDao.queryParentAgentRate(agentId , channelId);
+    }
+
 }
