@@ -39,4 +39,26 @@ public interface BillService {
      */
     PageInfo<Map<String,Object>> queryBillByDateTime(String agentId, String merchantId, String beginTime, String endTime);
 
+    /**
+     * 查询代理分润
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param merchantName
+     * @param platformOrderNo
+     * @param merchantOrderNo
+     * @return
+     */
+    PageInfo<Map<String,Object>> queryAgentProfit(String agentId, String beginTime, String endTime, String merchantName, String platformOrderNo, String merchantOrderNo);
+
+    /**
+     * 查询代理分润流水（统计总数）
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param merchantName
+     * @return
+     */
+    Map<String,Object> queryTotalAgentProfit(String agentId, String beginTime, String endTime, String merchantName, String platformOrderNo, String merchantOrderNo);
+
 }

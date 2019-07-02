@@ -35,10 +35,10 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         });
     }
 
-   function loadBillTale(){
+    function loadBillTale() {
 
         pageScope.billTable = $('#billTable').initBootstrapTable({
-            url: baseURL + '/bill/agent/queryAgentEveryDayBill?_csrf=' + token,
+            url: baseURL + '/bill/queryAgentProfit?_csrf=' + token,
             method: 'post',
             dataType: "json",
             toolbar: '#billPager',
@@ -68,30 +68,29 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         return arguments[2] + 1;
                     }
                 },
-                {title: '代理名称', field: 'agentName', align: 'center', sortable: true},
+                {title: '代理名称', field: 'agent_name', align: 'center', sortable: true},
+                {title: '商家名称', field: 'merchant_name', align: 'center', sortable: true},
+                {title: '平台单号', field: 'platform_order_no', align: 'center', sortable: true},
+                {title: '商家单号', field: 'merchant_order_no', align: 'center', sortable: true},
+                {
+                    title: '订单金额(元)', field: 'order_amount', align: 'center', sortable: true,
+                    formatter: function (value) {
+                        return value.toFixed(2);
+                    }
+                },
+                {
+                    title: '分润金额(元)', field: 'amount', align: 'center', sortable: true,
+                    formatter: function (value) {
+                        return value.toFixed(2);
+                    }
+                },
                 {
                     title: '日期', field: 'create_time', align: 'center', sortable: true,
                     formatter: function (value) {
-                        var statisticsWay = $("#queryStatisticsWay").val();
-                        if ("day" == statisticsWay) {
-                            return $.date.formatToDate(value);
-                        } else if ("timeLine" == statisticsWay) {
-                            return $("#beginTime").val() + " - " + $("#endTime").val();
-                        }
+                        return $.date.formatToDateTime(value);
                     }
                 },
-                {title: '收款总金额(元)', field: 'day_Order_Amount', align: 'center', sortable: true},
-                {title: '实收金额(元)', field: 'day_actual_amount', align: 'center', sortable: true},
-                {title: '交易手续费(元)', field: 'day_Handling_Fee', align: 'center', sortable: true},
-                {title: '通道总收入(元)', field: 'day_channel_amount', align: 'center', sortable: true},
-                {title: '平台总收入(元)', field: 'day_platform_amount', align: 'center', sortable: true},
-                {title: '代理总收入(元)', field: 'day_agent_amount', align: 'center', sortable: true},
             ], onLoadSuccess: function () {
-
-                if (roleCode == "ROLE_AGENT") {
-                    pageScope.billTable.bootstrapTable('hideColumn', 'day_channel_amount');
-                    pageScope.billTable.bootstrapTable('hideColumn', 'day_platform_amount');
-                }
 
             }
         });
@@ -102,25 +101,54 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      * 查询
      */
     pageScope.search = function () {
-        var statisticsWay = $("#queryStatisticsWay").val();
-        if ("timeLine" == statisticsWay) {
-            var beginTime = $("#beginTime").val();
-            var endTime = $("#endTime").val();
-            if($.validate.isEmpty(beginTime)){
-                $.msg.toast("请选择开始时间");
-                return;
-            }
-            if($.validate.isEmpty(endTime)){
-                $.msg.toast("请选择结束时间");
-                return;
-            }
-            if(endTime < beginTime){
-                $.msg.toast("开始时间不可大于结束时间!");
-                return;
-            }
-        }
-
         pageScope.billTable.bootstrapTable('refresh');
+        pageScope.queryTotalAgentProfit();
     };
+
+    /**
+     * 统计分润信息
+     */
+    pageScope.queryTotalAgentProfit = function () {
+
+        var agentId = $("#agentId").find("option:selected").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+        var merchantName = $("#queryMerchantName").val();
+        var platformOrderNo = $("#queryPlatformOrderNo").val();
+        var merchantOrderNo = $("#queryMerchantOrderNo").val();
+
+        $.ajax({
+            url: baseURL + "/bill/queryTotalAgentProfit",
+            type: "post",
+            dataType: "json",
+            data: {
+                "agentId": agentId,
+                "merchantName": merchantName,
+                "beginTime": beginTime,
+                "endTime": endTime,
+                "platformOrderNo": platformOrderNo,
+                "merchantOrderNo": merchantOrderNo,
+                "_csrf": token
+            },
+            success: function (response) {
+
+                if (response && response.success == true) {
+
+                    if (response.data.totalOrderAmount) {
+                        $("#totalPayAmount").html(response.data.totalOrderAmount.toFixed(2));
+                        $("#totalProfitAmount").html(response.data.totalProfitAmount.toFixed(2));
+                    } else {
+                        $("#totalPayAmount").html("0.00");
+                        $("#totalProfitAmount").html("0.00");
+                    }
+
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
+    }
 
 })();

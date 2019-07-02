@@ -1,5 +1,6 @@
 package com.pay.platform.modules.bill.dao;
 
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
@@ -36,6 +37,7 @@ public interface BillDao {
 
     /**
      * 根据时间段查询商家流水
+     *
      * @param agentId
      * @param merchantId
      * @param beginTime
@@ -43,6 +45,30 @@ public interface BillDao {
      * @return
      */
     List<Map<String, Object>> queryBillByDateTime(@Param("agentId") String agentId, @Param("merchantId") String merchantId
-            , @Param("beginTime") String beginTime, @Param("endTime") String endTime );
+            , @Param("beginTime") String beginTime, @Param("endTime") String endTime);
+
+    /**
+     * 查询代理分润
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param merchantName
+     * @param platformOrderNo
+     * @param merchantOrderNo
+     * @return
+     */
+    List<Map<String, Object>> queryAgentProfit(@Param("agentId") String agentId, @Param("beginTime") String beginTime, @Param("endTime") String endTime
+            , @Param("merchantName") String merchantName, @Param("platformOrderNo") String platformOrderNo, @Param("merchantOrderNo") String merchantOrderNo);
+
+    /**
+     * 查询代理分润流水（统计总数）
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param merchantName
+     * @return
+     */
+    Map<String,Object> queryTotalAgentProfit(@Param("agentId") String agentId, @Param("beginTime") String beginTime, @Param("endTime") String endTime
+            , @Param("merchantName") String merchantName, @Param("platformOrderNo") String platformOrderNo, @Param("merchantOrderNo") String merchantOrderNo);
 
 }

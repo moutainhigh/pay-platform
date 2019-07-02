@@ -12,7 +12,6 @@
     var roleCode = "${roleCode}";
 </script>
 
-
 <div class="row">
     <div class="col-md-12">
 
@@ -27,10 +26,10 @@
                     <table class="search" width="100%" border="0" cellspacing="0" cellpadding="0">
 
                         <tr>
-                            <td width="80" align="right">所属代理：</td>
+
+                            <td width="80" align="right">商户名称：</td>
                             <td width="150">
-                                <select name="agentId" id="agentId" class="form-control btn-block">
-                                </select>
+                                <input type="text" name="merchantName" id="queryMerchantName" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
                             <td width="80" align="right">开始时间：</td>
@@ -59,10 +58,13 @@
 
                         <tr>
 
-                            <td width="80" align="right">商户名称：</td>
-                            <td width="150">
-                                <input type="text" name="merchantName" id="queryMerchantName" class="form-control btn-block" aria-describedby="basic-addon1">
-                            </td>
+                            <c:if test="${roleCode == 'ROLE_ADMIN'}">
+                                <td width="80" align="right">所属代理：</td>
+                                <td width="150">
+                                    <select name="agentId" id="agentId" class="form-control btn-block">
+                                    </select>
+                                </td>
+                            </c:if>
 
                             <td width="80" align="right">平台订单：</td>
                             <td width="150">
@@ -124,6 +126,9 @@
     $(function () {
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();
+
+        pageScope.queryTotalAgentProfit();
+
     });
 
 

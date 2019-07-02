@@ -7,8 +7,10 @@ import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.common.util.SysUserUtil;
 import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.bill.service.BillService;
+import com.pay.platform.modules.codeTrader.model.CodeTraderModel;
 import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import org.json.JSONObject;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ public class BillController extends BaseController {
 
     /**
      * 查询代理每日流水（暂时没用）
+     *
      * @param request
      * @param agentId
      * @param beginTime
@@ -70,6 +73,7 @@ public class BillController extends BaseController {
 
     /**
      * 查询商家每日流水（暂时没用）
+     *
      * @param request
      * @param agentId
      * @param beginTime
@@ -107,6 +111,7 @@ public class BillController extends BaseController {
 
     /**
      * 查询代理分润流水
+     *
      * @param request
      * @param agentId
      * @param beginTime
@@ -116,7 +121,8 @@ public class BillController extends BaseController {
     @RequestMapping(value = "/queryAgentProfit")
     @ResponseBody
     @SystemControllerLog(module = "查询代理分润流水", operation = "查询代理分润流水")
-    public PageInfo<Map<String, Object>> queryAgentProfit(HttpServletRequest request, String agentId, String beginTime, String endTime) {
+    public PageInfo<Map<String, Object>> queryAgentProfit(HttpServletRequest request, String agentId, String beginTime, String endTime
+            , String merchantName, String platformOrderNo, String merchantOrderNo) {
 
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
@@ -126,8 +132,40 @@ public class BillController extends BaseController {
             agentId = userModel.getAgentId();
         }
 
-        return billService.queryAgentEveryDayBill(agentId, beginTime, endTime);                      //按天统计
+        return billService.queryAgentProfit(agentId, beginTime, endTime, merchantName, platformOrderNo, merchantOrderNo);
 
     }
+
+    /**
+     * 查询代理分润流水（统计总数）
+     *
+     * @param request
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping(value = "/queryTotalAgentProfit")
+    @SystemControllerLog(module = "查询代理分润流水（统计总数）", operation = "查询代理分润流水（统计总数）")
+    public void queryTotalAgentProfit(HttpServletRequest request, HttpServletResponse response, String agentId, String beginTime, String endTime
+            , String merchantName, String platformOrderNo, String merchantOrderNo) throws Exception{
+
+        JSONObject json = new JSONObject();
+
+        //代理管理员：可查到自身流水
+        UserModel userModel = AppContext.getCurrentUser();
+        if (SysUserUtil.isAgentRole(userModel)) {
+            agentId = userModel.getAgentId();
+        }
+
+        Map<String, Object> data = billService.queryTotalAgentProfit(agentId, beginTime, endTime, merchantName , platformOrderNo , merchantOrderNo);
+
+        json.put("success", true);
+        json.put("msg", "查询成功！");
+        json.put("data", data);
+        writeJson(response, json.toString());
+
+    }
+
 
 }

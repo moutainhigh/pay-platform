@@ -30,16 +30,16 @@
         where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
         ) day_agent_amount
         from (
-            select tca.create_time , (
-                    select GROUP_CONCAT(tor.platform_order_no)
-                    from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
-                    <if test="agentId != null and agentId != '' ">
-                        and tor.agent_id = #{agentId}
-                    </if>
-                ) orderNos
-               , (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName
-            from tb_calendar tca
-            where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
+        select tca.create_time , (
+        select GROUP_CONCAT(tor.platform_order_no)
+        from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and tor.agent_id = #{agentId}
+        </if>
+        ) orderNos
+        , ( select tag.agent_name from tb_agent tag where tag.id = #{agentId} ) as agentName
+        from tb_calendar tca
+        where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
         ) tab
         <where>
             <if test="beginTime != null and beginTime != '' ">
@@ -55,8 +55,8 @@
     <select id="queryMerchantEveryDayBill" resultType="java.util.Map">
         select tab.create_time , tab.merchantNo , tab.merchantName
         ,(
-            select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
-            where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
+        select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+        where FIND_IN_SET(tor.platform_order_no,tab.orderNos)
         ) day_Order_Amount
         ,(
         select IFNULL(sum(tor.actual_amount) ,0) from tb_order tor
@@ -80,40 +80,40 @@
         ) day_agent_amount,
         tab.day_all_order_num,tab.day_payed_order_num
         from (
-            select tca.create_time , (
-                select GROUP_CONCAT(tor.platform_order_no)
-                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
-                <if test="agentId != null and agentId != '' ">
-                    and tor.agent_id = #{agentId}
-                </if>
-                <if test="merchantId != null and merchantId != '' ">
-                    and tor.merchant_id = #{merchantId}
-                </if>
-            ) orderNos,
-             (
-                select count(1)
-                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
-                <if test="agentId != null and agentId != '' ">
-                    and tor.agent_id = #{agentId}
-                </if>
-                <if test="merchantId != null and merchantId != '' ">
-                    and tor.merchant_id = #{merchantId}
-                </if>
-            ) day_all_order_num
-            , (
-                select count(1)
-                from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
-                <if test="agentId != null and agentId != '' ">
-                    and tor.agent_id = #{agentId}
-                </if>
-                <if test="merchantId != null and merchantId != '' ">
-                    and tor.merchant_id = #{merchantId}
-                </if>
-            ) day_payed_order_num
-            , (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo
-         , (   select tmer.merchant_name  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantName
-            from tb_calendar tca
-            where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
+        select tca.create_time , (
+        select GROUP_CONCAT(tor.platform_order_no)
+        from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and tor.agent_id = #{agentId}
+        </if>
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) orderNos,
+        (
+        select count(1)
+        from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME)
+        <if test="agentId != null and agentId != '' ">
+            and tor.agent_id = #{agentId}
+        </if>
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_all_order_num
+        , (
+        select count(1)
+        from tb_order tor where TO_DAYS(tor.CREATE_TIME) = TO_DAYS(tca.CREATE_TIME) and tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and tor.agent_id = #{agentId}
+        </if>
+        <if test="merchantId != null and merchantId != '' ">
+            and tor.merchant_id = #{merchantId}
+        </if>
+        ) day_payed_order_num
+        , ( select tmer.merchant_no from tb_merchant tmer where tmer.id = #{merchantId} ) as merchantNo
+        , ( select tmer.merchant_name from tb_merchant tmer where tmer.id = #{merchantId} ) as merchantName
+        from tb_calendar tca
+        where tca.create_time &gt; '2018-12-31 23:59:59' and TO_DAYS(tca.create_time) &lt;= TO_DAYS(now())
         ) tab
         <where>
             <if test="beginTime != null and beginTime != '' ">
@@ -128,23 +128,23 @@
 
     <select id="queryBillByDateTime" resultType="java.util.Map">
         select
-            IFNULL(sum(tor.order_amount) ,0) as day_Order_Amount , IFNULL(sum(tor.actual_amount) ,0) as day_actual_amount ,
-            IFNULL(sum(tor.handling_fee) ,0) as day_Handling_Fee , IFNULL(sum(tor.channel_amount) ,0) as day_channel_amount ,
-            IFNULL(sum(tor.platform_amount) ,0)  as day_platform_amount , IFNULL(sum(tor.agent_amount) ,0) as day_agent_amount ,
-            count(1) as day_payed_order_num ,
-            (   select tmer.merchant_no  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantNo ,
-         (   select tmer.merchant_name  from tb_merchant tmer   where tmer.id = #{merchantId} ) as merchantName,
-            (   select tag.agent_name  from tb_agent tag   where tag.id = #{agentId} ) as agentName ,
-           (
-              select count(1) from tb_order tor2
-              where tor2.CREATE_TIME &gt;= #{beginTime} and tor2.create_time &lt;= #{endTime}
-              <if test="agentId != null and agentId != '' ">
-                    and tor2.agent_id = #{agentId}
-              </if>
-              <if test="merchantId != null and merchantId != '' ">
-                    and tor2.merchant_id = #{merchantId}
-              </if>
-            ) as day_all_order_num
+        IFNULL(sum(tor.order_amount) ,0) as day_Order_Amount , IFNULL(sum(tor.actual_amount) ,0) as day_actual_amount ,
+        IFNULL(sum(tor.handling_fee) ,0) as day_Handling_Fee , IFNULL(sum(tor.channel_amount) ,0) as day_channel_amount ,
+        IFNULL(sum(tor.platform_amount) ,0) as day_platform_amount , IFNULL(sum(tor.agent_amount) ,0) as day_agent_amount ,
+        count(1) as day_payed_order_num ,
+        ( select tmer.merchant_no from tb_merchant tmer where tmer.id = #{merchantId} ) as merchantNo ,
+        ( select tmer.merchant_name from tb_merchant tmer where tmer.id = #{merchantId} ) as merchantName,
+        ( select tag.agent_name from tb_agent tag where tag.id = #{agentId} ) as agentName ,
+        (
+        select count(1) from tb_order tor2
+        where tor2.CREATE_TIME &gt;= #{beginTime} and tor2.create_time &lt;= #{endTime}
+        <if test="agentId != null and agentId != '' ">
+            and tor2.agent_id = #{agentId}
+        </if>
+        <if test="merchantId != null and merchantId != '' ">
+            and tor2.merchant_id = #{merchantId}
+        </if>
+        ) as day_all_order_num
         from tb_order tor
         where tor.pay_status = 'payed' and tor.CREATE_TIME &gt;= #{beginTime} and tor.create_time &lt;= #{endTime}
         <if test="agentId != null and agentId != '' ">
@@ -153,6 +153,68 @@
         <if test="merchantId != null and merchantId != '' ">
             and tor.merchant_id = #{merchantId}
         </if>
+    </select>
+
+
+    <!--  查询代理分润：
+           1、账户余额日志表作为主表；每次涉及资金变动，都会往该表写入数据；
+           2、条件限制为支付成功，分润，并只查代理  -->
+    <select id="queryAgentProfit" parameterType="java.lang.String" resultType="java.util.Map">
+        select ta.agent_name , tm.merchant_name , tor.platform_order_no , tor.merchant_order_no , tor.order_amount , taal.amount , taal.create_time
+        from tb_account_amount_log taal
+        inner join tb_sys_user tsu on tsu.id = taal.user_id
+        inner join tb_agent ta on ta.id = tsu.agent_id
+        inner join tb_order tor on tor.platform_order_no = taal.ref_order_no
+        inner join tb_merchant tm on tm.id = tor.merchant_id
+        where taal.type = 'paySuccess' and tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and ta.id = #{agentId}
+        </if>
+        <if test="beginTime != null and beginTime != '' ">
+            and taal.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and taal.create_time &lt;= #{endTime}
+        </if>
+        <if test="merchantOrderNo != null and merchantOrderNo != '' ">
+            and tor.merchant_order_no like CONCAT('%','${merchantOrderNo}','%')
+        </if>
+        <if test="platformOrderNo != null and platformOrderNo != '' ">
+            and tor.platform_order_no like CONCAT('%','${platformOrderNo}','%')
+        </if>
+        <if test="merchantName != null and merchantName != '' ">
+            and tm.merchant_name like CONCAT('%','${merchantName}','%')
+        </if>
+    </select>
+
+    <select id="queryTotalAgentProfit" parameterType="java.lang.String" resultType="java.util.Map">
+
+        select sum(IFNULL(tor.order_amount,0)) totalOrderAmount , sum(IFNULL(taal.amount,0)) totalProfitAmount
+        from tb_account_amount_log taal
+        inner join tb_sys_user tsu on tsu.id = taal.user_id
+        inner join tb_agent ta on ta.id = tsu.agent_id
+        inner join tb_order tor on tor.platform_order_no = taal.ref_order_no
+        inner join tb_merchant tm on tm.id = tor.merchant_id
+        where taal.type = 'paySuccess' and tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and ta.id = #{agentId}
+        </if>
+        <if test="beginTime != null and beginTime != '' ">
+            and taal.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and taal.create_time &lt;= #{endTime}
+        </if>
+        <if test="merchantOrderNo != null and merchantOrderNo != '' ">
+            and tor.merchant_order_no like CONCAT('%','${merchantOrderNo}','%')
+        </if>
+        <if test="platformOrderNo != null and platformOrderNo != '' ">
+            and tor.platform_order_no like CONCAT('%','${platformOrderNo}','%')
+        </if>
+        <if test="merchantName != null and merchantName != '' ">
+            and tm.merchant_name like CONCAT('%','${merchantName}','%')
+        </if>
+
     </select>
 
 </mapper>

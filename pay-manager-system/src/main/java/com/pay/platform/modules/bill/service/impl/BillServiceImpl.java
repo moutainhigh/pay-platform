@@ -34,4 +34,14 @@ public class BillServiceImpl implements BillService {
         return new PageInfo(billDao.queryBillByDateTime(agentId, merchantId, beginTime, endTime));
     }
 
+    @Override
+    public PageInfo<Map<String, Object>> queryAgentProfit(String agentId, String beginTime, String endTime, String merchantName, String platformOrderNo, String merchantOrderNo) {
+        return new PageInfo(billDao.queryAgentProfit(agentId, beginTime, endTime , merchantName , platformOrderNo , merchantOrderNo));
+    }
+
+    @Override
+    public Map<String, Object> queryTotalAgentProfit(String agentId, String beginTime, String endTime, String merchantName, String platformOrderNo, String merchantOrderNo) {
+        return billDao.queryTotalAgentProfit(agentId, beginTime, endTime, merchantName , platformOrderNo , merchantOrderNo);
+    }
+
 }
