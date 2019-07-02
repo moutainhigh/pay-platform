@@ -84,4 +84,6 @@ public interface OrderDao {
 
     Map<String,Object> queryOrderById(@Param("tradeId") String tradeId);
 
+    Map<String,Object> queryAgentRateInfo(@Param("agentId") String agentId , @Param("payChannelId") String payChannelId);
+
 }

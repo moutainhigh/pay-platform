@@ -66,6 +66,35 @@ public class OrderModel extends BaseModel {
 
     private String payFloatAmount;      //实际支付金额：向下浮动（固码通道没办法传递单号,只能根据此进行回调判断,避免出现金额重复）
 
+    private String parentAgentId;           //上级代理ID（存在二级代理时才会有上级）
+    private Double parentAgentAmount;       //上级代理分润金额（存在二级代理时才会有上级）
+    private Double parentAgentRate;         //上级代理费率（存在二级代理时才会有上级）
+
+
+    public Double getParentAgentAmount() {
+        return parentAgentAmount;
+    }
+
+    public void setParentAgentAmount(Double parentAgentAmount) {
+        this.parentAgentAmount = parentAgentAmount;
+    }
+
+    public Double getParentAgentRate() {
+        return parentAgentRate;
+    }
+
+    public void setParentAgentRate(Double parentAgentRate) {
+        this.parentAgentRate = parentAgentRate;
+    }
+
+    public String getParentAgentId() {
+        return parentAgentId;
+    }
+
+    public void setParentAgentId(String parentAgentId) {
+        this.parentAgentId = parentAgentId;
+    }
+
     public String getPayFloatAmount() {
         return payFloatAmount;
     }
