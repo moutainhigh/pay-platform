@@ -49,18 +49,29 @@
                                 </div>
                             </td>
 
-                            <td width="80" align="right">统计方式：</td>
-                            <td width="150">
-                                <select name="statisticsWay" id="queryStatisticsWay" class="form-control btn-block">
-                                    <option value="day">按天</option>
-                                    <option value="timeLine">按时间段</option>
-                                </select>
-                            </td>
-
                             <td colspan="2">
                                 <input class="btn btn-default btn-search" type="button" value="查 询" onclick="pageScope.search()">
                                 <input class="btn btn-default btn-reset" type="button" value="重 置"
                                        onclick="javascript:document.getElementById('searchBillForm').reset(); pageScope.search();">
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td width="80" align="right">商户名称：</td>
+                            <td width="150">
+                                <input type="text" name="merchantName" id="queryMerchantName" class="form-control btn-block" aria-describedby="basic-addon1">
+                            </td>
+
+                            <td width="80" align="right">平台订单：</td>
+                            <td width="150">
+                                <input type="text" name="platformOrderNo" id="queryPlatformOrderNo" class="form-control btn-block" aria-describedby="basic-addon1">
+                            </td>
+
+                            <td width="80" align="right">商户订单：</td>
+                            <td width="150">
+                                <input type="text" name="merchantOrderNo" id="queryMerchantOrderNo" class="form-control btn-block" aria-describedby="basic-addon1">
                             </td>
 
                         </tr>
@@ -70,7 +81,29 @@
 
                 <!-- 操作按钮 -->
                 <div class="operation-button columns columns-left bars pull-left">
+                    <button id="UpMonth" class="btn btn-success" onclick="getUpMonth();">
+                        <i class="glyphicon"></i> 上月
+                    </button>
+                    <button id="TheMonth" class="btn btn-success" onclick="getCurrentMonth();">
+                        <i class="glyphicon"></i> 当月
+                    </button>
+                    <button id="zhouDay" class="btn btn-success" onclick="getCurrentWeek();">
+                        <i class="glyphicon"></i> 本周
+                    </button>
+                    <button id="qianDay" class="btn btn-success" onclick="getTheDayBeforeYesterday();">
+                        <i class="glyphicon"></i> 前天
+                    </button>
+                    <button id="yesterDay" class="btn btn-success" onclick="getYesterDay();">
+                        <i class="glyphicon"></i> 昨天
+                    </button>
+                    <button id="toDay" class="btn btn-success" onclick="getToDay();">
+                        <i class="glyphicon"></i> 今天
+                    </button>
+                </div>
 
+                <div style="margin-top: 70px;margin-bottom: -50px;font-size: 14px;">
+                    交易金额合计：<span id="totalPayAmount" style="color: green;"></span>&nbsp;&nbsp;&nbsp;
+                    分润金额合计：<span id="totalProfitAmount" style="color: red;"></span>&nbsp;&nbsp;&nbsp;
                 </div>
 
                 <!-- 数据表格 -->
@@ -92,5 +125,97 @@
         $('#beginTime_div').datetimepicker();
         $('#endTime_div').datetimepicker();
     });
+
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        month = month < 10 ? "0" + month : month + "";
+        var day = date.getDate();
+        day = day < 10 ? "0" + day : "" + day;
+        return year + "-" + month + "-" + day;
+    }
+
+    /**
+     * 获取今天日期
+     */
+    function getToDay() {
+        var day1 = new Date();
+        var day1Str = formatDate(day1);
+        $("#beginTime").val(day1Str + " 00:00:00");
+        $("#endTime").val(day1Str + " 23:59:59");
+        pageScope.search();
+    }
+
+    /**
+     * 获取昨天日期
+     */
+    function getYesterDay() {
+        var day1 = new Date(new Date().getTime() - 24 * 1 * 60 * 60 * 1000);
+        var day1Str = formatDate(day1);
+        $("#beginTime").val(day1Str + " 00:00:00");
+        $("#endTime").val(day1Str + " 23:59:59");
+        pageScope.search();
+    }
+
+    /**
+     * 获取前天日期
+     */
+    function getTheDayBeforeYesterday() {
+        var day1 = new Date(new Date().getTime() - 24 * 2 * 60 * 60 * 1000);
+        var day1Str = formatDate(day1);
+        $("#beginTime").val(day1Str + " 00:00:00");
+        $("#endTime").val(day1Str + " 23:59:59");
+        pageScope.search();
+    }
+
+    /**
+     * 获取本周
+     */
+    function getCurrentWeek() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        var MondayTime = nowTime - (day - 1) * oneDayLong;
+        var SundayTime = nowTime + (7 - day - 1) * oneDayLong;
+
+        var monday = new Date(MondayTime);
+        var sunday = new Date(SundayTime);
+        $("#beginTime").val(formatDate(monday) + " 00:00:00");
+        $("#endTime").val(formatDate(new Date()) + " 23:59:59");
+        pageScope.search();
+    }
+
+    /**
+     * 获取当前月份
+     */
+    function getCurrentMonth() {
+        var day1 = new Date();
+        day1.setDate(1);
+        var day2 = new Date();
+        var day1Str = formatDate(day1);
+        var day2Str = formatDate(day2);
+        $("#beginTime").val(day1Str + " 00:00:00");
+        $("#endTime").val(day2Str + " 23:59:59");
+        pageScope.search();
+    }
+
+    /**
+     * 获取上个月
+     */
+    function getUpMonth() {
+        var day1 = new Date();
+        day1.setMonth(day1.getMonth() - 1);
+        day1.setDate(1);
+        var day2 = new Date();
+        day2.setDate(1)
+        day2 = new Date(day2.getTime() - 24 * 1 * 60 * 60 * 1000)
+        var day1Str = formatDate(day1);
+        var day2Str = formatDate(day2);
+        $("#beginTime").val(day1Str + " 00:00:00");
+        $("#endTime").val(day2Str + " 23:59:59");
+        pageScope.search();
+    }
 
 </script>

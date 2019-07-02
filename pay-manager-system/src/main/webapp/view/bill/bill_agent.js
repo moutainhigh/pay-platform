@@ -14,7 +14,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
             dataType: "json",
             success: function (response) {
                 if (response && response.success == true) {
-                    var str = "";
+                    var str = "<option value=''>请选择</option>";
 
                     for (var i = 0; i < response.agentIdList.length; i++) {
                         str += "  <option  value='" + response.agentIdList[i].id + "'>" + response.agentIdList[i].agentName + " </option> ";

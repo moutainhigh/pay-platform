@@ -36,6 +36,15 @@ public class BillController extends BaseController {
     @Autowired
     private BillService billService;
 
+    /**
+     * 查询代理每日流水（暂时没用）
+     * @param request
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param statisticsWay
+     * @return
+     */
     @RequestMapping(value = "/agent/queryAgentEveryDayBill")
     @ResponseBody
     @SystemControllerLog(module = "代理流水", operation = "查看代理每日流水")
@@ -59,6 +68,15 @@ public class BillController extends BaseController {
 
     }
 
+    /**
+     * 查询商家每日流水（暂时没用）
+     * @param request
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param statisticsWay
+     * @return
+     */
     @RequestMapping(value = "/merchant/queryMerchantEveryDayBill")
     @ResponseBody
     @SystemControllerLog(module = "商家流水", operation = "查看商家每日流水")
@@ -68,13 +86,13 @@ public class BillController extends BaseController {
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();
 
-        if (StringUtil.isEmpty(merchantId)) {
-            return null;
-        }
-
         //商家管理员：只能查看自身,不接受前端传递参数
         if (SysUserUtil.isMerchantRole(userModel)) {
             merchantId = userModel.getMerchantId();
+        }
+
+        if (StringUtil.isEmpty(merchantId)) {
+            return null;
         }
 
         if ("day".equalsIgnoreCase(statisticsWay)) {
@@ -89,18 +107,16 @@ public class BillController extends BaseController {
 
     /**
      * 查询代理分润流水
-     *
      * @param request
      * @param agentId
      * @param beginTime
      * @param endTime
-     * @param statisticsWay
      * @return
      */
     @RequestMapping(value = "/queryAgentProfit")
     @ResponseBody
     @SystemControllerLog(module = "查询代理分润流水", operation = "查询代理分润流水")
-    public PageInfo<Map<String, Object>> queryAgentProfit(HttpServletRequest request, String agentId, String beginTime, String endTime, String statisticsWay) {
+    public PageInfo<Map<String, Object>> queryAgentProfit(HttpServletRequest request, String agentId, String beginTime, String endTime) {
 
         setPageInfo(request);
         UserModel userModel = AppContext.getCurrentUser();

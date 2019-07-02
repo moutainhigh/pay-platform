@@ -5,6 +5,10 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
  */
 (function () {
 
+    //默认选中今天
+    $("#beginTime").val($.date.getToDayBeginTime());
+    $("#endTime").val($.date.getToDayEndTime());
+
     pageScope.orderTable = $('#orderTable').initBootstrapTable({
         url: baseURL + '/order/queryOrderList?_csrf=' + token,
         method: 'post',
@@ -131,6 +135,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      */
     pageScope.search = function () {
         pageScope.orderTable.bootstrapTable('refresh');
+        pageScope.statisticsTradeInfo();
     };
 
     /**
@@ -225,6 +230,48 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     });
 
                 }
+            }
+        });
+
+    }
+
+    /**
+     * 统计交易信息
+     */
+    pageScope.statisticsTradeInfo = function () {
+
+        var merchantId = $("#queryMerchantId").find("option:selected").val();
+        var channelCode = $("#queryPayWay").find("option:selected").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+
+        $.ajax({
+            url: baseURL + "/loopMgr/tradeCode/statisticsTradeInfo",
+            type: "post",
+            dataType: "json",
+            data: {"merchantId": merchantId, "channelCode": channelCode, "beginTime": beginTime, "endTime": endTime, "_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+
+                    var data = response.data;
+
+                    $("#totalOrderAmount").html(data.totalOrderAmount.toFixed(2));
+                    $("#totalOrderCount").html(data.totalOrderCount);
+                    $("#successAmount").html(data.successAmount.toFixed(2));
+                    $("#scuccessCount").html(data.scuccessCount);
+
+                    if (parseInt(data.scuccessCount) != 0) {
+                        var result = (parseInt(data.scuccessCount) / parseInt(data.totalOrderCount)) * 100;
+                        $("#successRate").html(result.toFixed(2) + "%");
+                    } else {
+                        $("#successRate").html("100%");
+                    }
+
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
             }
         });
 

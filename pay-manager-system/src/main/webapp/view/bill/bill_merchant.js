@@ -36,8 +36,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     return arguments[2] + 1;
                 }
             },
-            {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
-            {title: '商家名称', field: 'merchantName', align: 'center', sortable: true},
             {
                 title: '日期', field: 'create_time', align: 'center', sortable: true,
                 formatter: function (value) {
@@ -49,6 +47,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     }
                 }
             },
+            // {title: '商家编号', field: 'merchantNo', align: 'center', sortable: true},
+            {title: '商家名称', field: 'merchantName', align: 'center', sortable: true},
             {title: '收款总金额(元)', field: 'day_Order_Amount', align: 'center', sortable: true},
             {title: '实收金额(元)', field: 'day_actual_amount', align: 'center', sortable: true},
             {title: '交易手续费(元)', field: 'day_Handling_Fee', align: 'center', sortable: true},
@@ -93,21 +93,66 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         if ("timeLine" == statisticsWay) {
             var beginTime = $("#beginTime").val();
             var endTime = $("#endTime").val();
-            if($.validate.isEmpty(beginTime)){
+            if ($.validate.isEmpty(beginTime)) {
                 $.msg.toast("请选择开始时间");
                 return;
             }
-            if($.validate.isEmpty(endTime)){
+            if ($.validate.isEmpty(endTime)) {
                 $.msg.toast("请选择结束时间");
                 return;
             }
-            if(endTime < beginTime){
+            if (endTime < beginTime) {
                 $.msg.toast("开始时间不可大于结束时间!");
                 return;
             }
         }
 
         pageScope.billTable.bootstrapTable('refresh');
+
+        pageScope.statisticsTradeInfo();
+
     };
+
+    /**
+     * 统计交易信息
+     */
+    pageScope.statisticsTradeInfo = function () {
+
+        var merchantId = $("#queryMerchantId").find("option:selected").val();
+        var channelCode = "";   //$("#queryPayWay").find("option:selected").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+
+        $.ajax({
+            url: baseURL + "/loopMgr/tradeCode/statisticsTradeInfo",
+            type: "post",
+            dataType: "json",
+            data: {"merchantId": merchantId, "channelCode": channelCode, "beginTime": beginTime, "endTime": endTime, "_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+
+                    var data = response.data;
+
+                    $("#totalOrderAmount").html(data.totalOrderAmount.toFixed(2));
+                    $("#totalOrderCount").html(data.totalOrderCount);
+                    $("#successAmount").html(data.successAmount.toFixed(2));
+                    $("#scuccessCount").html(data.scuccessCount);
+
+                    if (parseInt(data.scuccessCount) != 0) {
+                        var result = (parseInt(data.scuccessCount) / parseInt(data.totalOrderCount)) * 100;
+                        $("#successRate").html(result.toFixed(2) + "%");
+                    } else {
+                        $("#successRate").html("100%");
+                    }
+
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
+    }
 
 })();

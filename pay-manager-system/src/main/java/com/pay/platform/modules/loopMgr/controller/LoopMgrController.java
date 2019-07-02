@@ -4,14 +4,20 @@ import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.config.JdbcConfig;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.*;
+import com.pay.platform.modules.agent.model.AgentModel;
+import com.pay.platform.modules.agent.service.AgentService;
 import com.pay.platform.modules.base.controller.BaseController;
 import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.loopMgr.model.TradeCodeModel;
 import com.pay.platform.modules.loopMgr.service.LoopMgrService;
+import com.pay.platform.modules.merchant.service.MerchantNotifyService;
+import com.pay.platform.modules.merchant.service.MerchantRateService;
+import com.pay.platform.modules.merchant.service.MerchantService;
 import com.pay.platform.modules.payChannel.model.PayChannelModel;
 import com.pay.platform.modules.payChannel.service.PayChannelService;
 import com.pay.platform.modules.sysmgr.log.annotation.SystemControllerLog;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
+import com.pay.platform.security.CommonRequest;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -57,6 +63,12 @@ public class LoopMgrController extends BaseController {
     @Autowired
     private CodeTraderService codeTraderService;
 
+    @Autowired
+    private MerchantService merchantService;
+
+    @Autowired
+    private AgentService agentService;
+
     /**
      * 分页查询交易码列表
      *
@@ -83,11 +95,10 @@ public class LoopMgrController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/queryTradeCodeSuccessRateList", produces = "application/json")
-    public void queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode, String beginTime, String endTime) throws Exception {
+    @ResponseBody
+    public PageInfo<Map<String, Object>> queryTradeCodeSuccessRateList(HttpServletRequest request, HttpServletResponse response, TradeCodeModel tradeCode, String beginTime, String endTime) throws Exception {
 
         UserModel user = AppContext.getCurrentUser();
-
-        JSONObject json = new JSONObject();
 
         //码商管理员：只能查询下面绑定的商家
         List<String> merchantIdList = null;
@@ -100,20 +111,9 @@ public class LoopMgrController extends BaseController {
             merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
         }
 
-        //查询总成功率(根据商编、通道、时间)
-        Map<String, Object> successRate = tradeCodeService.queryTotalSuccessRate(tradeCode.getMerchantId(), tradeCode.getChannelId(), beginTime, endTime, merchantIds);
-
         //查询每个号的成功率
         setPageInfo(request);
-        PageInfo<Map<String, Object>> pageInfo = tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime, merchantIds);
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("pageInfo", pageInfo);
-        data.put("successRate", successRate);
-
-        json.put("success", true);
-        json.put("data", data);
-        writeJson(response, json.toString());
+        return tradeCodeService.queryTradeCodeSuccessRateList(tradeCode, beginTime, endTime, merchantIds);
 
     }
 
@@ -740,7 +740,7 @@ public class LoopMgrController extends BaseController {
         JSONArray jsonArray = respJson.getJSONArray("data");
         for (int i = 0; i < jsonArray.length(); i++) {
             String connectedCodeNum = jsonArray.get(i).toString();
-            if(connectedCodeNum.equalsIgnoreCase(codeNum)){
+            if (connectedCodeNum.equalsIgnoreCase(codeNum)) {
                 json.put("success", true);
                 json.put("msg", "连接成功");
                 writeJson(response, json.toString());
@@ -750,6 +750,60 @@ public class LoopMgrController extends BaseController {
 
         json.put("success", false);
         json.put("msg", "暂未连接");
+        writeJson(response, json.toString());
+
+    }
+
+    /**
+     * 统计交易信息
+     *
+     * @param request
+     * @param response
+     * @param merchantId
+     * @param channelId
+     * @param beginTime
+     * @param endTime
+     * @throws Exception
+     */
+    @CommonRequest
+    @RequestMapping(value = "/statisticsTradeInfo", produces = "application/json")
+    public void statisticsTradeInfo(HttpServletRequest request, HttpServletResponse response, String merchantId, String channelCode, String beginTime, String endTime) throws Exception {
+
+        UserModel user = AppContext.getCurrentUser();
+        String[] merchantIds = null;
+
+        JSONObject json = new JSONObject();
+
+        //代理管理员：限定范围,只统计下级的商家
+        if (SysUserUtil.isAgentRole(user)) {
+            List<String> merchantIdList = merchantService.queryMerchantIdByAgentId(user.getAgentId(), user.getAgentId());
+            if (merchantIdList != null && merchantIdList.size() > 0) {
+                merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+            }
+        }
+
+        //码商管理员：只统计绑定的商家
+        if (SysUserUtil.isCodeTraderRole(user)) {
+            List<String> merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(user.getCodeTraderId());
+            if (merchantIdList != null && merchantIdList.size() > 0) {
+                merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+            }
+        }
+
+        //商户管理员：只能查询自身
+        if(SysUserUtil.isMerchantRole(user)){
+            merchantId = user.getMerchantId();
+        }
+
+        PayChannelModel payChannelModel = payChannelService.queryInfoByChannelCode(channelCode);
+        String channelId = payChannelModel != null ? payChannelModel.getId() : null;
+
+        //查询总成功率(根据商编、通道、时间)
+        Map<String, Object> result = tradeCodeService.queryTotalSuccessRate(merchantId, channelId, beginTime, endTime, merchantIds);
+
+        json.put("success", true);
+        json.put("msg", "查询成功！");
+        json.put("data", result);
         writeJson(response, json.toString());
 
     }

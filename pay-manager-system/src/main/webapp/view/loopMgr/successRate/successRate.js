@@ -5,6 +5,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
  */
 (function () {
 
+    //默认选中今天
     $("#beginTime").val($.date.getToDayBeginTime());
     $("#endTime").val($.date.getToDayEndTime());
 
@@ -23,22 +24,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
         responseHandler: function (response) {
             var griddata = {};
             try {
-                griddata.rows = response.data.pageInfo.list || [];
-                griddata.total = response.data.pageInfo.total || 0;
-
-                var successRate = response.data.successRate;
-                $("#totalOrderAmount").html(successRate.totalOrderAmount);
-                $("#totalOrderCount").html(successRate.totalOrderCount);
-                $("#successAmount").html(successRate.successAmount);
-                $("#scuccessCount").html(successRate.scuccessCount);
-
-                if (parseInt(successRate.scuccessCount) != 0) {
-                    var result = (parseInt(successRate.scuccessCount) / parseInt(successRate.totalOrderCount)) * 100;
-                    $("#successRate").html(result.toFixed(2) + "%");
-                } else {
-                    $("#successRate").html("100%");
-                }
-
+                griddata.rows = response.list || [];
+                griddata.total = response.total || 0;
             } catch (e) {
             }
             return griddata;
@@ -127,7 +114,50 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
      */
     pageScope.search = function () {
         pageScope.tradeCodeTable.bootstrapTable('refresh');
+        pageScope.statisticsTradeInfo();            //刷新统计信息
     };
+
+    /**
+     * 统计交易信息
+     */
+    pageScope.statisticsTradeInfo = function () {
+
+        var merchantId = $("#queryMerchantId").find("option:selected").val();
+        var channelCode = $("#queryChannelCode").find("option:selected").val();
+        var beginTime = $("#beginTime").val();
+        var endTime = $("#endTime").val();
+
+        $.ajax({
+            url: baseURL + "/loopMgr/tradeCode/statisticsTradeInfo",
+            type: "post",
+            dataType: "json",
+            data: {"merchantId" :merchantId , "channelCode":channelCode ,"beginTime": beginTime, "endTime": endTime,"_csrf": token},
+            success: function (response) {
+
+                if (response && response.success == true) {
+
+                    var data = response.data;
+
+                    $("#totalOrderAmount").html(data.totalOrderAmount.toFixed(2));
+                    $("#totalOrderCount").html(data.totalOrderCount);
+                    $("#successAmount").html(data.successAmount.toFixed(2));
+                    $("#scuccessCount").html(data.scuccessCount);
+
+                    if (parseInt(data.scuccessCount) != 0) {
+                        var result = (parseInt(data.scuccessCount) / parseInt(data.totalOrderCount)) * 100;
+                        $("#successRate").html(result.toFixed(2) + "%");
+                    } else {
+                        $("#successRate").html("100%");
+                    }
+
+                } else {
+                    $.msg.fail(response.msg);
+                }
+
+            }
+        });
+
+    }
 
     /**
      * 删除交易码
