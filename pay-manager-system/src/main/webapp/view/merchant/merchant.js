@@ -485,10 +485,10 @@ function queryAllPayChannelListAndAgentRate(agentId) {
 
                     if (data[i].agentCostRate) {
                         var showCostRate = (data[i].agentCostRate * 100).toFixed(2) + "%";
-                        str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
+                        str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（上级费率：" + showCostRate + "）</option>";
                     } else {
                         var showCostRate = (data[i].costRate * 100).toFixed(2) + "%";
-                        str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（成本费率：" + showCostRate + "）</option>";
+                        str += "<option costRate='" + showCostRate + "' value='" + data[i].id + "'>" + data[i].channelName + "（上级费率：" + showCostRate + "）</option>";
                     }
 
                 }
