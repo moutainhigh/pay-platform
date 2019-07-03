@@ -12,7 +12,7 @@
     <select id="queryWaitPushMerchantOrder" resultType="OrderModel">
         select * from tb_order
         where pay_status = 'payed' and notify_status != 'success' and notify_num &lt;  6
-    </select>s
+    </select>
 
     <select id="queryPayChannelByCode" parameterType="java.lang.String" resultType="java.util.Map">
         select * from tb_pay_channel
