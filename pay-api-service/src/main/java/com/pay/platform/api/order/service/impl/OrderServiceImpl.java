@@ -83,8 +83,8 @@ public class OrderServiceImpl implements OrderService {
         Map<String, Object> agentInfo = orderDao.queryAgentRateByMerchantNo(orderModel.getMerchantNo(), payChannelId);
         Map<String, Object> parentAgentInfo = null;
         String agentId = agentInfo.get("id").toString();
-        if (agentInfo != null && agentInfo.get("parent_agent_id") != null && StringUtil.isNotEmpty(agentInfo.get("parent_agent_id").toString())) {
-            parentAgentInfo = orderDao.queryAgentRateInfo(agentInfo.get("parent_agent_id").toString(), payChannelId);
+        if (agentInfo != null && agentInfo.get("parent_id") != null && StringUtil.isNotEmpty(agentInfo.get("parent_id").toString())) {
+            parentAgentInfo = orderDao.queryAgentRateInfo(agentInfo.get("parent_id").toString(), payChannelId);
         }
 
         //商家直属代理的费率及利润
