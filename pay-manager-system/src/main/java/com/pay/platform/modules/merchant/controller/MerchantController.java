@@ -85,9 +85,13 @@ public class MerchantController extends BaseController {
                 List<String> merchantIdList = merchantService.queryMerchantIdByAgentId(user.getAgentId(), user.getAgentId());
                 if (merchantIdList != null && merchantIdList.size() > 0) {
                     merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+                } else {
+                    return null;
                 }
-            } else {
-                merchant.setAgentId(user.getAgentId());                 //二级代理,只查询自身
+            }
+            //二级代理,只查询自身
+            else {
+                merchant.setAgentId(user.getAgentId());
             }
         }
 

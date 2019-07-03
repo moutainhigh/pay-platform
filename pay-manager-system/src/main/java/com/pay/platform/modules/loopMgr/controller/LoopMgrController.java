@@ -779,6 +779,8 @@ public class LoopMgrController extends BaseController {
             List<String> merchantIdList = merchantService.queryMerchantIdByAgentId(user.getAgentId(), user.getAgentId());
             if (merchantIdList != null && merchantIdList.size() > 0) {
                 merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+            } else {
+                return;
             }
         }
 
@@ -787,11 +789,13 @@ public class LoopMgrController extends BaseController {
             List<String> merchantIdList = codeTraderService.queryMerchantIdCodeTraderId(user.getCodeTraderId());
             if (merchantIdList != null && merchantIdList.size() > 0) {
                 merchantIds = merchantIdList.toArray(new String[merchantIdList.size()]);
+            } else {
+                return;
             }
         }
 
         //商户管理员：只能查询自身
-        if(SysUserUtil.isMerchantRole(user)){
+        if (SysUserUtil.isMerchantRole(user)) {
             merchantId = user.getMerchantId();
         }
 

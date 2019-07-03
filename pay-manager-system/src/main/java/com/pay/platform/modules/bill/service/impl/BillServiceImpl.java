@@ -6,6 +6,7 @@ import com.pay.platform.modules.bill.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +42,21 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public Map<String, Object> queryTotalAgentProfit(String agentId, String beginTime, String endTime, String merchantName, String platformOrderNo, String merchantOrderNo) {
-        return billDao.queryTotalAgentProfit(agentId, beginTime, endTime, merchantName , platformOrderNo , merchantOrderNo);
+
+        Map<String,Object> result = new HashMap<>();
+
+        Map<String,Object> totalProfitAmountMap = billDao.queryTotalProfitAmount(agentId, beginTime, endTime, merchantName , platformOrderNo , merchantOrderNo);
+        Map<String,Object> totalOrderAmountMap = billDao.queryAgentTotalOrderAmount(agentId, beginTime, endTime, merchantName , platformOrderNo , merchantOrderNo);
+
+        if(totalProfitAmountMap != null && totalProfitAmountMap.get("totalProfitAmount") != null){
+            result.put("totalProfitAmount" , totalProfitAmountMap.get("totalProfitAmount").toString());
+        }
+
+        if(totalOrderAmountMap != null && totalOrderAmountMap.get("totalOrderAmount") != null){
+            result.put("totalOrderAmount" , totalOrderAmountMap.get("totalOrderAmount").toString());
+        }
+
+        return result;
     }
 
 }

@@ -134,9 +134,11 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
 
                 if (response && response.success == true) {
 
+                    console.log(JSON.stringify(response.data));
+
                     if (response.data.totalOrderAmount) {
-                        $("#totalPayAmount").html(response.data.totalOrderAmount.toFixed(2));
-                        $("#totalProfitAmount").html(response.data.totalProfitAmount.toFixed(2));
+                        $("#totalPayAmount").html(parseFloat(response.data.totalOrderAmount).toFixed(2));
+                        $("#totalProfitAmount").html(parseFloat(response.data.totalProfitAmount).toFixed(2));
                     } else {
                         $("#totalPayAmount").html("0.00");
                         $("#totalProfitAmount").html("0.00");

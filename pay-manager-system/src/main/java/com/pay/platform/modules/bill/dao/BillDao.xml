@@ -187,9 +187,8 @@
         </if>
     </select>
 
-    <select id="queryTotalAgentProfit" parameterType="java.lang.String" resultType="java.util.Map">
-
-        select sum(IFNULL(tor.order_amount,0)) totalOrderAmount , sum(IFNULL(taal.amount,0)) totalProfitAmount
+    <select id="queryTotalProfitAmount" parameterType="java.lang.String"   resultType="java.util.Map">
+        select count(1) totalLineNum , sum(IFNULL(taal.amount , 0 )) totalProfitAmount
         from tb_account_amount_log taal
         inner join tb_sys_user tsu on tsu.id = taal.user_id
         inner join tb_agent ta on ta.id = tsu.agent_id
@@ -214,7 +213,32 @@
         <if test="merchantName != null and merchantName != '' ">
             and tm.merchant_name like CONCAT('%','${merchantName}','%')
         </if>
+    </select>
 
+    <!-- 统计代理的交易总额；-->
+    <select id="queryAgentTotalOrderAmount" parameterType="java.lang.String"  resultType="java.util.Map">
+        select count(1) totalLineNum , sum(ifnull(tor.order_amount , 0 )) totalOrderAmount
+        from tb_order tor
+        inner join tb_merchant tm on tm.id = tor.merchant_id
+        where tor.pay_status = 'payed'
+        <if test="agentId != null and agentId != '' ">
+            and ( tor.agent_id = #{agentId} or tor.parent_agent_id = #{agentId} )
+        </if>
+        <if test="beginTime != null and beginTime != '' ">
+            and tor.create_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != '' ">
+            and tor.create_time &lt;= #{endTime}
+        </if>
+        <if test="merchantOrderNo != null and merchantOrderNo != '' ">
+            and tor.merchant_order_no like CONCAT('%','${merchantOrderNo}','%')
+        </if>
+        <if test="platformOrderNo != null and platformOrderNo != '' ">
+            and tor.platform_order_no like CONCAT('%','${platformOrderNo}','%')
+        </if>
+        <if test="merchantName != null and merchantName != '' ">
+            and tm.merchant_name like CONCAT('%','${merchantName}','%')
+        </if>
     </select>
 
 </mapper>

@@ -49,6 +49,7 @@ public interface BillDao {
 
     /**
      * 查询代理分润
+     *
      * @param agentId
      * @param beginTime
      * @param endTime
@@ -62,13 +63,26 @@ public interface BillDao {
 
     /**
      * 查询代理分润流水（统计总数）
+     *
      * @param agentId
      * @param beginTime
      * @param endTime
      * @param merchantName
      * @return
      */
-    Map<String,Object> queryTotalAgentProfit(@Param("agentId") String agentId, @Param("beginTime") String beginTime, @Param("endTime") String endTime
+    Map<String,Object> queryTotalProfitAmount(@Param("agentId") String agentId, @Param("beginTime") String beginTime, @Param("endTime") String endTime
+            , @Param("merchantName") String merchantName, @Param("platformOrderNo") String platformOrderNo, @Param("merchantOrderNo") String merchantOrderNo);
+
+    /**
+     * 查询代理交易总额
+     *
+     * @param agentId
+     * @param beginTime
+     * @param endTime
+     * @param merchantName
+     * @return
+     */
+    Map<String,Object> queryAgentTotalOrderAmount(@Param("agentId") String agentId, @Param("beginTime") String beginTime, @Param("endTime") String endTime
             , @Param("merchantName") String merchantName, @Param("platformOrderNo") String platformOrderNo, @Param("merchantOrderNo") String merchantOrderNo);
 
 }
