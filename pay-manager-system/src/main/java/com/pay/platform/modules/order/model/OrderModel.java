@@ -39,13 +39,12 @@ public class OrderModel extends BaseModel {
     private String merchantId;                //商家ID
 
     private String merchantNo;                //商家编号
-    private String merchantName;                //商家名称
 
     private String channelId;                //通道ID
 
     private String agentId;             //代理Id
 
-    private String payWay;                //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付) 
+    private String payWay;                //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付)
     private String payWayDictDesc;        //支付方式(zfbScanCode:支付宝扫码支付 zfbH5:支付宝h5支付 wxScanCode:微信扫码支付 wxH5:微信H5支付)  - 字典显示值
 
     private String payStatus;                //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
@@ -62,8 +61,41 @@ public class OrderModel extends BaseModel {
 
     private String createTime;                //创建时间
 
-    private String tradeCodeNum;
-    private String payFloatAmount;      //浮动金额
+    private String tradeCodeId;         //使用的交易码Id
+    private String tradeCodeNum;        //使用的交易码编号
+
+    private String returnUrl;           //支付成功后-页面返回地址
+
+    private String payFloatAmount;      //实际支付金额：向下浮动（固码通道没办法传递单号,只能根据此进行回调判断,避免出现金额重复）
+
+    private String parentAgentId;           //上级代理ID（存在二级代理时才会有上级）
+    private Double parentAgentAmount;       //上级代理分润金额（存在二级代理时才会有上级）
+    private Double parentAgentRate;         //上级代理费率（存在二级代理时才会有上级）
+
+
+    public Double getParentAgentAmount() {
+        return parentAgentAmount;
+    }
+
+    public void setParentAgentAmount(Double parentAgentAmount) {
+        this.parentAgentAmount = parentAgentAmount;
+    }
+
+    public Double getParentAgentRate() {
+        return parentAgentRate;
+    }
+
+    public void setParentAgentRate(Double parentAgentRate) {
+        this.parentAgentRate = parentAgentRate;
+    }
+
+    public String getParentAgentId() {
+        return parentAgentId;
+    }
+
+    public void setParentAgentId(String parentAgentId) {
+        this.parentAgentId = parentAgentId;
+    }
 
     public String getPayFloatAmount() {
         return payFloatAmount;
@@ -73,12 +105,28 @@ public class OrderModel extends BaseModel {
         this.payFloatAmount = payFloatAmount;
     }
 
+    public String getReturnUrl() {
+        return returnUrl;
+    }
+
+    public void setReturnUrl(String returnUrl) {
+        this.returnUrl = returnUrl;
+    }
+
     public String getTradeCodeNum() {
         return tradeCodeNum;
     }
 
     public void setTradeCodeNum(String tradeCodeNum) {
         this.tradeCodeNum = tradeCodeNum;
+    }
+
+    public String getTradeCodeId() {
+        return tradeCodeId;
+    }
+
+    public void setTradeCodeId(String tradeCodeId) {
+        this.tradeCodeId = tradeCodeId;
     }
 
     public String getId() {
@@ -314,13 +362,5 @@ public class OrderModel extends BaseModel {
 
     public void setNotifyNum(Integer notifyNum) {
         this.notifyNum = notifyNum;
-    }
-
-    public String getMerchantName() {
-        return merchantName;
-    }
-
-    public void setMerchantName(String merchantName) {
-        this.merchantName = merchantName;
     }
 }

@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.enums.AccountAmountType;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.plugins.redis.RedisLock;
+import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.modules.order.dao.AccountAmountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -52,6 +53,8 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 支付成功后 - 业务处理
+     * <p>
+     * 注意：当redis与mysql事务同时存在时，需手动添加@Transactional注解
      *
      * @param platformOrderNo
      * @param payNo
@@ -63,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
     public boolean paySuccessBusinessHandle(String platformOrderNo, String payNo, String payTime) throws Exception {
 
         int count = 0;
+        boolean existsParentAgent = false;
 
         RedisLock lock = null;
 
@@ -85,6 +89,15 @@ public class OrderServiceImpl implements OrderService {
                     count += accountAmountDao.addAccountAmount(agentUserId, orderModel.getAgentAmount());
                     count += accountAmountDao.addAccountAmountBillLog(agentUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getAgentAmount());
 
+                    //存在二级代理,则需要增加上级代理的账户余额,并记录流水
+                    if(StringUtil.isNotEmpty(orderModel.getParentAgentId())){
+                        existsParentAgent = true;
+                        String parentAgentId = orderModel.getParentAgentId();
+                        String parentAgentUserId = accountAmountDao.queryUserIdByAgentId(parentAgentId);
+                        count += accountAmountDao.addAccountAmount(parentAgentUserId, orderModel.getParentAgentAmount());
+                        count += accountAmountDao.addAccountAmountBillLog(parentAgentUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getParentAgentAmount());
+                    }
+
                     //3、增加商家的账户余额,并记录流水
                     String merchantId = orderModel.getMerchantId();
                     String merchantUserId = accountAmountDao.queryUserIdByMerchantId(merchantId);
@@ -101,7 +114,9 @@ public class OrderServiceImpl implements OrderService {
             }
         }
 
-        if (count == 5) {
+        if (existsParentAgent && count == 7) {
+            return true;
+        } else if (!existsParentAgent && count == 5) {
             return true;
         } else {
             throw new Exception("订单:" + platformOrderNo + "支付回调业务处理失败,回滚事务!");
