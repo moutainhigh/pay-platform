@@ -37,7 +37,7 @@
             <div class="form-group" id="divParentId" style="display: none;">
                 <label class="col-md-3 col-sm-3 control-label">上级代理：</label>
                 <div class="col-md-8 col-sm-8">
-                    <select class="form-control" id="addParentId" name="parentId" check-type="required" >
+                    <select class="form-control" id="addParentId" name="parentId" >
                     </select>
                 </div>
             </div>
@@ -159,7 +159,11 @@
                 $("#addParentId").find("option").removeAttr("selected");
                 $("#addParentId").find("option:eq(0)").attr("selected" , "selected");
 
+                $("#addParentId").removeAttr("check-type");
+
             } else {
+                $("#addParentId").attr("check-type" , "required");
+
                 $("#divParentId").show();
             }
 
