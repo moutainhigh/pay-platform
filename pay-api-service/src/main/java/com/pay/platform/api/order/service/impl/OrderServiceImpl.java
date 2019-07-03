@@ -176,6 +176,7 @@ public class OrderServiceImpl implements OrderService {
 
                     //存在二级代理,则需要增加上级代理的账户余额,并记录流水
                     if(StringUtil.isNotEmpty(orderModel.getParentAgentId())){
+                        existsParentAgent = true;
                         String parentAgentId = orderModel.getParentAgentId();
                         String parentAgentUserId = accountAmountDao.queryUserIdByAgentId(parentAgentId);
                         count += accountAmountDao.addAccountAmount(parentAgentUserId, orderModel.getParentAgentAmount());
