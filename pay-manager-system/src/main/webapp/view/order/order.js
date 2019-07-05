@@ -182,6 +182,21 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 $("#detailMerchantName").val(pageScope.currentrow.merchantName);
                 $("#detailActualAmount2").val(Number(pageScope.currentrow.actualAmount).toFixed(2));
 
+                if ($.validate.isNotEmpty(pageScope.currentrow.parentAgentId)) {
+                    $("#detailParentAgentRate").val((pageScope.currentrow.parentAgentRate * 100).toFixed(2) + "%");
+                    $("#detailParentAgentAmount").val(Number(pageScope.currentrow.parentAgentAmount).toFixed(2));
+
+                    if (roleCode == "ROLE_ADMIN") {
+                        $("#labelAgentRate").html("二级代理费率：");
+                        $("#labelAgentAmount").html("二级代理收入：");
+                    }
+
+                    $("#divParentAgentInfo").show();
+
+                } else {
+                    $("#divParentAgentInfo").hide();
+                }
+
             }
         });
 

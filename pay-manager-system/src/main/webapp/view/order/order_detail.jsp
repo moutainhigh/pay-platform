@@ -87,14 +87,29 @@ To change this template use File | Settings | File Templates.
                 </div>
             </div>
 
+            <c:if test="${roleCode == 'ROLE_ADMIN'}">
+                <div class="form-group" id="divParentAgentInfo" style="display: none;">
+                    <label class="col-md-2 col-sm-2 control-label">一级代理费率：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailParentAgentRate" type="text" class="form-control" readonly="readonly"/>
+                    </div>
+
+                    <label class="col-md-2 col-sm-2 control-label">一级代理费率收入：</label>
+                    <div class="col-md-4 col-sm-4">
+                        <input id="detailParentAgentAmount" type="text" class="form-control" readonly="readonly"/>
+                    </div>
+
+                </div>
+            </c:if>
+
             <c:if test="${roleCode == 'ROLE_AGENT' || roleCode == 'ROLE_ADMIN'}">
                 <div class="form-group">
-                    <label class="col-md-2 col-sm-2 control-label">代理费率：</label>
+                    <label class="col-md-2 col-sm-2 control-label" id="labelAgentRate" >代理费率：</label>
                     <div class="col-md-4 col-sm-4">
                         <input id="detailAgentRate" type="text" class="form-control" readonly="readonly"/>
                     </div>
 
-                    <label class="col-md-2 col-sm-2 control-label">代理收入：</label>
+                    <label class="col-md-2 col-sm-2 control-label" id="labelAgentAmount">代理收入：</label>
                     <div class="col-md-4 col-sm-4">
                         <input id="detailAgentAmount" type="text" class="form-control" readonly="readonly"/>
                     </div>
