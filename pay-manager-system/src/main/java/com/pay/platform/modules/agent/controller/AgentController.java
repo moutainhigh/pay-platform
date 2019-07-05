@@ -223,7 +223,7 @@ public class AgentController extends BaseController {
 
             agentIdList = agentService.queryAgentIdAndNameList(user.getAgentId());
 
-            //一级代理可查询自身；以及下级；
+            //一级代理除了自身,还可查询下级的代理信息
             AgentModel agentModel = agentService.queryAgentById(user.getAgentId());
             if ("1".equalsIgnoreCase(agentModel.getLevel())) {
                 List<Map<String,Object>> childAgentList = agentService.queryAgentIdAndNameByParentId(user.getAgentId());
