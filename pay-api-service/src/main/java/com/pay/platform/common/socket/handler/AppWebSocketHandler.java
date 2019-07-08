@@ -87,7 +87,6 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
      */
     public void sendMessageToUser(String codeNum, TextMessage message) {
 
-        //由于可能存在多个设备登录同一个账号; 因此此处遍历完整个session集合；
         for (WebSocketSession user : users) {
             if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
                 try {
