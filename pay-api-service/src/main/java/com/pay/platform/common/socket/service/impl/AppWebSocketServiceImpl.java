@@ -37,7 +37,7 @@ public class AppWebSocketServiceImpl implements AppWebSocketService{
 
             //遍历在线的号
             for (WebSocketSession user : AppWebSocketHandler.users) {
-                if (user.getAttributes().get(AppWebSocketHandler.LOGIN_ID).equals(codeNum)) {
+                if (codeNum.equals(user.getAttributes().get(AppWebSocketHandler.LOGIN_ID))) {
                     if (user.isOpen()) {
                         return map;
                     }

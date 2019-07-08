@@ -86,8 +86,10 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
      * @param message
      */
     public void sendMessageToUser(String codeNum, TextMessage message) {
+
+        //由于可能存在多个设备登录同一个账号; 因此此处遍历完整个session集合；
         for (WebSocketSession user : users) {
-            if (user.getAttributes().get(LOGIN_ID).equals(codeNum)) {
+            if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
                 try {
                     if (user.isOpen()) {
                         user.sendMessage(message);
@@ -98,6 +100,7 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
                 break;
             }
         }
+
     }
 
     /**
@@ -133,7 +136,13 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
 
             //登录操作
             if (MESSAGE_LOGIN.equalsIgnoreCase(messageType)) {
-                session.getAttributes().put(LOGIN_ID, codeNum);    //将设备编码作为登录标识;存储到socket session; 便于后续发送指定用户消息
+
+                //删除重复会话
+                removeRepeatSession(session, codeNum);
+
+                //将设备编码作为登录标识;存储到socket session; 便于后续发送指定用户消息
+                session.getAttributes().put(LOGIN_ID, codeNum);
+
             }
             //上传收款码操作
             else if (MESSAGE_UPLOAD_QR_CODE.equalsIgnoreCase(messageType)) {
@@ -174,15 +183,43 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
         return false;
     }
 
+    /**
+     * 删除重复session; 避免多个设备重复登录一个账号;
+     *
+     * @param session
+     * @param codeNum
+     */
+    public void removeRepeatSession(WebSocketSession session, String codeNum) {
+
+        //避免重复登录,先删除之前存在的session
+        ArrayList<WebSocketSession> userRemove = new ArrayList<>();
+
+        for (WebSocketSession user : users) {
+
+            //过滤当前的session;
+            if (user == session || session.getId().equalsIgnoreCase(user.getId())) {
+                continue;
+            }
+
+            if (user.getAttributes().get(LOGIN_ID).equals(codeNum)) {
+                userRemove.add(user);
+            }
+
+        }
+        users.removeAll(userRemove);
+
+    }
+
+
     public UnifiedPayService getUnifiedPayService() {
-        if(unifiedPayService == null){
+        if (unifiedPayService == null) {
             unifiedPayService = AppContext.getApplicationContext().getBean(UnifiedPayService.class);
         }
         return unifiedPayService;
     }
 
     public OrderService getOrderService() {
-        if(orderService == null){
+        if (orderService == null) {
             orderService = AppContext.getApplicationContext().getBean(OrderService.class);
         }
         return orderService;
