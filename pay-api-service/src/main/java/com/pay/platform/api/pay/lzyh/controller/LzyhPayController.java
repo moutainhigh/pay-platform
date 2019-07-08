@@ -271,7 +271,7 @@ public class LzyhPayController extends BaseController {
             }
 
             int existsPayCode = lzyhPayService.queryPayCodeExists(payCode);
-            if(existsPayCode > 0){
+            if (existsPayCode > 0) {
                 json.put("status", "2");
                 json.put("msg", "该订单已成功回调过,请勿重复发起回调！");
                 writeJson(response, json.toString());
@@ -298,6 +298,8 @@ public class LzyhPayController extends BaseController {
                         }
                     });
                 }
+
+                getCurrentLogger().info("收到柳行支付回调请求:" + platformOrderNo + " -> 设备编号:" + codeNum + " -> 支付金额:" + amount + " -> 支付时间:" + payTime + " -> 支付流水号:" + payCode);
 
                 json.put("status", "1");
                 json.put("msg", "回调后台成功！");

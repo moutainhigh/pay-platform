@@ -110,7 +110,7 @@ public class PayChargeController extends BaseController {
             //解密获取报文
             AESOperator aes = new AESOperator(PayUtil.AES_SECRET);
             String text = aes.decrypt(sign);
-            getCurrentLogger().info("充值结果回调：" + text);
+            getCurrentLogger().info("收到支付回调请求：" + text);
             JSONObject reqJson = new JSONObject(text);
 
             if (200 == reqJson.getInt("resultCode")) {

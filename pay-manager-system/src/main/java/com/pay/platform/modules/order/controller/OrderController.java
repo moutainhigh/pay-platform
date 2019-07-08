@@ -10,10 +10,7 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.enums.PayStatusEnum;
-import com.pay.platform.common.util.DateUtil;
-import com.pay.platform.common.util.PayChannelEnum;
-import com.pay.platform.common.util.StringUtil;
-import com.pay.platform.common.util.SysUserUtil;
+import com.pay.platform.common.util.*;
 import com.pay.platform.common.util.payCharge.util.PayUtil;
 import com.pay.platform.modules.agent.model.AgentModel;
 import com.pay.platform.modules.agent.service.AgentService;
@@ -21,6 +18,7 @@ import com.pay.platform.modules.codeTrader.service.CodeTraderService;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
 import com.pay.platform.modules.merchant.service.MerchantRateService;
 import com.pay.platform.modules.merchant.service.MerchantService;
+import com.pay.platform.modules.sysmgr.log.model.OperationLogModel;
 import com.pay.platform.modules.sysmgr.user.model.UserModel;
 import javafx.scene.AmbientLight;
 import org.json.JSONObject;
@@ -131,7 +129,7 @@ public class OrderController extends BaseController {
      */
     @RequestMapping(value = "/makeOrderPaySuccess", produces = "application/json")
     @SystemControllerLog(module = "订单管理", operation = "手动补单回调")
-    public void makeOrderPaySuccess(HttpServletResponse response, String orderNo, String merchantOrderNo, String payAmount) throws Exception {
+    public void makeOrderPaySuccess(HttpServletRequest request, HttpServletResponse response, String orderNo, String merchantOrderNo, String payAmount) throws Exception {
 
         JSONObject json = new JSONObject();
 
@@ -142,6 +140,9 @@ public class OrderController extends BaseController {
             writeJson(response, json.toString());
             return;
         }
+
+        UserModel user = AppContext.getCurrentUser();
+        logger.info("收到补单请求:" + orderNo + " 操作用户:" + user.getNickname() + " 用户ID:" + user.getId() + "  操作时间:" + DateUtil.getCurrentDateTime() + " 操作IP:" + IpUtil.getIpAddress(request));
 
         //避免恶意攻击，绕过权限过滤器；此处加多一层判断；
         //只有管理员和码商才有权限进行补单回调；
@@ -163,8 +164,11 @@ public class OrderController extends BaseController {
                                 JSONObject data = resultJson.getJSONObject("data");
                                 if ("SUCCESS".equalsIgnoreCase(data.getString("status"))) {                      //支付成功
                                     String payTime = data.getString("finishedDate");
+                                    String payCode = "BUDAN" + orderNo;         //补单的三方单号以BUDAN开头
+
                                     //相关业务处理：更新订单状态等
-                                    orderService.paySuccessBusinessHandle(platformOrderNo, null, payTime);
+                                    orderService.paySuccessBusinessHandle(platformOrderNo, payCode, payTime);
+
                                 }
                             }
                         }
@@ -179,7 +183,8 @@ public class OrderController extends BaseController {
                     //避免人工回调错误,需要前端手动输入商家单号、支付金额; 后台查询后进行确认
                     int isInputRight = orderService.queryOrderExistsByBuDanInfo(orderNo, merchantOrderNo, payAmount);
                     if (isInputRight > 0) {
-                        orderService.paySuccessBusinessHandle(orderModel.getPlatformOrderNo(), null, DateUtil.getCurrentDateTime());
+                        String payCode = "BUDAN" + orderNo;         //补单的三方单号以BUDAN开头
+                        orderService.paySuccessBusinessHandle(orderModel.getPlatformOrderNo(), payCode, DateUtil.getCurrentDateTime());
                     } else {
                         json.put("status", "0");
                         json.put("msg", "商家单号或实际支付金额错误,请检查输入！");
