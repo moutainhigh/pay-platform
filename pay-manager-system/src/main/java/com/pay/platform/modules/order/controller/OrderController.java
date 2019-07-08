@@ -130,7 +130,7 @@ public class OrderController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/makeOrderPaySuccess", produces = "application/json")
-    @SystemControllerLog(module = "商家管理", operation = "手动补单回调")
+    @SystemControllerLog(module = "订单管理", operation = "手动补单回调")
     public void makeOrderPaySuccess(HttpServletResponse response, String orderNo, String merchantOrderNo, String payAmount) throws Exception {
 
         JSONObject json = new JSONObject();
