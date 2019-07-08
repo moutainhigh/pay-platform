@@ -143,7 +143,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                         var result = (parseInt(data.scuccessCount) / parseInt(data.totalOrderCount)) * 100;
                         $("#successRate").html(result.toFixed(2) + "%");
                     } else {
-                        $("#successRate").html("100%");
+                        $("#successRate").html("0%");
                     }
 
                 } else {
