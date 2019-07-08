@@ -196,11 +196,11 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
         for (WebSocketSession user : users) {
 
             //过滤当前的session;
-            if (user == session || session.getId().equalsIgnoreCase(user.getId())) {
+            if (user == null || user == session || session.getId().equalsIgnoreCase(user.getId())) {
                 continue;
             }
 
-            if (user.getAttributes().get(LOGIN_ID).equals(codeNum)) {
+            if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
                 userRemove.add(user);
             }
 
