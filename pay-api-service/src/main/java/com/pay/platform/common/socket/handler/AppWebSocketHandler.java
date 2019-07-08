@@ -87,6 +87,7 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
      */
     public void sendMessageToUser(String codeNum, TextMessage message) {
 
+        //可能出现多个设备连接同一个号; 此处不进行break操作; 遍历所有匹配的发送消息
         for (WebSocketSession user : users) {
             if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
                 try {
@@ -96,7 +97,6 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                break;
             }
         }
 
@@ -137,7 +137,7 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
             if (MESSAGE_LOGIN.equalsIgnoreCase(messageType)) {
 
                 //删除重复会话
-                removeRepeatSession(session, codeNum);
+//                removeRepeatSession(session, codeNum);
 
                 //将设备编码作为登录标识;存储到socket session; 便于后续发送指定用户消息
                 session.getAttributes().put(LOGIN_ID, codeNum);
