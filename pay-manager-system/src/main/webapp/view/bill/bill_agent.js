@@ -81,7 +81,7 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 {
                     title: '分润金额(元)', field: 'amount', align: 'center', sortable: true,
                     formatter: function (value) {
-                        return value.toFixed(2);
+                        return value.toFixed(3);
                     }
                 },
                 {
@@ -137,8 +137,8 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     console.log(JSON.stringify(response.data));
 
                     if (response.data.totalOrderAmount) {
-                        $("#totalPayAmount").html(parseFloat(response.data.totalOrderAmount).toFixed(2));
-                        $("#totalProfitAmount").html(parseFloat(response.data.totalProfitAmount).toFixed(2));
+                        $("#totalPayAmount").html(parseFloat(response.data.totalOrderAmount).toFixed(3));
+                        $("#totalProfitAmount").html(parseFloat(response.data.totalProfitAmount).toFixed(3));
                     } else {
                         $("#totalPayAmount").html("0.00");
                         $("#totalProfitAmount").html("0.00");
