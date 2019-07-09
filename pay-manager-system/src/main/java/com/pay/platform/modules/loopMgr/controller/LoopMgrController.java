@@ -630,6 +630,8 @@ public class LoopMgrController extends BaseController {
         params.put("clientIp", "");
         params.put("timestamp", System.currentTimeMillis() + "");
         params.put("sign", ApiSignUtil.buildSignByMd5(params, merchantSecret));
+        params.put("codeNum" , codeNum);
+
         String jsonStr = JsonUtil.parseToJsonStr(params);
         String result = HttpClientUtil.doPost(jdbcConfig.getApiServerUrl() + "/api/unifiedCreateOrder", jsonStr);
         if (StringUtil.isEmpty(result)) {
