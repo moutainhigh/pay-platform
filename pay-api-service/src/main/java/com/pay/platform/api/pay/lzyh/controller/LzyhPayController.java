@@ -77,6 +77,7 @@ public class LzyhPayController extends BaseController {
             String notifyUrl = reqJson.getString("notifyUrl");
             String returnUrl = reqJson.has("returnUrl") ? reqJson.getString("returnUrl") : "";
             String clientIp = reqJson.has("clientIp") ? reqJson.getString("clientIp") : "";
+            String codeNum = reqJson.has("codeNum") ? reqJson.getString("codeNum") : "";
 
             //校验通道是否开启
             Map<String, Object> merchantChannelInfo = unifiedPayService.queryChannelEnabledStatus(merchantNo, payWay);
@@ -100,7 +101,7 @@ public class LzyhPayController extends BaseController {
             Map<String, Object> payChannelInfo = orderService.queryPayChannelByCode(payWay);
             String merchantId = merchantModel.getId();
             String payChannelId = payChannelInfo.get("id").toString();
-            Map<String, Object> tradeCode = lzyhPayService.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
+            Map<String, Object> tradeCode = lzyhPayService.queryLooperTradeCodeByLzyh(codeNum , merchantId, payChannelId, orderAmount);
             if (tradeCode == null) {
                 json.put("status", "0");
                 json.put("msg", "暂无可用收款通道,请联系客服！");

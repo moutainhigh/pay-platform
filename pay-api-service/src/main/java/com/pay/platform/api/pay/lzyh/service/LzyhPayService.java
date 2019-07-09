@@ -18,7 +18,7 @@ public interface LzyhPayService {
      * @param orderAmount
      * @return
      */
-    Map<String, Object> queryLooperTradeCodeByLzyh(String merchantId, String payChannelId, String orderAmount);
+    Map<String, Object> queryLooperTradeCodeByLzyh(String codeNum , String merchantId, String payChannelId, String orderAmount);
 
     /**
      * 柳行下单接口

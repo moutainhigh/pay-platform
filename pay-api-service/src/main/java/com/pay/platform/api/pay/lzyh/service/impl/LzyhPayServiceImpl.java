@@ -10,6 +10,9 @@ import com.pay.platform.common.plugins.redis.RedisLock;
 import com.pay.platform.common.socket.service.AppWebSocketService;
 import com.pay.platform.common.util.DecimalCalculateUtil;
 import com.pay.platform.common.util.OrderNoUtil;
+import com.pay.platform.common.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,8 @@ import java.util.UUID;
  */
 @Service
 public class LzyhPayServiceImpl implements LzyhPayService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LzyhPayServiceImpl.class);
 
     @Autowired
     private OrderService orderService;
@@ -52,13 +57,25 @@ public class LzyhPayServiceImpl implements LzyhPayService {
      * @return
      */
     @Override
-    public Map<String, Object> queryLooperTradeCodeByLzyh(String merchantId, String payChannelId, String orderAmount) {
+    public Map<String, Object> queryLooperTradeCodeByLzyh(String codeNum, String merchantId, String payChannelId, String orderAmount) {
         //1、去除已达到单日收款限制的号
         //2、根据单日收款笔数、单日收款金额排序；从小到大排序；
         List<Map<String, Object>> list = lzyhPayDao.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
 
-        //3、获取已经连接socket,在线的号
         if (list != null && list.size() > 0) {
+
+            //后台测试支付时,可指定收款码进行测试;
+            if (StringUtil.isNotEmpty(codeNum)) {
+                logger.info("测试支付: " + codeNum);
+                for (Map<String, Object> map : list) {
+                    if (codeNum.equalsIgnoreCase(map.get("code_num").toString())) {
+                        return map;
+                    }
+                }
+                return null;
+            }
+
+            //3、获取已经连接socket,在线的号
             return appWebSocketService.getOnLineSocket(list);
         }
 
