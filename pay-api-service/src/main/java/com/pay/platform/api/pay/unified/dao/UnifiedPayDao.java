@@ -89,4 +89,6 @@ public interface UnifiedPayDao {
      */
     Map<String, Object> queryOrderByQrCodeInfo(@Param("codeNum") String codeNum, @Param("amount") String amount, @Param("codeUrl") String codeUrl);
 
+    Map<String,Object> queryTradeCodeById(@Param("tradeCodeId") String tradeCodeId);
+
 }

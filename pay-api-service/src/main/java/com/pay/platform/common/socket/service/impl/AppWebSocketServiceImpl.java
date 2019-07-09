@@ -1,10 +1,13 @@
 package com.pay.platform.common.socket.service.impl;
 
+import com.pay.platform.api.pay.lzyh.service.impl.LzyhPayServiceImpl;
 import com.pay.platform.common.socket.handler.AppWebSocketHandler;
 import com.pay.platform.common.socket.service.AppWebSocketService;
 import com.pay.platform.common.util.JsonUtil;
 import com.pay.platform.security.util.AppSignUtil;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -20,6 +23,8 @@ import java.util.Map;
  */
 @Service
 public class AppWebSocketServiceImpl implements AppWebSocketService{
+
+    private static final Logger logger = LoggerFactory.getLogger(AppWebSocketServiceImpl.class);
 
     @Autowired
     private AppWebSocketHandler appWebSocketHandler;

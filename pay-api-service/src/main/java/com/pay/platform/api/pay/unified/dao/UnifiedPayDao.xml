@@ -103,4 +103,9 @@
         and pay_qr_code_link is null
     </select>
 
+    <select id="queryTradeCodeById" parameterType="java.lang.String" resultType="java.util.Map">
+        select * from tb_merchant_trade_code
+        where id = #{tradeCodeId}
+    </select>
+
 </mapper>

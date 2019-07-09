@@ -72,4 +72,9 @@ public class UnifiedPayServiceImpl implements UnifiedPayService {
         return unifiedPayDao.queryOrderByQrCodeInfo(codeNum , amount , codeUrl);
     }
 
+    @Override
+    public Map<String, Object> queryTradeCodeById(String tradeCodeId) {
+        return unifiedPayDao.queryTradeCodeById(tradeCodeId);
+    }
+
 }

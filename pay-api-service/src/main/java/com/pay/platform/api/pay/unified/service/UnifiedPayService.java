@@ -47,4 +47,5 @@ public interface UnifiedPayService {
      */
     Map<String,Object>  queryOrderByQrCodeInfo(String codeNum, String amount, String codeUrl);
 
+    Map<String,Object> queryTradeCodeById(String tradeCodeId);
 }

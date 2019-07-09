@@ -92,6 +92,7 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
             if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
                 try {
                     if (user.isOpen()) {
+                        logger.info("发送socket消息:" + codeNum + "  内容:" + message.getPayload());
                         user.sendMessage(message);
                     }
                 } catch (IOException e) {
