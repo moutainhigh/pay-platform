@@ -73,6 +73,13 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
             String notifyUrl = orderModel.getNotifyUrl();                                                            //回调地址
             String notifySecret = MerchantSecretCacheUtil.getNotifySecret(orderModel.getMerchantNo());               //回调密钥
 
+            //部分商家是根据订单号,动态获取密钥信息;不是写死的;
+            //因此需要返回一个明文的单号;以供商家查找对于的密钥进行解密
+            if (notifyUrl.contains("?")) {
+                notifyUrl += "&merchantOrderNo=" + orderModel.getMerchantOrderNo();
+            } else {
+                notifyUrl += "?merchantOrderNo=" + orderModel.getMerchantOrderNo();
+            }
 
             //数据进行AES加密后,再回调给商家
             String responseJson = AESUtil.encrypt(json.toString(), notifySecret);
