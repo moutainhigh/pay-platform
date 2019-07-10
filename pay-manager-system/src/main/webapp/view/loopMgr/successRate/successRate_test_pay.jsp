@@ -231,6 +231,7 @@
         $.ajax({
             url: baseURL + '/loopMgr/tradeCode/testPay?_csrf=' + token,
             type: "post",
+            timeout:20000,          //超时时间设置为20秒
             dataType: "json",
             data: {"codeNum": codeNum, "amount": amount, "channelCode": channelCode, "_csrf": token},
             success: function (response) {
