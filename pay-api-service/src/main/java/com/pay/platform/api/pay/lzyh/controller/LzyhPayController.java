@@ -101,7 +101,7 @@ public class LzyhPayController extends BaseController {
             Map<String, Object> payChannelInfo = orderService.queryPayChannelByCode(payWay);
             String merchantId = merchantModel.getId();
             String payChannelId = payChannelInfo.get("id").toString();
-            Map<String, Object> tradeCode = lzyhPayService.queryLooperTradeCodeByLzyh(codeNum , merchantId, payChannelId, orderAmount);
+            Map<String, Object> tradeCode = lzyhPayService.queryLooperTradeCodeByLzyh(codeNum, merchantId, payChannelId, orderAmount);
             if (tradeCode == null) {
                 json.put("status", "0");
                 json.put("msg", "暂无可用收款通道,请联系客服！");
@@ -131,12 +131,12 @@ public class LzyhPayController extends BaseController {
             }
 
             //发送socket消息;获取收款码;
-//            AppContext.getExecutorService().submit(new Runnable() {
-//                @Override
-//                public void run() {
-//                    appWebSocketService.sendGetQrCodeSocket(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
-//                }
-//            });
+            AppContext.getExecutorService().submit(new Runnable() {
+                @Override
+                public void run() {
+                    appWebSocketService.sendGetQrCodeSocket(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+                }
+            });
 
             json.put("status", "1");
             json.put("msg", "下单成功");
@@ -181,20 +181,45 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
+            //首次获取收款码
             String payQrCodeLink = null;
-
             if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
                 payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
-            } else {
+                getCurrentLogger().info("首次获取收款码" + orderInfo.get("platform_order_no").toString());
+            }
 
+            //没有获取,则每隔2秒查询一次; 等待获取收款
+            if (StringUtil.isEmpty(payQrCodeLink)) {
+                for (int i = 0; i < 3; i++) {
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
+
+                    orderInfo = orderService.queryOrderById(tradeId);
+                    if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
+                        payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
+                        break;
+                    }
+
+                }
+
+            }
+
+            //重试补偿机制：如果还是查询不到收款码,则重新发送一次socket消息通知客户端生成收款码
+            if (StringUtil.isEmpty(payQrCodeLink)) {
                 String payFloatAmount = orderInfo.get("pay_float_amount").toString();
                 String tradeCodeId = orderInfo.get("trade_code_id").toString();
-                Map<String,Object> tradeCodeInfo = unifiedPayService.queryTradeCodeById(tradeCodeId);
-                appWebSocketService.sendGetQrCodeSocket(tradeCodeInfo.get("code_num").toString(), tradeCodeInfo.get("secret").toString(), payFloatAmount);
+                Map<String, Object> tradeCodeInfo = unifiedPayService.queryTradeCodeById(tradeCodeId);
 
-                //与app进行socket通信,生成二维码可能需要等待时间;此处休眠一会再进行查询;
-                //每隔2秒查询一次,最多4次
-                for (int i = 0; i < 4; i++) {
+                //发送socket消息
+                appWebSocketService.sendGetQrCodeSocket(tradeCodeInfo.get("code_num").toString(), tradeCodeInfo.get("secret").toString(), payFloatAmount);
+                getCurrentLogger().info("开启重试机制获取收款码" + orderInfo.get("platform_order_no").toString());
+
+                //与app进行socket通信,生成二维码需要等待时间;此处休眠一会再进行查询; 每隔2秒查询一次;
+                for (int j = 0; j < 3; j++) {
 
                     try {
                         Thread.sleep(2000);
@@ -212,6 +237,8 @@ public class LzyhPayController extends BaseController {
                 }
 
             }
+
+            getCurrentLogger().info(orderInfo.get("platform_order_no").toString() + "收款码获取结果:" + payQrCodeLink);
 
             if (StringUtil.isNotEmpty(payQrCodeLink)) {
                 json.put("status", "1");
