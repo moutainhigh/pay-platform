@@ -112,15 +112,18 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
             }
             else if (roleCode == "ROLE_AGENT") {
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
             }
             else if (roleCode == "ROLE_MERCHANT") {
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
 
                 queryMerchantAmountOfNotifyWithdraw();
             }
