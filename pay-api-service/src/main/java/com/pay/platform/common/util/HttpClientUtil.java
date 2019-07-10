@@ -64,7 +64,7 @@ public class HttpClientUtil {
         httpost.addHeader("Content-type", "application/json; charset=utf-8");
         httpost.setHeader("Accept", "application/json");
         httpost.addHeader("Connection", "close");
-        httpost.getParams().setParameter("http.socket.timeout", 20000);
+        httpost.getParams().setParameter("http.socket.timeout", 15000);
 
         try {
 
