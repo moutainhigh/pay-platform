@@ -170,6 +170,7 @@ public class LzyhPayController extends BaseController {
 
             //获取请求提交数据
             String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            long beginTime = System.currentTimeMillis();
             JSONObject reqJson = new JSONObject(text);
             String tradeId = reqJson.getString("tradeId");
 
@@ -219,7 +220,7 @@ public class LzyhPayController extends BaseController {
                 getCurrentLogger().info("开启重试机制获取收款码" + orderInfo.get("platform_order_no").toString());
 
                 //与app进行socket通信,生成二维码需要等待时间;此处休眠一会再进行查询; 每隔2秒查询一次;
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 4; j++) {
 
                     try {
                         Thread.sleep(2000);
@@ -238,7 +239,8 @@ public class LzyhPayController extends BaseController {
 
             }
 
-            getCurrentLogger().info(orderInfo.get("platform_order_no").toString() + "收款码获取结果:" + payQrCodeLink);
+            long endTime = System.currentTimeMillis();
+            getCurrentLogger().info(orderInfo.get("platform_order_no").toString() + "收款码获取结果:" + payQrCodeLink + " 耗时:" + (endTime - beginTime) + "毫秒");
 
             if (StringUtil.isNotEmpty(payQrCodeLink)) {
                 json.put("status", "1");
