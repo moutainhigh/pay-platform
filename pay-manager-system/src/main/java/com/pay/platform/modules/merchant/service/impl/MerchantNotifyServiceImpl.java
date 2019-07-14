@@ -88,6 +88,8 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
 
             String notifyResult = HttpClientUtil.doPost(notifyUrl, responseJson);
 
+            logger.info("商家回调响应报文：" + notifyResult);
+
             //3,回调成功,收到商家反馈,更新推送次数、推送状态
             if ("SUCCESS".equalsIgnoreCase(notifyResult)) {
                 orderDao.updateOrderNotifyStatus(orderNo, "success");           //已回调: 并收到商家响应
