@@ -197,11 +197,10 @@ public class LzyhPayController extends BaseController {
 
             //没有获取,则每隔2秒查询一次; 等待获取收款
             if (StringUtil.isEmpty(payQrCodeLink)) {
-                for (int i = 0; i < 8; i++) {
+                for (int i = 0; i < 2; i++) {
 
                     try {
-                        long time = 2000 - (i * 100);
-                        Thread.sleep(time);
+                        Thread.sleep(2000);
                     } catch (Exception e2) {
                         e2.printStackTrace();
                     }
