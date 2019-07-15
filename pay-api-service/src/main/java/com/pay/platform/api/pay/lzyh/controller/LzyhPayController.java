@@ -218,7 +218,7 @@ public class LzyhPayController extends BaseController {
             long endTime = System.currentTimeMillis();
             getCurrentLogger().info(orderInfo.get("platform_order_no").toString() + "收款码获取结果:" + payQrCodeLink + " 耗时:" + (endTime - beginTime) + "毫秒");
 
-            //无论如何都返回h5页面; 在页面进行二次等待；例如3秒、5秒的倒计时
+            //无论如何都返回h5页面; 在页面进行二次等待； 例如3秒、5秒的倒计时
             if (StringUtil.isEmpty(payQrCodeLink)) {
                 payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
             }

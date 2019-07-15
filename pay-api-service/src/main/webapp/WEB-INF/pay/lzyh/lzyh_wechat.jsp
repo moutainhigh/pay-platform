@@ -21,6 +21,49 @@
     <link href="${baseURL}/resources/css/wechat_phone.css" rel="stylesheet" media="screen">
     <script src="${baseURL}/resources/js/jquery.min.js"></script>
     <script src="${baseURL}/resources/js/cashier/base64.js"></script>
+    <style>
+        .btn-danger:hover {
+            color: #fff;
+            background-color: #3AB035;
+            border-color: #3AB035;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #d9534
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #3AB035;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            width: 170px;
+            height: 46px;
+            font-size: 18px;
+        }
+
+        .btn:hover {
+            color: #fff;
+            text-decoration: none;
+            cursor: default;
+        }
+    </style>
 </head>
 <body ontouchstart style="">
 <header class="m-head" style="display: none"><h1>支付订单</h1></header>
@@ -32,7 +75,8 @@
     <dl style="padding: 0; margin: 0;">
         <h1>￥${payPageData.payFloatAmount}</h1>
         <div>
-            <img id="code" src="" style="width: 150px; height: 150px;margin-top: -10px;"/>
+            <img id="code" src="" style="width: 150px; height: 150px;margin-top: -10px;display: none;"/>
+            <input id="btnWaitPay" type="button" value="支付授权中（3秒）" class="btn btn-danger" style="display: none;"/>
         </div>
         <div class="tip" style="text-align: center;margin-top: 30px;">
             <%--<span style="color: red; font-weight: 800" id="tipsRed">若启动微信无法支付，请使用以下步骤：<br/><br/></span>--%>
@@ -57,9 +101,49 @@
         var returnUrl = "${payPageData.returnUrl}";
         var payQrCodeLink = "${payPageData.payQrCodeLink}";
 
+        //未生成完二维码,等待3秒,引导用户等待;
+        var payWaitTime = 3;        //支付等待时间
+        if (payQrCodeLink == null || payQrCodeLink == undefined || payQrCodeLink == '') {
+            $("#btnWaitPay").show();
 
-        //识别二维码
-        $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + encodeURIComponent(payQrCodeLink);
+            //倒计时
+            var payWaitInterval = setInterval(function () {
+                payWaitTime--;
+                if (payWaitTime >= 0) {
+                    $("#btnWaitPay").val("支付授权中（" + payWaitTime + "秒）");
+                } else {
+                    clearInterval(payWaitInterval);
+
+                    //请求服务器,获取最新的二维码
+                    $.ajax({
+                        url: baseURL + "/openApi/queryQrCodeByOrderId",
+                        type: "post",
+                        dataType: "json",
+                        data: {"orderId": orderId},
+                        success: function (response) {
+                            if (response.status == "1") {
+                                $("#btnWaitPay").hide();
+
+                                //显示二维码
+                                $("#code").show();
+                                $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + encodeURIComponent(response.data);
+                            } else {
+                                $("#btnWaitPay").val("授权失败,请重试!");
+                                alert("授权失败,可能是网络原因,请重新进行充值！");
+                            }
+                        }
+                    });
+
+
+                }
+            }, 1000);
+
+        }
+        //已生成完了二维码; 直接显示;
+        else {
+            $("#code").show();
+            $("#code")[0].src = "${baseURL}/openApi/getPayQrcode?payUrl=" + encodeURIComponent(payQrCodeLink);
+        }
 
         /**
          * 支付倒计时

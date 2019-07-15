@@ -342,4 +342,30 @@ public class UnifiedPayController extends BaseController {
         writeJson(response, json.toString());
     }
 
+    /**
+     * 根据id获取二维码
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping({"/openApi/queryQrCodeByOrderId"})
+    public void queryQrCodeByOrderId(HttpServletResponse response, HttpServletRequest request, String orderId) throws Exception {
+        JSONObject json = new JSONObject();
+
+        Map<String, Object> orderInfo = orderService.queryOrderById(orderId);
+        if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
+            json.put("status", "1");
+            json.put("msg", "请求成功");
+            json.put("data", orderInfo.get("pay_qr_code_link").toString());
+        } else {
+            json.put("status", "0");
+            json.put("msg", "暂无可用收款码！");
+            json.put("data", appWebSocketService.getOnLineSocketDevice());
+        }
+
+        writeJson(response, json.toString());
+    }
+
+
 }
