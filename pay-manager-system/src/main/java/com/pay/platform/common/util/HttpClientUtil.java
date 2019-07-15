@@ -62,7 +62,7 @@ public class HttpClientUtil {
 
         HttpPost httpost = new HttpPost(url); // 设置响应头信息
         httpost.addHeader("Content-type", "application/json; charset=utf-8");
-        httpost.setHeader("Accept", "application/json");
+        httpost.setHeader("Accept", "*/*");
         httpost.addHeader("Connection", "close");
         httpost.getParams().setParameter("http.socket.timeout", 20000);
 
