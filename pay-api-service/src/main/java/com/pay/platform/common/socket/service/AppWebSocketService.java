@@ -22,7 +22,7 @@ public interface AppWebSocketService {
      * @param codeNum
      * @param
      */
-    void sendGetQrCodeSocket(String codeNum, String secret, String amount);
+    void sendGetQrCodeSocket(String nonce , String codeNum, String secret, String amount);
 
     /**
      * 获取登录在线的设备

@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * User: zjt
@@ -130,11 +131,16 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
-            //发送socket消息;获取收款码;
+            String nonce = UUID.randomUUID().toString();
+
+            //线路1：推送阿里消息（双线并行,提高跟app连接通信的成功率）
+            AliPushUtil.sendGetQrCodeMessage(nonce , tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+
+            //线路2：发送socket消息;获取收款码;
             AppContext.getExecutorService().submit(new Runnable() {
                 @Override
                 public void run() {
-                    appWebSocketService.sendGetQrCodeSocket(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+                    appWebSocketService.sendGetQrCodeSocket(nonce , tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
                 }
             });
 
@@ -191,44 +197,15 @@ public class LzyhPayController extends BaseController {
 
             //没有获取,则每隔2秒查询一次; 等待获取收款
             if (StringUtil.isEmpty(payQrCodeLink)) {
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 8; i++) {
 
                     try {
-                        Thread.sleep(2000);
+                        long time = 2000 - (i * 100);
+                        Thread.sleep(time);
                     } catch (Exception e2) {
                         e2.printStackTrace();
                     }
 
-                    orderInfo = orderService.queryOrderById(tradeId);
-                    if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
-                        payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
-                        break;
-                    }
-
-                }
-
-            }
-
-            //重试补偿机制：如果还是查询不到收款码,则重新发送一次socket消息通知客户端生成收款码
-            if (StringUtil.isEmpty(payQrCodeLink)) {
-                String payFloatAmount = orderInfo.get("pay_float_amount").toString();
-                String tradeCodeId = orderInfo.get("trade_code_id").toString();
-                Map<String, Object> tradeCodeInfo = unifiedPayService.queryTradeCodeById(tradeCodeId);
-
-                //发送socket消息
-                appWebSocketService.sendGetQrCodeSocket(tradeCodeInfo.get("code_num").toString(), tradeCodeInfo.get("secret").toString(), payFloatAmount);
-                getCurrentLogger().info("开启重试机制获取收款码" + orderInfo.get("platform_order_no").toString());
-
-                //与app进行socket通信,生成二维码需要等待时间;此处休眠一会再进行查询; 每隔2秒查询一次;
-                for (int j = 0; j < 4; j++) {
-
-                    try {
-                        Thread.sleep(2000);
-                    } catch (Exception e2) {
-                        e2.printStackTrace();
-                    }
-
-                    //再次查询
                     orderInfo = orderService.queryOrderById(tradeId);
                     if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
                         payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
@@ -344,6 +321,53 @@ public class LzyhPayController extends BaseController {
                 json.put("status", "0");
                 json.put("msg", "回调失败,无匹配的订单,可能是已超时！");
                 writeJson(response, json.toString());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            json.put("status", "0");
+            json.put("msg", "服务器内部错误：" + e.getMessage());
+            writeJson(response, json.toString());
+        } finally {
+            getCurrentLogger().info("响应报文：{}", json.toString());
+        }
+
+    }
+
+
+    /**
+     * 上传收款码
+     * app回调接口,需经过AppSecurityFilter; 进行签名认证,防止恶意回调
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/app/uploadQrCode", method = RequestMethod.POST)
+    public void uploadQrCode(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        try {
+
+            //获取请求提交数据
+            String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            JSONObject reqJson = new JSONObject(text);
+            String codeNum = reqJson.getString("codeNum");
+            String amount = reqJson.getString("amount");
+            String remarks = reqJson.getString("remarks");
+            String codeUrl = reqJson.getString("codeUrl");
+
+            //查询匹配的订单,并更新收款链接
+            Map<String, Object> orderInfo = unifiedPayService.queryOrderByQrCodeInfo(codeNum, amount, codeUrl);
+            if (orderInfo != null) {
+                String id = orderInfo.get("id").toString();
+                orderService.updateOrderPayQrCodeLink(id, codeUrl);
+
+                json.put("status", "1");
+                json.put("msg", "上传成功");
+                writeJson(response, json.toString());
+
             }
 
         } catch (Exception e) {

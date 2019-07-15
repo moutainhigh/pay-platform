@@ -66,7 +66,6 @@ public class LzyhPayServiceImpl implements LzyhPayService {
 
             //后台测试支付时,可指定收款码进行测试;
             if (StringUtil.isNotEmpty(codeNum)) {
-                logger.info("测试支付: " + codeNum);
                 for (Map<String, Object> map : list) {
                     if (codeNum.equalsIgnoreCase(map.get("code_num").toString())) {
                         return map;
@@ -76,7 +75,8 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             }
 
             //3、获取已经连接socket,在线的号
-            return appWebSocketService.getOnLineSocket(list);
+            //return appWebSocketService.getOnLineSocket(list);
+            return list.get(0);
         }
 
         return null;

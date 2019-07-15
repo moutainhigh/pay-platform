@@ -53,7 +53,8 @@
     </update>
 
     <update id="updateOrderPayQrCodeLink" parameterType="java.lang.String">
-        update tb_order set pay_qr_code_link = #{qrCodeLink} where id = #{id}
+        update tb_order set pay_qr_code_link = #{qrCodeLink} , get_qr_code_time = now()
+        where id = #{id}
     </update>
 
     <select id="queryOrderById" parameterType="java.lang.String" resultType="java.util.Map">

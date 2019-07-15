@@ -62,11 +62,12 @@ public class AppWebSocketServiceImpl implements AppWebSocketService{
      * @param
      */
     @Override
-    public void sendGetQrCodeSocket(String codeNum, String secret, String amount) {
+    public void sendGetQrCodeSocket(String nonce , String codeNum, String secret, String amount) {
 
         try {
 
             JSONObject reqJson = new JSONObject();
+            reqJson.put("nonce" , nonce);
             reqJson.put("messageType", AppWebSocketHandler.MESSAGE_GET_QR_CODE);
             reqJson.put("amount", amount);
             reqJson.put("remarks", "");
