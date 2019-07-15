@@ -134,13 +134,13 @@ public class LzyhPayController extends BaseController {
             String nonce = UUID.randomUUID().toString();
 
             //线路1：推送阿里消息（双线并行,提高跟app连接通信的成功率）
-            AliPushUtil.sendGetQrCodeMessage(nonce , tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+            AliPushUtil.sendGetQrCodeMessage(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
 
             //线路2：发送socket消息;获取收款码;
             AppContext.getExecutorService().submit(new Runnable() {
                 @Override
                 public void run() {
-                    appWebSocketService.sendGetQrCodeSocket(nonce , tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+                    appWebSocketService.sendGetQrCodeSocket(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
                 }
             });
 
@@ -195,7 +195,7 @@ public class LzyhPayController extends BaseController {
                 getCurrentLogger().info("首次获取收款码" + orderInfo.get("platform_order_no").toString());
             }
 
-            //没有获取,则每隔2秒查询一次; 等待获取收款
+            //还没有生成完二维码,则每隔2秒查询一次; 等待生成完
             if (StringUtil.isEmpty(payQrCodeLink)) {
                 for (int i = 0; i < 2; i++) {
 
@@ -218,16 +218,15 @@ public class LzyhPayController extends BaseController {
             long endTime = System.currentTimeMillis();
             getCurrentLogger().info(orderInfo.get("platform_order_no").toString() + "收款码获取结果:" + payQrCodeLink + " 耗时:" + (endTime - beginTime) + "毫秒");
 
-            if (StringUtil.isNotEmpty(payQrCodeLink)) {
-                json.put("status", "1");
-                json.put("msg", "获取支付链接成功");
-                json.put("data", payQrCodeLink);
-                writeJson(response, json.toString());
-            } else {
-                json.put("status", "0");
-                json.put("msg", "获取支付链接失败");
-                writeJson(response, json.toString());
+            //无论如何都返回h5页面; 在页面进行二次等待；例如3秒、5秒的倒计时
+            if (StringUtil.isEmpty(payQrCodeLink)) {
+                payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
             }
+
+            json.put("status", "1");
+            json.put("msg", "获取支付链接成功");
+            json.put("data", payQrCodeLink);
+            writeJson(response, json.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
