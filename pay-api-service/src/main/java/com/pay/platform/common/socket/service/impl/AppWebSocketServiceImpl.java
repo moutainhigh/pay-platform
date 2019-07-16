@@ -42,9 +42,11 @@ public class AppWebSocketServiceImpl implements AppWebSocketService{
 
             //遍历在线的号
             for (WebSocketSession user : AppWebSocketHandler.users) {
-                if (codeNum.equals(user.getAttributes().get(AppWebSocketHandler.LOGIN_ID))) {
-                    if (user.isOpen()) {
-                        return map;
+                if(user != null){
+                    if (codeNum.equals(user.getAttributes().get(AppWebSocketHandler.LOGIN_ID))) {
+                        if (user.isOpen()) {
+                            return map;
+                        }
                     }
                 }
             }
@@ -95,7 +97,7 @@ public class AppWebSocketServiceImpl implements AppWebSocketService{
 
         //遍历在线的号
         for (WebSocketSession user : AppWebSocketHandler.users) {
-            if (user.isOpen()) {
+            if (user != null && user.isOpen()) {
                 if(user.getAttributes().containsKey(AppWebSocketHandler.LOGIN_ID)){
                     String loginId = user.getAttributes().get(AppWebSocketHandler.LOGIN_ID).toString();
                     list.add(loginId);

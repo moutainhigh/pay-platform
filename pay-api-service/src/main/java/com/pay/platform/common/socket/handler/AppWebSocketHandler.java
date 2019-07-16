@@ -89,14 +89,16 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
 
         //可能出现多个设备连接同一个号; 此处不进行break操作; 遍历所有匹配的发送消息
         for (WebSocketSession user : users) {
-            if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
-                try {
-                    if (user.isOpen()) {
-                        logger.info("发送socket消息:" + codeNum + "  内容:" + message.getPayload());
-                        user.sendMessage(message);
+            if (user != null) {
+                if (codeNum.equals(user.getAttributes().get(LOGIN_ID))) {
+                    try {
+                        if (user.isOpen()) {
+                            logger.info("发送socket消息:" + codeNum + "  内容:" + message.getPayload());
+                            user.sendMessage(message);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }
@@ -209,7 +211,6 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
         users.removeAll(userRemove);
 
     }
-
 
     public UnifiedPayService getUnifiedPayService() {
         if (unifiedPayService == null) {
