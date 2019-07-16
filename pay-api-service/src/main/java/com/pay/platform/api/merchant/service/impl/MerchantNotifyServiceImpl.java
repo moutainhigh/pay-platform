@@ -125,6 +125,9 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
             String responseJson = AESUtil.encrypt(json.toString(), notifySecret);
             String notifyResult = HttpClientUtil.doPost(notifyUrl, responseJson);
 
+            logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调地址：" + notifyUrl + "回调密文：" + json.toString());
+            logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调结果：" + notifyResult);
+
             //3,回调成功,收到商家反馈,更新推送次数、推送状态
             if ("SUCCESS".equalsIgnoreCase(notifyResult)) {
                 merchantNotifyDao.updateOrderNotifyStatus(orderNo, "success");           //已回调: 并收到商家响应
