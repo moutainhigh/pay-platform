@@ -197,7 +197,7 @@ public class LzyhPayController extends BaseController {
 
             //还没有生成完二维码,则每隔2秒查询一次; 等待生成完
             if (StringUtil.isEmpty(payQrCodeLink)) {
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 1; i++) {
 
                     try {
                         Thread.sleep(2000);

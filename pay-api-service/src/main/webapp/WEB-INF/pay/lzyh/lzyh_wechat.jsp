@@ -76,7 +76,7 @@
         <h1>￥${payPageData.payFloatAmount}</h1>
         <div>
             <img id="code" src="" style="width: 150px; height: 150px;margin-top: -10px;display: none;"/>
-            <input id="btnWaitPay" type="button" value="支付授权中（3秒）" class="btn btn-danger" style="display: none;"/>
+            <input id="btnWaitPay" type="button" value="支付授权中（5秒）" class="btn btn-danger" style="display: none;"/>
         </div>
         <div class="tip" style="text-align: center;margin-top: 30px;">
             <%--<span style="color: red; font-weight: 800" id="tipsRed">若启动微信无法支付，请使用以下步骤：<br/><br/></span>--%>
@@ -102,7 +102,7 @@
         var payQrCodeLink = "${payPageData.payQrCodeLink}";
 
         //未生成完二维码,等待3秒,引导用户等待;
-        var payWaitTime = 3;        //支付等待时间
+        var payWaitTime = 5;        //支付等待时间
         if (payQrCodeLink == null || payQrCodeLink == undefined || payQrCodeLink == '') {
             $("#btnWaitPay").show();
 
