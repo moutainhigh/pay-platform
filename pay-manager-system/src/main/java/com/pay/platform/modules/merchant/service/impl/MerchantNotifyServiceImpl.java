@@ -83,12 +83,10 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
 
             //数据进行AES加密后,再回调给商家
             String responseJson = AESUtil.encrypt(json.toString(), notifySecret);
-
-            logger.info("回调密文：" + responseJson);
-
             String notifyResult = HttpClientUtil.doPost(notifyUrl, responseJson);
 
-            logger.info("商家回调响应报文：" + notifyResult);
+            logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调地址：" + notifyUrl + "回调密文：" + responseJson);
+            logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调结果：" + notifyResult);
 
             //3,回调成功,收到商家反馈,更新推送次数、推送状态
             if ("SUCCESS".equalsIgnoreCase(notifyResult)) {
