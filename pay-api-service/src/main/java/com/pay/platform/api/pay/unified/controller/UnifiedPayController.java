@@ -99,6 +99,12 @@ public class UnifiedPayController extends BaseController {
             //根据支付方式,转发到对应的支付接口
             String text = IOUtils.toString(request.getInputStream(), "utf-8");
             JSONObject reqJson = new JSONObject(text);
+            if(!reqJson.has("tradeId")){
+                ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+                modelAndView.addObject("status", "0");
+                modelAndView.addObject("msg", "tradeId不可为空！");
+                return modelAndView;
+            }
             String tradeId = reqJson.getString("tradeId");
 
             Map<String, Object> orderInfo = orderService.queryOrderById(tradeId);

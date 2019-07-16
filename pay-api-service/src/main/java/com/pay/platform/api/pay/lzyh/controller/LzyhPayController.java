@@ -179,13 +179,6 @@ public class LzyhPayController extends BaseController {
             long beginTime = System.currentTimeMillis();
             JSONObject reqJson = new JSONObject(text);
 
-            if(!reqJson.has("tradeId")){
-                json.put("status", "0");
-                json.put("msg", "tradeId不可为空！");
-                writeJson(response, json.toString());
-                return;
-            }
-
             String tradeId = reqJson.getString("tradeId");
 
             Map<String, Object> orderInfo = orderService.queryOrderById(tradeId);
