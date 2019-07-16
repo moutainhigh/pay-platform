@@ -140,7 +140,7 @@ public class LzyhPayController extends BaseController {
             appWebSocketService.sendGetQrCodeSocket(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
 
             //重复推送消息; 避免客户端网络延迟;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
 
                 AppContext.getExecutorService().submit(new Runnable() {
                     @Override
