@@ -3,14 +3,17 @@ package com.pay.platform.api.pay.unified.controller;
 import com.pay.platform.api.base.controller.BaseController;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
+import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
-import com.pay.platform.common.socket.service.AppWebSocketService;
+import com.pay.platform.common.socket.ServerSocketThread;
+import com.pay.platform.common.websocket.config.SocketMessageType;
+import com.pay.platform.common.websocket.service.AppWebSocketService;
 import com.pay.platform.common.util.*;
 import com.pay.platform.common.util.encrypt.Base64Util;
+import com.pay.platform.security.util.AppSignUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +23,6 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -99,7 +101,7 @@ public class UnifiedPayController extends BaseController {
             //根据支付方式,转发到对应的支付接口
             String text = IOUtils.toString(request.getInputStream(), "utf-8");
             JSONObject reqJson = new JSONObject(text);
-            if(!reqJson.has("tradeId")){
+            if (!reqJson.has("tradeId")) {
                 ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
                 modelAndView.addObject("status", "0");
                 modelAndView.addObject("msg", "tradeId不可为空！");
@@ -373,5 +375,49 @@ public class UnifiedPayController extends BaseController {
         writeJson(response, json.toString());
     }
 
+
+    /**
+     * 测试发送app消息
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping({"/openApi/testSendAppMessage"})
+    public void testSendAppMessage(HttpServletResponse response, HttpServletRequest request, String codeNum) throws Exception {
+
+        String nonce = UUID.randomUUID().toString();
+
+        Map<String, Object> tradeCode = unifiedPayService.queryTradeCodeByCudeNum(codeNum);
+        if(tradeCode == null){
+            return;
+        }
+
+        String secret = tradeCode.get("secret").toString();
+
+        JSONObject reqJson = new JSONObject();
+        reqJson.put("nonce", nonce);
+        reqJson.put("messageType", "test");
+        reqJson.put("content", "测试消息");
+        String sign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJson.toString()), secret);
+        reqJson.put("sign", sign);
+
+        //线路1：发送socket消息
+        AppContext.getExecutorService().submit(new Runnable() {
+            @Override
+            public void run() {
+                ServerSocketThread.sendMessageToUser(codeNum, reqJson.toString());
+            }
+        });
+
+        //线路2：发送websocket消息
+        AppContext.getExecutorService().submit(new Runnable() {
+            @Override
+            public void run() {
+                appWebSocketService.sendMessageToUser(codeNum, reqJson.toString());
+            }
+        });
+
+    }
 
 }

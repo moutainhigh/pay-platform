@@ -6,11 +6,14 @@ import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lzyh.dao.LzyhPayDao;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.dao.UnifiedPayDao;
+import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.plugins.redis.RedisLock;
-import com.pay.platform.common.socket.service.AppWebSocketService;
-import com.pay.platform.common.util.DecimalCalculateUtil;
-import com.pay.platform.common.util.OrderNoUtil;
-import com.pay.platform.common.util.StringUtil;
+import com.pay.platform.common.socket.ServerSocketThread;
+import com.pay.platform.common.util.*;
+import com.pay.platform.common.websocket.config.SocketMessageType;
+import com.pay.platform.common.websocket.service.AppWebSocketService;
+import com.pay.platform.security.util.AppSignUtil;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,6 +171,51 @@ public class LzyhPayServiceImpl implements LzyhPayService {
     @Override
     public int queryPayCodeExists(String payCode) {
         return lzyhPayDao.queryPayCodeExists(payCode);
+    }
+
+    /**
+     * 发送获取收款码消息
+     *
+     * @param tradeCodeNum
+     * @param secret
+     * @param payFloatAmount
+     */
+    @Override
+    public void sendGetQrCodeMessage(String tradeCodeNum, String secret, String payFloatAmount) {
+
+        try {
+
+            String nonce = UUID.randomUUID().toString();
+
+            JSONObject reqJson = new JSONObject();
+            reqJson.put("nonce", nonce);
+            reqJson.put("messageType", SocketMessageType.MESSAGE_GET_QR_CODE);
+            reqJson.put("amount", payFloatAmount);
+            reqJson.put("remarks", "");
+
+            String sign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJson.toString()), secret);
+            reqJson.put("sign", sign);
+
+            //线路1：发送socket消息
+            AppContext.getExecutorService().submit(new Runnable() {
+                @Override
+                public void run() {
+                    ServerSocketThread.sendMessageToUser(tradeCodeNum, reqJson.toString());
+                }
+            });
+
+            //线路2：发送websocket消息
+            AppContext.getExecutorService().submit(new Runnable() {
+                @Override
+                public void run() {
+                    appWebSocketService.sendMessageToUser(tradeCodeNum, reqJson.toString());
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

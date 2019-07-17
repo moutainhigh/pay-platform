@@ -19,14 +19,17 @@
         ( select IFNULL(sum(tor1.order_amount) ,0)
         from tb_order tor1
         where tor1.pay_status = 'payed' and tor1.trade_code_id = tmtc.id and TO_DAYS(tor1.create_time) = TO_DAYS(now())
-        ) as dayReceiveAmount
+        ) as dayReceiveAmount,
+
+        ( select IFNULL(max(tor1.create_time),'1970-01-01 00:00:01') from tb_order tor1 where tor1.trade_code_id = tmtc.id
+        ) as lastUseTime
 
         from tb_merchant_trade_code tmtc
         where tmtc.merchant_id = #{merchantId} and tmtc.channel_id = #{payChannelId} and tmtc.enabled = 1
 
         ) tab
         where (dayReceiveAmount + ${orderAmount}) &lt;= tab.day_amount_limit
-        order by dayReceiveNum asc , dayReceiveAmount asc
+        order by lastUseTime asc
     </select>
 
     <!-- 查询1小时内：同一个码,同一个整数金额,最后一笔的浮动金额；避免重复回调错误; -->

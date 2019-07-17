@@ -1,15 +1,14 @@
-package com.pay.platform.common.socket.handler;
+package com.pay.platform.common.websocket.handler;
 
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.util.JsonUtil;
+import com.pay.platform.common.websocket.config.SocketMessageType;
 import com.pay.platform.security.util.AppSignUtil;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -34,13 +33,6 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
 
     //登录用户标识（根据设备编号）
     public static final String LOGIN_ID = "codeNum";
-
-    /**
-     * 消息类型配置
-     */
-    public static final String MESSAGE_LOGIN = "MESSAG_LOGIN";                           //登录
-    public static final String MESSAGE_UPLOAD_QR_CODE = "MESSAG_UPLOAD_QR_CODE";         //上传收款码
-    public static final String MESSAGE_GET_QR_CODE = "MESSAG_GET_QR_CODE";               //获取收款码
 
     static {
         users = new ArrayList<WebSocketSession>();
@@ -135,19 +127,15 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
             }
 
             String messageType = reqJson.getString("messageType");
-
             //登录操作
-            if (MESSAGE_LOGIN.equalsIgnoreCase(messageType)) {
-
-                //删除重复会话
-//                removeRepeatSession(session, codeNum);
+            if (SocketMessageType.MESSAGE_LOGIN.equalsIgnoreCase(messageType)) {
 
                 //将设备编码作为登录标识;存储到socket session; 便于后续发送指定用户消息
                 session.getAttributes().put(LOGIN_ID, codeNum);
 
             }
             //上传收款码操作
-            else if (MESSAGE_UPLOAD_QR_CODE.equalsIgnoreCase(messageType)) {
+            else if (SocketMessageType.MESSAGE_UPLOAD_QR_CODE.equalsIgnoreCase(messageType)) {
                 String amount = reqJson.getString("amount");
                 String remarks = reqJson.getString("remarks");
                 String codeUrl = reqJson.getString("codeUrl");

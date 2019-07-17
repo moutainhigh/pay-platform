@@ -9,11 +9,10 @@ import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.context.AppContext;
-import com.pay.platform.common.enums.PayChannelEnum;
-import com.pay.platform.common.enums.PayStatusEnum;
-import com.pay.platform.common.socket.service.AppWebSocketService;
+import com.pay.platform.common.websocket.config.SocketMessageType;
+import com.pay.platform.common.websocket.service.AppWebSocketService;
 import com.pay.platform.common.util.*;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.pay.platform.security.util.AppSignUtil;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,30 +130,8 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
-            String nonce = UUID.randomUUID().toString();
-
-            //线路1：推送阿里消息（双线并行,提高跟app连接通信的成功率）
-            AliPushUtil.sendGetQrCodeMessage(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
-
-            //线路2：发送socket消息;获取收款码;
-            appWebSocketService.sendGetQrCodeSocket(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
-
-            //重复推送消息; 避免客户端网络延迟;
-            for (int i = 0; i < 2; i++) {
-
-                AppContext.getExecutorService().submit(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        //线路1：推送阿里消息（双线并行,提高跟app连接通信的成功率）
-                        AliPushUtil.sendGetQrCodeMessage(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
-
-                        //线路2：发送socket消息;获取收款码;
-                        appWebSocketService.sendGetQrCodeSocket(nonce, tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
-                    }
-                });
-
-            }
+            //发送获取收款码消息
+            lzyhPayService.sendGetQrCodeMessage(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
 
             json.put("status", "1");
             json.put("msg", "下单成功");
@@ -208,12 +185,12 @@ public class LzyhPayController extends BaseController {
                 getCurrentLogger().info("首次获取收款码" + orderInfo.get("platform_order_no").toString());
             }
 
-            //还没有生成完二维码,则每隔2秒查询一次; 等待生成完
+            //还没有生成完二维码,则每隔500毫秒查询一次; 等待生成完
             if (StringUtil.isEmpty(payQrCodeLink)) {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 4; i++) {
 
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(500);
                     } catch (Exception e2) {
                         e2.printStackTrace();
                     }

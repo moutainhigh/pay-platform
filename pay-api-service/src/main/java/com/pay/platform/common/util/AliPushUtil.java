@@ -6,13 +6,10 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.http.ProtocolType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.push.model.v20160801.*;
-import com.aliyuncs.utils.ParameterHelper;
-import com.pay.platform.common.socket.handler.AppWebSocketHandler;
+import com.pay.platform.common.websocket.config.SocketMessageType;
+import com.pay.platform.common.websocket.handler.AppWebSocketHandler;
 import com.pay.platform.security.util.AppSignUtil;
 import org.json.JSONObject;
-import org.junit.Test;
-
-import java.util.Date;
 
 /**
  * User: zjt
@@ -30,7 +27,7 @@ public class AliPushUtil {
      * <p>
      * 参见文档 https://help.aliyun.com/document_detail/48085.html
      */
-    public static void sendGetQrCodeMessage(String nonce , String alias, String secret, String amount) {
+    public static void sendMessageToUser(String alias , String message) {
 
         try {
 
@@ -47,14 +44,7 @@ public class AliPushUtil {
             androidRequest.setTitle("消息通知");
 
             //json内容
-            JSONObject reqJson = new JSONObject();
-            reqJson.put("nonce" , nonce);
-            reqJson.put("messageType", AppWebSocketHandler.MESSAGE_GET_QR_CODE);
-            reqJson.put("amount", amount);
-            reqJson.put("remarks", "");
-            String sign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJson.toString()), secret);
-            reqJson.put("sign", sign);
-            androidRequest.setBody(reqJson.toString());
+            androidRequest.setBody(message);
 
             PushMessageToAndroidResponse pushMessageToAndroidResponse = client.getAcsResponse(androidRequest);
             System.out.printf("RequestId: %s, MessageId: %s\n", pushMessageToAndroidResponse.getRequestId(), pushMessageToAndroidResponse.getMessageId());

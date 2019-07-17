@@ -4,11 +4,13 @@ import com.pay.platform.api.merchant.service.MerchantNotifyService;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.socket.ServerSocketThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.net.ServerSocket;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,6 +27,8 @@ public class AppContextListener implements ServletContextListener {
 
     private static final String EXECUTOR_NAME = "executor";
 
+    private ServerSocketThread serverSocketThread;
+
     /**
      * 初始化时 - 创建线程池
      *
@@ -39,6 +43,12 @@ public class AppContextListener implements ServletContextListener {
 
         restartPaySuccessInfoService(executor);
 
+        if (null == this.serverSocketThread) {
+            this.serverSocketThread = new ServerSocketThread();
+            this.serverSocketThread.start();
+            logger.info("启动Socket通信成功！");
+        }
+
     }
 
     /**
@@ -50,6 +60,13 @@ public class AppContextListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         ExecutorService executor = (ExecutorService) servletContextEvent.getServletContext().getAttribute(EXECUTOR_NAME);
         executor.shutdown();
+
+        //关闭服务端socket
+        if (null != this.serverSocketThread && !this.serverSocketThread.isInterrupted()) {
+            this.serverSocketThread.closeSocketServer();
+            this.serverSocketThread.interrupt();
+        }
+
     }
 
     /**

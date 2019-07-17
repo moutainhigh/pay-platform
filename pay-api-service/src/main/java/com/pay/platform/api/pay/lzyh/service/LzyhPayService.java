@@ -52,4 +52,12 @@ public interface LzyhPayService {
      */
     int queryPayCodeExists(String payCode);
 
+    /**
+     * 发送获取收款码消息
+     * @param tradeCodeNum
+     * @param secret
+     * @param payFloatAmount
+     */
+    void sendGetQrCodeMessage(String tradeCodeNum, String secret, String payFloatAmount);
+
 }

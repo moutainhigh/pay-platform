@@ -1,8 +1,8 @@
-package com.pay.platform.common.socket.service.impl;
+package com.pay.platform.common.websocket.service.impl;
 
-import com.pay.platform.api.pay.lzyh.service.impl.LzyhPayServiceImpl;
-import com.pay.platform.common.socket.handler.AppWebSocketHandler;
-import com.pay.platform.common.socket.service.AppWebSocketService;
+import com.pay.platform.common.websocket.config.SocketMessageType;
+import com.pay.platform.common.websocket.handler.AppWebSocketHandler;
+import com.pay.platform.common.websocket.service.AppWebSocketService;
 import com.pay.platform.common.util.JsonUtil;
 import com.pay.platform.security.util.AppSignUtil;
 import org.json.JSONObject;
@@ -60,25 +60,13 @@ public class AppWebSocketServiceImpl implements AppWebSocketService{
     /**
      * 发送获取收款码消息
      *
-     * @param codeNum
      * @param
      */
     @Override
-    public void sendGetQrCodeSocket(String nonce , String codeNum, String secret, String amount) {
+    public void sendMessageToUser(String codeNum , String message) {
 
         try {
-
-            JSONObject reqJson = new JSONObject();
-            reqJson.put("nonce" , nonce);
-            reqJson.put("messageType", AppWebSocketHandler.MESSAGE_GET_QR_CODE);
-            reqJson.put("amount", amount);
-            reqJson.put("remarks", "");
-
-            String sign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJson.toString()), secret);
-            reqJson.put("sign", sign);
-
-            appWebSocketHandler.sendMessageToUser(codeNum, new TextMessage(reqJson.toString()));
-
+            appWebSocketHandler.sendMessageToUser(codeNum, new TextMessage(message));
         } catch (Exception e) {
             e.printStackTrace();
         }

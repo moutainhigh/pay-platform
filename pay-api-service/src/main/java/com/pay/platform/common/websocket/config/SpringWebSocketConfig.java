@@ -1,9 +1,8 @@
-package com.pay.platform.common.socket.config;
+package com.pay.platform.common.websocket.config;
 
-import com.pay.platform.common.socket.handler.AppWebSocketHandler;
+import com.pay.platform.common.websocket.handler.AppWebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

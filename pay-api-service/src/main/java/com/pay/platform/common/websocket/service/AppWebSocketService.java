@@ -1,4 +1,4 @@
-package com.pay.platform.common.socket.service;
+package com.pay.platform.common.websocket.service;
 
 import java.util.List;
 import java.util.Map;
@@ -17,12 +17,12 @@ public interface AppWebSocketService {
     Map<String, Object> getOnLineSocket(List<Map<String, Object>> list);
 
     /**
-     * 发送获取收款码消息
+     * 发送消息
      *
      * @param codeNum
      * @param
      */
-    void sendGetQrCodeSocket(String nonce , String codeNum, String secret, String amount);
+    void sendMessageToUser(String codeNum , String message);
 
     /**
      * 获取登录在线的设备
