@@ -204,13 +204,13 @@ public class LzyhPayServiceImpl implements LzyhPayService {
                 }
             });
 
-            //线路2：发送websocket消息
-            AppContext.getExecutorService().submit(new Runnable() {
-                @Override
-                public void run() {
-                    appWebSocketService.sendMessageToUser(tradeCodeNum, reqJson.toString());
-                }
-            });
+//            //线路2：发送websocket消息
+//            AppContext.getExecutorService().submit(new Runnable() {
+//                @Override
+//                public void run() {
+//                    appWebSocketService.sendMessageToUser(tradeCodeNum, reqJson.toString());
+//                }
+//            });
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -18,7 +18,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
  */
 @Configuration
 @EnableWebMvc
-@EnableWebSocket
+//暂时先关闭websocket
+//@EnableWebSocket
 public class SpringWebSocketConfig extends WebMvcConfigurerAdapter implements WebSocketConfigurer {
 
     private static Logger logger = LoggerFactory.getLogger(SpringWebSocketConfig.class);
