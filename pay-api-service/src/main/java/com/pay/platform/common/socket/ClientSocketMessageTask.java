@@ -54,7 +54,7 @@ public class ClientSocketMessageTask implements Runnable {
 
                         try {
 
-                            logger.info(this.id + "，" + this.socket + "收到来自客户端的发送的消息是：" + lineString);
+                            logger.info(this.id + "，" + this.socket + "socket接收到客户端消息：" + lineString);
 
                             //代表不是json格式; 不进行处理;
                             if (!lineString.contains("{") || !lineString.contains("messageType")) {

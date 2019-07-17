@@ -106,7 +106,7 @@ public class AppWebSocketHandler extends TextWebSocketHandler {
             super.handleTextMessage(session, message);
 
             String reqJsonStr = message.getPayload().toString();
-            logger.debug("接收到客户端消息：" + reqJsonStr);
+            logger.info("websocket接收到客户端消息：" + reqJsonStr);
 
             //校验签名
             JSONObject reqJson = new JSONObject(reqJsonStr);
