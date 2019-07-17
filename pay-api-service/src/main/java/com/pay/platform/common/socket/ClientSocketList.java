@@ -1,7 +1,9 @@
 package com.pay.platform.common.socket;
 
+import com.pay.platform.common.websocket.handler.AppWebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -112,6 +114,32 @@ public class ClientSocketList {
 
             }
         }
+
+    }
+
+    /**
+     * 获取登录在线的设备；
+     *
+     * @return
+     */
+    public static List<String> getOnLineSocketDevice() {
+
+        List<String> list = new ArrayList<>();
+
+        for (Map.Entry<String, List<ClientSocket>> entry : clientSocketMap.entrySet()) {
+            if (entry.getValue() != null) {
+
+                List<ClientSocket> clientSocketList = entry.getValue();
+                for (ClientSocket clientSocket : clientSocketList) {
+                    if (clientSocket != null) {
+                        list.add(entry.getKey());
+                    }
+                }
+
+            }
+        }
+
+        return list;
 
     }
 

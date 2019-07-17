@@ -6,6 +6,7 @@ import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.enums.PayChannelEnum;
 import com.pay.platform.common.enums.PayStatusEnum;
+import com.pay.platform.common.socket.ClientSocketList;
 import com.pay.platform.common.socket.ServerSocketThread;
 import com.pay.platform.common.websocket.config.SocketMessageType;
 import com.pay.platform.common.websocket.service.AppWebSocketService;
@@ -346,7 +347,7 @@ public class UnifiedPayController extends BaseController {
         JSONObject json = new JSONObject();
         json.put("status", "1");
         json.put("msg", "请求成功");
-        json.put("data", appWebSocketService.getOnLineSocketDevice());
+        json.put("data", ClientSocketList.getOnLineSocketDevice());
         writeJson(response, json.toString());
     }
 
