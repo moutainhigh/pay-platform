@@ -1,5 +1,6 @@
 package com.pay.platform.common.socket;
 
+import com.pay.platform.common.context.AppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +76,12 @@ public class ServerSocketThread extends Thread {
 
             //可能会同时登录多个; 因此遍历循环;
             for(ClientSocket clientSocket : list){
-                SocketWrite.write(clientSocket.getId(), clientSocket.getSocket(), clientSocket.getWriter(), message);
+                AppContext.getExecutorService().submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        SocketWrite.write(clientSocket.getId(), clientSocket.getSocket(), clientSocket.getWriter(), message);
+                    }
+                });
             }
 
         }
