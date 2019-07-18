@@ -22,12 +22,6 @@ public class SocketWrite {
                 writer.newLine();
                 writer.flush();
                 return true;
-            } else {
-                ClientSocketList.remove(socket);            //断开连接的移除
-
-                //连接关闭时;
-                log.info("socket断开连接,从list中移除！当前数量: " + ClientSocketList.getConnectCount());
-
             }
 
             log.info(id + "，" + socket + "连接已中断，无法发送：{}", str);
