@@ -1,8 +1,10 @@
-package com.pay.platform.common.socket;
+package com.pay.platform.common.socket.server;
 
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.socket.data.ClientSocket;
+import com.pay.platform.common.socket.data.ClientSocketList;
 import com.pay.platform.common.util.JsonUtil;
 import com.pay.platform.common.websocket.config.SocketMessageType;
 import com.pay.platform.security.util.AppSignUtil;

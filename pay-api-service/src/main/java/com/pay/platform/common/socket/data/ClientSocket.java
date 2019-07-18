@@ -1,4 +1,4 @@
-package com.pay.platform.common.socket;
+package com.pay.platform.common.socket.data;
 
 import java.io.BufferedWriter;
 import java.net.Socket;

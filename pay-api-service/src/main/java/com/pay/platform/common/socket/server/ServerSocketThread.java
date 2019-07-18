@@ -1,6 +1,8 @@
-package com.pay.platform.common.socket;
+package com.pay.platform.common.socket.server;
 
 import com.pay.platform.common.context.AppContext;
+import com.pay.platform.common.socket.data.ClientSocket;
+import com.pay.platform.common.socket.data.ClientSocketList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -8,7 +8,7 @@ import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
 import com.pay.platform.api.pay.unified.dao.UnifiedPayDao;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.plugins.redis.RedisLock;
-import com.pay.platform.common.socket.ServerSocketThread;
+import com.pay.platform.common.socket.server.ServerSocketThread;
 import com.pay.platform.common.util.*;
 import com.pay.platform.common.websocket.config.SocketMessageType;
 import com.pay.platform.common.websocket.service.AppWebSocketService;

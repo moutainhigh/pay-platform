@@ -1,4 +1,4 @@
-package com.pay.platform.common.socket;
+package com.pay.platform.common.socket.data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,6 +132,30 @@ public class ClientSocketList {
                     if (clientSocket != null) {
                         list.add(entry.getKey());
                     }
+                }
+
+            }
+        }
+
+        return list;
+
+    }
+
+    /**
+     * 获取登录在线的设备；
+     *
+     * @return
+     */
+    public static List<ClientSocket> getAllClientSocket() {
+
+        List<ClientSocket> list = new ArrayList<ClientSocket>();
+
+        for (Map.Entry<String, List<ClientSocket>> entry : clientSocketMap.entrySet()) {
+            if (entry.getValue() != null) {
+
+                List<ClientSocket> clientSocketList = entry.getValue();
+                if (clientSocketList != null) {
+                    list.addAll(clientSocketList);
                 }
 
             }
