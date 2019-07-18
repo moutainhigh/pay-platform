@@ -181,14 +181,12 @@ public class LzyhPayServiceImpl implements LzyhPayService {
      * @param payFloatAmount
      */
     @Override
-    public void sendGetQrCodeMessage(String tradeCodeNum, String secret, String payFloatAmount) {
+    public void sendGetQrCodeMessage(String orderId, String tradeCodeNum, String secret, String payFloatAmount) {
 
         try {
 
-            String nonce = UUID.randomUUID().toString();
-
             JSONObject reqJson = new JSONObject();
-            reqJson.put("nonce", nonce);
+            reqJson.put("nonce", orderId);
             reqJson.put("messageType", SocketMessageType.MESSAGE_GET_QR_CODE);
             reqJson.put("amount", payFloatAmount);
             reqJson.put("remarks", "");
@@ -216,6 +214,11 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<Map<String, Object>> getWaitQrCodeData(String codeNum) {
+        return lzyhPayDao.getWaitQrCodeData(codeNum);
     }
 
 }

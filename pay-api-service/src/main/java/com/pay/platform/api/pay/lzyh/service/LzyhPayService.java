@@ -2,6 +2,7 @@ package com.pay.platform.api.pay.lzyh.service;
 
 import com.pay.platform.api.order.model.OrderModel;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,6 +59,8 @@ public interface LzyhPayService {
      * @param secret
      * @param payFloatAmount
      */
-    void sendGetQrCodeMessage(String tradeCodeNum, String secret, String payFloatAmount);
+    void sendGetQrCodeMessage(String orderId , String tradeCodeNum, String secret, String payFloatAmount);
+
+    List<Map<String,Object>> getWaitQrCodeData(String codeNum);
 
 }

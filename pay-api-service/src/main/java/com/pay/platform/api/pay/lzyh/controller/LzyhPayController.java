@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -131,7 +132,7 @@ public class LzyhPayController extends BaseController {
             }
 
             //发送获取收款码消息
-            lzyhPayService.sendGetQrCodeMessage(tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+            lzyhPayService.sendGetQrCodeMessage(orderModel.getId(), tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
 
             json.put("status", "1");
             json.put("msg", "下单成功");
@@ -368,5 +369,40 @@ public class LzyhPayController extends BaseController {
         }
 
     }
+
+    /**
+     * 获取待生成收款码的记录
+     *
+     * @param request
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping(value = "/app/getWaitQrCodeData", method = RequestMethod.POST)
+    public void getWaitQrCodeData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        JSONObject json = new JSONObject();
+
+        try {
+
+            //获取请求提交数据
+            String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            JSONObject reqJson = new JSONObject(text);
+            String codeNum = reqJson.getString("codeNum");
+
+            json.put("status","1");
+            json.put("msg","请求成功");
+            json.put("data",lzyhPayService.getWaitQrCodeData(codeNum));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            json.put("status", "0");
+            json.put("msg", "服务器内部错误：" + e.getMessage());
+            writeJson(response, json.toString());
+        } finally {
+            getCurrentLogger().info("响应报文：{}", json.toString());
+        }
+
+    }
+
 
 }

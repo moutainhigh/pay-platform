@@ -49,4 +49,6 @@ public interface LzyhPayDao {
      */
     int queryPayCodeExists(@Param("payCode") String payCode);
 
+    List<Map<String,Object>> getWaitQrCodeData(@Param("codeNum") String codeNum);
+
 }
