@@ -1,9 +1,7 @@
 package com.pay.platform.common.socket;
 
-import com.pay.platform.common.websocket.handler.AppWebSocketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.socket.WebSocketSession;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class ClientSocketList {
             //存在重复的客户端socket,不进行添加;
             for (int i = 0; i < list.size(); i++) {
                 ClientSocket existsClient = list.get(i);
-                if (existsClient == clientSocket) {
+                if (existsClient.getSocket() == clientSocket.getSocket()) {
                     isAdd = false;
                 }
             }
