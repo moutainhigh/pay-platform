@@ -69,6 +69,16 @@ public class OrderModel extends BaseModel {
     private Double parentAgentAmount;       //上级代理分润金额（存在二级代理时才会有上级）
     private Double parentAgentRate;         //上级代理费率（存在二级代理时才会有上级）
 
+    private String getQrCodeTime;        //产码时间
+
+    public String getGetQrCodeTime() {
+        return getQrCodeTime;
+    }
+
+    public void setGetQrCodeTime(String getQrCodeTime) {
+        this.getQrCodeTime = getQrCodeTime;
+    }
+
     public String getParentAgentId() {
         return parentAgentId;
     }

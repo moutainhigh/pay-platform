@@ -89,6 +89,37 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                     }
                 }
             },
+            // {
+            //     title: '支付时间',
+            //     field: 'payTime',
+            //     align: 'center',
+            //     sortable: true,
+            //     formatter: function (value) {
+            //         if ($.validate.isNotEmpty(value)) {
+            //             return $.date.formatToDateTime(value);
+            //         } else {
+            //             return "";
+            //         }
+            //     }
+            // },
+            {
+                title: '产码时间',
+                field: 'getQrCodeTime',
+                align: 'center',
+                sortable: true,
+                formatter: function (value, row, index) {
+                    if ($.validate.isNotEmpty(value)) {
+
+                        var date1 = new Date(row.createTime);
+                        var date2 = new Date(row.getQrCodeTime);
+                        var date3 = (date2.getTime() - date1.getTime()) / 1000;   //相差秒数
+
+                        return date3;
+                    } else {
+                        return "无";
+                    }
+                }
+            },
             {
                 title: '操作',
                 align: 'center',
@@ -113,17 +144,21 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'getQrCodeTime');
+
             }
             else if (roleCode == "ROLE_AGENT") {
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'getQrCodeTime');
             }
             else if (roleCode == "ROLE_MERCHANT") {
                 pageScope.orderTable.bootstrapTable('hideColumn', 'channelAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
+                pageScope.orderTable.bootstrapTable('hideColumn', 'getQrCodeTime');
 
                 queryMerchantAmountOfNotifyWithdraw();
             }
