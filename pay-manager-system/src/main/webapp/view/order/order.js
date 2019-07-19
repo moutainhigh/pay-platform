@@ -144,7 +144,6 @@ var pageScope = {};         //页面作用域,每次进入列表页面置为{},�
                 pageScope.orderTable.bootstrapTable('hideColumn', 'platformAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'agentAmount');
                 pageScope.orderTable.bootstrapTable('hideColumn', 'tradeCodeNum');
-                pageScope.orderTable.bootstrapTable('hideColumn', 'getQrCodeTime');
 
             }
             else if (roleCode == "ROLE_AGENT") {
