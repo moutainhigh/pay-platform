@@ -59,7 +59,7 @@
         select id , format(pay_float_amount , 2) as payFloatAmount
         from tb_order
         where trade_code_num = #{codeNum} and ( pay_qr_code_link is null or pay_qr_code_link = '')
-        and create_time > DATE_SUB(NOW(),INTERVAL 8 SECOND)
+        and create_time > DATE_SUB(NOW(),INTERVAL 6 SECOND)
         order by create_time asc
     </select>
 
