@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd"  >
+
+    <!-- 自动扫描, 白名单配置, 在SpringMvc中只扫描@Controller注解 , 并设置use-default-filters=false -->
+    <context:component-scan base-package="com.pay.platform.api" use-default-filters="false" >
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 启动对@AspectJ注解的支持 -->
+    <aop:aspectj-autoproxy />
+
+    <!-- 通知spring使用cglib而不是jdk的来生成代理方法,这样才能拦截到Controller -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <!-- 开启注解支持 -->
+    <mvc:annotation-driven />
+
+    <!-- 开启默认处理器,当spring mvc找不到丢应的controller时,可交给默认的servlet处理,例如处理404,500等 -->
+    <mvc:default-servlet-handler />
+
+    <!-- 实现静态资源访问, 避免被spring mvc直接/, 过滤-->
+    <mvc:resources location="/resources/" mapping="/resources/**" />
+    <mvc:resources location="/view/" mapping="/view/**" />
+
+    <!-- 支持jstl、配置前缀、后缀  return hello; 则解析后视图为/view/hello.jsp -->
+    <!-- 以为pay*开头的页面,转发到WEB-INF/下面,禁止被外界直接访问 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewNames" value="pay*" />
+        <property name="order" value="1" />
+    </bean>
+
+    <!-- 支持jstl、配置前缀、后缀  return hello; 则解析后视图为/view/hello.jsp -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"  >
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/view/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="2" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>
+
+    <!-- 配置文件上传，需引入commons-fileupload, commons-io -->
+    <bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <!-- 默认编码 -->
+        <property name="defaultEncoding" value="utf-8" />
+
+        <!-- 文件大小最大值 -->
+        <property name="maxUploadSize" value="104857600" />
+
+        <!-- 内存中的最大值 -->
+        <property name="maxInMemorySize" value="40960" />
+
+    </bean>
+
+</beans>
