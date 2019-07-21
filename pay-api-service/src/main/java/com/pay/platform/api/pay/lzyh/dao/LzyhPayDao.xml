@@ -32,21 +32,11 @@
         order by lastUseTime asc
     </select>
 
-    <!-- 浮动周期为1个小时；查询与上次整数浮动的间隔,是否超过1小时;
- 例如按300、299.99、299.98浮动；当一个小时后，则重新归0，从300开始；-->
-    <select id="queryPayFloatAmountIsReFloat" parameterType="java.lang.String" resultType="java.lang.Integer">
-        select count(1)
-        from tb_order
-        where trade_code_id = #{tradeCodeId} and format(pay_float_amount , 2) = format(${orderAmount} , 2) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE)
-    </select>
-
     <!-- 查询1小时内：同一个码,同一个整数金额,最后一笔的浮动金额；避免重复回调错误; -->
     <select id="queryTradeCodeLastPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
-        select pay_float_amount as lastAmount
+        select ifnull(min(pay_float_amount)  , 0) as lastAmount
         from tb_order
-        where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE)
-        order by create_time desc
-        limit 0 , 1
+        where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
     </select>
 
     <!-- 根据柳行回调信息匹配订单：5分钟内 + 未支付 + 浮动金额;

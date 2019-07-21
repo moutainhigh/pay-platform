@@ -123,22 +123,21 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             if (lock.lock()) {
 
                 //2、获取向下浮动金额,避免重复（同一个整数金额,最后一笔浮动金额,1小时重新开始浮动）;
-                int isRefloat = lzyhPayDao.queryPayFloatAmountIsReFloat(tradeCodeId, orderAmount);
+                double lastAmount = lzyhPayDao.queryTradeCodeLastPayFloatAmount(tradeCodeId, orderAmount);
                 double payFloatAmount;
-
-                //需要向下浮动金额：
-                if (isRefloat > 0) {
-                    double lastAmount = lzyhPayDao.queryTradeCodeLastPayFloatAmount(tradeCodeId, orderAmount);
+                if (lastAmount > 0) {
+                    //用上次的金额减去0.01
                     payFloatAmount = DecimalCalculateUtil.sub(lastAmount, 0.01);
                 } else {
-                    //与上次整数金额,超过1个小时; 重新归0,直接用整数金额
+                    //第一次则直接用订单整数金额即可；
                     payFloatAmount = Double.parseDouble(orderAmount);
                 }
+
 
                 //为避免出错,造成损失,当浮动的金额超过5毛钱时,拒绝下单；
                 //代表同一个号,同一个金额下了50单；向下浮动了50次
                 double div = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), payFloatAmount);
-                if (div > 0.5) {
+                if (div > 1) {
                     return null;
                 }
 

@@ -52,16 +52,4 @@ public interface LzyhPayDao {
 
     List<Map<String, Object>> getWaitQrCodeData(@Param("codeNum") String codeNum);
 
-    /**
-     * 查询支付金额是否重新开始向下浮动：
-     *
-     * 例如按300、299.99、299.98浮动；
-     * 当一个小时后，则重新归0，从300开始；
-     *
-     * @param tradeCodeId
-     * @param orderAmount
-     * @return
-     */
-    int queryPayFloatAmountIsReFloat(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
-
 }
