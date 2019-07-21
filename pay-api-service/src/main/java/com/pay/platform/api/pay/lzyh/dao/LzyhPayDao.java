@@ -21,7 +21,7 @@ public interface LzyhPayDao {
      * @param orderAmount
      * @return
      */
-    List<Map<String,Object>> queryLooperTradeCodeByLzyh(@Param("merchantId") String merchantId, @Param("payChannelId") String payChannelId, @Param("orderAmount") String orderAmount);
+    List<Map<String, Object>> queryLooperTradeCodeByLzyh(@Param("merchantId") String merchantId, @Param("payChannelId") String payChannelId, @Param("orderAmount") String orderAmount);
 
     /**
      * 获取向下浮动金额,避免重复（同一个整数金额,最后一笔浮动金额,1小时重新开始浮动）;
@@ -44,11 +44,24 @@ public interface LzyhPayDao {
 
     /**
      * 查询支付单号是否存在
+     *
      * @param payCode
      * @return
      */
     int queryPayCodeExists(@Param("payCode") String payCode);
 
-    List<Map<String,Object>> getWaitQrCodeData(@Param("codeNum") String codeNum);
+    List<Map<String, Object>> getWaitQrCodeData(@Param("codeNum") String codeNum);
+
+    /**
+     * 查询支付金额是否重新开始向下浮动：
+     *
+     * 例如按300、299.99、299.98浮动；
+     * 当一个小时后，则重新归0，从300开始；
+     *
+     * @param tradeCodeId
+     * @param orderAmount
+     * @return
+     */
+    int queryPayFloatAmountIsReFloat(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
 
 }
