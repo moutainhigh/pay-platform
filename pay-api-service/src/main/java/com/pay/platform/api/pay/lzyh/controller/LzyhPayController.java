@@ -392,6 +392,7 @@ public class LzyhPayController extends BaseController {
             json.put("status","1");
             json.put("msg","请求成功");
             json.put("data",lzyhPayService.getWaitQrCodeData(codeNum));
+            writeJson(response, json.toString());
 
         } catch (Exception e) {
             e.printStackTrace();

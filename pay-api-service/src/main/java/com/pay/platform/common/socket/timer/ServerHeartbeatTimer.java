@@ -38,8 +38,6 @@ public class ServerHeartbeatTimer {
 
             JSONObject json = new JSONObject();
             json.put("messageType", SocketMessageType.MESSAGE_HEARTBEAT);
-            json.put("heartbeat", "1");
-            json.put("server","1");
 
             for (ClientSocket clientSocket : list) {
                 SocketWrite.write(clientSocket.getId(), clientSocket.getSocket(), clientSocket.getWriter(), json.toString());

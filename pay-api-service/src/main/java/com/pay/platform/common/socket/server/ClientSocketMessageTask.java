@@ -63,14 +63,17 @@ public class ClientSocketMessageTask implements Runnable {
                                 continue;
                             }
 
+                            //心跳检测,返回响应,以便提高连接保持率
                             JSONObject reqJson = new JSONObject(lineString);
                             String messageType = reqJson.getString("messageType");
-                            //心跳检测,返回响应,以便提高连接保持率s
                             if (SocketMessageType.MESSAGE_HEARTBEAT.equalsIgnoreCase(messageType)) {
-                                SocketWrite.write(this.id, this.socket, this.writer, reqJson.toString());
+                                JSONObject heartJson = new JSONObject();
+                                heartJson.put("messageType", SocketMessageType.MESSAGE_HEARTBEAT);
+                                SocketWrite.write(this.id, this.socket, this.writer, heartJson.toString());
                                 continue;
                             }
 
+                            //检测设备编码、签名
                             String codeNum = reqJson.getString("codeNum");
                             Map<String, Object> tradeCodeInfo = getUnifiedPayService().queryTradeCodeByCudeNum(codeNum);
                             if (tradeCodeInfo == null) {
@@ -88,7 +91,7 @@ public class ClientSocketMessageTask implements Runnable {
 
                             //登录操作：指定唯一标识,便于后续发送消息
                             if (SocketMessageType.MESSAGE_LOGIN.equalsIgnoreCase(messageType)) {
-                                ClientSocketList.add(codeNum , new ClientSocket(this.id, this.socket, this.writer));
+                                ClientSocketList.add(codeNum, new ClientSocket(this.id, this.socket, this.writer));
                                 SocketWrite.write(this.id, this.socket, this.writer, reqJson.toString());       //返回响应,以便提高连接保持率
                             }
                             //上传收款码操作
@@ -104,6 +107,11 @@ public class ClientSocketMessageTask implements Runnable {
                                     getOrderService().updateOrderPayQrCodeLink(id, codeUrl);
                                 }
                                 SocketWrite.write(this.id, this.socket, this.writer, reqJson.toString());       //返回响应,以便提高连接保持率
+                            } else {
+                                JSONObject heartJson = new JSONObject();
+                                heartJson.put("messageType", SocketMessageType.MESSAGE_HEARTBEAT);
+                                heartJson.put("heartbeat", "1");
+                                SocketWrite.write(this.id, this.socket, this.writer, heartJson.toString());
                             }
 
                         } catch (Exception e) {

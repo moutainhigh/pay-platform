@@ -410,13 +410,13 @@ public class UnifiedPayController extends BaseController {
             }
         });
 
-        //线路2：发送websocket消息
-        AppContext.getExecutorService().submit(new Runnable() {
-            @Override
-            public void run() {
-                appWebSocketService.sendMessageToUser(codeNum, reqJson.toString());
-            }
-        });
+//        //线路2：发送websocket消息
+//        AppContext.getExecutorService().submit(new Runnable() {
+//            @Override
+//            public void run() {
+//                appWebSocketService.sendMessageToUser(codeNum, reqJson.toString());
+//            }
+//        });
 
     }
 

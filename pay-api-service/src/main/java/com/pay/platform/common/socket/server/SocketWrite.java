@@ -17,7 +17,7 @@ public class SocketWrite {
         try {
 
             if (socket.isConnected()) {
-                log.info(id + "，" + socket + "发送给客户端数据：{}", str);
+                log.info(id + "，" + socket + "socket发送给客户端数据：{}", str);
                 writer.write(str + " ");
                 writer.newLine();
                 writer.flush();
