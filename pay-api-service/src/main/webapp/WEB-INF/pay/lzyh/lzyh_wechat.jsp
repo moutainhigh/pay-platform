@@ -83,8 +83,8 @@
             1、请截屏保存到相册<br/>
             2、打开微信扫一扫<br/>
             3、点击相册>选择二维码图片>完成支付<br/>
-            如遇到FK提示,请点击继续完成支付。
-            <img src="${baseURL}/resources/images/pay/xiangce.jpg"/>
+            <p style="font-weight: bold;margin-top:6px;">如遇到FK提示,请点击继续完成支付。</p>
+            <img src="${baseURL}/resources/images/pay/xiangce.jpg" style="margin-top:10px;"/>
         </div>
         <h1 id="time" style="margin: 0; padding: 0; line-height: 50px; height: 50px;"></h1>
         <p style="border: 1px rgb(222,222,222) dashed"></p>
