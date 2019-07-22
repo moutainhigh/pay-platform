@@ -70,19 +70,20 @@
 <section class="m-zfb">
     <div style="background: #FFFFFF;vertical-align:middle; ">
         <img src="${baseURL}/resources/images/wechat_logo.png" style="width: 36px;height: 36px;vertical-align:middle; "/>
-        <div class="logo" style="line-height: 56px;font-size: 20px; padding:0;display: inline;vertical-align:middle; ">&nbsp;微信安全支付</div>
+        <div class="logo" style="line-height: 56px;font-size: 20px; padding:0;display: inline;vertical-align:middle; color:red;font-weight: bold;">&nbsp;微信安全支付</div>
     </div>
     <dl style="padding: 0; margin: 0;">
-        <h1>￥${payPageData.payFloatAmount}</h1>
+        <h1 style="color:red;font-weight: bold;">￥${payPageData.payFloatAmount}</h1>
         <div>
             <img id="code" src="" style="width: 150px; height: 150px;margin-top: -10px;display: none;"/>
             <input id="btnWaitPay" type="button" value="支付授权中（5秒）" class="btn btn-danger" style="display: none;"/>
         </div>
-        <div class="tip" style="text-align: center;margin-top: 30px;">
+        <div class="tip" style="text-align: center;margin-top: 30px;font-size:18px;color:red;padding-left:0px;">
             <%--<span style="color: red; font-weight: 800" id="tipsRed">若启动微信无法支付，请使用以下步骤：<br/><br/></span>--%>
             1、请截屏保存到相册<br/>
             2、打开微信扫一扫<br/>
-            3、选择相册>选择二维码图片>完成支付
+            3、点击相册>选择二维码图片>完成支付<br/>
+            如遇到FK提示,请点击继续完成支付。
             <img src="${baseURL}/resources/images/pay/xiangce.jpg"/>
         </div>
         <h1 id="time" style="margin: 0; padding: 0; line-height: 50px; height: 50px;"></h1>
