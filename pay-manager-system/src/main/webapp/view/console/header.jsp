@@ -149,7 +149,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a id="btnPersonalInfo" onclick="loadMenuContent('/view/sysmgr/user/user_personal_center.jsp');" class="btn btn-default btn-flat"  >个人信息</a>
+                                <a id="btnPersonalInfo" onclick="loadMenuContent('/view/sysmgr/user/user_personal_center.jsp');" class="btn btn-default btn-flat"  >个人中心</a>
                             </div>
                             <div class="pull-right">
                                 <a href="${baseURL}/console/logout" class="btn btn-default btn-flat">注销</a>

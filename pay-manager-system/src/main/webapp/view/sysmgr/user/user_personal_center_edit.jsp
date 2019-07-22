@@ -59,23 +59,23 @@
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">手机号码：</label>
                 <div class="col-md-8 col-sm-8">
-                    <input name="phone" value="${currentUser.phone}" type="text" class="form-control" check-type="required mobile" placeholder="请输入手机号码"/>
+                    <input name="phone" value="${currentUser.phone}" type="text" class="form-control" check-type="required" placeholder="请输入手机号码"/>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-3 col-sm-3 control-label">组织机构：</label>
-                <div class="col-md-8 col-sm-8">
-                    <div class="input-group">
-                        <input id="editOrgName" name="orgName" type="text" class="form-control" check-type="required" disabled value="${currentUser.orgName}">
-                        <input id="editOrgId" name="orgId" type="hidden" value="${currentUser.orgId}">
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-3 col-sm-3 control-label">组织机构：</label>--%>
+                <%--<div class="col-md-8 col-sm-8">--%>
+                    <%--<div class="input-group">--%>
+                        <%--<input id="editOrgName" name="orgName" type="text" class="form-control" check-type="required" disabled value="${currentUser.orgName}">--%>
+                        <%--<input id="editOrgId" name="orgId" type="hidden" value="${currentUser.orgId}">--%>
 
-                        <span class="input-group-btn">
-                          <button class="btn btn-default" type="button" onclick="pageScope.selectOrg();">选择</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
+                        <%--<span class="input-group-btn">--%>
+                          <%--<button class="btn btn-default" type="button" onclick="pageScope.selectOrg();">选择</button>--%>
+                        <%--</span>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
             <div class="form-group">
                 <label class="col-md-3 col-sm-3 control-label">用户头像：</label>

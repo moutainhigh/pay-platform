@@ -16,7 +16,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">个人信息</h3>
+                <h3 class="panel-title">个人中心</h3>
             </div>
             <div class="panel-body">
 
