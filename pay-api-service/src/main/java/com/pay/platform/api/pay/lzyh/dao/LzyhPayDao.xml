@@ -32,9 +32,16 @@
         order by lastUseTime asc
     </select>
 
-    <!-- 查询1小时内：同一个码,同一个整数金额,最后一笔的浮动金额；避免重复回调错误; -->
-    <select id="queryTradeCodeLastPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
-        select ifnull(min(pay_float_amount)  , 0) as lastAmount
+    <!-- 判断1个小时内是否有重复整数金额的订单 -->
+    <select id="queryPayFloatAmountIsExists" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1)
+        from tb_order
+        where trade_code_id = #{tradeCodeId} and format(pay_float_amount , 2) = format(${orderAmount} , 2) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE)
+    </select>
+
+    <!-- 查询指定整数金额，在1个小时内使用过的支付浮动金额 -->
+    <select id="queryTradeCodeUsedPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
+        select format(pay_float_amount , 2) as pay_float_amount
         from tb_order
         where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
     </select>

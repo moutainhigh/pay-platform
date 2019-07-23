@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -122,22 +123,39 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             lock = new RedisLock(redisTemplate, "createOrderTradeCodeLock::" + tradeCodeId);
             if (lock.lock()) {
 
-                //2、获取向下浮动金额,避免重复（同一个整数金额,最后一笔浮动金额,1小时重新开始浮动）;
-                double lastAmount = lzyhPayDao.queryTradeCodeLastPayFloatAmount(tradeCodeId, orderAmount);
+                //2、判断1个小时内是否有重复整数金额的订单；
+                int existsAmount = lzyhPayDao.queryPayFloatAmountIsExists(tradeCodeId, orderAmount);
                 double payFloatAmount;
-                if (lastAmount > 0) {
-                    //用上次的金额减去0.01
-                    payFloatAmount = DecimalCalculateUtil.sub(lastAmount, 0.01);
-                } else {
-                    //第一次则直接用订单整数金额即可；
+
+                //已经存在了该整数金额,则需要向下开始浮动,避免金额重复
+                if (existsAmount > 0) {
+
+                    payFloatAmount = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), 0.01);
+                    List<Double> usedPayFloatAmount = lzyhPayDao.queryTradeCodeUsedPayFloatAmount(tradeCodeId, orderAmount);
+                    if (usedPayFloatAmount != null && usedPayFloatAmount.size() > 0) {
+                        for (int i = 0; i < 50; i++) {
+
+                            //判断在过去1小时内是否使用过该金额,如果使用过,则继续向下浮动
+                            if (!usedPayFloatAmount.contains(payFloatAmount)) {
+                                break;
+                            }
+
+                            //每次向下浮动1分钱;
+                            payFloatAmount = DecimalCalculateUtil.sub(payFloatAmount, 0.01);
+
+                        }
+                    }
+
+                }
+                //1个小时内,没用使用过该整数金额; 则无需向下浮动
+                else {
                     payFloatAmount = Double.parseDouble(orderAmount);
                 }
-
 
                 //为避免出错,造成损失,当浮动的金额超过5毛钱时,拒绝下单；
                 //代表同一个号,同一个金额下了50单；向下浮动了50次
                 double div = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), payFloatAmount);
-                if (div > 1) {
+                if (div >= 0.5) {
                     return null;
                 }
 

@@ -24,13 +24,22 @@ public interface LzyhPayDao {
     List<Map<String, Object>> queryLooperTradeCodeByLzyh(@Param("merchantId") String merchantId, @Param("payChannelId") String payChannelId, @Param("orderAmount") String orderAmount);
 
     /**
-     * 获取向下浮动金额,避免重复（同一个整数金额,最后一笔浮动金额,1小时重新开始浮动）;
+     * 判断1个小时内是否有重复整数金额的订单：
      *
      * @param tradeCodeId
      * @param orderAmount
      * @return
      */
-    double queryTradeCodeLastPayFloatAmount(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
+    int queryPayFloatAmountIsExists(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
+
+    /**
+     * 查询指定整数金额，在1个小时内使用过的支付浮动金额
+     *
+     * @param tradeCodeId
+     * @param orderAmount
+     * @return
+     */
+    List<Double> queryTradeCodeUsedPayFloatAmount(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
 
     /**
      * 根据回调金额查询匹配的订单
