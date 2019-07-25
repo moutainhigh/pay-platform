@@ -209,7 +209,7 @@
         </if>
         ) as totalOrderAmount,
         (
-        select IFNULL(sum(tor.order_amount) ,0) from tb_order tor
+        select IFNULL(sum(tor.pay_float_amount) ,0) from tb_order tor
         where 1 = 1 and tor.pay_status = 'payed'
         <if test="merchantId!= null and merchantId != '' ">
             and tor.merchant_id = #{merchantId}

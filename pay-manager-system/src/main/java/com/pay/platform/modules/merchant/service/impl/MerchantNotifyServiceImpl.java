@@ -63,8 +63,9 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
             data.put("payWay", orderModel.getPayWay());                         //支付方式(1:支付宝 2:微信)
             data.put("payTime", orderModel.getPayTime());                               //支付时间
             data.put("orderAmount", orderModel.getOrderAmount());                        //订单金额(元)
-            data.put("actualAmount", orderModel.getActualAmount());                     //实际金额
-            data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
+            data.put("payAmount", orderModel.getPayFloatAmount());                      //实际支付金额
+            //data.put("actualAmount", orderModel.getActualAmount());                     //实际金额
+            //data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
 
             json.put("status", "1");
             json.put("msg", "支付回调");
@@ -85,6 +86,7 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
             String responseJson = AESUtil.encrypt(json.toString(), notifySecret);
             String notifyResult = HttpClientUtil.doPost(notifyUrl, responseJson);
 
+            logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调明文：" + json.toString());
             logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调地址：" + notifyUrl + "回调密文：" + responseJson);
             logger.info("订单" + orderModel.getMerchantOrderNo() + "  " + "回调结果：" + notifyResult);
 
