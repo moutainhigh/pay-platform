@@ -52,8 +52,9 @@ public class URLAvailability {
     @Test
     public void testUrl(){
 
+
         long begimTime = System.currentTimeMillis();
-        String url = "http://kztshkx001.frpgz1.idcfengye.com/openApi/ping";
+        String url = "http://192.168.0.107:8080/openApi/ping";
         System.out.println("url是否有效：" + isConnect(url));
         long endTime = System.currentTimeMillis();
 

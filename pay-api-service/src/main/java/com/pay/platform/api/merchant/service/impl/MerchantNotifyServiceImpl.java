@@ -7,6 +7,7 @@ import com.pay.platform.api.order.dao.OrderDao;
 import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.AESUtil;
+import com.pay.platform.common.util.DecimalFormatUtil;
 import com.pay.platform.common.util.HttpClientUtil;
 import com.pay.platform.common.util.StringUtil;
 import com.pay.platform.security.util.MerchantSecretCacheUtil;
@@ -20,6 +21,7 @@ import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +98,8 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
         data.put("payWay", orderModel.getPayWay());                         //支付方式（参照通道类型）
         data.put("payTime", orderModel.getPayTime());                               //支付时间
         data.put("orderAmount", orderModel.getOrderAmount());                        //订单金额(元)
-        data.put("payAmount", orderModel.getPayFloatAmount());                      //实际支付金额
+        data.put("payAmount", DecimalFormatUtil.format2Point(orderModel.getPayFloatAmount()));              //实际支付金额
+
         //data.put("actualAmount", orderModel.getActualAmount());                     //实际金额
         //data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
 

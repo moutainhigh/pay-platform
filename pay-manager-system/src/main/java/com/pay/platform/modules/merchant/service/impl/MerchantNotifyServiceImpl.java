@@ -4,6 +4,7 @@ import com.pay.platform.common.enums.PayStatusEnum;
 import com.pay.platform.common.util.AESUtil;
 import com.pay.platform.common.util.HttpClientUtil;
 import com.pay.platform.common.util.MerchantSecretCacheUtil;
+import com.pay.platform.common.util.DecimalFormatUtil;
 import com.pay.platform.modules.merchant.dao.MerchantDao;
 import com.pay.platform.modules.merchant.service.MerchantNotifyService;
 import com.pay.platform.modules.order.dao.OrderDao;
@@ -12,10 +13,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.remoting.RemoteAccessException;
-import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.EnableRetry;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -63,7 +61,8 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
             data.put("payWay", orderModel.getPayWay());                         //支付方式(1:支付宝 2:微信)
             data.put("payTime", orderModel.getPayTime());                               //支付时间
             data.put("orderAmount", orderModel.getOrderAmount());                        //订单金额(元)
-            data.put("payAmount", orderModel.getPayFloatAmount());                      //实际支付金额
+            data.put("payAmount", DecimalFormatUtil.format2Point(orderModel.getPayFloatAmount()));              //实际支付金额
+
             //data.put("actualAmount", orderModel.getActualAmount());                     //实际金额
             //data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
 
