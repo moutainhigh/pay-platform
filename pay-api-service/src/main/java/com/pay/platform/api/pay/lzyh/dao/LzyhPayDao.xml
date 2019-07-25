@@ -43,7 +43,7 @@
     <select id="queryTradeCodeUsedPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
         select format(pay_float_amount , 2) as pay_float_amount
         from tb_order
-        where trade_code_id = #{tradeCodeId} and format(order_amount , 0) = format(${orderAmount} , 0) and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
+        where trade_code_id = #{tradeCodeId} and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
     </select>
 
     <!-- 根据柳行回调信息匹配订单：5分钟内 + 未支付 + 浮动金额;

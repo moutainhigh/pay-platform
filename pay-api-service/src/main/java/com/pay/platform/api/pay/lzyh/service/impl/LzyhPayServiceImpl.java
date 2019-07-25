@@ -5,6 +5,7 @@ import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.lzyh.dao.LzyhPayDao;
 import com.pay.platform.api.pay.lzyh.service.LzyhPayService;
+import com.pay.platform.api.pay.lzyh.util.LzyhUtil;
 import com.pay.platform.api.pay.unified.dao.UnifiedPayDao;
 import com.pay.platform.common.context.AppContext;
 import com.pay.platform.common.plugins.redis.RedisLock;
@@ -20,10 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * User: zjt
@@ -61,7 +59,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
      * @return
      */
     @Override
-    public Map<String, Object> queryLooperTradeCodeByLzyh(String codeNum, String merchantId, String payChannelId, String orderAmount) {
+    public List<Map<String, Object>> queryLooperTradeCodeByLzyh(String codeNum, String merchantId, String payChannelId, String orderAmount) {
         //1、去除已达到单日收款限制的号
         //2、根据单日收款笔数、单日收款金额排序；从小到大排序；
         List<Map<String, Object>> list = lzyhPayDao.queryLooperTradeCodeByLzyh(merchantId, payChannelId, orderAmount);
@@ -72,7 +70,9 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             if (StringUtil.isNotEmpty(codeNum)) {
                 for (Map<String, Object> map : list) {
                     if (codeNum.equalsIgnoreCase(map.get("code_num").toString())) {
-                        return map;
+                        List<Map<String,Object>> codeNumList = new ArrayList<>();
+                        codeNumList.add(map);
+                        return codeNumList;
                     }
                 }
                 return null;
@@ -80,7 +80,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
 
             //3、获取已经连接socket,在线的号
             //return appWebSocketService.getOnLineSocket(list);
-            return list.get(0);
+            return list;
         }
 
         return null;
@@ -102,7 +102,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
     @Override
     public OrderModel createOrderByLzyh(String merchantNo, String merchantOrderNo, String orderAmount, String payWay, String notifyUrl, String returnUrl, String tradeCodeId, String tradeCodeNum) throws Exception {
 
-        //1、订单手续费计算
+        //1、基本参数封装
         String platformOrderNo = OrderNoUtil.getOrderNoByUUId();
         OrderModel orderModel = new OrderModel();
         orderModel.setMerchantNo(merchantNo);
@@ -113,7 +113,6 @@ public class LzyhPayServiceImpl implements LzyhPayService {
         orderModel.setReturnUrl(returnUrl);
         orderModel.setPayWay(payWay);
         orderModel.setId(UUID.randomUUID().toString());
-        orderService.rateHandle(orderModel);
 
         RedisLock lock = null;
 
@@ -123,47 +122,39 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             lock = new RedisLock(redisTemplate, "createOrderTradeCodeLock::" + tradeCodeId);
             if (lock.lock()) {
 
-                //2、判断1个小时内是否有重复整数金额的订单；
-                int existsAmount = lzyhPayDao.queryPayFloatAmountIsExists(tradeCodeId, orderAmount);
-                double payFloatAmount;
+                //2、生成支付浮动金额；
+                //总浮动金额池
+                List<Double> payFloatAmountList = LzyhUtil.getPayFloatAmountList(Double.parseDouble(orderAmount));
 
-                //已经存在了该整数金额,则需要向下开始浮动,避免金额重复
-                if (existsAmount > 0) {
+                //过去1小时内,已使用过的金额
+                List<Double> usedPayFloatAmountList = lzyhPayDao.queryTradeCodeUsedPayFloatAmount(tradeCodeId);
 
-                    payFloatAmount = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), 0.01);
-                    List<Double> usedPayFloatAmount = lzyhPayDao.queryTradeCodeUsedPayFloatAmount(tradeCodeId, orderAmount);
-                    if (usedPayFloatAmount != null && usedPayFloatAmount.size() > 0) {
-                        for (int i = 0; i < 50; i++) {
-
-                            //判断在过去1小时内是否使用过该金额,如果使用过,则继续向下浮动
-                            if (!usedPayFloatAmount.contains(payFloatAmount)) {
-                                break;
-                            }
-
-                            //每次向下浮动1分钱;
-                            payFloatAmount = DecimalCalculateUtil.sub(payFloatAmount, 0.01);
-
-                        }
-                    }
-
-                }
-                //1个小时内,没用使用过该整数金额; 则无需向下浮动
-                else {
-                    payFloatAmount = Double.parseDouble(orderAmount);
+                //去除已使用过的金额; 只保留过去1小时内未使用过的金额；
+                if (usedPayFloatAmountList != null && usedPayFloatAmountList.size() > 0) {
+                    payFloatAmountList.removeAll(usedPayFloatAmountList);
                 }
 
-                //为避免出错,造成损失,当浮动的金额超过5毛钱时,拒绝下单；
-                //代表同一个号,同一个金额下了50单；向下浮动了50次
-                double div = DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), payFloatAmount);
-                if (div >= 0.5) {
+                if (payFloatAmountList == null || payFloatAmountList.size() == 0) {
                     return null;
                 }
 
+                //从浮动金额池里面,随机产生一个金额作为支付金额
+                int randomIndex = new Random().nextInt(payFloatAmountList.size());
+                double payFloatAmount = payFloatAmountList.get(randomIndex);
+
+                //为避免出错,造成损失,当浮动的金额超过20元时;拒绝下单; 每次浮动1元；代表浮动了20次；
+                double div = Math.abs(DecimalCalculateUtil.sub(Double.parseDouble(orderAmount), payFloatAmount));
+                if (div >= 20) {
+                    return null;
+                }
                 orderModel.setPayFloatAmount(String.valueOf(payFloatAmount));
                 orderModel.setTradeCodeId(tradeCodeId);
                 orderModel.setTradeCodeNum(tradeCodeNum);
 
-                //3、创建订单
+                //3、费率计算
+                orderService.rateHandle(orderModel);
+
+                //4、创建订单
                 int count = orderDao.createOrder(orderModel);
                 if (count > 0) {
                     return orderModel;
@@ -207,7 +198,7 @@ public class LzyhPayServiceImpl implements LzyhPayService {
             JSONObject reqJson = new JSONObject();
             reqJson.put("nonce", orderId);
             reqJson.put("messageType", SocketMessageType.MESSAGE_GET_QR_CODE);
-            reqJson.put("amount", payFloatAmount);
+            reqJson.put("amount", Math.round(Double.parseDouble(payFloatAmount)));          //去除小数点
             reqJson.put("remarks", "");
 
             String sign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJson.toString()), secret);

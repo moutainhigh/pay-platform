@@ -102,8 +102,8 @@ public class LzyhPayController extends BaseController {
             Map<String, Object> payChannelInfo = orderService.queryPayChannelByCode(payWay);
             String merchantId = merchantModel.getId();
             String payChannelId = payChannelInfo.get("id").toString();
-            Map<String, Object> tradeCode = lzyhPayService.queryLooperTradeCodeByLzyh(codeNum, merchantId, payChannelId, orderAmount);
-            if (tradeCode == null) {
+            List<Map<String, Object>> tradeCodeList = lzyhPayService.queryLooperTradeCodeByLzyh(codeNum, merchantId, payChannelId, orderAmount);
+            if (tradeCodeList == null || tradeCodeList.size() == 0) {
                 json.put("status", "0");
                 json.put("msg", "暂无可用收款通道,请联系客服！");
                 writeJson(response, json.toString());
@@ -111,8 +111,8 @@ public class LzyhPayController extends BaseController {
             }
 
             //校验最小金额、最大金额
-            double minAmount = Double.parseDouble(tradeCode.get("min_amount").toString());
-            double maxAmount = Double.parseDouble(tradeCode.get("max_amount").toString());
+            double minAmount = Double.parseDouble(tradeCodeList.get(0).get("min_amount").toString());
+            double maxAmount = Double.parseDouble(tradeCodeList.get(0).get("max_amount").toString());
             if (Double.parseDouble(orderAmount) < minAmount || Double.parseDouble(orderAmount) > maxAmount) {
                 json.put("status", "0");
                 json.put("msg", "无效的订单金额,请联系客服！");
@@ -121,9 +121,23 @@ public class LzyhPayController extends BaseController {
             }
 
             //完成创建订单
-            String tradeCodeId = tradeCode.get("id").toString();
-            String tradeCodeNum = tradeCode.get("code_num").toString();
-            OrderModel orderModel = lzyhPayService.createOrderByLzyh(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId, tradeCodeNum);
+            OrderModel orderModel = null;
+            String tradeCodeNum = null;
+            String secret = null;
+
+            //由于可能同时存在多个收款码,且有些金额已被占用;  此处需要遍历收款码,找到可以生成订单的收款码；
+            for (Map<String, Object> tradeCode : tradeCodeList) {
+                String tradeCodeId = tradeCode.get("id").toString();
+                tradeCodeNum = tradeCode.get("code_num").toString();
+                secret = tradeCode.get("secret").toString();
+
+                orderModel = lzyhPayService.createOrderByLzyh(merchantNo, merchantOrderNo, orderAmount, payWay, notifyUrl, returnUrl, tradeCodeId, tradeCodeNum);
+                if (orderModel != null) {
+                    break;
+                }
+
+            }
+
             if (orderModel == null) {
                 json.put("status", "0");
                 json.put("msg", "下单失败,当前支付人数过多,请稍后再试！");
@@ -132,7 +146,7 @@ public class LzyhPayController extends BaseController {
             }
 
             //发送获取收款码消息
-            lzyhPayService.sendGetQrCodeMessage(orderModel.getId(), tradeCodeNum, tradeCode.get("secret").toString(), orderModel.getPayFloatAmount());
+            lzyhPayService.sendGetQrCodeMessage(orderModel.getId(), tradeCodeNum, secret, orderModel.getPayFloatAmount());
 
             json.put("status", "1");
             json.put("msg", "下单成功");
@@ -389,9 +403,9 @@ public class LzyhPayController extends BaseController {
             JSONObject reqJson = new JSONObject(text);
             String codeNum = reqJson.getString("codeNum");
 
-            json.put("status","1");
-            json.put("msg","请求成功");
-            json.put("data",lzyhPayService.getWaitQrCodeData(codeNum));
+            json.put("status", "1");
+            json.put("msg", "请求成功");
+            json.put("data", lzyhPayService.getWaitQrCodeData(codeNum));
             writeJson(response, json.toString());
 
         } catch (Exception e) {

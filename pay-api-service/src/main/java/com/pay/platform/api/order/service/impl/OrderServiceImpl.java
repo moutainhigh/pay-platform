@@ -70,14 +70,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void rateHandle(OrderModel orderModel) throws Exception {
 
+        //以实际支付金额作为基准；计算分润；
+        double baseAmount = Double.parseDouble(orderModel.getPayFloatAmount());
+
         //1,计算商家手续费
         Map<String, Object> payChannelInfo = orderDao.queryPayChannelByCode(orderModel.getPayWay());
         String payChannelId = payChannelInfo.get("id").toString();
         Map<String, Object> merchantInfo = orderDao.queryMerchantRateByMerchantNo(orderModel.getMerchantNo(), payChannelId);
         String merchantId = merchantInfo.get("id").toString();
-        double merchantRate = Double.parseDouble(merchantInfo.get("merchantRate").toString());             //商家费率
-        double handlingFee = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), merchantRate);          //商家手续费 = 订单金额 * 商家费率
-        double actualAmount = DecimalCalculateUtil.sub(orderModel.getOrderAmount(), handlingFee);          //商家实收款 = 订单金额 - 商家手续费
+        double merchantRate = Double.parseDouble(merchantInfo.get("merchantRate").toString());              //商家费率
+        double handlingFee = DecimalCalculateUtil.mul(baseAmount, merchantRate);                            //商家手续费 = 订单金额 * 商家费率
+        double actualAmount = DecimalCalculateUtil.sub(baseAmount, handlingFee);                            //商家实收款 = 订单金额 - 商家手续费
 
         //2、计算代理费率及其收入
         Map<String, Object> agentInfo = orderDao.queryAgentRateByMerchantNo(orderModel.getMerchantNo(), payChannelId);
@@ -90,14 +93,14 @@ public class OrderServiceImpl implements OrderService {
         //商家直属代理的费率及利润
         double agentRate = Double.parseDouble(agentInfo.get("agentRate").toString());                    //代理费率
         double agentProfitRate = DecimalCalculateUtil.sub(merchantRate, agentRate);                      //代理利润费率（例如代理为1.6,下级商家为2.0,则利润空间为0.4）
-        double agentAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), agentProfitRate);     //代理收入 = 订单金额 * 代理利润空间
+        double agentAmount = DecimalCalculateUtil.mul(baseAmount, agentProfitRate);                      //代理收入 = 订单金额 * 代理利润空间
 
         //存在二级代理;则需要计算上级代理的分润;
         if ("2".equalsIgnoreCase(agentInfo.get("level").toString())) {
             String parentAgentId = parentAgentInfo.get("id").toString();
             double parentAgentRate = Double.parseDouble(parentAgentInfo.get("agentRate").toString());                     //上级代理的费率
             double parentAgentProfitRate = DecimalCalculateUtil.sub(agentRate, parentAgentRate);                          //上级代理的利润比例（一级为1.4;二级代理1.6,则利润空间为0.2）
-            double parentAgentAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), parentAgentProfitRate);      //上级代理的利润空间                                                                             //上级代理的利润金额
+            double parentAgentAmount = DecimalCalculateUtil.mul(baseAmount, parentAgentProfitRate);      //上级代理的利润空间                                                                             //上级代理的利润金额
             orderModel.setParentAgentId(parentAgentId);
             orderModel.setParentAgentAmount(parentAgentAmount);
             orderModel.setParentAgentRate(parentAgentRate);
@@ -109,16 +112,16 @@ public class OrderServiceImpl implements OrderService {
         double platformAmount = 0;
         if ("1".equalsIgnoreCase(agentInfo.get("level").toString())) {
             platformProfitRate = DecimalCalculateUtil.sub(agentRate, costRate);                             //平台利润费率（例如成本为1.2，放给代理为1.6，则利润空间为0.4））
-            platformAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), platformProfitRate);     //平台收入
+            platformAmount = DecimalCalculateUtil.mul(baseAmount, platformProfitRate);     //平台收入
         } else if ("2".equalsIgnoreCase(agentInfo.get("level").toString())) {
             //平台利润费率（例如成本为1.2，放给一级代理为1.4，二级代理为1.8，则平台利润空间为0.2）
             double parentAgentRate = Double.parseDouble(parentAgentInfo.get("agentRate").toString());
             platformProfitRate = DecimalCalculateUtil.sub(parentAgentRate, costRate);
-            platformAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), platformProfitRate);     //平台收入
+            platformAmount = DecimalCalculateUtil.mul(baseAmount, platformProfitRate);     //平台收入
         }
 
         //4,计算通道收入（即码商、上游渠道的综合收入）
-        double channelAmount = DecimalCalculateUtil.mul(orderModel.getOrderAmount(), costRate);     //订单金额 * 成本费率
+        double channelAmount = DecimalCalculateUtil.mul(baseAmount, costRate);     //订单金额 * 成本费率
 
         //5、将参数设置到订单实体
         orderModel.setChannelId(payChannelId);
@@ -175,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
                     count += accountAmountDao.addAccountAmountBillLog(agentUserId, orderModel.getPlatformOrderNo(), AccountAmountType.paySuccess.getCode(), orderModel.getAgentAmount());
 
                     //存在二级代理,则需要增加上级代理的账户余额,并记录流水
-                    if(StringUtil.isNotEmpty(orderModel.getParentAgentId())){
+                    if (StringUtil.isNotEmpty(orderModel.getParentAgentId())) {
                         existsParentAgent = true;
                         String parentAgentId = orderModel.getParentAgentId();
                         String parentAgentUserId = accountAmountDao.queryUserIdByAgentId(parentAgentId);

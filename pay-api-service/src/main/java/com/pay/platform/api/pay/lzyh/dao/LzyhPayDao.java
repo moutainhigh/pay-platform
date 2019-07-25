@@ -33,13 +33,12 @@ public interface LzyhPayDao {
     int queryPayFloatAmountIsExists(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
 
     /**
-     * 查询指定整数金额，在1个小时内使用过的支付浮动金额
+     * 判断收款码在1个小时内,已经使用过的浮动金额
      *
      * @param tradeCodeId
-     * @param orderAmount
      * @return
      */
-    List<Double> queryTradeCodeUsedPayFloatAmount(@Param("tradeCodeId") String tradeCodeId, @Param("orderAmount") String orderAmount);
+    List<Double> queryTradeCodeUsedPayFloatAmount(@Param("tradeCodeId") String tradeCodeId);
 
     /**
      * 根据回调金额查询匹配的订单
