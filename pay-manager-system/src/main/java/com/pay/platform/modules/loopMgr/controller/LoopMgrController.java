@@ -649,7 +649,8 @@ public class LoopMgrController extends BaseController {
         }
 
         //2、获取支付链接
-        String tradeId = respJson.getString("data");
+        JSONObject data = respJson.getJSONObject("data");
+        String tradeId = data.getString("orderId");        //respJson.getString("data");
         params = new HashMap<>();
         params.put("tradeId", tradeId);
         params.put("merchantNo", merchantNo);
