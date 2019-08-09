@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * User: zjt
@@ -145,12 +142,16 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
-            //发送获取收款码消息
-            lzyhPayService.sendGetQrCodeMessage(orderModel.getId(), tradeCodeNum, secret, orderModel.getPayFloatAmount());
-
             json.put("status", "1");
             json.put("msg", "下单成功");
-            json.put("data", orderModel.getId());
+//            json.put("data", orderModel.getId());
+
+            //扩展参数
+            Map<String,Object> data = new HashMap<>();
+            data.put("orderId" , orderModel.getId());
+            data.put("payAmount" , orderModel.getPayFloatAmount());
+            json.put("data" , data);
+
             writeJson(response, json.toString());
 
         } catch (Exception e) {
@@ -193,15 +194,20 @@ public class LzyhPayController extends BaseController {
                 return;
             }
 
-            //首次获取收款码
             String payQrCodeLink = null;
             if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
                 payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
-                getCurrentLogger().info("首次获取收款码" + orderInfo.get("platform_order_no").toString());
             }
+            String tradeCodeId = orderInfo.get("trade_code_id").toString();
+            Map<String, Object> tradeCodeInfo = unifiedPayService.queryTradeCodeById(tradeCodeId);
+            String payFloatAmount = orderInfo.get("pay_float_amount").toString();
 
-            //还没有生成完二维码,则每隔500毫秒查询一次; 等待生成完
             if (StringUtil.isEmpty(payQrCodeLink)) {
+
+                //第一次为空,则向app发送生成收款码的消息
+                lzyhPayService.sendGetQrCodeMessage(orderInfo.get("id").toString(), tradeCodeInfo.get("code_num").toString(), tradeCodeInfo.get("secret").toString(), payFloatAmount);
+
+                //等待生成收款码,每隔500毫秒查询一次
                 for (int i = 0; i < 5; i++) {
 
                     try {
@@ -223,8 +229,9 @@ public class LzyhPayController extends BaseController {
             long endTime = System.currentTimeMillis();
             getCurrentLogger().info(orderInfo.get("platform_order_no").toString() + "收款码获取结果:" + payQrCodeLink + " 耗时:" + (endTime - beginTime) + "毫秒");
 
-            //无论如何都返回h5页面; 在页面进行二次等待； 例如3秒、5秒的倒计时
+            //补偿机制,第二次向app发送生成收款码的消息；在页面进行二次等待； 例如3秒、5秒的倒计时
             if (StringUtil.isEmpty(payQrCodeLink)) {
+                lzyhPayService.sendGetQrCodeMessage(orderInfo.get("id").toString(), tradeCodeInfo.get("code_num").toString(), tradeCodeInfo.get("secret").toString(), payFloatAmount);
                 payQrCodeLink = IpUtil.getBaseURL(request) + "/openApi/toH5PayPage?tradeId=" + tradeId;
             }
 

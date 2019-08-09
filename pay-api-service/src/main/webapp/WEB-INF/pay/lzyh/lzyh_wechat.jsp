@@ -83,6 +83,7 @@
             1、请截屏保存到相册<br/>
             2、打开微信扫一扫<br/>
             3、点击相册>选择二维码图片>完成支付<br/>
+            <p style="font-weight: bold;margin-top:6px;">金额随机浮动,系统将按实际支付金额上分</p>
             <p style="font-weight: bold;margin-top:6px;">如遇到FK提示,请点击继续完成支付。</p>
             <img src="${baseURL}/resources/images/pay/xiangce.jpg" style="margin-top:10px;"/>
         </div>
