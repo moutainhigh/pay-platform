@@ -60,8 +60,8 @@ public class MerchantNotifyServiceImpl implements MerchantNotifyService {
             data.put("payStatus", orderModel.getPayStatus());                   //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
             data.put("payWay", orderModel.getPayWay());                         //支付方式(1:支付宝 2:微信)
             data.put("payTime", orderModel.getPayTime());                               //支付时间
-            data.put("orderAmount", orderModel.getOrderAmount());                        //订单金额(元)
-            data.put("payAmount", DecimalFormatUtil.format2Point(orderModel.getPayFloatAmount()));              //实际支付金额
+            //data.put("orderAmount", orderModel.getOrderAmount());                        //订单金额(元)
+            //data.put("payAmount", DecimalFormatUtil.format2Point(orderModel.getPayFloatAmount()));              //实际支付金额
 
             //data.put("actualAmount", orderModel.getActualAmount());                     //实际金额
             //data.put("handlingFee", orderModel.getHandlingFee());                       //手续费
