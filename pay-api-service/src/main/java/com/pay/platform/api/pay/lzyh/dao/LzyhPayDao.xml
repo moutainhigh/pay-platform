@@ -41,7 +41,7 @@
 
     <!-- 查询指定整数金额，在1个小时内使用过的支付浮动金额 -->
     <select id="queryTradeCodeUsedPayFloatAmount" parameterType="java.lang.String" resultType="java.lang.Double">
-        select format(pay_float_amount , 2) as pay_float_amount
+        select convert(pay_float_amount, decimal(20,2)) as pay_float_amount
         from tb_order
         where trade_code_id = #{tradeCodeId} and create_time > DATE_SUB(NOW(), INTERVAL 60 MINUTE);
     </select>
