@@ -62,6 +62,16 @@ public class SystemLogAspect {
                 operationLogModel.setUserName("匿名用户");
             }
 
+
+//            //类名
+//            String className = joinPoint.getTarget().getClass().getName();
+//            //请求方法
+//            String method =  joinPoint.getSignature().getName() + "()";
+//            //方法参数
+//            String methodParam = JSON.toJSONString(joinPoint.getArgs());
+//            //方法描述
+//            String methodDescription = getControllerMethodDescription(joinPoint);
+
             operationLogModel.setIp(IpUtil.getIpAddress(request));
             operationLogModel.setStatus(1);
             operationLogModel.setModule(getControllerMethodModule(joinPoint));
