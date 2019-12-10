@@ -322,19 +322,6 @@ public class UnifiedPayController extends BaseController {
     }
 
     /**
-     * 模拟测试商家回调
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping({"/openApi/testMerchantNotify"})
-    public void testMerchantNotify(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        response.getWriter().write("SUCCESS");
-        response.getWriter().flush();
-    }
-
-    /**
      * 获取在线的设备：成功建立socket连接的
      *
      * @param response
@@ -375,49 +362,5 @@ public class UnifiedPayController extends BaseController {
         writeJson(response, json.toString());
     }
 
-
-    /**
-     * 测试发送app消息
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping({"/openApi/testSendAppMessage"})
-    public void testSendAppMessage(HttpServletResponse response, HttpServletRequest request, String codeNum) throws Exception {
-
-        String nonce = UUID.randomUUID().toString();
-
-        Map<String, Object> tradeCode = unifiedPayService.queryTradeCodeByCudeNum(codeNum);
-        if(tradeCode == null){
-            return;
-        }
-
-        String secret = tradeCode.get("secret").toString();
-
-        JSONObject reqJson = new JSONObject();
-        reqJson.put("nonce", nonce);
-        reqJson.put("messageType", "test");
-        reqJson.put("content", "测试消息");
-        String sign = AppSignUtil.buildAppSign(JsonUtil.parseToMapString(reqJson.toString()), secret);
-        reqJson.put("sign", sign);
-
-        //线路1：发送socket消息
-        AppContext.getExecutorService().submit(new Runnable() {
-            @Override
-            public void run() {
-                ServerSocketThread.sendMessageToUser(codeNum, reqJson.toString());
-            }
-        });
-
-//        //线路2：发送websocket消息
-//        AppContext.getExecutorService().submit(new Runnable() {
-//            @Override
-//            public void run() {
-//                appWebSocketService.sendMessageToUser(codeNum, reqJson.toString());
-//            }
-//        });
-
-    }
 
 }
