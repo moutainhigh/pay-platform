@@ -12,7 +12,7 @@ import com.pay.platform.security.util.AppSignUtil;
 import org.json.JSONObject;
 
 /**
- * User: zjt
+ *
  * DateTime: 2019/7/15 17:41
  */
 public class AliPushUtil {

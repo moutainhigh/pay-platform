@@ -28,7 +28,7 @@
             border-color: #3AB035;
         }
 
-        .btn-danger {
+        .btn-dangeRr {
             color: #fff;
             background-color: #d9534
         }

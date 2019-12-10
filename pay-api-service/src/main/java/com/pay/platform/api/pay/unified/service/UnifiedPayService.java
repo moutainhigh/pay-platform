@@ -3,7 +3,7 @@ package com.pay.platform.api.pay.unified.service;
 import java.util.Map;
 
 /**
- * User: zjt
+ *
  * DateTime: 2019/5/22 16:20
  */
 public interface UnifiedPayService {

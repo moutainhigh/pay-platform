@@ -1,7 +1,7 @@
 package com.pay.platform.common.websocket.config;
 
 /**
- * User: zjt
+ *
  * DateTime: 2019/7/17 15:42
  */
 public class SocketMessageType {

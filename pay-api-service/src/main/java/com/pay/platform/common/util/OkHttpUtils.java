@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * User: zjt
+ *
  * DateTime: 2019/6/2 22:46
  */
 public class OkHttpUtils {
@@ -53,7 +53,6 @@ public class OkHttpUtils {
                 .addHeader("X-Authorization", token)
                 .get().build();
         okHttpClient.newCall(request).enqueue(callback);
-
     }
 
     /**

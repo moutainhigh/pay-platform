@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * User: zjt
+ *
  * DateTime: 2019/5/23 21:16
  */
 public class QrcodeUtil {
