@@ -1,6 +1,7 @@
 package com.pay.platform.api.pay.unified.controller;
 
 import com.pay.platform.api.base.controller.BaseController;
+import com.pay.platform.api.order.model.OrderModel;
 import com.pay.platform.api.order.service.OrderService;
 import com.pay.platform.api.pay.unified.service.UnifiedPayService;
 import com.pay.platform.common.context.AppContext;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -249,8 +251,17 @@ public class UnifiedPayController extends BaseController {
 
             String payStatus = payPageData.get("payStatus").toString();
             if (PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)) {
+
+                Map<String, Object> data = new HashMap();
+                data.put("merchantOrderNo", payPageData.get("merchantOrderNo").toString());           //商户订单号
+                data.put("platformOrderNo", payPageData.get("platformOrderNo").toString());              //平台订单号
+                data.put("payStatus", payStatus);                    //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
+                data.put("payWay",  payPageData.get("payWay").toString());                        //支付方式（参照通道类型）
+                data.put("payTime", payPageData.get("payTime").toString());                              //支付时间
+
                 json.put("status", "1");
-                json.put("msg", "支付成功！");
+                json.put("msg", "查询成功！");
+                json.put("data", data);
                 writeJson(response, json.toString());
                 return;
             }
