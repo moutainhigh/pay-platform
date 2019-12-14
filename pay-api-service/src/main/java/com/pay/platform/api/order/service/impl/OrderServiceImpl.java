@@ -89,6 +89,9 @@ public class OrderServiceImpl implements OrderService {
         if (agentInfo != null && agentInfo.get("parent_id") != null && StringUtil.isNotEmpty(agentInfo.get("parent_id").toString())) {
             parentAgentInfo = orderDao.queryAgentRateInfo(agentInfo.get("parent_id").toString(), payChannelId);
         }
+        if(agentInfo.get("agentRate") == null){
+            throw new Exception("请先设置费率。");
+        }
 
         //商家直属代理的费率及利润
         double agentRate = Double.parseDouble(agentInfo.get("agentRate").toString());                    //代理费率
