@@ -141,9 +141,14 @@ public class UnifiedPayController extends BaseController {
             else if (PayChannelEnum.ds_hj_zfb_wap.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.ds_hj_wx_wap.getCode().equalsIgnoreCase(payWay)
                     || PayChannelEnum.ds_zl_wx_wap.getCode().equalsIgnoreCase(payWay)) {
                 ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
-                modelAndView.addObject("status", "1");
-                modelAndView.addObject("msg", "获取支付链接成功！");
-                modelAndView.addObject("data", orderInfo.get("pay_qr_code_link").toString());
+                if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
+                    modelAndView.addObject("status", "1");
+                    modelAndView.addObject("msg", "获取支付链接成功！");
+                    modelAndView.addObject("data", orderInfo.get("pay_qr_code_link").toString());
+                } else {
+                    modelAndView.addObject("status", "0");
+                    modelAndView.addObject("msg", "获取支付链接失败！");
+                }
                 return modelAndView;
             }
 
