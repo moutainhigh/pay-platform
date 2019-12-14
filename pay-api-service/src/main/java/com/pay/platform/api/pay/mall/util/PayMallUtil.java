@@ -30,7 +30,7 @@ public class PayMallUtil {
             params.put("clientIp", clientIp);
 
             params.put("timestamp", System.currentTimeMillis() + "");
-            params.put("sign", ApiSignUtil.buildSignByMd5(params, MALL_SYSTEM_API_SECRET));
+            params.put("sign", ApiSignUtil.buildSignByMd5(params, MALL_SYSTEM_API_SECRET) );
 
             String jsonStr = JsonUtil.parseToJsonStr(params);
             logger.info("电商下单-请求报文:" + jsonStr);

@@ -25,7 +25,7 @@ public class PayMallServiceImpl implements PayMallService {
     @Autowired
     private OrderDao orderDao;
 
-    @Value("mall.server.url")
+    @Value("${mall.server.url}")
     private String mallServerUrl;
 
     @Override
@@ -58,7 +58,7 @@ public class PayMallServiceImpl implements PayMallService {
                 JSONObject resultJson = new JSONObject(result);
 
                 //更新支付链接,返回订单id
-                if ("1".equals(resultJson.getString("status"))) {
+                if (resultJson.has("status") &&  "1".equals(resultJson.getString("status"))) {
                     String data = resultJson.getString("data");
                     orderService.updateOrderPayQrCodeLink(orderModel.getId(), data);
                 }
