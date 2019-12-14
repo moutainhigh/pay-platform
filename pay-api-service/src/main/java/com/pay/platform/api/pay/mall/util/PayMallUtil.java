@@ -40,6 +40,7 @@ public class PayMallUtil {
             return result;
 
         } catch (Exception e) {
+            logger.info("电商下单失败,原因:" + e.getMessage());
             e.printStackTrace();
         }
 
