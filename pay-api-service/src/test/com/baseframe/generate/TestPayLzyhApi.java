@@ -28,9 +28,9 @@ public class TestPayLzyhApi {
     String merchantSecret = "617641b2e9b146dc80ad8c1fcbb758ac";         //商家密钥：调接口签名用
     String notifySecret = "b42d2abaad7cdb72";                           //回调密钥：接收支付回调,解密数据用
 
-//    String serverURL = "http://www.b9y37.cn:20021";                //生产环境请求地址
+    String serverURL = "http://www.b9y37.cn:20021";                //生产环境请求地址
 
-    String serverURL = "http://localhost:8080";        //系统请求地址
+//    String serverURL = "http://localhost:8080";        //系统请求地址
 
     /**
      * 测试统一下单
@@ -40,14 +40,14 @@ public class TestPayLzyhApi {
     @Test
     public void unifiedCreateOrder() throws Exception {
 
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 5; i++) {
 
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
 
             Map<String, String> params = new HashMap();
             params.put("merchantNo", merchantNo);
             params.put("merchantOrderNo", System.currentTimeMillis() + "");
-            params.put("orderAmount", "800");
+            params.put("orderAmount", "1300");
             params.put("payWay", "lzyhWechat");
             params.put("notifyUrl", serverURL + "/openApi/testMerchantNotify");
             params.put("returnUrl", "");
@@ -313,22 +313,22 @@ public class TestPayLzyhApi {
     @Test
     public void testGetPayFloatAmountList() {
 
-//        List<Double> payFloatAmountList = LzyhUtil.getPayFloatAmountList(300.00);
-//
-//        List<Double> usedPayFloatAmountList = new ArrayList<>();
-//        usedPayFloatAmountList.add(301.00);
-//        usedPayFloatAmountList.add(302.00);
-//        usedPayFloatAmountList.add(303.00);
-//
-//        System.out.println(JsonUtil.parseToJsonStr(payFloatAmountList));
-//
-//        payFloatAmountList.removeAll(usedPayFloatAmountList);
-//        System.out.println(JsonUtil.parseToJsonStr(payFloatAmountList));
-//
+        List<Double> payFloatAmountList = LzyhUtil.getPayFloatAmountList(300.00);
+        System.out.println("浮动金额池1：" + JsonUtil.parseToJsonStr(payFloatAmountList));
+
+        List<Double> usedPayFloatAmountList = new ArrayList<>();
+        usedPayFloatAmountList.add(301.00);
+        usedPayFloatAmountList.add(302.00);
+        usedPayFloatAmountList.add(303.00);
+        usedPayFloatAmountList.add(285.00);
+
+        payFloatAmountList.removeAll(usedPayFloatAmountList);
+        System.out.println("浮动金额池2：" + JsonUtil.parseToJsonStr(payFloatAmountList));
+
 //        int randomIndex = new Random().nextInt(payFloatAmountList.size());
 //        System.out.println(" ---> " + payFloatAmountList.get(randomIndex));
 
-        System.out.println(Math.round(Double.parseDouble("300.0000")));          //去除小数点;
+//        System.out.println(Math.round(Double.parseDouble("300.0000")));          //去除小数点;
 
     }
 

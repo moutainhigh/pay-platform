@@ -261,9 +261,18 @@ public class UnifiedPayController extends BaseController {
             //获取请求提交数据
             String text = IOUtils.toString(request.getInputStream(), "utf-8");
             JSONObject reqJson = new JSONObject(text);
+            String merchantNo = reqJson.getString("merchantNo");
             String merchantOrderNo = reqJson.getString("merchantOrderNo");
             OrderModel orderModel = orderService.queryOrderByOrderNo(merchantOrderNo);
             if (orderModel == null) {
+                json.put("status", "0");
+                json.put("msg", "订单不存在");
+                writeJson(response, json.toString());
+                return;
+            }
+
+            //禁止查询其它商家的订单
+            if(!merchantNo.equals(orderModel.getMerchantNo())){
                 json.put("status", "0");
                 json.put("msg", "订单不存在");
                 writeJson(response, json.toString());
