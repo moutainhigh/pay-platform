@@ -33,7 +33,7 @@ import java.util.UUID;
  * 统一支付接口：
  * <p>
  * 1、所有的支付接口,根据payWay转发到对应的支付通道接口
- * 2、公共接口也在此处调用
+ * 2、公共接口也在此处调用,例如订单状态查询...
  */
 @Controller
 public class UnifiedPayController extends BaseController {
@@ -71,6 +71,11 @@ public class UnifiedPayController extends BaseController {
             //柳行聚合码（支付宝与微信）
             else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(payWay)) {
                 return new ModelAndView("forward:/api/createOrderByLzyh");
+            }
+            //电商模式
+            else if (PayChannelEnum.ds_hj_zfb_wap.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.ds_hj_wx_wap.getCode().equalsIgnoreCase(payWay)
+                    || PayChannelEnum.ds_zl_wx_wap.getCode().equalsIgnoreCase(payWay)) {
+                return new ModelAndView("forward:/api/createOrderByMall");
             }
 
             ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
@@ -123,7 +128,7 @@ public class UnifiedPayController extends BaseController {
             //话冲：直接返回支付链接
             if (PayChannelEnum.hcZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.hcWechat.getCode().equalsIgnoreCase(payWay)) {
                 ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
-                modelAndView.addObject("status", "0");
+                modelAndView.addObject("status", "1");
                 modelAndView.addObject("msg", "获取支付链接成功！");
                 modelAndView.addObject("data", orderInfo.get("pay_qr_code_link").toString());
                 return modelAndView;
@@ -131,6 +136,15 @@ public class UnifiedPayController extends BaseController {
             //柳行聚合码：转发到对应接口
             else if (PayChannelEnum.lzyhZfb.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.lzyhWechat.getCode().equalsIgnoreCase(payWay)) {
                 return new ModelAndView("forward:/api/getPayLinkByLzyh");
+            }
+            //电商模式
+            else if (PayChannelEnum.ds_hj_zfb_wap.getCode().equalsIgnoreCase(payWay) || PayChannelEnum.ds_hj_wx_wap.getCode().equalsIgnoreCase(payWay)
+                    || PayChannelEnum.ds_zl_wx_wap.getCode().equalsIgnoreCase(payWay)) {
+                ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
+                modelAndView.addObject("status", "1");
+                modelAndView.addObject("msg", "获取支付链接成功！");
+                modelAndView.addObject("data", orderInfo.get("pay_qr_code_link").toString());
+                return modelAndView;
             }
 
             return null;
@@ -256,7 +270,7 @@ public class UnifiedPayController extends BaseController {
                 data.put("merchantOrderNo", payPageData.get("merchantOrderNo").toString());           //商户订单号
                 data.put("platformOrderNo", payPageData.get("platformOrderNo").toString());              //平台订单号
                 data.put("payStatus", payStatus);                    //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
-                data.put("payWay",  payPageData.get("payWay").toString());                        //支付方式（参照通道类型）
+                data.put("payWay", payPageData.get("payWay").toString());                        //支付方式（参照通道类型）
                 data.put("payTime", payPageData.get("payTime").toString());                              //支付时间
 
                 json.put("status", "1");
