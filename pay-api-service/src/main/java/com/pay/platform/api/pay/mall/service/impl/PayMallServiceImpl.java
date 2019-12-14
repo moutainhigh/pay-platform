@@ -39,6 +39,7 @@ public class PayMallServiceImpl implements PayMallService {
         orderModel.setMerchantOrderNo(merchantOrderNo);
         orderModel.setPlatformOrderNo(platformOrderNo);
         orderModel.setOrderAmount(Double.parseDouble(orderAmount));
+        orderModel.setPayFloatAmount(String.valueOf(orderAmount));
         orderModel.setNotifyUrl(notifyUrl);
         orderModel.setPayWay(payWay);
         orderModel.setId(UUID.randomUUID().toString());
