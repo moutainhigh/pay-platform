@@ -244,153 +244,55 @@ public class UnifiedPayController extends BaseController {
 
     }
 
-
     /**
-     * 查询订单状态
-     * <p>
+     * 订单查询
      *
      * @param request
      * @param response
      * @throws Exception
      */
-    @RequestMapping(value = "/openApi/queryOrderStatus", method = RequestMethod.POST)
-    public void queryOrderStatus(HttpServletRequest request, HttpServletResponse response, String orderId) throws Exception {
+    @RequestMapping(value = "/api/findOrder", method = RequestMethod.POST)
+    public void findOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         JSONObject json = new JSONObject();
 
         try {
 
-            Map<String, Object> payPageData = unifiedPayService.queryPayPageData(orderId);
-            if (payPageData == null) {
+            //获取请求提交数据
+            String text = IOUtils.toString(request.getInputStream(), "utf-8");
+            JSONObject reqJson = new JSONObject(text);
+            String merchantOrderNo = reqJson.getString("merchantOrderNo");
+            OrderModel orderModel = orderService.queryOrderByOrderNo(merchantOrderNo);
+            if (orderModel == null) {
                 json.put("status", "0");
-                json.put("msg", "订单不存在！");
+                json.put("msg", "订单不存在");
                 writeJson(response, json.toString());
                 return;
             }
 
-            String payStatus = payPageData.get("payStatus").toString();
-            if (PayStatusEnum.payed.getCode().equalsIgnoreCase(payStatus)) {
+            Map<String, Object> data = new HashMap();
+            data.put("merchantOrderNo", orderModel.getMerchantOrderNo());
+            data.put("platformOrderNo", orderModel.getPlatformOrderNo());
+            data.put("orderAmount", orderModel.getOrderAmount());
+            data.put("payStatus", orderModel.getPayStatus());
+            data.put("payWay", orderModel.getPayWay());
+            data.put("payTime", orderModel.getPayTime());
 
-                Map<String, Object> data = new HashMap();
-                data.put("merchantOrderNo", payPageData.get("merchantOrderNo").toString());           //商户订单号
-                data.put("platformOrderNo", payPageData.get("platformOrderNo").toString());              //平台订单号
-                data.put("payStatus", payStatus);                    //支付状态(waitPay:待支付 payed:已支付 payFail:支付失败)
-                data.put("payWay", payPageData.get("payWay").toString());                        //支付方式（参照通道类型）
-                data.put("payTime", payPageData.get("payTime").toString());                              //支付时间
+            json.put("status", "1");
+            json.put("msg", "查询成功");
+            json.put("data", data);
 
-                json.put("status", "1");
-                json.put("msg", "查询成功！");
-                json.put("data", data);
-                writeJson(response, json.toString());
-                return;
-            }
-
-            String createTime = payPageData.get("createTime").toString();
-            long orderTimeStamp = DateUtil.getTimeStamp(createTime);
-            long nowTimeStamp = DateUtil.getTimeStamp(new Date());
-            if (Math.abs(nowTimeStamp - orderTimeStamp) > (5 * 60)) {      //有效期5分钟,单位秒
-                json.put("status", "0");
-                json.put("msg", "订单已超时！");
-                writeJson(response, json.toString());
-            }
-
-            json.put("status", "2");
-            json.put("msg", "支付等待中！");
             writeJson(response, json.toString());
 
         } catch (Exception e) {
             e.printStackTrace();
+            getCurrentLogger().error(e.getMessage(), e);
             json.put("status", "0");
             json.put("msg", "服务器内部错误：" + e.getMessage());
-            writeJson(response, json.toString());
         } finally {
             getCurrentLogger().info("响应报文：{}", json.toString());
         }
 
-
     }
-
-    /**
-     * 获取付款二维码
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping({"/openApi/getPayQrcode"})
-    public void getPayQrcode(HttpServletResponse response, HttpServletRequest request) throws Exception {
-
-        String url = request.getParameter("payUrl");
-
-        //如果前端传递的是base64; 则进行解码
-        if (StringUtil.isNotEmpty(request.getParameter("isBase64"))) {
-            url = Base64Util.parseBase64(url);
-        }
-
-        QrcodeUtil.drawQrcodeImg(url, response);
-        response.setContentType("text/html");
-        response.setCharacterEncoding("utf-8");
-    }
-
-
-    /**
-     * 测试接口是否可用
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping({"/openApi/ping"})
-    public void ping(HttpServletResponse response, HttpServletRequest request) throws Exception {
-
-        JSONObject json = new JSONObject();
-
-        json.put("status", "1");
-        json.put("msg", "请求成功");
-        writeJson(response, json.toString());
-
-    }
-
-    /**
-     * 获取在线的设备：成功建立socket连接的
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping({"/openApi/getOnLineDevice"})
-    public void getOnLineDevice(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        JSONObject json = new JSONObject();
-        json.put("status", "1");
-        json.put("msg", "请求成功");
-        json.put("data", ClientSocketList.getOnLineSocketDevice());
-        writeJson(response, json.toString());
-    }
-
-    /**
-     * 根据id获取二维码
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping({"/openApi/queryQrCodeByOrderId"})
-    public void queryQrCodeByOrderId(HttpServletResponse response, HttpServletRequest request, String orderId) throws Exception {
-        JSONObject json = new JSONObject();
-
-        Map<String, Object> orderInfo = orderService.queryOrderById(orderId);
-        if (orderInfo.get("pay_qr_code_link") != null && StringUtil.isNotEmpty(orderInfo.get("pay_qr_code_link").toString())) {
-            json.put("status", "1");
-            json.put("msg", "请求成功");
-            json.put("data", orderInfo.get("pay_qr_code_link").toString());
-        } else {
-            json.put("status", "0");
-            json.put("msg", "暂无可用收款码！");
-            json.put("data", appWebSocketService.getOnLineSocketDevice());
-        }
-
-        writeJson(response, json.toString());
-    }
-
 
 }
