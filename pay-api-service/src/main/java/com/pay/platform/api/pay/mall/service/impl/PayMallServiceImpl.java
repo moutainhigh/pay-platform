@@ -58,9 +58,11 @@ public class PayMallServiceImpl implements PayMallService {
                 JSONObject resultJson = new JSONObject(result);
 
                 //更新支付链接,返回订单id
-                if (resultJson.has("status") &&  "1".equals(resultJson.getString("status"))) {
+                if (resultJson.has("status") && "1".equals(resultJson.getString("status"))) {
                     String data = resultJson.getString("data");
                     orderService.updateOrderPayQrCodeLink(orderModel.getId(), data);
+                } else {
+                    throw new Exception(resultJson.getString("msg"));
                 }
 
             }
