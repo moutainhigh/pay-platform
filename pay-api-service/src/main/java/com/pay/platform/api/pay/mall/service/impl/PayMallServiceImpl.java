@@ -52,6 +52,7 @@ public class PayMallServiceImpl implements PayMallService {
         //3,调用第三方接口
         if (count > 0) {
             String platformNotifyUrl = baseUrl + "/openApi/payNotifyOfMall";
+            platformNotifyUrl = platformNotifyUrl.replace(":80","");
 
             String result = PayMallUtil.createOrderByMall(platformOrderNo, orderAmount, payWay, platformNotifyUrl, returnUrl, clientIp, mallServerUrl);
             if (StringUtil.isNotEmpty(result)) {
