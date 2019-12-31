@@ -468,4 +468,31 @@ public class MerchantController extends BaseController {
 
     }
 
+
+    /**
+     * 分页查询商家列表
+     *
+     * @param request
+     * @param response
+     * @param merchant
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @CommonRequest
+    @RequestMapping(value = "/queryMerchanAccountBalancetList", produces = "application/json")
+    public PageInfo<Map<String, Object>> queryMerchanAccountBalancetList(HttpServletRequest request, HttpServletResponse response, MerchantModel merchant) throws Exception {
+
+        UserModel user = AppContext.getCurrentUser();
+
+        //只有超级管理员才能查看商家的账户余额
+        if (!SysUserUtil.isAdminRole(user)) {
+            return null;
+        }
+
+        setPageInfo(request);
+        return merchantService.queryMerchanAccountBalancetList(merchant);
+    }
+
+
 }

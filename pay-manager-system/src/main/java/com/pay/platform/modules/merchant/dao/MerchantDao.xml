@@ -142,4 +142,24 @@
         )
     </select>
 
+    <select id="queryMerchanAccountBalancetList" parameterType="MerchantModel" resultType="java.util.Map">
+        select * from (
+            select tmi.merchant_no merchantNo , tmi.merchant_name merchantName
+            , tca.account_amount accountAmount , tca.freeze_amount freezeAmount
+            , (tca.account_amount - tca.freeze_amount) avaiabledWithdrawAmount , tmi.create_time
+            from tb_merchant tmi
+            inner join tb_account_amount tca on tmi.id = tca.merchant_id
+            inner join tb_sys_user tsu on tsu.id = tca.user_id
+            <where>
+                and tmi.is_del = 0
+                <if test="merchant.merchantNo != null and merchant.merchantNo != '' ">
+                    and tmi.merchant_no like CONCAT('%','${merchant.merchantNo}','%')
+                </if>
+                <if test="merchant.merchantName != null and merchant.merchantName != '' ">
+                    and tmi.merchant_name like CONCAT('%','${merchant.merchantName}','%')
+                </if>
+            </where>
+        ) tab
+    </select>
+
 </mapper>

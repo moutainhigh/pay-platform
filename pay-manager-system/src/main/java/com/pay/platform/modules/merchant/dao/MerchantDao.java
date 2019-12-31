@@ -1,5 +1,6 @@
 package com.pay.platform.modules.merchant.dao;
 
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
@@ -102,5 +103,7 @@ public interface MerchantDao {
     int saveMerchantNotifyWithdrawAmount(@Param("merchantId") String merchantId, @Param("totalAmount") double totalAmount);
 
     List<String> queryMerchantIdByAgentId(@Param("agentId") String agentId, @Param("parentId") String parentId);
+
+    List<Map<String,Object>> queryMerchanAccountBalancetList(@Param("merchant") MerchantModel merchant);
 
 }

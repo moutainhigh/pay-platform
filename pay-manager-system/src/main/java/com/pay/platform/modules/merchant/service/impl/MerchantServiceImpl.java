@@ -43,8 +43,8 @@ public class MerchantServiceImpl implements MerchantService {
     private UserService userService;
 
     @Override
-    public PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant , String[] merchantIdList) {
-        return new PageInfo(merchantDao.queryMerchantList(merchant , merchantIdList));
+    public PageInfo<MerchantModel> queryMerchantList(MerchantModel merchant, String[] merchantIdList) {
+        return new PageInfo(merchantDao.queryMerchantList(merchant, merchantIdList));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MerchantServiceImpl implements MerchantService {
         count += userService.grantRole(userId, roleModel.getId().split(","));
 
         //4, 生成资金账户信息
-        count += userDao.addAccountAmountInfo(userId , null , merchant.getId());
+        count += userDao.addAccountAmountInfo(userId, null, merchant.getId());
 
         return count;
     }
@@ -123,12 +123,13 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId, String agentId , String[] merchantIds) {
-        return merchantDao.queryMerchantIdAndNameList(merchantId , agentId , merchantIds);
+    public List<Map<String, Object>> queryMerchantIdAndNameList(String merchantId, String agentId, String[] merchantIds) {
+        return merchantDao.queryMerchantIdAndNameList(merchantId, agentId, merchantIds);
     }
 
     /**
      * 审核商家
+     *
      * @param merchant
      * @return
      */
@@ -144,12 +145,17 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     public int saveMerchantNotifyWithdrawAmount(String merchantId, double totalAmount) {
-        return merchantDao.saveMerchantNotifyWithdrawAmount(merchantId , totalAmount);
+        return merchantDao.saveMerchantNotifyWithdrawAmount(merchantId, totalAmount);
     }
 
     @Override
     public List<String> queryMerchantIdByAgentId(String agentId, String parentId) {
-        return merchantDao.queryMerchantIdByAgentId(agentId , parentId);
+        return merchantDao.queryMerchantIdByAgentId(agentId, parentId);
+    }
+
+    @Override
+    public PageInfo<Map<String, Object>> queryMerchanAccountBalancetList(MerchantModel merchant) {
+        return new PageInfo(merchantDao.queryMerchanAccountBalancetList(merchant));
     }
 
 }
