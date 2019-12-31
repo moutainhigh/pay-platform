@@ -99,7 +99,7 @@
                 }
                 },
                 {
-                    title: '可提现金额', field: 'avaiabledWithdrawAmount', align: 'center', sortable: false, formatter: function (value) {
+                    title: '可提现金额', field: 'avaiabledWithdrawAmount', align: 'center', sortable: true, formatter: function (value) {
                     return value.toFixed(2);
                 }
                 }
